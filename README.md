@@ -13,6 +13,7 @@ Every video here was made by asking Claude Opus 5.5 to write the animation as co
 - 703 prompts in [`prompts/`](prompts/) and [`data/videos.json`](data/videos.json), 418 of them with a live remake on Skillry
 - 100 remade videos highlighted below, one per distinct prompt
 - Every entry links to the creator's original post
+- [Chinese-language browser by Happy AI](https://wutuobangai.top/opus55-video-prompts.html?utm_source=github&utm_medium=readme&utm_campaign=opus55-yihui): a free, independently maintained collection with Chinese descriptions, previews, and original-source links.
 - Latest update (2026-10-12): 10 videos added, mostly explainers and 3d scenes
 - 2026-10-12: 285 more prompts added (see [Latest prompts](#latest-prompts))
 
