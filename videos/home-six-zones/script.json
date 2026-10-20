@@ -1,12 +1,22 @@
 {
-  "voice": { "name": "dr mak", "voice_id": "s0DMVIZPbbCMs31sURvA", "model": "eleven_multilingual_v2" },
-  "handles": { "ig": "@drmak_fitness", "yt": "@drmakfitness" },
+  "voice": {
+    "name": "dr mak",
+    "voice_id": "s0DMVIZPbbCMs31sURvA",
+    "model": "eleven_multilingual_v2"
+  },
+  "handles": {
+    "ig": "@drmak_fitness",
+    "yt": "@drmakfitness"
+  },
   "structure": "looped arc: hook -> rising action -> conflict -> comeback -> payoff",
   "reference": "https://www.youtube.com/shorts/xLpbXcIwQpk (idea only: 6 body zones, one chart, reps per move; no footage or artwork reused)",
   "shorts": [
     {
       "id": "v5_six_zones_home",
-      "hook": ["No gym?", "6 MOVES. WHOLE BODY."],
+      "hook": [
+        "No gym? 6 moves.",
+        "WHOLE BODY"
+      ],
       "beats": {
         "hook": "No gym? No problem. Six moves. Your whole body. Twelve minutes.",
         "rising": "Legs: squats, fifteen reps. Chest: push-ups, twenty. Arms: chair dips, fifteen. Shoulders: pike push-ups, ten. Abs: dead bugs, ten each side. Fat burn: jumping jacks, thirty seconds.",
@@ -14,7 +24,26 @@
         "comeback": "Don't quit. Drop to your knees for push-ups. Slow every rep down. Rest thirty seconds, then finish the round.",
         "payoff": "Three rounds, three days a week. Add two reps every week. That's how a home workout builds muscle. Save this and follow for the full plan."
       },
-      "cues": ["no gym", "six moves", "twelve minutes", "legs", "chest", "arms", "shoulders", "abs", "fat burn", "round two", "most people quit", "don't quit", "your knees", "slow every rep", "thirty seconds", "three rounds", "two reps", "builds muscle", "follow"]
+      "cues": [
+        "no gym",
+        "legs",
+        "chest",
+        "arms",
+        "shoulders",
+        "abs",
+        "fat burn",
+        "round two",
+        "most people quit",
+        "don't quit",
+        "your knees",
+        "slow every rep",
+        "thirty seconds",
+        "three rounds",
+        "two reps",
+        "that's how",
+        "save this"
+      ],
+      "text": "No gym? No problem. Six moves. Your whole body. Twelve minutes. Legs: squats, fifteen reps. Chest: push-ups, twenty. Arms: chair dips, fifteen. Shoulders: pike push-ups, ten. Abs: dead bugs, ten each side. Fat burn: jumping jacks, thirty seconds. Round two. Your arms start shaking. Your form breaks. This is where most people quit. Don't quit. Drop to your knees for push-ups. Slow every rep down. Rest thirty seconds, then finish the round. Three rounds, three days a week. Add two reps every week. That's how a home workout builds muscle. Save this and follow for the full plan."
     }
   ]
 }

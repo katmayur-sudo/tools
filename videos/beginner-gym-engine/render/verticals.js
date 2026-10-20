@@ -45,6 +45,80 @@
   const stamp = (t0, top) => T < t0 ? "" : `<div class="abs" style="left:0;right:0;top:${top}px;text-align:center;transform:scale(${1 + 1.2 * Math.exp(-(T - t0) * 12)}) rotate(-8deg);opacity:${clamp((T - t0) * 8)}">
       <span style="display:inline-block;border:14px solid #E0262B;color:#E0262B;border-radius:30px;padding:0 40px;font-family:'Inter Display';font-weight:900;font-size:150px;background:rgba(14,14,16,.6)">✕</span></div>`;
 
+  // ---------- v5: six body zones at home (no equipment) ----------
+  Object.assign(POSES, {
+    bwsquat: {
+      A: { hip: [300, 330], torso: 90, feet: [[300, 520], [312, 520]], hands: [[404, 222], [412, 226]], kneeBend: [-1, -1], elbowBend: [1, 1] },
+      B: { hip: [236, 420], torso: 64, feet: [[300, 520], [312, 520]], hands: [[410, 318], [418, 322]], kneeBend: [-1, -1], elbowBend: [1, 1] },
+      props: () => "", hi: ["thigh", "glute"]
+    },
+    floorpush: {
+      A: { hip: [250, 440], torso: 20, feet: [[90, 508], [96, 510]], hands: [[410, 514], [416, 514]], kneeBend: [-1, -1], elbowBend: [-1, -1], toeAng: [-60, -60] },
+      B: { hip: [262, 470], torso: 8, feet: [[90, 508], [96, 510]], hands: [[410, 514], [416, 514]], kneeBend: [-1, -1], elbowBend: [-1, -1], toeAng: [-60, -60] },
+      props: () => "", hi: ["chest", "upperarm"]
+    },
+    kneepush: {
+      A: { hip: [262, 430], torso: 26, feet: [[110, 470], [116, 472]], hands: [[410, 514], [416, 514]], kneeBend: [1, 1], elbowBend: [-1, -1], toeAng: [30, 30], toeDir: [-1, -1] },
+      B: { hip: [274, 462], torso: 12, feet: [[110, 470], [116, 472]], hands: [[410, 514], [416, 514]], kneeBend: [1, 1], elbowBend: [-1, -1], toeAng: [30, 30], toeDir: [-1, -1] },
+      props: () => `<rect x="120" y="512" width="80" height="12" rx="6" fill="#E0262B" opacity=".3"/>`, hi: ["chest", "upperarm"]
+    },
+    dip: {
+      A: { hip: [262, 368], torso: 96, feet: [[430, 520], [440, 520]], hands: [[232, 352], [240, 354]], kneeBend: [-1, -1], elbowBend: [-1, -1] },
+      B: { hip: [272, 452], torso: 98, feet: [[430, 520], [440, 520]], hands: [[232, 352], [240, 354]], kneeBend: [-1, -1], elbowBend: [-1, -1] },
+      props: () => `<rect x="110" y="352" width="160" height="20" rx="6" fill="#2A2A2E"/><rect x="110" y="200" width="20" height="320" rx="8" fill="#2A2A2E"/><rect x="246" y="372" width="14" height="148" fill="#2A2A2E"/>`,
+      hi: ["upperarm"]
+    },
+    pike: {
+      A: { hip: [300, 290], torso: -48, feet: [[180, 514], [186, 514]], hands: [[432, 514], [438, 514]], kneeBend: [-1, -1], elbowBend: [1, 1], toeAng: [-50, -50], headTilt: 0 },
+      B: { hip: [296, 300], torso: -62, feet: [[180, 514], [186, 514]], hands: [[432, 514], [438, 514]], kneeBend: [-1, -1], elbowBend: [1, 1], toeAng: [-50, -50] },
+      props: () => "", hi: ["shoulder", "upperarm"]
+    },
+    jack: {
+      A: { hip: [320, 330], torso: 90, feet: [[306, 520], [334, 520]], hands: [[300, 318], [340, 318]], kneeBend: [-1, 1], elbowBend: [1, -1], toeDir: [-1, 1] },
+      B: { hip: [320, 322], torso: 90, feet: [[236, 520], [404, 520]], hands: [[226, 96], [414, 96]], kneeBend: [-1, 1], elbowBend: [1, -1], toeDir: [-1, 1] },
+      props: () => "", hi: ["thigh", "calf", "shoulder"]
+    },
+  });
+  const ZONES = [   // cue, label, move, pose, dose, highlight colour line
+    ["legs", "LEGS", "Squats", "bwsquat", "15 reps"],
+    ["chest", "CHEST", "Push-ups", "floorpush", "20 reps"],
+    ["arms", "ARMS", "Chair dips", "dip", "15 reps"],
+    ["shoulders", "SHOULDERS", "Pike push-ups", "pike", "10 reps"],
+    ["abs", "ABS", "Dead bugs", "deadbug", "10 / side"],
+    ["fat burn", "FAT BURN", "Jumping jacks", "jack", "30 sec"],
+  ];
+  function moveCard(kind, top, h, label, period = 2.6, shake = 0) {
+    const sx = shake ? Math.sin(T * 70) * shake : 0, sr = shake ? Math.sin(T * 53) * shake * .12 : 0;
+    return `<div class="vcard" style="left:60px;top:${top}px;width:960px;height:${h}px;overflow:hidden;transform:translateX(${sx}px) rotate(${sr}deg)">
+      <div class="grid" style="opacity:.7"></div>
+      <div class="abs" style="left:40px;top:${(h - 690) / 2}px">${figureSVG(kind, T, 880, 690, period)}</div>
+      ${label ? `<div class="abs pill" style="right:30px;top:30px;background:#FBE3E2;color:#E0262B;font-size:28px">${label}</div>` : ""}</div>`;
+  }
+  function zoneScene(i) {
+    const [cue, zone, move, kind, dose] = ZONES[i], t0 = at(cue);
+    const chips = ZONES.map((z, k) => `<span class="vt" style="display:inline-block;margin:4px;padding:8px 14px;border-radius:999px;font-size:22px;letter-spacing:.04em;
+      background:${k < i ? "#fff" : k === i ? "#E0262B" : "rgba(255,255,255,.1)"};color:${k < i ? "#111" : k === i ? "#fff" : "rgba(255,255,255,.4)"}">${k < i ? "✓ " : ""}${z[1]}</span>`).join("");
+    const secs = kind === "jack" ? Math.max(0, 30 - Math.floor(30 * prog(t0 + .3, t0 + 1.9))) : null;
+    return `<div class="abs vt" style="left:70px;top:230px;font-size:44px;color:#E0262B;${pop(t0, { dy: 20 })}">${i + 1} / 6</div>`
+      + slam(`<span style="font-size:.55em;color:#bbb">${zone}</span><br>${move}`, t0 + .05, 220, 104, { style: "text-align:right;left:300px" })
+      + `<div style="${pop(t0 + .1, { dy: 40, scale: .95 })}">${moveCard(kind, 470, 620, "", kind === "jack" ? 1 : 2.4)}</div>`
+      + `<div class="abs" style="left:0;right:0;top:1110px;text-align:center;${pop(t0 + .35)}"><span class="vbox vt" style="font-size:76px">${secs === null ? dose : `0:${String(secs).padStart(2, "0")}`}</span></div>`
+      + `<div class="abs" style="left:40px;right:40px;top:1600px;text-align:center">${chips}</div>`;
+  }
+  function restRing(top, t0) {
+    const p = prog(t0 + .2, t0 + 2.2), R = 230, circ = 2 * Math.PI * R, s = Math.max(0, 30 - Math.floor(30 * p));
+    return `<svg class="abs" style="left:280px;top:${top}px" width="520" height="520"><circle cx="260" cy="260" r="${R}" stroke="rgba(255,255,255,.12)" stroke-width="34" fill="none"/>
+      <circle cx="260" cy="260" r="${R}" stroke="#E0262B" stroke-width="34" fill="none" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ * p}" transform="rotate(-90 260 260)"/></svg>
+      <div class="abs vt" style="left:0;right:0;top:${top + 190}px;text-align:center;font-size:150px">0:${String(s).padStart(2, "0")}</div>`;
+  }
+  function roundsGrid(top, t0) {
+    if (on(at("two reps"))) return "";
+    const days = ["MON", "WED", "FRI"];
+    return `<div class="abs" style="left:60px;top:${top}px;width:960px">${days.map((d, c) => `<div class="abs vt" style="left:${c * 330}px;top:0;width:300px;text-align:center;font-size:44px;color:#bbb">${d}</div>`
+      + [0, 1, 2].map(r => `<div class="abs vt" style="left:${c * 330}px;top:${80 + r * 200}px;width:300px;height:170px;border-radius:30px;background:${on(t0 + .3 + (c * 3 + r) * .12) ? "#E0262B" : "#18181B"};
+        text-align:center;line-height:170px;font-size:60px;${pop(t0 + .2 + (c * 3 + r) * .12, { dy: 30 })}">R${r + 1}</div>`).join("")).join("")}</div>`;
+  }
+
   // ---------- beats per short ----------
   const BEATS = {
     v1_three_gears: [
@@ -111,6 +185,22 @@
         + `<div class="abs" style="left:0;right:0;top:760px;text-align:center">${[1, 2, 3].map((n, i) => `<span class="vt" style="display:inline-block;margin:0 22px;width:180px;height:180px;line-height:180px;border-radius:50%;background:#18181B;font-size:100px;border:6px solid #E0262B;${pop(at("guilty") + .4 + i * .15)}">${n}</span>`).join("")}</div>`
         + `<div class="abs" style="left:0;right:0;top:1020px;text-align:center;font-size:${110 + 10 * Math.sin(T * 6)}px;opacity:${clamp((T - at("comment")) * 4)}">💬👇</div>`],
     ],
+    v5_six_zones_home: [
+      ...ZONES.map((z, i) => [z[0], () => zoneScene(i)]),
+      ["round two", () => slam(`ROUND <span class="vbox">2</span>`, at("round two"), 230, 120)
+        + `<div style="${on(at("most people quit")) ? `filter:brightness(${1 - .45 * prog(at("most people quit"), at("most people quit") + .4)})` : ""}">${moveCard("floorpush", 420, 660, "", 2.6, 6 + 14 * prog(at("round two"), at("round two") + 1.5))}</div>`
+        + (on(at("most people quit")) ? stamp(at("most people quit"), 600) : "")],
+      ["don't quit", () => slam(`DON'T<br><span class="vbox">QUIT</span>`, at("don't quit"), 520, 170)],
+      ["your knees", () => slam(`Drop to your <span class="vred">knees</span>`, at("your knees"), 230, 90) + moveCard("kneepush", 400, 680, "Easier · same muscles", 4)
+        + (on(at("slow every rep")) ? `<div class="abs" style="left:0;right:0;top:1110px;text-align:center;${pop(at("slow every rep"))}"><span class="vt" style="display:inline-block;background:#fff;color:#111;border-radius:999px;padding:16px 44px;font-size:58px">🐢 3 s down · 1 s up</span></div>` : "")],
+      ["thirty seconds", () => slam(`REST`, at("thirty seconds"), 250, 130) + restRing(430, at("thirty seconds"))
+        + slam(`then <span class="vbox">finish</span>`, at("thirty seconds") + 1.2, 1100, 80)],
+      ["three rounds", () => slam(`<span class="vred">3</span> rounds × <span class="vred">3</span> days`, at("three rounds"), 230, 92) + roundsGrid(400, at("three rounds"))
+        + (on(at("two reps")) ? stairs(560, at("two reps") + .4) + slam(`+2 reps / week`, at("two reps") + .2, 1100, 84) : "")],
+      ["that's how", () => slam(`Home workout<br>= <span class="vbox">MUSCLE</span>`, at("that's how"), 480, 120)],
+      ["save this", () => slam(`Save 📌 + follow<br>for the <span class="vred">full plan</span>`, at("save this"), 480, 96)
+        + `<div class="abs" style="left:80px;right:80px;top:1650px;text-align:center;font-size:26px;color:rgba(255,255,255,.5);font-weight:600">General fitness info, not medical advice. Check with your doctor if you have an injury or condition.</div>`],
+    ],
   };
   function stepPill(items, top) {
     let cur = -1; items.forEach((it, i) => { if (on(at(it[0]))) cur = i; });
@@ -170,7 +260,7 @@
     const cp = easeInOut(prog(c.dur + .4, click - .05)), ig = c.platform === "ig";
     return `${ribbon("r", .7)}
       <div class="abs" style="left:390px;top:430px;width:300px;height:300px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 8px #E0262B,0 0 80px rgba(224,38,43,.6);${appear(c.dur + .05, { scale: .6 })}">
-        <img src="${img("side", false)}" style="position:absolute;width:330%;height:330%;left:-118%;top:-38%;object-fit:cover;filter:grayscale(1) contrast(1.1)"></div>
+        <img src="${img("side", false)}" style="position:absolute;width:330%;height:330%;${c.avatar || "left:-118%;top:-38%"};object-fit:cover;filter:grayscale(1) contrast(1.1)"></div>
       <div class="abs vt" style="left:0;right:0;top:790px;text-align:center;font-size:96px;${appear(c.dur + .15)}">Dr Mak Fitness</div>
       <div class="abs" style="left:0;right:0;top:910px;text-align:center;color:#E0262B;font-size:50px;font-weight:800;${appear(c.dur + .25)}">${c.handle}</div>
       <div class="abs" style="left:0;right:0;top:1130px;text-align:center;${appear(c.dur + .35)}"><span style="display:inline-block;transform:scale(${press});padding:26px 70px;border-radius:999px;font-weight:900;font-size:56px;color:#fff;

@@ -28,8 +28,12 @@ for a no-equipment routine.
 The rising action stacks the six zones into one chart, as the Short does. The conflict breaks it at
 round two, and the comeback loops back into the same chart, so the payoff lands on a finished plan.
 
-## Needs from the owner before rendering
-1. **Approval or edits** to the script and scenes above.
-2. **Language:** English (as written), Hindi or Hinglish.
-3. **Your own clips or photos** ("personal edits"): send any of yourself doing these moves and they
-   replace the drawn figures in scenes 2-9. Otherwise the B&W photo is used for the intro only.
+## Build (as made, 2026-10-20)
+English, voice take 1 of 4 (31.4 s). From `videos/beginner-gym-engine/tools`, with the owner's photos in
+`<site>/assets/user/{back,side}.jpg` (never committed) and `<site>/render` a copy of `../render`:
+
+```bash
+PYTHONPATH=. python3 ../shorts/build.py ../../home-six-zones/script.json <vo_dir> <data_dir>   # vo_dir/v5_six_zones_home.mp3
+node <site>/render/verticals.mjs <site> <data_dir> yt <out_dir>
+ffmpeg -i <out_dir>/v5_six_zones_home_yt_video.mp4 -i <data_dir>/v5_six_zones_home_audio.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest final.mp4
+```

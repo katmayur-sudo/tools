@@ -8,7 +8,8 @@ import path from "node:path";
 
 const [siteDir, dataDir, platform, outDir, flag, stillsArg] = process.argv.slice(2);
 const handles = { ig: "@drmak_fitness", yt: "@drmakfitness" };
-const ids = ["v1_three_gears", "v2_goblet_squat", "v3_first_plan", "v4_three_mistakes"];
+const ids = ["v1_three_gears", "v2_goblet_squat", "v3_first_plan", "v4_three_mistakes", "v5_six_zones_home"]
+  .filter(id => fs.existsSync(path.join(dataDir, `${id}.json`)));
 fs.mkdirSync(outDir, { recursive: true });
 const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome" });
 const url = "file://" + path.resolve(siteDir, "render/index.html");

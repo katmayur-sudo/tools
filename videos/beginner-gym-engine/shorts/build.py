@@ -17,7 +17,8 @@ from transcribe import align, load
 LEAD = 0.25          # silence before the voice starts
 TAIL = 3.0           # follow / subscribe card
 PHOTO = {"v1_three_gears": ("back", "50% 40%"), "v2_goblet_squat": ("side", "55% 40%"),
-         "v3_first_plan": ("front", "30% 35%"), "v4_three_mistakes": ("back", "50% 40%")}
+         "v3_first_plan": ("front", "30% 35%"), "v4_three_mistakes": ("back", "50% 40%"),
+         "v5_six_zones_home": ("back", "50% 45%")}
 SFX = {   # cue -> sound ("+x" delays it); every other cue gets a swish
     "v1_three_gears": {"three gears": "boom", "gear one": "gear", "ten seconds": "counter", "gear two": "gear",
                        "two minutes": "counter", "burning feeling": "riser", "gear three": "gear", "hours": "ding",
@@ -34,10 +35,17 @@ SFX = {   # cue -> sound ("+x" delays it); every other cue gets a swish
                           "muscles don't": "thud", "mistake two": "error", "five minutes": "tick",
                           "mistake three": "error", "time to adapt": "ding", "fix your fuel": "hit",
                           "protein": "ding", "sleep": "chime", "guilty": "boom", "comment": "pop"},
+    "v5_six_zones_home": {"no gym": "boom", "legs": "hit", "chest": "hit", "arms": "hit", "shoulders": "hit",
+                          "abs": "hit", "fat burn": "counter", "round two": "riser", "most people quit": "error",
+                          "don't quit": "boom", "your knees": "pop", "slow every rep": "tick",
+                          "thirty seconds": "counter", "three rounds": "ding", "two reps": "riser",
+                          "that's how": "boom", "save this": "ding"},
 }
+AVATAR = {"v5_six_zones_home": "left:-184%;top:-14%"}   # follow-card crop of the side photo, when it differs
 PUNCH = {"v1_three_gears": ["all three"], "v2_goblet_squat": ["start with this", "three sets"],
          "v3_first_plan": ["the secret", "that's it", "twelve weeks"],
-         "v4_three_mistakes": ["mistake one", "mistake two", "mistake three", "guilty"]}
+         "v4_three_mistakes": ["mistake one", "mistake two", "mistake three", "guilty"],
+         "v5_six_zones_home": ["most people quit", "don't quit", "that's how"]}
 
 
 def mix(sid, vo, sfx, total, out):
@@ -88,6 +96,8 @@ def main():
         data = {"id": sid, "hook": sh["hook"], "photo": photo, "photoPos": pos, "cues": cues, "dur": dur,
                 "end": round(dur + TAIL, 3), "hookEnd": round(hook_end, 3),
                 "captions": caption_chunks(words, LEAD), "punches": [cues[k] for k in PUNCH[sid]], "sfx": sfx}
+        if sid in AVATAR:
+            data["avatar"] = AVATAR[sid]
         json.dump(data, open(f"{out}/{sid}.json", "w"), indent=1)
         mix(sid, vo, sfx, data["end"], out)
         print(sid, "voice", round(dur, 1), "s, total", data["end"], "s, hook ends", data["hookEnd"])
