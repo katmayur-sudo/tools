@@ -1,0 +1,30 @@
+{
+  "voice": { "name": "dr mak", "voice_id": "s0DMVIZPbbCMs31sURvA" },
+  "handles": { "ig": "@drmak_fitness", "yt": "@drmakfitness" },
+  "shorts": [
+    {
+      "id": "v1_three_gears",
+      "hook": ["Your body has", "3 GEARS"],
+      "text": "Your body has three gears. And if you only lift weights, you're missing one. Gear one: stored energy. About ten seconds of all-out effort. Gear two: fast sugar burn. Up to two minutes. That burning feeling in a hard set? That's gear two. Gear three: your aerobic engine. Slower, but it runs for hours. Lifting trains gears one and two. Ten minutes of easy cardio trains gear three. Train all three, and your engine gets bigger every week. Follow for the full beginner workout.",
+      "cues": ["three gears", "missing one", "gear one", "ten seconds", "gear two", "two minutes", "burning feeling", "gear three", "hours", "lifting trains", "easy cardio", "all three", "follow"]
+    },
+    {
+      "id": "v2_goblet_squat",
+      "hook": ["New to the gym?", "Start with THIS"],
+      "text": "New to the gym? Don't start with the barbell squat. Start with this. The goblet squat. Hold one dumbbell at your chest. It helps keep your chest up and your back safe. Feet shoulder width. Sit down between your hips. Knees follow your toes. Then drive the floor away. If your heels lift, sit back and keep your weight in your mid-foot. Three sets of ten. Your legs are your biggest muscles, so this is your strongest ignition. Save this for leg day.",
+      "cues": ["new to the gym", "barbell squat", "start with this", "goblet squat", "dumbbell at your chest", "back safe", "feet shoulder", "sit down", "knees follow", "drive the floor", "heels lift", "three sets", "biggest muscles", "save this"]
+    },
+    {
+      "id": "v3_first_plan",
+      "hook": ["Stop overthinking", "your gym plan"],
+      "text": "Stop overthinking your first gym plan. Here's all you need. Three full-body days a week. Monday, Wednesday, Friday. Two to three sets of eight to twelve reps. Rest sixty to ninety seconds. Now the secret. Stop every set with two or three reps left in the tank. When you hit twelve reps on every set, add a little weight. That's it. Run this for twelve weeks before you change anything. Save this, and follow for the exercises.",
+      "cues": ["stop overthinking", "all you need", "three full-body", "monday", "wednesday", "friday", "two to three sets", "eight to twelve", "sixty to ninety", "the secret", "in the tank", "twelve reps", "add a little", "that's it", "twelve weeks", "save this"]
+    },
+    {
+      "id": "v4_three_mistakes",
+      "hook": ["3 mistakes", "keeping you stuck"],
+      "text": "Three mistakes that keep beginners stuck at the same weight. Mistake one: going too heavy, too soon. Your ego grows. Your muscles don't. Mistake two: skipping the warm-up. Five minutes is all it takes. Mistake three: a new program every week. Your body needs time to adapt. And fix your fuel. About one point six grams of protein per kilo of body weight, and seven to nine hours of sleep. Which one are you guilty of? Comment below.",
+      "cues": ["three mistakes", "same weight", "mistake one", "ego grows", "muscles don't", "mistake two", "five minutes", "mistake three", "time to adapt", "fix your fuel", "protein", "sleep", "guilty", "comment"]
+    }
+  ]
+}

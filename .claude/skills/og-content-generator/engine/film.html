@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Porcelain Keynote Film</title>
+<style>
+  :root { --canvas: #F4F4F4; --ink: #17171A; --grey: #A3A3A8; --night: #08090C; --accent: #2F6BFF; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--canvas); }
+  body { font-family: "Inter", "Inter Display", sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  #stage { position: absolute; inset: 0; overflow: hidden; }
+  .abs { position: absolute; }
+  .center { position: absolute; left: 0; right: 0; text-align: center; }
+  .w { display: inline-block; white-space: pre; }
+  .acc { color: var(--accent); }
+  .card { position: absolute; background: #fff; border-radius: 24px; overflow: hidden;
+    box-shadow: 0 50px 100px -40px rgba(20,20,30,.35), 0 0 0 1px rgba(0,0,0,.04); }
+  .glass { position: absolute; background: rgba(255,255,255,.74); backdrop-filter: blur(22px);
+    border-radius: 22px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.6) inset; }
+  .pill { display: inline-flex; align-items: center; gap: 14px; background: #fff; border-radius: 999px;
+    padding: 18px 40px; box-shadow: 0 20px 50px -20px rgba(0,0,0,.35); font-weight: 600; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+// ------------------------------------------------------------------ helpers
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, p) => a + (b - a) * p;
+const ease = p => { p = clamp(p); return p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; };
+const easeOut = p => 1 - Math.pow(1 - clamp(p), 3);
+let SB = null, T = 0, BEAT = 0.5;
+
+// accent markup: "Meet your *AI agent*" -> accent spans; words reveal one by one
+function tokens(text) {
+  const out = []; let acc = false;
+  for (const part of text.split(/(\*)/)) {
+    if (part === "*") { acc = !acc; continue; }
+    for (const w of part.split(/(\s+)/)) if (w) out.push({ w, acc });
+  }
+  return out;
+}
+// word-by-word blur-in. greyTail: last word(s) settle from grey to ink later
+function words(text, t0, opts = {}) {
+  const per = opts.per ?? 0.09, ts = tokens(text); let k = 0;
+  return ts.map(tk => {
+    if (/^\s+$/.test(tk.w)) return tk.w;
+    const t = t0 + (k++) * per, p = easeOut((T - t) / 0.45);
+    const grey = opts.greyFrom !== undefined && k > opts.greyFrom && T < (opts.greyUntil ?? Infinity);
+    return `<span class="w ${tk.acc ? "acc" : ""}" style="opacity:${p};filter:blur(${(1 - p) * 10}px);transform:translateY(${(1 - p) * 14}px);${grey ? "color:var(--grey)" : ""}">${tk.w}</span>`;
+  }).join("");
+}
+function fadeOut(sc, len = 0.25) { return clamp((sc.end - T) / len); }
+const img = p => p;  // asset paths are given relative to film.html
+
+// ------------------------------------------------------------------ CSS plates (no stock images needed)
+const PLATES = {
+  sea: `linear-gradient(180deg,#9EC6E8 0%,#CFE3F2 38%,#EAF2F7 46%,#7FB8CF 47%,#3E8DAE 70%,#2B6F8C 100%)`,
+  salt: `linear-gradient(180deg,#A7C4E2 0%,#D9E6F0 42%,#F2F4F4 50%,#E6ECEE 62%,#C9DCE4 100%)`,
+  dusk: `linear-gradient(180deg,#22283F 0%,#5A4A6E 35%,#E39A7A 62%,#F6C79A 70%,#2D2A38 71%,#1A1A24 100%)`,
+  glacier: `linear-gradient(180deg,#7FB1E0 0%,#BFD8EE 40%,#F4F8FB 52%,#9FC9DE 56%,#4F98B7 80%,#2E7896 100%)`,
+};
+function plate(kind, d) {
+  const kb = 1.04 + 0.05 * d;
+  if (!PLATES[kind]) return `<div class="abs" style="inset:0;background:url(${img(kind)}) center/cover;transform:scale(${kb})"></div>`;
+  const shimmer = [...Array(14)].map((_, i) => `<div class="abs" style="left:${(i * 137 + T * 40) % 2000 - 40}px;top:${640 + (i % 5) * 70}px;width:${120 + (i % 3) * 80}px;height:3px;border-radius:2px;background:rgba(255,255,255,.45)"></div>`).join("");
+  const hills = kind === "dusk" ? "" : `<svg class="abs" style="left:0;top:420px" width="1920" height="140"><path d="M0 140 L0 90 L180 40 L330 80 L520 20 L700 75 L880 35 L1080 85 L1280 30 L1460 70 L1650 25 L1920 80 L1920 140 Z" fill="rgba(110,140,170,.35)"/></svg>`;
+  return `<div class="abs" style="inset:0;background:${PLATES[kind]};transform:scale(${kb})">${hills}${kind === "salt" ? "" : shimmer}</div>`;
+}
+function clouds(alpha = 1) {
+  return [...Array(5)].map((_, i) => { const x = (i * 410 + T * 22) % 2300 - 200, y = 690 + (i % 3) * 60, s = 0.7 + (i % 3) * .25;
+    return `<div class="abs" style="left:${x}px;top:${y}px;width:${260 * s}px;height:${90 * s}px;border-radius:999px;opacity:${alpha * .95};
+      background:radial-gradient(ellipse at 50% 35%,#fff 0%,#F7F7F9 55%,#E9E9EE 100%);box-shadow:0 30px 40px -25px rgba(0,0,0,.18)"></div>`; }).join("");
+}
+function mark(size, sb = SB) {
+  return sb.logo ? `<img src="${img(sb.logo)}" style="width:${size}px;height:${size}px;border-radius:${size * .28}px;object-fit:cover;vertical-align:middle;${sb.logoFilter ?? ""}">`
+                 : `<span style="display:inline-block;width:${size}px;height:${size}px;border-radius:${size * .28}px;background:var(--accent);vertical-align:middle"></span>`;
+}
+function cursor(x, y, clickT) {
+  const c = clickT !== undefined && T >= clickT && T < clickT + .5 ? (T - clickT) / .5 : -1;
+  return `${c >= 0 ? `<div class="abs" style="left:${x - 30 * c - 8}px;top:${y - 30 * c - 8}px;width:${60 * c + 16}px;height:${60 * c + 16}px;border-radius:50%;border:3px solid var(--accent);opacity:${1 - c}"></div>` : ""}
+    <svg class="abs" style="left:${x}px;top:${y}px" width="34" height="40"><path d="M3 3 L3 33 L11 26 L17 38 L23 35 L17 23 L28 23 Z" fill="#111" stroke="#fff" stroke-width="2.5"/></svg>`;
+}
+
+// ------------------------------------------------------------------ scenes
+const S = {
+  cold: sc => `<div class="abs" style="inset:0;background:var(--night)"></div>
+    <div class="center" style="top:505px;font-size:46px;font-weight:600;color:#fff;opacity:${.55 * easeOut((T - sc.start - .2) / 1.2)}">${mark(52)} <span style="vertical-align:middle">${SB.name}</span></div>`,
+
+  intro: sc => `<div class="center" style="top:500px;font-size:56px;font-weight:600">${mark(60)} ${words(sc.text ?? "Introducing " + SB.name, sc.start + .05)}</div>`,
+
+  line: sc => {
+    const lines = Array.isArray(sc.text) ? sc.text : [sc.text];
+    const top = 540 - lines.length * 36 - (sc.clouds ? 40 : 0);
+    let k = 0;
+    return (sc.clouds ? clouds(easeOut((T - sc.start) / .8)) : "") + lines.map((l, i) => {
+      const t0 = sc.start + .05 + k * .09; k += l.split(/\s+/).length;
+      return `<div class="center" style="top:${top + i * 72}px;font-size:${sc.size ?? 56}px;font-weight:500">${words(l, t0, sc.grey ? { greyFrom: sc.grey, greyUntil: sc.start + (sc.greyHold ?? 1.2) } : {})}</div>`;
+    }).join("");
+  },
+
+  slot: sc => {
+    const items = SB.chapters, idx = sc.index, p = ease((T - sc.start) / .55), pos = lerp(idx - 1, idx, idx === 0 ? 1 : p);
+    return `<div class="abs" style="inset:0;background:var(--night)"></div>
+      <div class="abs" style="left:0;width:880px;top:500px;text-align:right;font-size:70px;font-weight:500;color:var(--accent)">${SB.slotLead ?? "New"}</div>
+      ${items.map((w, i) => { const dy = (i - pos) * 92, a = Math.max(0, 1 - Math.abs(i - pos) * .42);
+        return `<div class="abs" style="left:940px;top:${500 + dy}px;font-size:70px;font-weight:500;color:${Math.abs(i - pos) < .5 ? "#fff" : "rgba(255,255,255,.32)"};opacity:${a}">${w}</div>`; }).join("")}`;
+  },
+
+  ui: sc => {
+    const d = clamp((T - sc.start) / (sc.end - sc.start));
+    const z = lerp(sc.zoomFrom ?? 1, sc.zoomTo ?? 1.08, ease(d));
+    const enter = easeOut((T - sc.start) / .6);
+    const bg = sc.desktop ? `<div class="abs" style="inset:0;background:radial-gradient(circle at 70% 30%,#7FA8FF,#2F5BD3 55%,#1C3A9A)"></div>` : "";
+    if (sc.phone) {
+      return bg + (sc.plate ? plate(sc.plate, d) : "") + `<div class="abs" style="left:${sc.x ?? 1200}px;top:${120 + (1 - enter) * 120}px;width:430px;height:880px;border-radius:64px;background:#111;padding:16px;box-shadow:0 60px 120px -40px rgba(0,0,0,.6);transform:scale(${z})">
+        <div style="width:100%;height:100%;border-radius:50px;overflow:hidden;background:url(${img(sc.image)}) center/cover"></div></div>`
+        + (sc.title ? `<div class="abs" style="left:160px;top:430px;font-size:64px;font-weight:600;color:${sc.plate ? "#fff" : "var(--ink)"};text-shadow:${sc.plate ? "0 2px 20px rgba(0,0,0,.25)" : "none"}">${words(sc.title, sc.start + .3)}</div>` : "");
+    }
+    const w = sc.w ?? 1500, h = sc.h ?? 844;
+    let out = bg + `<div class="card" style="left:${960 - w / 2}px;top:${540 - h / 2 + (1 - enter) * 80}px;width:${w}px;height:${h}px;transform:scale(${z});transform-origin:${sc.origin ?? "50% 50%"};opacity:${enter}">
+      <img src="${img(sc.image)}" style="width:100%;height:100%;object-fit:cover;object-position:${sc.pos ?? "50% 50%"}">`;
+    if (sc.cursor) { const c = sc.cursor, q = ease(clamp((T - sc.start - (c.delay ?? .6)) / (c.move ?? 1.2)));
+      out += cursor(lerp(c.from[0], c.to[0], q) * w, lerp(c.from[1], c.to[1], q) * h, c.click ? sc.start + (c.delay ?? .6) + (c.move ?? 1.2) + .1 : undefined); }
+    return out + `</div>`;
+  },
+
+  iconRow: sc => {
+    const n = sc.icons.length, built = sc.words.filter((_, i) => T >= sc.start + .3 + i * BEAT * (sc.wordBeats ?? 2)).length;
+    const payoffAt = sc.start + .3 + sc.words.length * BEAT * (sc.wordBeats ?? 2);
+    let h = `<div class="abs" style="left:0;right:0;top:400px;display:flex;justify-content:center;gap:34px">${sc.icons.map((e, i) => {
+      const a = easeOut((T - sc.start - i * .06) / .5), on = i === sc.active;
+      return `<div style="width:${on ? 150 : 112}px;height:${on ? 150 : 112}px;margin-top:${on ? -20 : 0}px;border-radius:30px;background:#fff;display:flex;align-items:center;justify-content:center;
+        font-size:${on ? 76 : 54}px;opacity:${a};box-shadow:0 ${on ? 30 : 12}px ${on ? 60 : 30}px -20px rgba(0,0,0,.3);filter:${on || T >= payoffAt ? "none" : "grayscale(.6)"}">${e}</div>`; }).join("")}</div>`;
+    if (T < payoffAt) h += `<div class="center" style="top:640px;font-size:52px;font-weight:500">${sc.words.slice(0, built).map((w, i) => `<span style="color:${i === built - 1 ? "var(--ink)" : "var(--ink)"};opacity:${i === built - 1 ? easeOut((T - sc.start - .3 - i * BEAT * (sc.wordBeats ?? 2)) / .3) : 1}">${w} </span>`).join("")}</div>`;
+    else h += `<div class="center" style="top:640px;font-size:52px;font-weight:500">${words(sc.payoff, payoffAt)}</div>`;
+    return h;
+  },
+
+  broll: sc => {
+    const d = clamp((T - sc.start) / (sc.end - sc.start)), n = sc.phrases.length;
+    const k = Math.min(n - 1, Math.floor((T - sc.start - .6) / ((sc.end - sc.start - .6) / n)));
+    const tk = sc.start + .6 + Math.max(0, k) * ((sc.end - sc.start - .6) / n);
+    return `<div class="abs" style="inset:0;background:url(${img(sc.image)}) ${sc.pos ?? "center"}/cover;transform:scale(${1.05 + .06 * d});filter:${sc.filter ?? "none"}"></div>
+      <div class="abs" style="inset:0;background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,.05) 60%)"></div>
+      <div class="abs" style="left:150px;top:430px;font-size:64px;font-weight:600;color:#fff">${words(sc.line, sc.start + .15)}</div>
+      ${k >= 0 ? `<div class="abs" style="left:150px;top:512px;font-size:64px;font-weight:600;color:var(--accent);opacity:${easeOut((T - tk) / .35)};transform:translateY(${(1 - easeOut((T - tk) / .35)) * 30}px)">${sc.phrases[k]}</div>` : ""}`;
+  },
+
+  plate: sc => {
+    const d = clamp((T - sc.start) / (sc.end - sc.start)), cardAt = sc.start + 2 * BEAT;
+    return plate(sc.plate, d) + `<div class="center" style="top:150px;font-size:60px;font-weight:600;color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.25)">${words(sc.title, sc.start + .1)}</div>
+      ${sc.items ? `<div class="glass" style="left:${960 - 330}px;top:${300 + (1 - easeOut((T - cardAt) / .6)) * 60}px;width:660px;padding:34px 40px;opacity:${easeOut((T - cardAt) / .5)}">
+        ${sc.items.map((it, i) => `<div style="display:flex;align-items:center;gap:22px;font-size:34px;font-weight:500;padding:12px 0;opacity:${easeOut((T - cardAt - .2 - i * .12) / .4)}"><span style="width:40px;text-align:center">${it[0]}</span>${it[1]}</div>`).join("")}</div>` : ""}`;
+  },
+
+  chips: sc => {
+    const d = clamp((T - sc.start) / (sc.end - sc.start));
+    return plate(sc.plate, d) + `<div class="center" style="top:150px;font-size:60px;font-weight:600;color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.25)">${words(sc.title, sc.start + .1)}</div>`
+      + sc.chips.map((c, i) => { const t0 = sc.start + .6 + i * BEAT, p = easeOut((T - t0) / .4);
+        return `<div class="abs" style="left:${c[2]}px;top:${c[3]}px;text-align:center;opacity:${p};transform:translateY(${(1 - p) * 30}px) scale(${.8 + .2 * p})">
+          <div style="width:110px;height:110px;margin:0 auto;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:58px;box-shadow:0 20px 40px -15px rgba(0,0,0,.35)">${c[0]}</div>
+          <div style="margin-top:12px;display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:8px 18px;font-size:24px;font-weight:600">${c[1]}</div></div>`; }).join("");
+  },
+
+  onemore: sc => `<div class="center" style="top:500px;font-size:64px;font-weight:500">${["One", "More", "Thing"].map((w, i) => {
+    const t0 = sc.start + .15 + i * BEAT, p = easeOut((T - t0) / .4), ink = easeOut((T - t0 - BEAT) / .4);
+    return `<span class="w" style="opacity:${p};filter:blur(${(1 - p) * 8}px);color:rgb(${lerp(163, 23, ink)},${lerp(163, 23, ink)},${lerp(168, 26, ink)})">${w}</span>`; }).join(" ")}</div>`,
+
+  reveal: sc => {
+    const burst = sc.start + 2 * BEAT, b = easeOut((T - burst) / .7);
+    const objs = (sc.objects ?? []).map((e, i) => { const a = i / sc.objects.length * 2 * Math.PI + .3, r = 330 + (i % 3) * 70;
+      return `<div class="abs" style="left:${960 + Math.cos(a) * r * b - 55}px;top:${540 + Math.sin(a) * r * .62 * b - 55}px;font-size:${96 + (i % 2) * 24}px;opacity:${b};transform:rotate(${(i % 2 ? 1 : -1) * (12 + 6 * Math.sin(T * 2 + i))}deg)">${e}</div>`; }).join("");
+    const pop = easeOut((T - sc.start - .1) / .4);
+    return objs + `<div class="center" style="top:490px"><span class="pill" style="font-size:46px;transform:scale(${.8 + .2 * pop}) rotate(${sc.tilt ?? -4}deg);opacity:${pop};background:${T >= burst ? "#17171A" : "#fff"};color:${T >= burst ? "#fff" : "var(--ink)"}">${sc.text}</span></div>
+      ${T < burst ? `<div class="center" style="top:620px"><span style="display:inline-block;width:46px;height:46px;border-radius:50%;background:#DADADF;transform:scale(${1 + .15 * Math.sin(T * 10)})"></span></div>` : ""}`;
+  },
+
+  closer: sc => {
+    const pre = words(sc.pre, sc.start + .05), wAt = sc.start + .05 + (sc.pre.split(/\s+/).length) * .09 + BEAT;
+    const post = sc.post ? words(sc.post, wAt + BEAT) : "";
+    const p = easeOut((T - wAt) / .5);
+    let word;
+    if (sc.mode === "circle") {
+      word = `<span style="position:relative;display:inline-block;color:var(--accent);opacity:${p}">${sc.word}<svg class="abs" style="left:-24px;top:-18px;overflow:visible" width="${sc.word.length * 30 + 48}" height="96"><ellipse cx="${(sc.word.length * 30 + 48) / 2}" cy="48" rx="${(sc.word.length * 30 + 40) / 2}" ry="40" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="400" stroke-dashoffset="${400 * (1 - p)}"/></svg></span>`;
+    } else {
+      word = `<span style="position:relative;display:inline-block;width:${sc.gap ?? 90}px"><span class="abs" style="left:0;right:0;top:-58px;font-size:34px;color:var(--accent);opacity:${p};transform:translateY(${(1 - p) * 12}px)">${sc.word}</span>
+        <svg class="abs" style="left:0;top:-14px" width="${sc.gap ?? 90}" height="20"><path d="M4 12 Q 18 2 30 12 T 56 12 T 82 12" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="120" stroke-dashoffset="${120 * (1 - p)}"/></svg></span>`;
+    }
+    const peek = sc.peek ? `<div class="abs" style="left:880px;top:${1080 - 170 * easeOut((T - sc.start - 1) / .6)}px;width:160px;height:200px;border-radius:80px 80px 20px 20px;overflow:hidden;box-shadow:0 0 0 6px #fff"><img src="${img(sc.peek)}" style="width:100%;height:100%;object-fit:cover;${SB.logoFilter ?? ""}"></div>` : "";
+    return `<div class="center" style="top:500px;font-size:56px;font-weight:500">${pre} ${word} ${post}</div>` + peek;
+  },
+
+  end: sc => {
+    const p = ease((T - sc.start - .2) / .8);
+    const objs = (sc.objects ?? []).map((e, i) => { const corners = [[60, 80], [1700, 120], [120, 820], [1660, 800], [880, 920], [900, 40]], c = corners[i % 6];
+      return `<div class="abs" style="left:${c[0] + 10 * Math.sin(T + i)}px;top:${c[1] + 12 * Math.cos(T * .8 + i)}px;font-size:120px;opacity:${easeOut((T - sc.start - .5 - i * .1) / .5)}">${e}</div>`; }).join("");
+    return objs + `<div class="center" style="top:${480}px;font-size:84px;font-weight:600">${mark(96)}<span style="display:inline-block;vertical-align:middle;margin-left:${24 * p}px;max-width:${1100 * p}px;overflow:hidden;white-space:nowrap;opacity:${p}">${SB.name}</span></div>
+      ${sc.sub ? `<div class="center" style="top:620px;font-size:36px;color:#6B6B72;opacity:${easeOut((T - sc.start - 1) / .5)}">${sc.sub}</div>` : ""}
+      <div class="abs" style="inset:0;background:#000;opacity:${clamp((T - (sc.end - .45)) / .45)}"></div>`;
+  },
+};
+
+// ------------------------------------------------------------------ timeline
+window.setFilm = sb => {
+  SB = sb; BEAT = 60 / sb.bpm;
+  document.documentElement.style.setProperty("--accent", sb.accent);
+  document.documentElement.style.setProperty("--canvas", sb.canvas ?? "#F4F4F4");
+  let b = 0;
+  for (const sc of sb.scenes) { sc.start = b * BEAT; b += sc.beats; sc.end = b * BEAT; }
+  sb.duration = b * BEAT;
+  return sb.duration;
+};
+window.SBINFO = () => SB.scenes.map(s => ({ type: s.type, beats: s.beats, start: s.start, end: s.end,
+  copy: [].concat(s.text ?? s.title ?? s.payoff ?? (s.type === "slot" ? (SB.slotLead ?? "New") + " " + SB.chapters[s.index] : s.type === "closer" ? `${s.pre} ${s.word} ${s.post ?? ""}` : s.line ? `${s.line} ${s.phrases.join(" / ")}` : "")).join(" / ") }));
+window.renderAt = t => {
+  T = t;
+  const sc = SB.scenes.find(s => t >= s.start && t < s.end) || SB.scenes[SB.scenes.length - 1];
+  let h = (S[sc.type] || (() => ""))(sc);
+  // quick dip between porcelain scenes so cuts feel intentional
+  const since = t - sc.start;
+  if (since < .12 && sc !== SB.scenes[0]) h += `<div class="abs" style="inset:0;background:var(--canvas);opacity:${1 - since / .12}"></div>`;
+  document.getElementById("stage").innerHTML = h;
+};
+</script>
+</body>
+</html>

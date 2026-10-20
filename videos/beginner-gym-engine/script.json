@@ -1,0 +1,176 @@
+{
+  "title": "Start Your Body's Engine: The Best Gym Exercises for Beginners",
+  "voice": {
+    "name": "dr mak",
+    "voice_id": "s0DMVIZPbbCMs31sURvA"
+  },
+  "sections": [
+    {
+      "id": "s00_hook",
+      "kind": "hook",
+      "text": "Your body has an engine. And on your first day in the gym, most people try to start it by flooring the pedal. Wrong exercises, too much weight, no plan. In the next few minutes, I'll show you exactly how that engine starts, which eight exercises fire it up the fastest, and the simple weekly plan that keeps it running."
+    },
+    {
+      "id": "s01_engine",
+      "kind": "science",
+      "text": "First, what is this engine? It's your metabolism: every reaction that turns food into energy. Around sixty to seventy percent of the calories you burn every day are used just to keep you alive, even while you sleep. That's your resting metabolic rate. About ten percent goes into digesting food. The rest is movement: your workouts, and all the walking, standing and fidgeting you do through the day. And one of the biggest things you control here is muscle. At rest, a kilogram of muscle burns about three times more energy than a kilogram of fat. On its own that difference is small. But muscle is also the tissue that does all the work, so the more of it you build and use, the more fuel your engine burns every single day."
+    },
+    {
+      "id": "s02_ignition",
+      "kind": "science",
+      "text": "So what happens when you start moving? Your engine has three gears. Gear one is instant: the energy already stored in your muscles, enough for about ten seconds of hard effort. Gear two kicks in next: your muscles break down sugar fast, which powers efforts of up to two minutes. That's the burn you feel in a hard set. Gear three is the aerobic engine: your mitochondria burning fat and sugar with oxygen. It's slower, but it can run for hours. A good beginner workout trains all three gears. And here's the bonus. Every time a muscle contracts, it pulls sugar out of your blood, even without much insulin. After a solid session, your body also keeps using extra oxygen for hours to refuel and repair, a small afterburn. And over a few weeks, your muscles actually build more mitochondria. More mitochondria means a bigger, more efficient engine."
+    },
+    {
+      "id": "s03_warmup",
+      "kind": "warmup",
+      "text": "Never start a cold engine at full throttle. Spend five minutes on a bike or a brisk incline walk until you're lightly sweating. Then do one round of ten bodyweight squats, ten arm circles each way, and ten hip hinges. Before your first exercise, do one light practice set with about half your working weight. Warm muscles contract faster, your joints move more freely, and your first working set feels far easier."
+    },
+    {
+      "id": "s04_goblet_squat",
+      "kind": "exercise",
+      "n": 1,
+      "name": "Goblet Squat",
+      "target": "Quads · Glutes · Core",
+      "dose": "3 × 10",
+      "cues": [
+        "Dumbbell at chest",
+        "Sit between your hips",
+        "Knees follow toes"
+      ],
+      "text": "Exercise one: the goblet squat. Your legs are the biggest muscles you own, so this is your strongest ignition. Hold one dumbbell at your chest, feet shoulder width apart. Sit down between your hips, knees following your toes, chest tall. Stand up by driving the floor away. The common mistake is letting your heels lift. If that happens, sit back a little more and keep your weight in your mid-foot. Three sets of ten."
+    },
+    {
+      "id": "s05_rdl",
+      "kind": "exercise",
+      "n": 2,
+      "name": "Dumbbell Romanian Deadlift",
+      "target": "Hamstrings · Glutes · Back",
+      "dose": "3 × 10",
+      "cues": [
+        "Soft knees",
+        "Push hips back",
+        "Flat back"
+      ],
+      "text": "Exercise two: the dumbbell Romanian deadlift. This teaches the hip hinge, the movement that protects your back for life. Soft knees, push your hips back like you're closing a car door with your butt. Let the dumbbells slide down your thighs with a flat back. When you feel a stretch in your hamstrings, squeeze your glutes and stand tall. The common mistake is rounding your back to reach the floor. You don't need to touch the floor. Stop where your hips stop. Three sets of ten."
+    },
+    {
+      "id": "s06_pushup",
+      "kind": "exercise",
+      "n": 3,
+      "name": "Incline Push-Up",
+      "target": "Chest · Shoulders · Triceps",
+      "dose": "3 × 8–12",
+      "cues": [
+        "Hands on a bench",
+        "Body in one straight line",
+        "Elbows at 45°"
+      ],
+      "text": "Exercise three: the incline push-up. Put your hands on a bench, so you can do clean reps from day one. Your body is one straight line from head to heels. Lower your chest to the edge, elbows at about forty-five degrees, then press away. When twelve reps feel easy, use a lower surface. The common mistake is letting your hips sag. Squeeze your glutes and your stomach the whole time. Three sets of eight to twelve."
+    },
+    {
+      "id": "s07_row",
+      "kind": "exercise",
+      "n": 4,
+      "name": "One-Arm Dumbbell Row",
+      "target": "Lats · Upper back · Biceps",
+      "dose": "3 × 10 each side",
+      "cues": [
+        "Hand and knee on bench",
+        "Pull to your hip",
+        "Shoulder blade back"
+      ],
+      "text": "Exercise four: the one-arm dumbbell row. Every push needs a pull to keep your shoulders healthy. One hand and one knee on the bench, back flat. Pull the dumbbell towards your hip, not your chest, and squeeze your shoulder blade back. Lower it slowly. The common mistake is twisting your torso to swing the weight up. If you have to twist, the dumbbell is too heavy. Three sets of ten on each side."
+    },
+    {
+      "id": "s08_press",
+      "kind": "exercise",
+      "n": 5,
+      "name": "Seated Dumbbell Press",
+      "target": "Shoulders · Triceps",
+      "dose": "3 × 10",
+      "cues": [
+        "Back on the bench",
+        "Brace your core",
+        "Press up, not forward"
+      ],
+      "text": "Exercise five: the seated dumbbell shoulder press. Sit with your back against an upright bench, dumbbells at shoulder height. Brace your core like someone is about to poke your stomach, and press straight up, not forward. Lower with control. The common mistake is arching your lower back to push the weight up. Keep your ribs down and your back against the pad. Three sets of ten."
+    },
+    {
+      "id": "s09_stepup",
+      "kind": "exercise",
+      "n": 6,
+      "name": "Step-Up",
+      "target": "Legs · Balance",
+      "dose": "3 × 8 each leg",
+      "cues": [
+        "Knee-height box",
+        "Whole foot on the box",
+        "Drive through the heel"
+      ],
+      "text": "Exercise six: the step-up. Single-leg work fixes the strength gap between your left and right side, and it gets your heart rate up fast. Use a box around knee height. Plant your whole foot, drive through the heel and stand all the way up. Step down slowly. The common mistake is pushing off with the back foot. Let the front leg do all the work. Three sets of eight on each leg."
+    },
+    {
+      "id": "s10_carry",
+      "kind": "exercise",
+      "n": 7,
+      "name": "Farmer's Carry",
+      "target": "Grip · Core · Whole body",
+      "dose": "3 × 30 m",
+      "cues": [
+        "Heavy dumbbells",
+        "Stand tall",
+        "Short, quick steps"
+      ],
+      "text": "Exercise seven: the farmer's carry. Pick up two heavy dumbbells and simply walk. Stand tall, shoulders down, short quick steps. Your grip, your core and almost every muscle you have are working at once, which makes this one of the best metabolic finishers in the gym. The common mistake is leaning to one side or letting your shoulders round. Imagine you're balancing a book on your head. Three walks of thirty metres."
+    },
+    {
+      "id": "s11_deadbug",
+      "kind": "exercise",
+      "n": 8,
+      "name": "Dead Bug",
+      "target": "Deep core",
+      "dose": "3 × 8 each side",
+      "cues": [
+        "Lower back on the floor",
+        "Opposite arm and leg",
+        "Breathe out as you reach"
+      ],
+      "text": "Exercise eight: the dead bug. Lie on your back, arms up, knees bent at ninety degrees. Press your lower back into the floor and keep it there. Slowly reach one arm and the opposite leg away, breathing out, then switch. It looks easy. Done properly, it isn't. The common mistake is letting your lower back lift off the floor. Only reach as far as you can while it stays flat. Three sets of eight on each side."
+    },
+    {
+      "id": "s12_finisher",
+      "kind": "finisher",
+      "text": "Then finish with ten minutes of zone two cardio: an incline walk or an easy bike at a pace where you can talk, but not sing. This is gear three, your aerobic engine, and it's where those new mitochondria get built."
+    },
+    {
+      "id": "s13_plan",
+      "kind": "plan",
+      "text": "Here's the plan. Do this full-body workout three days a week, for example Monday, Wednesday and Friday. Two to three sets per exercise, eight to twelve reps, resting sixty to ninety seconds. The whole session takes about fifty minutes. How heavy should you go? Pick a weight where you finish every set with two or three reps still in the tank. Your form should look the same on the last rep as on the first. For the first two weeks, go light and learn the movements. After that, use double progression: when you hit the top of the rep range on every set, add a little weight next time. That steady increase is the signal that keeps your engine growing."
+    },
+    {
+      "id": "s14_fuel",
+      "kind": "recovery",
+      "text": "An engine is only as good as its fuel and its maintenance. Eat around one point six grams of protein per kilogram of body weight each day. Sleep seven to nine hours, because that's when muscle is actually built. And walk seven to eight thousand steps a day. Everyday movement often burns more calories than the workout itself."
+    },
+    {
+      "id": "s15_mistakes",
+      "kind": "mistakes",
+      "text": "Avoid the three classic beginner mistakes. One: lifting too heavy, too soon. Two: skipping the warm-up. Three: changing your program every week. Results come from repeating the basics and adding a little more over time."
+    },
+    {
+      "id": "s16_outro",
+      "kind": "outro",
+      "text": "So that's your ignition sequence. Warm up, eight exercises, a little cardio, three days a week. Start light, stay consistent, and let the engine build itself. If you have a medical condition or an injury, check with your doctor first. Save this video for your next gym day, and I'll see you in the next one."
+    },
+    {
+      "id": "s17_subscribe",
+      "kind": "endcard",
+      "text": "And if this helped you, subscribe to Dr Mak Fitness for more."
+    }
+  ],
+  "channel": {
+    "name": "Dr Mak Fitness",
+    "handle": "@drmakfitness",
+    "url": "https://www.youtube.com/@drmakfitness"
+  }
+}
