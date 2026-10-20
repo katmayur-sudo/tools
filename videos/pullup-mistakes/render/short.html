@@ -12,7 +12,8 @@
   html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; }
   .abs { position: absolute; }
   #bg, #fg { position: absolute; inset: 0; overflow: hidden; }
-  #gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+  #gl, #bloom { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+  #grade { position: absolute; inset: 0; pointer-events: none; }
 </style>
 <script src="__ASSETS__three.min.js"></script>
 </head>
@@ -25,7 +26,7 @@
     <feFuncR type="table" tableValues="0 0.42 0.86 1"/><feFuncG type="table" tableValues="0 0.02 0.36 0.86"/><feFuncB type="table" tableValues="0 0.03 0.32 0.8"/></feComponentTransfer></filter>
   <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 </svg>
-<div id="bg"></div><canvas id="gl" width="1080" height="1920"></canvas><div id="fg"></div>
+<div id="bg"></div><canvas id="gl" width="1080" height="1920"></canvas><canvas id="bloom" width="540" height="960"></canvas><div id="grade"></div><div id="fg"></div>
 <script>
 let T = 0, TL = null, G = null, GRAIN = "";
 const ASSET = "__ASSETS__";
@@ -127,7 +128,7 @@ function build3D() {
   renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = R ? 1.15 : 1.0;
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; renderer.setClearColor(0x000000, 0);
   const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(28, 1080 / 1920, .1, 60);
-  const base = R ? 0x5a4446 : 0xE6DCCF, fillC = R ? 0x3a2c2e : 0xD3C7B8;
+  const base = R ? 0x5c3a3d : 0xE9DDCD, fillC = R ? 0x372426 : 0xD6C6B2;
   const mk = (color, extra = {}) => R ? new THREE.MeshPhysicalMaterial({ color, roughness: .42, clearcoat: .45, clearcoatRoughness: .35, ...extra })
     : new THREE.MeshStandardMaterial({ color, roughness: .58, ...extra });
   const mats = {};
@@ -287,9 +288,31 @@ function background() {
   return `<div class="abs" style="inset:0;background:radial-gradient(90% 55% at 50% 42%,#3B0308 0%,#14020360 45%,#050506 80%)"></div>${tubes}
     <div class="abs" style="inset:0;background:radial-gradient(70% 45% at 50% 105%,rgba(160,0,12,.55),transparent 70%)"></div>`;
 }
+// ---------------- colour grade ----------------
+// bloom: the 3D frame, thresholded and blurred at half res, screened back on top (muscle glow, rim light)
+function bloom() {
+  const c = document.getElementById("bloom"), x = c.getContext("2d"), R = G.name === "redblack";
+  x.clearRect(0, 0, 540, 960);
+  x.filter = R ? "brightness(.85) contrast(2.4) saturate(1.4) blur(14px)" : "brightness(.95) contrast(1.8) saturate(1.3) blur(16px)";
+  x.drawImage(document.getElementById("gl"), 0, 0, 540, 960);
+  c.style.cssText = `mix-blend-mode:screen;opacity:${R ? .6 : .22}`;
+}
+// grade layers over the background + 3D (not over the graphics): split tone, contrast, halation
+function grade(show3d) {
+  const gl = document.getElementById("gl");
+  if (G.name === "redblack") {
+    gl.style.filter = "contrast(1.14) saturate(1.18) brightness(1.03)";
+    return `<div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(255,40,40,.10),rgba(120,0,10,.18) 60%,rgba(10,0,2,.35));mix-blend-mode:soft-light"></div>
+      <div class="abs" style="inset:0;background:radial-gradient(60% 35% at 50% 34%,rgba(255,60,50,.16),transparent 70%);mix-blend-mode:screen"></div>
+      <div class="abs" style="inset:0;background:rgba(40,0,6,.18);mix-blend-mode:multiply"></div>`;
+  }
+  gl.style.filter = "contrast(1.05) saturate(.96) sepia(.06) brightness(1.02)";
+  return `<div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(255,236,214,.22),rgba(255,226,200,.08) 55%,rgba(196,170,140,.18));mix-blend-mode:soft-light"></div>
+    <div class="abs" style="inset:0;background:radial-gradient(80% 55% at 50% 40%,transparent 60%,rgba(120,95,70,.16) 100%);mix-blend-mode:multiply"></div>`;
+}
 function finish() {
-  if (G.name === "porcelain") return "";
   const ox = Math.floor(T * 30 * 97) % 300, oy = Math.floor(T * 30 * 53) % 300;
+  if (G.name === "porcelain") return `<div class="abs" style="inset:-300px;background-image:url(${GRAIN});background-position:${ox}px ${oy}px;opacity:.045;mix-blend-mode:multiply;z-index:61"></div>`;
   return `<div class="abs" style="inset:0;background:radial-gradient(75% 60% at 50% 45%,transparent 50%,rgba(0,0,0,.75) 100%);z-index:60"></div>
     <div class="abs" style="inset:-300px;background-image:url(${GRAIN});background-position:${ox}px ${oy}px;opacity:.10;mix-blend-mode:screen;z-index:61"></div>`;
 }
@@ -454,7 +477,9 @@ const BODY = {
           <span style="width:62px;height:62px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:38px;color:#fff;background:${ok ? G.good : "transparent"};border:4px solid ${ok ? G.good : G.sub};transform:scale(${ok ? 1 + .5 * Math.exp(-(T - tk) * 10) : 1})">${ok ? "✓" : ""}</span>${s}</div>`; }).join("")}</div>`
       + `<div class="abs" style="left:590px;top:1200px;z-index:30;${appear(cue("save"), { dy: 30 })};font:900 44px Inter;color:${G.ink}">🔖 Save for pull day</div>`; },
   cta: t0 => { const u = T - t0, click = cue("follow") + .25, done = on(click), press = done && T < click + .15 ? .9 : 1, R = G.name === "redblack";
-    return hero("side.png", { w: 520, h: 1074, y: 200, zoom: 1 + .03 * u, fade: 72 }) + `<div class="abs" style="left:0;right:0;top:1110px;text-align:center;z-index:30;${appear(t0 + .1)}"><div style="${G.title};font-size:${R ? 120 : 92}px;color:${G.ink};line-height:1">${R ? "DR MAK FITNESS" : "Dr Mak Fitness"}</div>
+    ath({ p: .93 + .04 * Math.sin(u * 2.2), glow: { lats: [G.good, .75 + .25 * Math.sin(T * 5)], core: [G.good, .45] },
+      cam: { az: lerp(-.25, .45, easeInOut(prog(t0, TL.dur))), el: .1, dist: lerp(10.2, 9.4, easeOut(prog(t0, t0 + 1))), look: V3(0, 1.42, 0) } });
+    return `<div class="abs" style="left:0;right:0;top:1110px;text-align:center;z-index:30;${appear(t0 + .1)}"><div style="${G.title};font-size:${R ? 120 : 92}px;color:${G.ink};line-height:1">${R ? "DR MAK FITNESS" : "Dr Mak Fitness"}</div>
         <div style="font:800 42px Inter;color:${G.acc};margin-top:14px">@drmakfitness</div></div>`
       + `<div class="abs" style="left:0;right:0;top:1330px;text-align:center;z-index:30;${appear(t0 + .3)}"><span style="display:inline-block;transform:scale(${press});padding:26px 70px;border-radius:999px;font:900 52px Inter;color:#fff;background:${done ? "#2A2A2E" : G.acc};box-shadow:${done ? "none" : "0 0 50px " + G.acc + "aa"}">${done ? "✓ Subscribed" : "▶ Subscribe"}</span></div>`; },
 };
@@ -494,10 +519,12 @@ window.renderAt = t => {
   // loop seam: the hook's title fades in over the last 0.3 s while the 3D pose eases into frame 0
   if (t > TL.dur - .3) { const a = prog(TL.dur - .3, TL.dur); SKIP3D = true; h += `<div class="abs" style="inset:0;opacity:${a};z-index:90">${overlay(0.0001)}</div>`; SKIP3D = false; T = t; }
   document.getElementById("fg").innerHTML = h;
-  // the 3D athlete only exists between the photo intro and the photo outro
-  const id = SCENES[sceneAt(t)].id, show = id !== "hook" && id !== "cta";
+  // the 3D athlete takes over after the photo intro
+  const id = SCENES[sceneAt(t)].id, show = id !== "hook";
   document.getElementById("gl").style.visibility = show ? "visible" : "hidden";
-  if (show) R3.renderer.render(R3.scene, R3.cam);
+  document.getElementById("bloom").style.visibility = show ? "visible" : "hidden";
+  if (show) { R3.renderer.render(R3.scene, R3.cam); bloom(); }
+  document.getElementById("grade").innerHTML = grade(show);
 };
 </script>
 </body>
