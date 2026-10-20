@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- "The Perfect Pull-Up": a 9:16 keynote launch film (og-content-generator style) for Dr Mak Fitness.
+     Porcelain canvas, one red accent, "Your ___" word wheel, beat-locked cuts, One More Thing.
+     The hero "product" is the real-anatomy athlete (Z-Anatomy, CC BY-SA 4.0), always seen from behind.
+     Driven by render.mjs: setFilm(storyboard) then renderAt(t). -->
+<style>
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #F4F0E8; }
+  .abs { position: absolute; }
+  #bg, #fg { position: absolute; inset: 0; overflow: hidden; }
+  #gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+  .k { font-family: "Inter Display", Inter, sans-serif; font-weight: 700; letter-spacing: -.045em; color: #121212; line-height: 1.02; }
+  .c { left: 0; right: 0; text-align: center; }
+</style>
+<script src="__ASSETS__three.min.js"></script>
+<script src="__RENDER__anatomy3d.js"></script>
+</head>
+<body>
+<div id="bg"></div><canvas id="gl" width="1080" height="1920"></canvas><div id="fg"></div>
+<script>
+let T = 0, SB = null, G = { name: "porcelain", acc: "#E0262B" }, ASSET = "__ASSETS__";
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, p) => a + (b - a) * p;
+const prog = (a, b) => clamp((T - a) / (b - a));
+const easeOut = p => 1 - Math.pow(1 - clamp(p), 3);
+const easeInOut = p => { p = clamp(p); return p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; };
+const rep = (u, period, lo = 0, hi = 1) => lerp(lo, hi, .5 - .5 * Math.cos(2 * Math.PI * u / period));
+const ACC = "#E0262B", INK = "#121212", GREY = "#8C877F", CANVAS = "#F4F0E8";
+const accent = s => s.replace(/\*(.+?)\*/g, `<span style="color:${ACC}">$1</span>`);
+
+// keynote text: each word rises and un-blurs, staggered
+function words(text, t0, size, top, opts = {}) {
+  const lines = Array.isArray(text) ? text : [text];
+  let i = 0;
+  return `<div class="abs c k" style="top:${top}px;font-size:${size}px;${opts.style ?? ""}">${lines.map(l => `<div>${l.split(" ").map(w => {
+    const p = easeOut(prog(t0 + i++ * (opts.stagger ?? .07), t0 + i * (opts.stagger ?? .07) + .45));
+    return `<span style="display:inline-block;margin:0 .12em;opacity:${p};transform:translateY(${(1 - p) * 40}px);filter:blur(${(1 - p) * 12}px)">${accent(w)}</span>`;
+  }).join("")}</div>`).join("")}</div>`;
+}
+const fadeOut = (sc, d = .25) => 1 - prog(sc.end - d, sc.end);
+
+// ---------------- 3D shots (camera always behind the athlete) ----------------
+const SHOTS = {
+  hero: (u, sc) => ({ p: rep(Math.max(0, u - .5), 2.4, 0, .95), glow: { lats: [0, .2 + .8 * rep(Math.max(0, u - .5), 2.4)] },
+    cam: { az: lerp(.55, .12, easeInOut(u / sc.dur)), el: lerp(-.05, .08, u / sc.dur), dist: lerp(7.2, 5.6, easeOut(u / sc.dur)), look: V3(0, lerp(1.55, 1.7, u / sc.dur), 0) } }),
+  blades: (u, sc) => { const down = easeInOut(prog(sc.start + .9, sc.start + 1.5));
+    return { p: .04 + .08 * down, shrug: 1 - down, depress: down, glow: { traps: [ACC, (1 - down) * .9], lats: [0, down * .95] },
+      cam: { az: lerp(.25, .05, u / sc.dur), el: .2, dist: lerp(3.9, 3.4, u / sc.dur), look: V3(0, 1.98, 0) } }; },
+  elbows: (u, sc) => { const p = rep(u, 2.0, .05, .95);
+    return { p, glow: { lats: [0, .35 + .65 * p] }, arcs: easeOut(prog(sc.start + .2, sc.start + 1.2)),
+      cam: { az: lerp(-.2, .18, u / sc.dur), el: .22, dist: 4.6, look: V3(0, 1.88, 0) } }; },
+  core: (u, sc) => ({ p: rep(u, 2.2, .05, .9), lean: -.03, legSwing: .05, knee: .1, glow: { core: [0, .8], lats: [0, .5] }, brackets: easeOut(prog(sc.start + .3, sc.start + .8)),
+    cam: { az: lerp(.62, .45, u / sc.dur), el: .04, dist: 6.2, look: V3(0, 1.55, 0) } }),
+  range: (u, sc) => { const p = rep(u, 2.4, 0, 1);
+    return { p, glow: { lats: [0, .3 + .6 * p] }, lines: easeOut(prog(sc.start + .1, sc.start + .5)), cam: { az: .1, el: .03, dist: lerp(6.8, 6.3, u / sc.dur), look: V3(0, 1.6, 0) } }; },
+  tempo: (u, sc) => { const up = .55, p = u < up ? easeInOut(u / up) : Math.max(0, 1 - (u - up) / 1.8);
+    return { p, glow: { lats: [0, .9 * p + .2] }, count: u < up ? 0 : Math.min(3, 1 + Math.floor((u - up) / .6)), countT: (u - up) % .6,
+      cam: { az: lerp(.3, .15, u / sc.dur), el: .06, dist: 5.4, look: V3(0, 1.75, 0) } }; },
+  reveal: (u, sc) => { const hold = easeOut(prog(sc.start + .4, sc.start + 1.2));
+    return { p: lerp(.15, .9, hold) + .03 * Math.sin(u * 2), glow: { lats: [0, hold], back: [0, hold * .8], delts: [0, hold * .5] },
+      cam: { az: lerp(-.3, .2, u / sc.dur), el: .1, dist: lerp(5.4, 4.4, u / sc.dur), look: V3(0, 1.9, 0) } }; },
+};
+// graphics pinned to the projected body
+function pinned(st) {
+  let s = "";
+  const J = R3.joints, svg = x => `<svg class="abs" style="inset:0;overflow:visible" width="1080" height="1920">${x}</svg>`;
+  if (st.arcs) s += svg(["L", "R"].map(k => { const [ex, ey] = proj(J["el" + k]), [rx, ry] = proj(J["lat" + k + "b"]), sx = k === "L" ? -1 : 1;
+    return `<path d="M${ex} ${ey} Q${ex + sx * 90} ${(ey + ry) / 2} ${rx} ${ry}" fill="none" stroke="${ACC}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${700 * st.arcs} 700"/>
+      <circle cx="${rx}" cy="${ry}" r="${10 * st.arcs}" fill="${ACC}"/>`; }).join(""));
+  if (st.brackets) { const [x, y] = proj(J.waist), k = lerp(1.5, 1, st.brackets);
+    s += svg(`<g transform="translate(${x} ${y}) scale(${k})" opacity="${st.brackets}" fill="none" stroke="${INK}" stroke-width="5" stroke-linecap="round"><path d="M-110 -130 h-30 v60 M110 -130 h30 v60 M-110 130 h-30 v-60 M110 130 h30 v-60"/></g>`); }
+  if (st.lines) { const [ax, ay] = proj(V3(-1.2, BAR_Y, 0)), [bx, by] = proj(V3(1.2, BAR_Y, 0));
+    s += svg(`<line x1="60" y1="${(ay + by) / 2 - 70}" x2="1020" y2="${(ay + by) / 2 - 70}" stroke="${ACC}" stroke-width="3" stroke-dasharray="14 10" opacity="${st.lines}"/>
+      <text x="60" y="${(ay + by) / 2 - 86}" font-family="Inter" font-weight="700" font-size="28" fill="${ACC}" opacity="${st.lines}">CHIN</text>`); }
+  if (st.count) s += `<div class="abs k" style="left:80px;top:760px;font-size:200px;color:${ACC};transform:scale(${1 + .25 * Math.exp(-st.countT * 9)})">${st.count}</div>`;
+  return s;
+}
+
+// ---------------- scenes ----------------
+const SCN = {
+  cold: sc => ({ bg: "#08090C", html: `<div class="abs c" style="top:900px;font:600 46px Inter;color:#fff;opacity:${.55 * easeOut((T - sc.start - .2) / 1.2) * fadeOut(sc)}">
+      <span style="display:inline-block;width:46px;height:46px;border-radius:13px;background:${ACC};vertical-align:middle;margin-right:18px"></span><span style="vertical-align:middle">${SB.brand}</span></div>` }),
+  intro: sc => ({ html: words([SB.scenes[1].text[0]], sc.start + .1, 54, 780, { style: `color:${GREY};font-weight:600` }) + words([sc.text[1]], sc.start + .6, 120, 870) }),
+  line: sc => ({ html: words(sc.text, sc.start + .05, 104, 800) }),
+  slot: sc => {
+    const i = sc.index, p = easeInOut(prog(sc.start + .05, sc.start + .55)), H = 150;
+    const wheel = SB.chapters.map((w, k) => { const off = (k - (i - 1 + p)) * H, o = clamp(1 - Math.abs(off) / (H * 1.6));
+      return `<div class="abs k" style="left:0;right:0;top:${off}px;height:${H}px;text-align:left;font-size:132px;color:${Math.abs(off) < H / 2 ? INK : "#B8B2A8"};opacity:${o}">${w}</div>`; }).join("");
+    const num = `<div class="abs c" style="top:620px;font:700 30px Inter;letter-spacing:.2em;color:${GREY}">0${i + 1} / 05</div>`;
+    return { html: num + `<div class="abs k" style="left:150px;top:880px;font-size:132px;color:${GREY}">${SB.slotLead}</div>
+      <div class="abs" style="left:470px;top:880px;width:600px;height:${H}px;overflow:visible">${wheel}</div>` };
+  },
+  athlete: sc => {
+    const st = SHOTS[sc.shot](T - sc.start, sc);
+    const chip = `<div class="abs c" style="top:250px;opacity:${easeOut(prog(sc.start, sc.start + .4)) * fadeOut(sc)}"><span style="display:inline-block;padding:12px 28px;border-radius:999px;background:rgba(255,255,255,.75);box-shadow:0 16px 40px -20px rgba(60,40,20,.4);font:700 30px Inter;letter-spacing:.06em;color:${INK}">${sc.shot === "hero" ? "THE PULL-UP" : SB.chapters[SB.scenes.indexOf(sc) / 2 - 2 | 0]?.toUpperCase() ?? ""}</span></div>`;
+    return { st, html: () => pinned(st) + words(sc.caption, sc.start + .35, 64, 1500, { style: `font-weight:650;opacity:${fadeOut(sc)};text-shadow:0 0 18px #F4F0E8,0 0 36px #F4F0E8,0 0 60px #F4F0E8` }) + (sc.shot === "hero" ? "" : chip) };
+  },
+  onemore: sc => ({ bg: "#08090C", html: words(["One more thing."], sc.start + .5, 84, 900, { style: "color:#fff;font-weight:600" }) }),
+  reveal: sc => {
+    const st = SHOTS.reveal(T - sc.start, sc), pill = easeOut(prog(sc.start + 1.4, sc.start + 1.9));
+    return { st, html: () => words(sc.text, sc.start + .15, 96, 330) + `<div class="abs c" style="top:1460px;opacity:${pill};transform:scale(${lerp(.8, 1, pill)})">
+      <span style="display:inline-block;padding:22px 52px;border-radius:999px;background:${ACC};color:#fff;font:700 52px Inter;box-shadow:0 20px 60px -20px ${ACC}">${sc.pill}</span></div>` };
+  },
+  closer: sc => {
+    const c = easeInOut(prog(sc.start + .9, sc.start + 1.7));
+    return { html: words([sc.pre], sc.start + .1, 104, 800) + `<div class="abs c k" style="top:930px;font-size:150px;opacity:${easeOut(prog(sc.start + .5, sc.start + .9))}">${sc.word}.</div>
+      <svg class="abs" style="left:240px;top:880px" width="600" height="280"><ellipse cx="300" cy="140" rx="270" ry="112" fill="none" stroke="${ACC}" stroke-width="9" stroke-linecap="round"
+        stroke-dasharray="${1300 * c} 1400" transform="rotate(-4 300 140)"/></svg>` };
+  },
+  end: sc => ({ html: `<div class="abs c" style="top:820px;opacity:${easeOut(prog(sc.start, sc.start + .5))}"><span style="display:inline-block;width:110px;height:110px;border-radius:30px;background:${ACC}"></span></div>`
+      + words([SB.brand], sc.start + .2, 88, 970) + words([sc.sub], sc.start + .5, 40, 1090, { style: `color:${GREY};font-weight:600;letter-spacing:-.01em` }) }),
+};
+
+window.setFilm = async sb => {
+  SB = sb; const beat = 60 / sb.bpm; let b = 0;
+  for (const sc of sb.scenes) { sc.start = b * beat; sc.end = (b + sc.beats) * beat; sc.dur = sc.end - sc.start; b += sc.beats; }
+  SB.dur = b * beat;
+  await loadAnatomy(); build3D();
+  R3.renderer.toneMappingExposure = 1.08;
+  return SB.dur;
+};
+window.renderAt = t => {
+  T = t;
+  const sc = SB.scenes.find(s => t >= s.start && t < s.end) ?? SB.scenes[SB.scenes.length - 1];
+  const out = SCN[sc.type](sc), u = t - sc.start;
+  const bgc = out.bg ?? CANVAS;
+  document.getElementById("bg").innerHTML = `<div class="abs" style="inset:0;background:${bgc === CANVAS ? "radial-gradient(110% 70% at 50% 42%,#FBF8F2 0%,#F4F0E8 55%,#EBE4D7 100%)" : bgc}"></div>`;
+  const gl = document.getElementById("gl");
+  if (out.st) { pose(out.st); R3.renderer.render(R3.scene, R3.cam); gl.style.visibility = "visible"; } else gl.style.visibility = "hidden";
+  let html = typeof out.html === "function" ? out.html() : out.html;
+  // keynote cut: every new scene settles from a slight push
+  const k = 1 + .025 * (1 - easeOut(u / .45));
+  document.getElementById("fg").innerHTML = `<div class="abs" style="inset:0;transform:scale(${k})">${html}</div>`;
+  gl.style.transform = `scale(${k})`;
+};
+</script>
+</body>
+</html>

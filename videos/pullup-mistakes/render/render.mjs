@@ -14,7 +14,7 @@ const [filmDir, grade, out, ...rest] = process.argv.slice(2);
 const opt = k => (rest.includes(k) ? rest[rest.indexOf(k) + 1] : undefined);
 const here = path.dirname(fileURLToPath(import.meta.url));
 const assets = path.resolve(filmDir, "assets") + "/";
-const html = fs.readFileSync(path.join(here, "short.html"), "utf8").replaceAll("__ASSETS__", "file://" + assets);
+const html = fs.readFileSync(path.join(here, "short.html"), "utf8").replaceAll("__ASSETS__", "file://" + assets).replaceAll("__RENDER__", "file://" + here + "/");
 const page_path = path.resolve(filmDir, `.short_${grade}.html`);
 fs.writeFileSync(page_path, html);
 const tl = JSON.parse(fs.readFileSync(path.join(filmDir, "timeline.json"), "utf8"));

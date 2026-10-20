@@ -1,0 +1,31 @@
+{
+  "name": "The Perfect Pull-Up",
+  "brand": "Dr Mak Fitness",
+  "source": "5 Pull-Up Mistakes Killing Your Back Gains (owner's short) - same 5 fixes, keynote launch-film form",
+  "format": "9:16 keynote launch film, 1080x1920, 30 fps, music only",
+  "accent": "#E0262B",
+  "canvas": "#F4F0E8",
+  "bpm": 124,
+  "slotLead": "Your",
+  "chapters": ["Blades", "Elbows", "Core", "Range", "Tempo"],
+  "scenes": [
+    {"type": "cold", "beats": 4},
+    {"type": "intro", "beats": 4, "text": ["Introducing", "The Perfect *Pull-Up*"]},
+    {"type": "line", "beats": 4, "text": ["Most people pull", "with their *arms*."]},
+    {"type": "athlete", "beats": 8, "shot": "hero", "caption": "Your back should do the work."},
+    {"type": "slot", "beats": 3, "index": 0},
+    {"type": "athlete", "beats": 5, "shot": "blades", "caption": "Down. And back."},
+    {"type": "slot", "beats": 3, "index": 1},
+    {"type": "athlete", "beats": 5, "shot": "elbows", "caption": "Drive them to your ribs."},
+    {"type": "slot", "beats": 3, "index": 2},
+    {"type": "athlete", "beats": 5, "shot": "core", "caption": "Zero swing."},
+    {"type": "slot", "beats": 3, "index": 3},
+    {"type": "athlete", "beats": 5, "shot": "range", "caption": "Dead hang. Chin over bar."},
+    {"type": "slot", "beats": 3, "index": 4},
+    {"type": "athlete", "beats": 5, "shot": "tempo", "caption": "Three seconds down."},
+    {"type": "onemore", "beats": 4},
+    {"type": "reveal", "beats": 6, "text": "Your lats were *asleep*.", "pill": "Wake them up"},
+    {"type": "closer", "beats": 6, "pre": "Pull with your", "word": "back", "mode": "circle"},
+    {"type": "end", "beats": 4, "sub": "@drmakfitness · follow for the full fix"}
+  ]
+}

@@ -10,6 +10,9 @@ Format: `- [ ] idea · format · source/date` → `- [x] … → output` when do
 - [x] Dr Mak Fitness launch film · keynote 16:9 61 s · chat 2026-10-20 → `examples/drmak-fitness.storyboard.json`
 - [x] Refine "5 Pull-Up Mistakes" short: 3D athlete + motion graphics, owner's photos in intro/outro, porcelain + red/black grades · 9:16 36 s · chat 2026-10-20 → `videos/pullup-mistakes`
 
+## In progress
+- [ ] "The Perfect Pull-Up" keynote launch film from the 5-mistakes short · 9:16 38.7 s · real-anatomy 3D athlete back to camera · chat 2026-10-20 → `videos/pullup-launch` (storyboard sent, awaiting approval)
+
 ## Backlog (from chats)
 - [ ] The other 7 exercises as their own shorts (RDL, incline push-up, row, press, step-up, farmer's carry, dead bug) · 9:16 · 2026-10-20
 - [ ] "Zone 2 cardio explained" (gear 3, talk-but-not-sing test) · short + explainer · 2026-10-20
