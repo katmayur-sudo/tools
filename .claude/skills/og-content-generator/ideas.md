@@ -10,6 +10,7 @@ Format: `- [ ] idea · format · source/date` → `- [x] … → output` when do
 - [x] Dr Mak Fitness launch film · keynote 16:9 61 s · chat 2026-10-20 → `examples/drmak-fitness.storyboard.json`
 
 ## Backlog (from chats)
+- [ ] No gym? 6 moves, whole body (6 body zones, looped arc, idea from youtube.com/shorts/xLpbXcIwQpk) · 9:16 ~35 s · 2026-10-20 → storyboard `videos/home-six-zones`
 - [ ] The other 7 exercises as their own shorts (RDL, incline push-up, row, press, step-up, farmer's carry, dead bug) · 9:16 · 2026-10-20
 - [ ] "Zone 2 cardio explained" (gear 3, talk-but-not-sing test) · short + explainer · 2026-10-20
 - [ ] Protein made simple: 1.6 g/kg with Indian food examples (paneer, dal, eggs, curd) · short / carousel · 2026-10-20
