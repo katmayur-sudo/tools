@@ -26,7 +26,7 @@ footage, music) · platform. Defaults: keynote film 60 s 16:9, brand from `brand
 | **Keynote film** (default here) | launch, trailer, announcement, recap. Music only, no voice | `engine/` in this skill |
 | **Voiced explainer** 16:9 | teaching, how-to, science | `videos/beginner-gym-engine/` pipeline + `styles/red-ink-explainer.yaml` (in the `katmayur-sudo/tools` repo) |
 | **Native short / reel** 9:16 | hooks, single tips, series | `videos/beginner-gym-engine/render/verticals.js` + `shorts/build.py` (same repo) |
-| **Refine an existing short** 9:16 | the user uploads their own video | `videos/pullup-mistakes/` (same repo): re-cut their voice, rig their photo, two grades |
+| **Refine an existing short** 9:16 | the user uploads their own video | `videos/pullup-mistakes/` (same repo): re-cut their voice, 3D athlete + motion graphics, two grades |
 
 For voiced formats use the brand's voice from `brand/*.json` / `CLAUDE.md` (Dr Mak: the cloned
 "dr mak" ElevenLabs voice, never a stock voice).
@@ -103,7 +103,8 @@ Style rules and the reference breakdown: `ANALYSIS.md`. Full example:
 - Refining an uploaded video: transcribe it (faster-whisper `small` handles Hindi), cut the dead air and
   storyboard the fixes over its own frames. The common fixes: a static stretch longer than 3 s, captions
   under the Shorts UI (bottom 20%), and a long end card that breaks the loop.
-- "Use my photo in the animation" means the photo is the subject, not a backdrop. Cut it out with rembg
-  `u2net_human_seg`, mask off the limbs, redraw them with IK, and draw the muscle overlays on the photo.
+- For exercise demos, the owner prefers a 3D athlete (three.js, procedural, rendered via SwiftShader) with
+  muscle groups that glow and graphics pinned to the projected joints. Their photos go only in the intro
+  and the outro, as rembg cut-outs. See `videos/pullup-mistakes/render/short.html`.
 - Grades on request: `porcelain` (the launch film) and `redblack` (the channel's look). Render both
   from one timeline.

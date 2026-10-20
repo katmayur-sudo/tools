@@ -1,7 +1,7 @@
 // Render the refined pull-up short in one grade.
 //
 // Usage: node render.mjs <film_dir> <porcelain|redblack> <out.mp4> [--stills t1,t2,...] [--workers 4]
-// <film_dir> holds timeline.json and assets/ (back.png cut-out, anton.woff2). Video only; mux the
+// <film_dir> holds timeline.json and assets/ (three.min.js r158, anton.woff2, back.png + side.png cut-outs). Video only; mux the
 // soundtrack afterwards (see ../README.md).
 import { spawn } from "node:child_process";
 import fs from "node:fs";
@@ -18,7 +18,9 @@ const html = fs.readFileSync(path.join(here, "short.html"), "utf8").replaceAll("
 const page_path = path.resolve(filmDir, `.short_${grade}.html`);
 fs.writeFileSync(page_path, html);
 const tl = JSON.parse(fs.readFileSync(path.join(filmDir, "timeline.json"), "utf8"));
-const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? "/opt/pw-browsers/chromium-1194/chrome-linux/chrome" });
+// WebGL for the 3D athlete: SwiftShader works headless without a GPU
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
+  args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist", "--allow-file-access-from-files"] });
 
 async function open() {
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
