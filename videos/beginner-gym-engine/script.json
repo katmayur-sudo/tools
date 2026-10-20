@@ -161,6 +161,16 @@
       "id": "s16_outro",
       "kind": "outro",
       "text": "So that's your ignition sequence. Warm up, eight exercises, a little cardio, three days a week. Start light, stay consistent, and let the engine build itself. If you have a medical condition or an injury, check with your doctor first. Save this video for your next gym day, and I'll see you in the next one."
+    },
+    {
+      "id": "s17_subscribe",
+      "kind": "endcard",
+      "text": "And if this helped you, subscribe to Dr Mak Fitness for more."
     }
-  ]
+  ],
+  "channel": {
+    "name": "Dr Mak Fitness",
+    "handle": "@drmakfitness",
+    "url": "https://www.youtube.com/@drmakfitness"
+  }
 }

@@ -13,7 +13,7 @@ import sys
 GAP = 0.45          # silence between voice-over sections
 CHAPTER = 1.9       # chapter title cards (no voice)
 STINGER = 1.5       # exercise number stingers (no voice)
-END_CARD = 4.0
+END_CARD = 12.0       # YouTube end-screen elements need 5-20 s
 LEAD_IN = 0.35
 
 CHAPTERS = {
@@ -40,6 +40,7 @@ CUES = {
                  "first two weeks", "double progression", "add a little weight", "steady increase"],
     "s14_fuel": ["fuel", "protein", "sleep", "steps", "everyday movement"],
     "s15_mistakes": ["one:", "two:", "three:", "results"],
+    "s17_subscribe": ["subscribe", "dr mak"],
     "s16_outro": ["ignition sequence", "warm up", "eight exercises", "cardio", "three days",
                   "start light", "consistent", "engine build", "medical", "save this", "next one"],
 }
@@ -153,8 +154,11 @@ def main():
         w = words[sid]
         phrases = CUES.get(sid, EXERCISE_CUES if sid in EXERCISES else [])
         cues = {k: round(v + t, 3) for k, v in find_cues(w, phrases).items()}
+        length = max(dur + GAP, END_CARD) if sec["kind"] == "endcard" else dur + GAP
         scene = {"id": sid, "kind": sec["kind"], "start": round(t, 3), "vo": round(t, 3),
-                 "end": round(t + dur + GAP, 3), "cues": cues}
+                 "end": round(t + length, 3), "cues": cues}
+        if sec["kind"] == "endcard":
+            scene["channel"] = script.get("channel", {})
         if sid in EXERCISES:
             ex = EXERCISES[sid]
             scene.update(n=n_ex, name=sec["name"], target=sec["target"], dose=sec["dose"],
@@ -168,14 +172,11 @@ def main():
             sfx.append({"t": round(t, 3), "type": "swish"})
         scenes.append(scene)
         audio.append({"file": f"{sid}.mp3", "t": round(t, 3)})
-        captions += caption_chunks(w, t)
+        if sec["kind"] != "endcard":
+            captions += caption_chunks(w, t)
         for k, v in cues.items():
             sfx.append({"t": v, "type": "pop"})
-        t += dur + GAP
-    scenes.append({"id": "endcard", "kind": "endcard", "start": round(t, 3),
-                   "end": round(t + END_CARD, 3)})
-    sfx.append({"t": round(t, 3), "type": "whoosh"})
-    t += END_CARD
+        t += length
     # thin out pops so they never fire closer than 0.35s apart
     sfx.sort(key=lambda s: s["t"])
     kept = []

@@ -1,6 +1,6 @@
 # Start Your Engine: the best gym exercises for beginners
 
-A 7:33 YouTube explainer (1920×1080, 30 fps), made entirely by Claude Code:
+A 7:41 YouTube explainer for [Dr Mak Fitness](https://www.youtube.com/@drmakfitness) (1920×1080, 30 fps), made entirely by Claude Code:
 script, the owner's cloned voice-over ("dr mak"), word-synced motion graphics, animated exercise
 figures, sound design and the thumbnail. Its editing style is the `red-ink-explainer` signature
 (`/styles/red-ink-explainer.yaml`), learned from two reference videos.
@@ -19,7 +19,7 @@ The rendered video, the generated images and the owner's photos are **not** stor
 Both lean on the same idea as the Pocket Creative Director video in `workflows/`: a written style
 system that the agent reuses, rather than one-off prompting.
 
-## Structure (7:33)
+## Structure (7:41)
 
 | Time | Section | Visual idea |
 |---|---|---|
@@ -31,7 +31,8 @@ system that the agent reuses, rather than one-off prompting.
 | 5:46 | Finisher | 10 min zone-2 cardio |
 | 5:59 | Part 3 · The Plan | 3 full-body days, 2-3 × 8-12, 60-90 s rest, 2-3 reps in reserve, double progression |
 | 6:37 | Fuel & maintenance | 1.6 g/kg protein, 7-9 h sleep, 7-8k steps |
-| 6:54 | Mistakes, outro, end card | Owner photo, recap, doctor disclaimer, save CTA |
+| 6:54 | Mistakes, outro | Owner photo, recap, doctor disclaimer, save CTA |
+| 7:29 | End screen (12 s) | @drmakfitness identity, voiced subscribe CTA with animated click + bell, two empty frames for YouTube end-screen videos |
 
 ## Rebuild it
 
