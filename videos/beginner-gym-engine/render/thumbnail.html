@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Thumbnail</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1280px; height: 720px; overflow: hidden; background: #0E0E10; font-family: "Inter Display", "Inter", sans-serif; }
+  .photo { position: absolute; right: -40px; top: -60px; width: 820px; height: 840px; background: url(../assets/user/back.jpg) center 62%/cover;
+    filter: grayscale(1) contrast(1.25) brightness(1.05); }
+  .fade { position: absolute; inset: 0; background: linear-gradient(90deg, #0E0E10 38%, rgba(14,14,16,.55) 58%, rgba(14,14,16,0) 80%); }
+  .leak { position: absolute; border-radius: 50%; mix-blend-mode: screen; }
+  .t1 { position: absolute; left: 56px; top: 150px; color: #fff; font-size: 92px; font-weight: 900; letter-spacing: -0.04em; line-height: .95; }
+  .t2 { position: absolute; left: 50px; top: 240px; color: #E0262B; font-size: 190px; font-weight: 900; letter-spacing: -0.05em; line-height: 1;
+    text-shadow: 0 0 50px rgba(224,38,43,.55); }
+  .tag { position: absolute; left: 60px; top: 470px; background: #fff; color: #111; font-size: 46px; font-weight: 900; padding: 8px 22px; border-radius: 14px; letter-spacing: -0.02em; }
+  .tag b { color: #E0262B; }
+  .pill { position: absolute; left: 60px; top: 70px; background: #E0262B; color: #fff; font-family: Inter; font-weight: 800; font-size: 26px; padding: 8px 20px; border-radius: 999px; letter-spacing: .08em; }
+</style></head>
+<body>
+  <div class="photo"></div><div class="fade"></div>
+  <div class="leak" style="left:-260px;top:-220px;width:700px;height:600px;background:radial-gradient(closest-side,rgba(224,38,43,.55),rgba(224,38,43,0))"></div>
+  <div class="leak" style="right:-200px;bottom:-260px;width:800px;height:600px;background:radial-gradient(closest-side,rgba(255,70,40,.45),rgba(255,70,40,0))"></div>
+  <div class="pill">BEGINNER GYM GUIDE</div>
+  <div class="t1">START YOUR</div>
+  <div class="t2">ENGINE</div>
+  <div class="tag"><b>8</b> exercises · <b>3</b> days a week</div>
+</body></html>

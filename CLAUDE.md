@@ -11,3 +11,6 @@
 ## Video workflow
 
 See `workflows/pocket-creative-director/` for the edit workflow, prompts and style DNA template.
+Saved style signatures live in `styles/` (e.g. `styles/red-ink-explainer.yaml`); reuse them by name.
+`videos/beginner-gym-engine/` is a full worked example (script, timeline, HTML renderer, audio mix).
+Never commit the owner's photos or rendered media to this repo.

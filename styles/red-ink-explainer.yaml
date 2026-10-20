@@ -1,0 +1,75 @@
+# Signature: red-ink explainer
+# Built from two references (Oct 2026):
+#   A) https://youtu.be/WK2Aam_rC5c  creator walkthrough of a Claude Code + Remotion short-form editing pipeline
+#   B) https://youtu.be/aWPUyUM-2Ig  "How To Make Insane Motion Graphics With Opus 5.5 (Claude Motion)" by Somrat Dutta
+# First used for: videos/beginner-gym-engine (7.5 min YouTube explainer, 16:9)
+
+name: red-ink-explainer
+credit: ["creator of WK2Aam_rC5c", "Somrat Dutta (aWPUyUM-2Ig)"]
+
+what_we_took:
+  from_A:
+    - clean off-white canvas with faint grid for teaching sections
+    - captions as word boxes, black with one keyword in a red box (thumbnail "consistency compounds.")
+    - centered, minimal text screens; number counters and progress bars
+    - punchy pacing, no dead air, conversational confident voice
+  from_B:
+    - dark (#0E0E10) intro and chapter cards with drifting red light leaks
+    - "the old way" items crossed out with a red ✕ and an animated strike
+    - word slams / one idea per 2-3 s in the hook
+    - rounded dark cards, keyword pills with red glow, flowing red ribbon shapes
+
+format:
+  aspect: "16:9"
+  resolution: [1920, 1080]
+  fps: 30
+
+palette:
+  paper: "#F3F1EC"
+  ink: "#121212"
+  muted: "#6B6862"
+  red: "#E0262B"
+  red_soft: "#FBE3E2"
+  night: "#0E0E10"
+
+typography:
+  display: "Inter Display, weight 800-900, letter-spacing -0.03em"
+  body: "Inter 500-700"
+  label: "Inter 700, 20-30px, uppercase, letter-spacing .18em, red"
+  keyword_highlight: "white text on red rounded box (radius 10px)"
+
+pacing:
+  hook: "photo/full-bleed claim (0-6s) -> crossed-out old way (6-9s) -> 3-step roadmap"
+  beats_follow_words: true        # every element appears on the spoken word (word timestamps)
+  section_gap_s: 0.45
+  chapter_card_s: 1.9
+  stinger_s: 1.5                  # red full-screen number + name before each list item
+
+motion:
+  entrance: "spring pop: translateY 40px -> 0, scale .92 -> 1, ~0.5s, slight overshoot"
+  exit: "fade up 30px over 0.3s"
+  scene_in: "red panel wipe left->right, 0.35s"
+  ken_burns: "+6% scale across a shot"
+  ambient: "red ribbon on the right edge, light leaks on dark scenes"
+
+captions:
+  position: bottom center, 64px from edge
+  chunk: "≤4 words, break on punctuation"
+  style: "Inter Display 800 46px, black box, keyword red box, per-word pop 40ms stagger"
+
+layouts:
+  science: "big statement + one diagram (stacked bar, gear cards, curve) + one photo card with red glow"
+  list_item: "left: label, title, muscle chips, numbered cues, red-outlined 'common mistake' card; right: white card with animated figure; red dose pill bottom-right"
+  plan: "calendar tiles, stat tiles (one dark), rep boxes with dashed 'reps in reserve', staircase progression"
+  outro: "owner photo right, recap pills left, red CTA pill"
+
+owner_assets:
+  voice: "dr mak (ElevenLabs cloned voice, s0DMVIZPbbCMs31sURvA) — see /CLAUDE.md"
+  photos: "owner's B&W physique photos: hook full-bleed, 'muscle' moment card, outro, thumbnail"
+
+sound:
+  music: "warm minor pad Am-F-C-G at 96 bpm with soft kick, ducked under voice (sidechain)"
+  sfx: [whoosh on chapter/stinger, low hit on title land, soft pop on each cue, swish on scene in]
+  loudness: "-14 LUFS integrated, -1.5 dBTP"
+
+thumbnail: "owner photo right, dark left with light leaks, red pill tag, 2-line title (white + huge red), white promise bar"

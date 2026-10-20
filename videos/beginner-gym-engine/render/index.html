@@ -1,0 +1,522 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Beginner Gym Engine</title>
+<style>
+  :root {
+    --paper: #F3F1EC; --paper2: #E9E6DF; --ink: #121212; --muted: #6B6862;
+    --red: #E0262B; --red-soft: #FBE3E2; --card: #FFFFFF; --night: #0E0E10;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); }
+  body { font-family: "Inter", sans-serif; color: var(--ink); }
+  #stage { position: absolute; inset: 0; overflow: hidden; }
+  .abs { position: absolute; }
+  .disp { font-family: "Inter Display", "Inter", sans-serif; letter-spacing: -0.03em; }
+  .grid { position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(0,0,0,.035) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,0,0,.035) 1px, transparent 1px);
+    background-size: 64px 64px; }
+  .card { background: var(--card); border-radius: 28px;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.05); }
+  .dark { background: #141416; color: #fff; border-radius: 28px;
+    box-shadow: 0 30px 70px -20px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.06) inset; }
+  .pill { display: inline-flex; align-items: center; gap: 12px; border-radius: 999px;
+    padding: 12px 26px; font-weight: 700; }
+  .hl { background: var(--red); color: #fff; border-radius: 10px; padding: 0 12px; }
+  .glow { box-shadow: 0 0 0 3px rgba(224,38,43,.9), 0 0 24px rgba(224,38,43,.55); }
+  .photo { overflow: hidden; border-radius: 26px; }
+  .photo img { position: absolute; width: 100%; height: 100%; object-fit: cover; }
+  .gen img { width: 116%; height: 116%; left: -1%; top: -1%; }  /* crops the generator watermark */
+  .chip { display: inline-block; padding: 10px 20px; border-radius: 999px; background: #fff;
+    border: 2px solid rgba(0,0,0,.08); font-weight: 600; font-size: 26px; margin: 0 10px 10px 0; }
+  .label { font-size: 22px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--red); }
+  .caption { position: absolute; left: 0; right: 0; bottom: 64px; text-align: center; z-index: 50; }
+  .caption span.box { display: inline-block; font-family: "Inter Display", "Inter"; font-weight: 800;
+    font-size: 46px; letter-spacing: -0.02em; padding: 6px 16px; border-radius: 12px; margin: 0 4px;
+    background: #111; color: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,.14), 0 10px 24px -8px rgba(0,0,0,.4); }
+  .caption span.box.r { background: var(--red); }
+  .progress { position: absolute; left: 0; top: 0; height: 6px; background: var(--red); z-index: 60; }
+  .chapterTag { position: absolute; left: 56px; top: 34px; z-index: 60; font-size: 20px; font-weight: 700;
+    letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+  .chapterTag b { color: var(--red); }
+  svg text { font-family: "Inter", sans-serif; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+// ---------- helpers ----------
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, p) => a + (b - a) * p;
+const easeOut = p => 1 - Math.pow(1 - clamp(p), 3);
+const easeInOut = p => { p = clamp(p); return p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; };
+function spring(t, d = 0.55) {            // 0 -> 1 with a small overshoot
+  if (t <= 0) return 0; if (t >= d * 2) return 1;
+  const p = t / d; return 1 - Math.exp(-5 * p) * Math.cos(7 * p);
+}
+let T = 0;                                  // current absolute time (seconds)
+// appear(at): style for an element popping in at absolute time `at`
+function appear(at, opts = {}) {
+  const dy = opts.dy ?? 40, sc = opts.scale ?? 0.92, dur = opts.dur ?? 0.5;
+  const dt = T - at;
+  if (dt < 0) return "opacity:0;";
+  const s = spring(dt, dur), o = clamp(dt / (dur * 0.6));
+  let st = `opacity:${o};transform:translateY(${(1 - s) * dy}px) scale(${lerp(sc, 1, s)});`;
+  if (opts.until !== undefined && T > opts.until) {
+    const q = clamp((T - opts.until) / 0.3);
+    st = `opacity:${1 - q};transform:translateY(${-q * 30}px) scale(${1 - q * 0.04});`;
+  }
+  return st;
+}
+const on = at => T >= at;
+const prog = (a, b) => clamp((T - a) / (b - a));
+const img = (name, gen = true) => gen ? `../assets/img/${name}.jpg` : `../assets/user/${name}.jpg`;
+function photo(x, y, w, h, name, opts = {}) {
+  const gen = opts.gen ?? true;
+  if (gen && TL && TL.images && !TL.images.includes(name)) return opts.fallback ?? "";
+  const kb = 1 + 0.06 * prog(opts.kbFrom ?? 0, opts.kbTo ?? 1);
+  const filt = opts.filter ?? (gen ? "saturate(.9) contrast(1.02)" : "grayscale(1) contrast(1.08)");
+  return `<div class="abs photo ${gen ? "gen" : ""} ${opts.cls ?? ""}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;${opts.style ?? ""}">
+    <img src="${img(name, gen)}" style="transform:scale(${kb});transform-origin:${opts.origin ?? "50% 40%"};filter:${filt};object-position:${opts.pos ?? "50% 50%"}">
+    ${opts.overlay ?? ""}</div>`;
+}
+const BG = `<div class="grid"></div>`;
+function ribbon(side, p) {               // flowing red ribbon decoration (reference style)
+  const x = side === "r" ? 1920 : 0, f = side === "r" ? -1 : 1;
+  const w = 26 + 8 * Math.sin(T * 0.8);
+  const path = `M ${x} ${-40 + 0} C ${x + f * (220 + 40 * Math.sin(T * .6))} 240, ${x + f * (60)} 520, ${x + f * (240 + 30 * Math.cos(T * .7))} 1120`;
+  return `<svg class="abs" style="left:0;top:0;opacity:${p}" width="1920" height="1080">
+    <path d="${path}" stroke="#E0262B" stroke-width="${w}" fill="none" stroke-linecap="round" opacity=".9"/>
+    <path d="${path}" stroke="#FF6B6E" stroke-width="${w * 0.35}" fill="none" stroke-linecap="round" opacity=".5" transform="translate(${f * 18},0)"/></svg>`;
+}
+
+function leaks(k = 1) {                 // drifting red light leaks (reference 2 style)
+  const a = 0.55 + 0.25 * Math.sin(T * 1.7), b = 0.45 + 0.25 * Math.cos(T * 1.3);
+  return `<div class="abs" style="inset:0;pointer-events:none;mix-blend-mode:screen;opacity:${k}">
+    <div class="abs" style="left:${-420 + 60 * Math.sin(T * .5)}px;top:${-200 + 80 * Math.cos(T * .4)}px;width:1000px;height:900px;border-radius:50%;background:radial-gradient(closest-side,rgba(224,38,43,${a}),rgba(224,38,43,0))"></div>
+    <div class="abs" style="right:${-460 + 70 * Math.cos(T * .45)}px;bottom:${-300 + 60 * Math.sin(T * .6)}px;width:1100px;height:900px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,70,40,${b}),rgba(255,70,40,0))"></div></div>`;
+}
+
+// ---------- stick-figure rig (2-bone IK) ----------
+const L = { thigh: 95, shin: 95, torso: 140, upper: 66, fore: 62, neck: 18, head: 24 };
+function ik(a, b, l1, l2, bend) {
+  const dx = b[0] - a[0], dy = b[1] - a[1];
+  let d = Math.hypot(dx, dy); d = Math.min(d, l1 + l2 - 0.01);
+  const ang = Math.atan2(dy, dx);
+  const cos = clamp((l1 * l1 + d * d - l2 * l2) / (2 * l1 * d), -1, 1);
+  const off = Math.acos(cos) * bend;
+  return [a[0] + l1 * Math.cos(ang + off), a[1] + l1 * Math.sin(ang + off)];
+}
+const D2R = Math.PI / 180;
+function mixPose(A, B, p) {
+  const m = (u, v) => Array.isArray(u) ? u.map((x, i) => lerp(x, v[i], p)) : (typeof u === "number" ? lerp(u, v, p) : u);
+  const o = {}; for (const k in A) o[k] = Array.isArray(A[k]) && Array.isArray(A[k][0]) ? A[k].map((q, i) => m(q, B[k][i])) : m(A[k], B[k]);
+  return o;
+}
+// pose: hip, torso(deg, 90 = up), hands[2], feet[2] (ankles), knee/elbow bend signs, face dir
+function drawFigure(P, hi = []) {
+  const hip = P.hip, ta = P.torso * D2R;
+  const sh = [hip[0] + L.torso * Math.cos(ta), hip[1] - L.torso * Math.sin(ta)];
+  const neckEnd = [sh[0] + L.neck * Math.cos(ta), sh[1] - L.neck * Math.sin(ta)];
+  const head = [neckEnd[0] + L.head * Math.cos(ta + (P.headTilt ?? 0) * D2R), neckEnd[1] - L.head * Math.sin(ta + (P.headTilt ?? 0) * D2R)];
+  const ink = "#16161A", red = "#E0262B";
+  const col = part => hi.includes(part) ? red : ink;
+  let s = "";
+  const seg = (a, b, c, w) => `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+  const legs = [], arms = [];
+  P.feet.forEach((f, i) => {
+    const knee = ik(hip, f, L.thigh, L.shin, P.kneeBend[i]);
+    const toe = [f[0] + (P.toeDir?.[i] ?? 1) * 34 * Math.cos((P.toeAng?.[i] ?? 0) * D2R), f[1] - 34 * Math.sin((P.toeAng?.[i] ?? 0) * D2R)];
+    legs.push({ knee, f, toe, far: i === 1 });
+  });
+  P.hands.forEach((h, i) => { arms.push({ el: ik(sh, h, L.upper, L.fore, P.elbowBend[i]), h, far: i === 1 }); });
+  const legCol = { thigh: col("thigh"), ham: col("hamstring") };
+  const drawLeg = (g, alpha) => {
+    const thighC = hi.includes("thigh") || hi.includes("hamstring") ? red : ink;
+    s += `<g opacity="${alpha}">` + seg(hip, g.knee, thighC, 30) + seg(g.knee, g.f, hi.includes("calf") ? red : ink, 24) + seg(g.f, g.toe, ink, 16) + `</g>`;
+  };
+  const drawArm = (g, alpha) => {
+    s += `<g opacity="${alpha}">` + seg(sh, g.el, hi.includes("upperarm") || hi.includes("shoulder") ? red : ink, 22) + seg(g.el, g.h, hi.includes("forearm") ? red : ink, 18) + `</g>`;
+  };
+  legs.filter(l => l.far).forEach(l => drawLeg(l, .45));
+  arms.filter(a => a.far).forEach(a => drawArm(a, .45));
+  // torso as a tapered quad
+  const nx = -Math.sin(ta), ny = -Math.cos(ta);
+  const torsoC = (hi.includes("core") || hi.includes("back") || hi.includes("chest")) ? red : ink;
+  s += `<path d="M ${hip[0] - nx * 20} ${hip[1] - ny * 20} L ${sh[0] - nx * 26} ${sh[1] - ny * 26} L ${sh[0] + nx * 26} ${sh[1] + ny * 26} L ${hip[0] + nx * 20} ${hip[1] + ny * 20} Z" fill="${torsoC}" stroke="${torsoC}" stroke-width="10" stroke-linejoin="round"/>`;
+  if (hi.includes("glute")) s += `<circle cx="${hip[0] - Math.cos(ta - Math.PI / 2) * 0}" cy="${hip[1]}" r="24" fill="${red}"/>`;
+  else s += `<circle cx="${hip[0]}" cy="${hip[1]}" r="20" fill="${ink}"/>`;
+  s += seg(sh, neckEnd, ink, 16);
+  s += `<circle cx="${head[0]}" cy="${head[1]}" r="${L.head}" fill="${ink}"/>`;
+  legs.filter(l => !l.far).forEach(l => drawLeg(l, 1));
+  arms.filter(a => !a.far).forEach(a => drawArm(a, 1));
+  return { svg: s, hands: arms.map(a => a.h), sh, hip, head };
+}
+const dumbbell = (h, ang = 0, s = 1) => `<g transform="translate(${h[0]},${h[1]}) rotate(${ang}) scale(${s})">
+  <rect x="-30" y="-6" width="60" height="12" rx="4" fill="#3A3A40"/>
+  <rect x="-40" y="-20" width="16" height="40" rx="5" fill="#222"/><rect x="24" y="-20" width="16" height="40" rx="5" fill="#222"/></g>`;
+const FLOOR = 540;
+const POSES = {
+  squat: {
+    A: { hip: [300, 330], torso: 90, feet: [[300, 520], [312, 520]], hands: [[338, 258], [346, 262]], kneeBend: [-1, -1], elbowBend: [1, 1] },
+    B: { hip: [236, 420], torso: 64, feet: [[300, 520], [312, 520]], hands: [[352, 352], [360, 356]], kneeBend: [-1, -1], elbowBend: [1, 1] },
+    props: (f) => dumbbell([f.hands[0][0] + 4, f.hands[0][1] - 4], 90, .9), hi: ["thigh", "glute"]
+  },
+  rdl: {
+    A: { hip: [300, 330], torso: 90, feet: [[300, 520], [312, 520]], hands: [[306, 314], [314, 318]], kneeBend: [-1, -1], elbowBend: [-1, -1] },
+    B: { hip: [250, 338], torso: 20, feet: [[300, 520], [312, 520]], hands: [[392, 418], [400, 420]], kneeBend: [-1, -1], elbowBend: [-1, -1] },
+    props: (f) => dumbbell(f.hands[0], 0, .95), hi: ["hamstring", "glute", "back"]
+  },
+  pushup: {
+    A: { hip: [256, 396], torso: 35, feet: [[100, 508], [106, 510]], hands: [[392, 432], [398, 432]], kneeBend: [-1, -1], elbowBend: [-1, -1], toeAng: [-60, -60] },
+    B: { hip: [276, 434], torso: 22, feet: [[100, 508], [106, 510]], hands: [[392, 432], [398, 432]], kneeBend: [-1, -1], elbowBend: [-1, -1], toeAng: [-60, -60] },
+    props: () => `<rect x="360" y="432" width="200" height="22" rx="8" fill="#2A2A2E"/><rect x="380" y="454" width="16" height="66" fill="#2A2A2E"/><rect x="520" y="454" width="16" height="66" fill="#2A2A2E"/>`,
+    hi: ["chest", "upperarm"]
+  },
+  row: {
+    A: { hip: [240, 322], torso: 14, feet: [[296, 520], [190, 520]], hands: [[382, 440], [420, 400]], kneeBend: [-1, -1], elbowBend: [-1, 1] },
+    B: { hip: [240, 322], torso: 14, feet: [[296, 520], [190, 520]], hands: [[312, 340], [420, 400]], kneeBend: [-1, -1], elbowBend: [-1, 1] },
+    props: (f) => `<rect x="380" y="400" width="200" height="22" rx="8" fill="#2A2A2E"/><rect x="400" y="422" width="16" height="98" fill="#2A2A2E"/><rect x="540" y="422" width="16" height="98" fill="#2A2A2E"/>` + dumbbell(f.hands[0], 0, .9),
+    hi: ["back", "upperarm"]
+  },
+  press: {
+    A: { hip: [300, 420], torso: 90, feet: [[392, 520], [400, 520]], hands: [[316, 262], [324, 266]], kneeBend: [-1, -1], elbowBend: [1, 1] },
+    B: { hip: [300, 420], torso: 90, feet: [[392, 520], [400, 520]], hands: [[306, 140], [314, 142]], kneeBend: [-1, -1], elbowBend: [1, 1] },
+    props: (f) => `<rect x="240" y="430" width="140" height="20" rx="6" fill="#2A2A2E"/><rect x="240" y="160" width="22" height="290" rx="8" fill="#2A2A2E"/><rect x="300" y="450" width="14" height="70" fill="#2A2A2E"/>` + dumbbell(f.hands[0], 0, .9),
+    hi: ["shoulder", "upperarm"]
+  },
+  stepup: {
+    A: { hip: [262, 330], torso: 86, feet: [[372, 418], [262, 520]], hands: [[268, 316], [276, 318]], kneeBend: [-1, -1], elbowBend: [-1, -1] },
+    B: { hip: [366, 236], torso: 88, feet: [[372, 418], [338, 410]], hands: [[372, 222], [380, 224]], kneeBend: [-1, -1], elbowBend: [-1, -1] },
+    props: () => `<rect x="320" y="428" width="170" height="92" rx="10" fill="#2A2A2E"/>`,
+    hi: ["thigh", "glute"]
+  },
+  carry: {
+    A: { hip: [300, 330], torso: 90, feet: [[262, 520], [338, 520]], hands: [[304, 316], [312, 318]], kneeBend: [-1, -1], elbowBend: [-1, -1] },
+    B: { hip: [300, 334], torso: 90, feet: [[338, 520], [262, 520]], hands: [[304, 318], [312, 320]], kneeBend: [-1, -1], elbowBend: [-1, -1] },
+    props: (f) => dumbbell([f.hands[0][0], f.hands[0][1] + 6], 0, 1.05), hi: ["forearm", "core", "back"]
+  },
+  deadbug: {
+    A: { hip: [330, 488], torso: 180, feet: [[420, 394], [432, 396]], hands: [[192, 368], [200, 370]], kneeBend: [-1, -1], elbowBend: [1, 1], toeDir: [1, 1], headTilt: 0 },
+    B: { hip: [330, 488], torso: 180, feet: [[420, 394], [510, 474]], hands: [[60, 470], [200, 370]], kneeBend: [-1, -1], elbowBend: [1, 1], toeDir: [1, 1] },
+    props: () => `<rect x="80" y="514" width="480" height="12" rx="6" fill="#E0262B" opacity=".25"/>`, hi: ["core"]
+  },
+};
+function figureSVG(kind, t, w = 640, h = 560, period = 2.6) {
+  const P = POSES[kind];
+  const phase = (t % period) / period;
+  const p = 0.5 - 0.5 * Math.cos(phase * 2 * Math.PI);
+  const pose = mixPose(P.A, P.B, easeInOut(p));
+  const f = drawFigure(pose, P.hi);
+  return `<svg width="${w}" height="${h}" viewBox="0 60 640 500">
+    <line x1="0" y1="${520}" x2="640" y2="${520}" stroke="#16161A" stroke-width="4" opacity=".15"/>
+    ${P.props(f)}${f.svg}</svg>`;
+}
+
+// ---------- scenes ----------
+const S = {};
+const C = sc => sc.cues;
+
+S.hook = sc => {
+  const c = C(sc); let h = "";
+  // part A: user's back photo, full bleed
+  const aEnd = c["wrong exercises"];
+  if (T < aEnd + 0.4) {
+    const fade = 1 - prog(aEnd, aEnd + 0.4);
+    h += `<div class="abs" style="inset:0;background:#0B0B0C;opacity:${fade}">
+      ${photo(560, -230, 1540, 1540, "back", { gen: false, kbFrom: sc.start, kbTo: aEnd, style: "border-radius:0;", origin: "50% 60%" })}
+      <div class="abs" style="inset:0;background:linear-gradient(90deg,#0B0B0C 32%,rgba(11,11,12,.55) 55%,rgba(11,11,12,.1))"></div>${leaks(.7)}
+      <div class="abs disp" style="left:120px;top:300px;color:#fff;font-weight:700;font-size:72px;${appear(sc.start + 0.1)}">Your body has an</div>
+      <div class="abs disp" style="left:112px;top:380px;color:var(--red);font-weight:900;font-size:230px;line-height:1;${appear(c["engine"], { dy: 80, scale: .8 })};text-shadow:0 0 60px rgba(224,38,43,.45)">ENGINE.</div>
+      <div class="abs" style="left:124px;top:650px;color:#cfcfcf;font-size:34px;font-weight:500;${appear(c["first day"])}">Most beginners start it <span class="hl">the wrong way</span>.</div>
+    </div>`;
+  }
+  if (T >= aEnd) {
+    h += `<div class="abs" style="inset:0;background:var(--night)"></div>` + leaks(1);
+    const items = [["Wrong exercises", c["wrong exercises"]], ["Too much weight", c["too much"]], ["No plan", c["no plan"]]];
+    const out = c["in the next"];
+    h += `<div class="abs label" style="left:0;right:0;top:220px;text-align:center;color:#bbb;${appear(aEnd, { until: out })}">The old way</div>`;
+    h += items.map((it, i) => `<div class="abs dark" style="left:${200 + i * 520}px;top:330px;width:460px;height:300px;${appear(it[1], { until: out })}">
+        <div class="abs" style="left:40px;top:40px;width:90px;height:90px;border-radius:50%;background:var(--red);color:#fff;font-size:56px;font-weight:900;display:flex;align-items:center;justify-content:center;transform:scale(${spring(T - it[1] - 0.25, .4)})">✕</div>
+        <div class="abs disp" style="left:40px;top:170px;font-size:52px;font-weight:800;color:#fff"><span style="position:relative;display:inline-block">${it[0]}<span class="abs" style="left:-6px;top:52%;height:7px;border-radius:4px;background:var(--red);width:calc(${100 * easeOut(prog(it[1] + 0.35, it[1] + 0.7))}% + 12px)"></span></span></div></div>`).join("");
+    const steps = [["How the engine starts", c["engine starts"]], ["8 exercises", c["eight exercises"]], ["The weekly plan", c["weekly plan"]]];
+    h += `<div class="abs disp" style="left:0;right:0;top:190px;text-align:center;font-size:64px;font-weight:800;color:#fff;${appear(out)}">In this video</div>`;
+    h += `<div class="abs" style="left:300px;top:520px;height:6px;width:${1320 * prog(out, c["weekly plan"] + 0.5)}px;background:var(--red);border-radius:3px"></div>`;
+    h += steps.map((s, i) => `<div class="abs" style="left:${200 + i * 620}px;top:440px;width:520px;text-align:center;${appear(s[1])}">
+        <div style="margin:0 auto;width:160px;height:160px;border-radius:50%;background:${i === 1 ? "var(--red)" : "#fff"};color:${i === 1 ? "#fff" : "#141416"};display:flex;align-items:center;justify-content:center;font-size:70px;font-weight:900;box-shadow:0 0 40px rgba(224,38,43,.45)" class="disp">${i + 1}</div>
+        <div class="disp" style="margin-top:30px;font-size:44px;font-weight:800;color:#fff">${s[0]}</div></div>`).join("");
+  }
+  return h;
+};
+
+S.chapter = sc => {
+  const p = prog(sc.start, sc.start + 0.5);
+  return `<div class="abs" style="inset:0;background:var(--night)">
+    ${leaks(.8)}${ribbon("r", .9)}
+    <div class="abs label" style="left:160px;top:380px;font-size:30px;${appear(sc.start + 0.1)}">${sc.label}</div>
+    <div class="abs disp" style="left:150px;top:430px;color:#fff;font-size:150px;font-weight:900;${appear(sc.start + 0.2, { dy: 60 })}">${sc.title}</div>
+    <div class="abs" style="left:160px;top:640px;height:8px;width:${560 * easeOut(p)}px;background:var(--red);border-radius:4px"></div></div>`;
+};
+
+S.stinger = sc => {
+  const p = easeOut(prog(sc.start, sc.start + 0.45));
+  return `<div class="abs" style="inset:0;background:var(--red)">
+    <div class="abs disp" style="right:${-80 + 200 * (1 - p)}px;top:40px;color:rgba(255,255,255,.16);font-size:900px;font-weight:900;line-height:1">0${sc.n}</div>
+    <div class="abs label" style="left:150px;top:400px;color:#fff;opacity:.85;font-size:30px;${appear(sc.start + 0.1)}">Exercise 0${sc.n} / 08</div>
+    <div class="abs disp" style="left:140px;top:450px;color:#fff;font-size:130px;font-weight:900;${appear(sc.start + 0.15, { dy: 70 })}">${sc.name}</div></div>`;
+};
+
+S.science = sc => sc.id === "s01_engine" ? engine(sc) : ignition(sc);
+
+function engine(sc) {
+  const c = C(sc); let h = ribbon("r", .9);
+  const bStart = c["sixty"], cStart = c["muscle"];
+  if (T < bStart + 0.3) {
+    h += `<div class="abs" style="left:140px;top:250px;width:860px;${appear(sc.start + 0.1, { until: bStart })}">
+      <div class="label">The engine</div>
+      <div class="disp" style="font-size:120px;font-weight:900;margin-top:16px">Metabolism</div>
+      <div style="font-size:42px;font-weight:500;color:var(--muted);margin-top:24px;line-height:1.3">Every reaction that turns <span class="hl">food</span> into <span class="hl">energy</span>.</div></div>`;
+    h += `<div class="abs" style="${appear(sc.start + 0.4, { until: bStart })}">${photo(1080, 200, 620, 620, "engine", { kbFrom: sc.start, kbTo: bStart, cls: "glow" })}</div>`;
+  } else if (T < cStart + 0.3) {
+    const segs = [["Resting metabolism", 65, "#141416", c["sixty"]], ["Digestion", 10, "#F07F82", c["ten percent"]], ["Movement", 25, "#E0262B", c["the rest is"]]];
+    h += `<div class="abs disp" style="left:140px;top:150px;font-size:70px;font-weight:900;${appear(bStart, { until: cStart })}">Where your daily calories go</div>`;
+    let x = 140;
+    segs.forEach((s, i) => {
+      const w = 1640 * s[1] / 100 * easeOut(prog(s[3], s[3] + 0.7));
+      h += `<div class="abs" style="left:${x}px;top:320px;width:${w}px;height:150px;background:${s[2]};border-radius:${i === 0 ? "22px 0 0 22px" : i === 2 ? "0 22px 22px 0" : "0"};${T > cStart ? `opacity:${1 - prog(cStart, cStart + 0.3)}` : ""}"></div>`;
+      h += `<div class="abs" style="left:${x}px;top:500px;width:${1640 * s[1] / 100}px;${appear(s[3] + 0.2, { until: cStart })}">
+        <div class="disp" style="font-size:${i === 0 ? 76 : 56}px;font-weight:900;color:${s[2] === "#141416" ? "#141416" : "var(--red)"}">${i === 0 ? "60–70%" : i === 1 ? "~10%" : "the rest"}</div>
+        <div style="font-size:30px;font-weight:600;color:var(--muted)">${s[0]}</div></div>`;
+      x += 1640 * s[1] / 100;
+    });
+    h += `<div class="abs" style="${appear(c["sleep"], { until: c["the rest is"] })}">${photo(140, 690, 420, 250, "sleep")}<div class="abs card" style="left:590px;top:760px;padding:22px 32px;font-size:32px;font-weight:700">…even while you <span class="hl">sleep</span></div></div>`;
+  } else {
+    h += photo(140, 140, 640, 820, "side", { gen: false, kbFrom: cStart, kbTo: sc.end, cls: "glow", pos: "40% 50%", style: appear(cStart, { scale: .95 }) });
+    h += `<div class="abs label" style="left:880px;top:160px;${appear(cStart + 0.1)}">At rest, per kg per day</div>`;
+    const bars = [["Muscle", 13, "var(--red)"], ["Fat", 4.5, "#141416"]];
+    bars.forEach((b, i) => {
+      const at = c["kilogram of muscle"] + i * 0.5, w = 620 * b[1] / 13 * easeOut(prog(at, at + 0.9));
+      h += `<div class="abs" style="left:880px;top:${230 + i * 170}px;${appear(at)}"><div style="font-size:34px;font-weight:700">${b[0]}</div>
+        <div style="margin-top:12px;height:70px;width:${w}px;background:${b[2]};border-radius:14px"></div>
+        <div class="abs disp" style="left:${w + 24}px;top:52px;font-size:48px;font-weight:900;white-space:nowrap">≈${(b[1] * easeOut(prog(at, at + 0.9))).toFixed(1).replace(".0", "")} kcal</div></div>`;
+    });
+    h += `<div class="abs pill disp" style="left:880px;top:600px;background:var(--red);color:#fff;font-size:56px;${appear(c["three times"], { scale: .6 })}">3× more</div>`;
+    h += `<div class="abs" style="left:880px;top:720px;font-size:34px;color:var(--muted);font-weight:600;${appear(c["small"])}">Small on its own…</div>`;
+    h += `<div class="abs disp" style="left:880px;top:790px;width:900px;font-size:58px;font-weight:900;line-height:1.1;${appear(c["does all the work"])}">…but muscle does <span class="hl">all the work.</span></div>`;
+  }
+  return h;
+}
+
+function ignition(sc) {
+  const c = C(sc); let h = ribbon("r", .9);
+  const bonus = c["bonus"];
+  if (T < bonus + 0.3) {
+    h += `<div class="abs disp" style="left:140px;top:120px;font-size:84px;font-weight:900;${appear(c["three gears"], { until: bonus })}">Your engine has <span class="hl">3 gears</span></div>`;
+    const gears = [["1", "Stored energy", "ATP & creatine phosphate", "~10 s", c["gear one"], c["gear two"]],
+                   ["2", "Fast sugar burn", "Glycolysis · the burn in a hard set", "up to 2 min", c["gear two"], c["gear three"]],
+                   ["3", "Aerobic engine", "Mitochondria burn fat + sugar with O₂", "hours", c["gear three"], c["all three gears"]]];
+    gears.forEach((g, i) => {
+      const active = T >= g[4] && T < g[5];
+      h += `<div class="abs ${active ? "dark" : "card"}" style="left:${140 + i * 560}px;top:300px;width:520px;height:560px;${appear(g[4], { until: bonus })};${active ? "outline:4px solid var(--red);" : ""}">
+        <div class="abs disp" style="left:40px;top:30px;font-size:150px;font-weight:900;color:${active ? "var(--red)" : "#DDD"}">${g[0]}</div>
+        <div class="abs disp" style="left:40px;top:230px;font-size:52px;font-weight:900">${g[1]}</div>
+        <div class="abs" style="left:40px;top:305px;width:440px;font-size:28px;line-height:1.35;color:${active ? "#bbb" : "var(--muted)"}">${g[2]}</div>
+        <div class="abs pill disp" style="left:40px;top:440px;background:${active ? "var(--red)" : "#141416"};color:#fff;font-size:40px">${g[3]}</div></div>`;
+    });
+    h += `<div class="abs pill" style="left:640px;top:910px;background:#141416;color:#fff;font-size:34px;${appear(c["all three gears"], { until: bonus })}">A good beginner workout trains <span style="color:var(--red)">all three</span></div>`;
+  } else {
+    const mito = c["mitochondria. more"];
+    const after = c["afterburn"];
+    // glucose uptake panel
+    h += `<div class="abs card" style="left:120px;top:150px;width:820px;height:520px;${appear(bonus, { until: after - 0.2 })}">
+      <div class="abs label" style="left:40px;top:36px">Bonus #1</div>
+      <div class="abs disp" style="left:40px;top:76px;font-size:50px;font-weight:900;width:740px">Contracting muscle pulls <span class="hl">sugar</span> out of your blood</div>
+      <svg class="abs" style="left:40px;top:250px" width="740" height="240">
+        <rect x="0" y="80" width="300" height="80" rx="40" fill="#FBE3E2"/><text x="20" y="66" font-size="24" font-weight="700" fill="#6B6862">BLOOD</text>
+        <rect x="430" y="20" width="300" height="200" rx="40" fill="#141416"/><text x="520" y="128" font-size="34" font-weight="800" fill="#fff">MUSCLE</text>
+        ${[0, 1, 2, 3, 4, 5].map(k => { const q = ((T - bonus) * 0.5 + k / 6) % 1; const x = 40 + q * 560; return `<circle cx="${x}" cy="${120 + Math.sin(q * 6 + k) * 18}" r="14" fill="#E0262B" opacity="${q < .85 ? 1 : (1 - q) * 6}"/>`; }).join("")}
+      </svg></div>`;
+    // afterburn panel
+    const pts = []; for (let i = 0; i <= 60; i++) { const x = i / 60; const y = x < .3 ? .15 : x < .45 ? .15 + (x - .3) / .15 * .75 : .9 * Math.exp(-(x - .45) * 4) + .15 * (1 - Math.exp(-(x - .45) * 4)) + .06 * Math.exp(-(x - .45) * 1.2); pts.push(`${x * 740},${220 - y * 200}`); }
+    const shown = Math.floor(61 * easeOut(prog(after, after + 1.6)));
+    h += `<div class="abs card" style="left:980px;top:150px;width:820px;height:520px;${appear(after, { until: mito - 0.2 })}">
+      <div class="abs label" style="left:40px;top:36px">Bonus #2 · Afterburn</div>
+      <div class="abs disp" style="left:40px;top:76px;font-size:50px;font-weight:900;width:740px">Extra oxygen use for <span class="hl">hours</span> after</div>
+      <svg class="abs" style="left:40px;top:240px" width="760" height="250"><polyline points="${pts.slice(0, Math.max(1, shown)).join(" ")}" fill="none" stroke="#E0262B" stroke-width="8" stroke-linecap="round"/>
+        <line x1="0" y1="222" x2="740" y2="222" stroke="#ccc" stroke-width="3"/><text x="230" y="246" font-size="22" fill="#6B6862" font-weight="700">WORKOUT</text><text x="520" y="246" font-size="22" fill="#6B6862" font-weight="700">RECOVERY</text></svg></div>`;
+    // mitochondria
+    h += `<div class="abs" style="${appear(mito)}">${photo(120, 230, 760, 560, "mitochondria", { kbFrom: mito, kbTo: sc.end, cls: "glow" })}</div>`;
+    h += `<div class="abs" style="left:980px;top:260px;width:820px;${appear(mito + 0.2)}"><div class="label">Over a few weeks</div>
+      <div class="disp" style="font-size:84px;font-weight:900;line-height:1.05;margin-top:14px">More <span style="color:var(--red)">mitochondria</span></div>
+      <div style="margin-top:30px">${[...Array(12)].map((_, k) => `<span style="display:inline-block;width:52px;height:30px;border-radius:15px;margin:6px;background:var(--red);opacity:${clamp((T - mito - 0.4 - k * 0.15) * 3)}"></span>`).join("")}</div>
+      <div class="disp" style="font-size:52px;font-weight:800;margin-top:26px;${appear(c["bigger"])}">= a bigger, more <span class="hl">efficient</span> engine</div></div>`;
+  }
+  return h;
+}
+
+S.warmup = sc => {
+  const c = C(sc); let h = ribbon("r", .9);
+  const tp = prog(c["five minutes"], c["ten bodyweight squats"]);
+  const R = 170, circ = 2 * Math.PI * R;
+  const secs = Math.round(300 * (1 - tp)); const mm = Math.floor(secs / 60), ss = String(secs % 60).padStart(2, "0");
+  h += `<div class="abs" style="left:150px;top:150px;${appear(sc.start + 0.1)}"><div class="label">Warm-up · 5 min</div>
+    <div class="disp" style="font-size:96px;font-weight:900;margin-top:10px">Never start <span class="hl">cold</span></div></div>`;
+  h += `<div class="abs card" style="left:150px;top:380px;width:460px;height:460px;${appear(c["five minutes"])}">
+    <svg class="abs" style="left:30px;top:30px" width="400" height="400"><circle cx="200" cy="200" r="${R}" stroke="#EEE" stroke-width="26" fill="none"/>
+    <circle cx="200" cy="200" r="${R}" stroke="#E0262B" stroke-width="26" fill="none" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ * tp}" transform="rotate(-90 200 200)"/></svg>
+    <div class="abs disp" style="left:0;right:0;top:175px;text-align:center;font-size:96px;font-weight:900">${mm}:${ss}</div></div>`;
+  h += `<div class="abs" style="${appear(c["five minutes"] + 0.3)}">${photo(650, 380, 420, 460, "warmup", { kbFrom: sc.start, kbTo: sc.end })}</div>`;
+  const list = [["10 bodyweight squats", c["ten bodyweight squats"]], ["10 arm circles each way", c["ten arm circles"]], ["10 hip hinges", c["ten hip hinges"]], ["1 light set at ~50%", c["practice set"]]];
+  h += list.map((l, i) => `<div class="abs card" style="left:1130px;top:${380 + i * 118}px;width:640px;height:96px;display:flex;align-items:center;gap:22px;padding:0 30px;${appear(l[1], { dy: 0 })};transform:translateX(${(1 - spring(T - l[1])) * 60}px)">
+     <div style="width:52px;height:52px;border-radius:50%;background:var(--red);color:#fff;font-weight:900;font-size:30px;display:flex;align-items:center;justify-content:center">✓</div>
+     <div style="font-size:34px;font-weight:700">${l[0]}</div></div>`).join("");
+  const chips = [["Faster contractions", c["warm muscles"]], ["Freer joints", c["joints"]], ["Easier first set", c["first working set"]]];
+  h += `<div class="abs" style="left:150px;top:880px">${chips.map(ch => `<span class="chip" style="${appear(ch[1])}">${ch[0]}</span>`).join("")}</div>`;
+  return h;
+};
+
+S.exercise = sc => {
+  const c = C(sc); let h = "";
+  h += `<div class="abs" style="left:110px;top:120px;${appear(sc.start)}"><div class="label">Exercise 0${sc.n} / 08</div>
+    <div class="disp" style="font-size:${Math.min(80, Math.floor(800 / (sc.name.length * 0.56)))}px;font-weight:900;margin-top:8px;white-space:nowrap;line-height:1.02">${sc.name}</div></div>`;
+  h += `<div class="abs" style="left:110px;top:260px;width:800px;${appear(sc.start + 0.3)}">${sc.target.split(" · ").map(m => `<span class="chip">${m}</span>`).join("")}</div>`;
+  const top0 = 370;
+  h += sc.steps.map((s, i) => `<div class="abs" style="left:110px;top:${top0 + i * 92}px;display:flex;align-items:center;gap:22px;${appear(sc.stepTimes[i], { dy: 20 })}">
+     <div class="disp" style="width:60px;height:60px;border-radius:16px;background:#141416;color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:900">${i + 1}</div>
+     <div style="font-size:38px;font-weight:700">${s}</div></div>`).join("");
+  const mt = c["the common mistake"];
+  h += `<div class="abs card" style="left:110px;top:${top0 + 300}px;width:780px;height:150px;border:3px solid var(--red);${appear(mt)}">
+     <div class="abs" style="left:28px;top:24px;font-size:24px;font-weight:800;letter-spacing:.14em;color:var(--red)">✕ COMMON MISTAKE</div>
+     <div class="abs disp" style="left:28px;top:58px;font-size:40px;font-weight:900">${sc.mistake}</div>
+     <div class="abs" style="left:28px;top:108px;font-size:26px;font-weight:600;color:var(--muted)">Fix: ${sc.fix}</div></div>`;
+  // figure card
+  h += `<div class="abs card" style="left:960px;top:110px;width:860px;height:760px;overflow:hidden;${appear(sc.start + 0.15, { scale: .96 })}">
+     <div class="grid" style="opacity:.6"></div>
+     <div class="abs" style="left:110px;top:120px">${figureSVG(sc.pose, T - sc.start, 640, 560)}</div>
+     <div class="abs pill" style="right:30px;top:30px;background:var(--red-soft);color:var(--red);font-size:24px"><span style="width:14px;height:14px;border-radius:50%;background:var(--red);display:inline-block"></span>Working muscles</div></div>`;
+  const alt = { row: "rdl", press: "bench", carry: "goblet", stepup: "bench" };
+  const thumb = [sc.img, alt[sc.img]].find(n => n && TL.images.includes(n));
+  if (thumb) h += `<div class="abs" style="${appear(sc.start + 0.6)}">${photo(900, 700, 300, 200, thumb, { kbFrom: sc.start, kbTo: sc.end, style: "border:6px solid #fff;box-shadow:0 20px 40px -10px rgba(0,0,0,.3)" })}</div>`;
+  const dt = c["three"];
+  h += `<div class="abs pill disp" style="left:1460px;top:900px;background:var(--red);color:#fff;font-size:54px;padding:14px 38px;${appear(dt, { scale: .6 })}">${sc.dose}</div>`;
+  return h;
+};
+
+S.finisher = sc => {
+  const c = C(sc); let h = ribbon("r", .9);
+  h += `<div class="abs" style="left:140px;top:140px;${appear(sc.start)}"><div class="label">Finisher</div>
+     <div class="disp" style="font-size:92px;font-weight:900;margin-top:8px"><span class="hl">10 min</span> zone 2 cardio</div></div>`;
+  const zones = ["Z1", "Z2", "Z3", "Z4", "Z5"];
+  h += zones.map((z, i) => `<div class="abs" style="left:${140 + i * 200}px;top:${560 - i * 50}px;width:180px;height:${200 + i * 50}px;border-radius:20px;background:${i === 1 && on(c["zone two"]) ? "var(--red)" : "#E2DFD8"};${appear(c["ten minutes"] + i * 0.08)}">
+     <div class="disp" style="position:absolute;bottom:20px;width:100%;text-align:center;font-size:44px;font-weight:900;color:${i === 1 && on(c["zone two"]) ? "#fff" : "#9a968e"}">${z}</div></div>`).join("");
+  h += `<div class="abs card" style="left:140px;top:840px;padding:22px 34px;font-size:40px;font-weight:800;${appear(c["talk"])}">Talk <span style="color:#1a9a4b">✓</span> &nbsp;&nbsp; Sing <span style="color:var(--red)">${on(c["sing"]) ? "✕" : ""}</span></div>`;
+  h += `<div class="abs" style="${appear(c["ten minutes"] + .3)}">${photo(1180, 260, 620, 560, "cardio", { kbFrom: sc.start, kbTo: sc.end, fallback: `<div class="abs dark" style="left:1180px;top:260px;width:620px;height:560px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px"><div style="font-size:170px;transform:scale(${1 + 0.06 * Math.max(0, Math.sin(T * 7))})">❤️</div><div class="disp" style="font-size:54px;font-weight:900">Easy, steady pace</div><div style="font-size:30px;color:#aaa">Incline walk · easy bike</div></div>` })}</div>`;
+  h += `<div class="abs pill" style="left:1180px;top:850px;background:#141416;color:#fff;font-size:32px;${appear(c["gear three"])}">Gear 3 → builds <span style="color:var(--red)">mitochondria</span></div>`;
+  return h;
+};
+
+S.plan = sc => {
+  const c = C(sc); let h = ribbon("r", .9);
+  const b2 = c["two to three sets"], b3 = c["how heavy"], b4 = c["first two weeks"];
+  if (T < b2 + 0.3) {
+    h += `<div class="abs disp" style="left:140px;top:150px;font-size:84px;font-weight:900;${appear(sc.start, { until: b2 })}">Full body · <span class="hl">3 days a week</span></div>`;
+    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], hits = { 0: c["monday"], 2: c["wednesday"], 4: c["friday"] };
+    h += days.map((d, i) => { const hit = hits[i] !== undefined && on(hits[i]); return `<div class="abs ${hit ? "dark" : "card"}" style="left:${140 + i * 236}px;top:380px;width:210px;height:300px;${appear(c["three days"] + i * 0.06, { until: b2 })};${hit ? "background:var(--red);" : ""}">
+       <div class="abs disp" style="left:0;right:0;top:40px;text-align:center;font-size:46px;font-weight:900;color:${hit ? "#fff" : "#141416"}">${d}</div>
+       <div class="abs" style="left:0;right:0;top:150px;text-align:center;font-size:70px">${hit ? "🏋️" : "·"}</div></div>`; }).join("");
+  } else if (T < b3 + 0.3) {
+    const stats = [["2–3", "sets", b2], ["8–12", "reps", c["eight to twelve"]], ["60–90", "seconds rest", c["sixty to ninety"]]];
+    h += stats.map((s, i) => `<div class="abs ${i === 1 ? "dark" : "card"}" style="left:${140 + i * 560}px;top:250px;width:520px;height:420px;${appear(s[2], { until: b3 })}">
+       <div class="abs disp" style="left:44px;top:70px;font-size:130px;font-weight:900;color:${i === 1 ? "var(--red)" : "#141416"}">${s[0]}</div>
+       <div class="abs" style="left:50px;top:270px;font-size:44px;font-weight:700;color:${i === 1 ? "#bbb" : "var(--muted)"}">${s[1]}</div></div>`).join("");
+    h += `<div class="abs pill disp" style="left:760px;top:740px;background:var(--red);color:#fff;font-size:46px;${appear(c["fifty minutes"], { until: b3 })}">≈ 50 min per session</div>`;
+  } else if (T < b4 + 0.3) {
+    h += `<div class="abs disp" style="left:140px;top:150px;font-size:84px;font-weight:900;${appear(b3, { until: b4 })}">How heavy?</div>`;
+    h += `<div class="abs" style="left:140px;top:330px;font-size:40px;font-weight:600;color:var(--muted);${appear(b3 + .3, { until: b4 })}">Stop with <span class="hl">2–3 reps in the tank</span></div>`;
+    const reps = 12, done = 9;
+    h += [...Array(reps)].map((_, i) => { const at = b3 + 0.5 + i * 0.18; const isLeft = i >= done; return `<div class="abs" style="left:${140 + i * 136}px;top:450px;width:116px;height:220px;border-radius:20px;${isLeft ? "border:5px dashed var(--red);" : "background:#141416;"}${appear(at)}">
+      <div class="disp" style="position:absolute;bottom:16px;width:100%;text-align:center;font-size:40px;font-weight:900;color:${isLeft ? "var(--red)" : "#fff"}">${i + 1}</div></div>`; }).join("");
+    h += `<div class="abs card" style="left:140px;top:740px;padding:24px 36px;font-size:38px;font-weight:700;${appear(c["same on the last"], { until: b4 })}">Last rep looks like the <span class="hl">first rep</span></div>`;
+  } else {
+    h += `<div class="abs disp" style="left:140px;top:120px;font-size:84px;font-weight:900;${appear(b4)}">Double progression</div>`;
+    const steps = [1, 1, 2, 2, 3, 3, 4, 4];
+    h += `<svg class="abs" style="left:140px;top:300px" width="1100" height="600">
+      <rect x="0" y="0" width="260" height="560" fill="#FBE3E2" rx="18" opacity="${clamp((T - b4) * 3)}"/>
+      <text x="24" y="50" font-size="30" font-weight="800" fill="#E0262B" opacity="${clamp((T - b4) * 3)}">LEARN</text>
+      ${steps.map((s, i) => { const at = c["double progression"] + i * 0.35; const hgt = 70 + s * 100; return `<rect x="${20 + i * 132}" y="${540 - hgt * easeOut(prog(at, at + .5))}" width="110" height="${hgt * easeOut(prog(at, at + .5))}" rx="14" fill="${i < 2 ? "#141416" : "#E0262B"}"/><text x="${42 + i * 132}" y="590" font-size="26" font-weight="700" fill="#6B6862">W${i + 1}</text>`; }).join("")}
+    </svg>`;
+    h += `<div class="abs card" style="left:1300px;top:300px;width:500px;padding:36px;${appear(c["double progression"] + .3)}">
+      <div class="label">The rule</div><div style="font-size:36px;font-weight:700;margin-top:16px;line-height:1.35">Hit <b>12 reps</b> on every set →<br><span class="hl">add a little weight</span></div></div>`;
+    h += `<div class="abs disp" style="left:1300px;top:700px;width:520px;font-size:46px;font-weight:900;line-height:1.1;${appear(c["steady increase"])}">The signal that keeps your engine <span style="color:var(--red)">growing</span>.</div>`;
+  }
+  return h;
+};
+
+S.recovery = sc => {
+  const c = C(sc); let h = ribbon("r", .9);
+  h += `<div class="abs disp" style="left:140px;top:110px;font-size:80px;font-weight:900;${appear(sc.start)}">Fuel & maintenance</div>`;
+  const items = [["protein", "1.6 g/kg", "protein per day", c["protein"], "🍳"], ["sleep", "7–9 h", "sleep — muscle is built here", c["sleep"], "🌙"], ["steps", "7–8k", "steps a day", c["steps"], "👟"]];
+  h += items.map((it, i) => `<div class="abs card" style="left:${140 + i * 560}px;top:250px;width:520px;height:600px;overflow:hidden;${appear(it[3])}">
+     ${photo(0, 0, 520, 340, it[0], { kbFrom: it[3], kbTo: sc.end, style: "border-radius:28px 28px 0 0", fallback: `<div class="abs" style="left:0;top:0;width:520px;height:340px;border-radius:28px 28px 0 0;background:${i === 1 ? "#141416" : "var(--red-soft)"};display:flex;align-items:center;justify-content:center;font-size:150px">${it[4]}</div>` })}
+     <div class="abs disp" style="left:36px;top:380px;font-size:90px;font-weight:900;color:var(--red)">${it[1]}</div>
+     <div class="abs" style="left:40px;top:500px;width:450px;font-size:34px;font-weight:700;line-height:1.3">${it[2]}</div></div>`).join("");
+  h += `<div class="abs pill" style="left:540px;top:872px;background:#141416;color:#fff;font-size:30px;${appear(c["everyday movement"])}">Everyday movement often burns more than the workout</div>`;
+  return h;
+};
+
+S.mistakes = sc => {
+  const c = C(sc); let h = ribbon("r", .9);
+  h += `<div class="abs disp" style="left:140px;top:120px;font-size:84px;font-weight:900;${appear(sc.start)}">3 beginner mistakes</div>`;
+  const m = [["Too heavy, too soon", c["one:"]], ["Skipping the warm-up", c["two:"]], ["New program every week", c["three:"]]];
+  h += m.map((x, i) => `<div class="abs dark" style="left:${140 + i * 560}px;top:300px;width:520px;height:440px;${appear(x[1], { scale: .85 })}">
+     <div class="abs disp" style="left:40px;top:30px;font-size:160px;font-weight:900;color:var(--red)">${i + 1}</div>
+     <div class="abs" style="right:40px;top:50px;width:90px;height:90px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:56px;font-weight:900">✕</div>
+     <div class="abs disp" style="left:40px;top:260px;width:440px;font-size:54px;font-weight:900;line-height:1.08">${x[0]}</div></div>`).join("");
+  h += `<div class="abs card" style="left:440px;top:800px;padding:26px 44px;font-size:40px;font-weight:800;${appear(c["results"])}"><span style="color:#1a9a4b">✓</span> Repeat the basics + add a little more</div>`;
+  return h;
+};
+
+S.outro = sc => {
+  const c = C(sc); let h = "";
+  h += `<div class="abs" style="right:0;top:0;width:820px;height:1080px;${appear(sc.start, { dy: 0, scale: 1.02 })}">${photo(0, 0, 820, 1080, "front", { gen: false, kbFrom: sc.start, kbTo: sc.end, pos: "30% 62%", style: "border-radius:0", origin: "30% 60%" })}
+     <div class="abs" style="inset:0;background:linear-gradient(90deg,var(--paper) 0%,rgba(243,241,236,0) 30%)"></div></div>`;
+  h += `<div class="abs label" style="left:140px;top:130px;${appear(c["ignition sequence"])}">Your ignition sequence</div>`;
+  const seq = [["Warm up", c["warm up"]], ["8 exercises", c["eight exercises"]], ["Cardio", c["cardio"]], ["3× a week", c["three days"]]];
+  h += seq.map((s, i) => `<div class="abs pill disp" style="left:140px;top:${200 + i * 108}px;background:${i === 3 ? "var(--red)" : "#141416"};color:#fff;font-size:44px;${appear(s[1], { dy: 0 })};transform:translateX(${(1 - spring(T - s[1])) * -80}px)">${i + 1} · ${s[0]}</div>`).join("");
+  h += `<div class="abs disp" style="left:140px;top:640px;width:900px;font-size:66px;font-weight:900;line-height:1.05;${appear(c["start light"])}">Start light. Stay <span class="hl">consistent.</span></div>`;
+  h += `<div class="abs" style="left:140px;top:752px;width:860px;font-size:26px;color:var(--muted);${appear(c["medical"])}">Medical condition or injury? Check with your doctor first.</div>`;
+  h += `<div class="abs pill" style="left:140px;top:810px;background:var(--red);color:#fff;font-size:36px;${appear(c["save this"], { scale: .6 })}">🔖 Save this for your next gym day</div>`;
+  return h;
+};
+
+S.endcard = sc => `<div class="abs" style="inset:0;background:var(--night)">${leaks(1)}${ribbon("r", 1)}${ribbon("l", .6)}
+   <div class="abs disp" style="left:0;right:0;top:380px;text-align:center;color:#fff;font-size:140px;font-weight:900;${appear(sc.start + .1, { dy: 60 })}">Start your <span style="color:var(--red)">engine.</span></div>
+   <div class="abs" style="left:0;right:0;top:600px;text-align:center;color:#aaa;font-size:36px;font-weight:600;${appear(sc.start + .6)}">See you in the next one.</div>
+   <div class="abs" style="inset:0;background:#000;opacity:${prog(sc.end - 0.8, sc.end)}"></div></div>`;
+
+// ---------- frame ----------
+let TL = null;
+const CHAPTER_OF = id => id <= "s02" ? "The Engine" : id <= "s12" ? "The Workout" : "The Plan";
+window.setTimeline = tl => { TL = tl; };
+window.renderAt = t => {
+  T = t;
+  const sc = TL.scenes.find(s => t >= s.start && t < s.end) || TL.scenes[TL.scenes.length - 1];
+  const darkScene = ["chapter", "stinger", "endcard", "hook"].includes(sc.kind);
+  let h = darkScene ? "" : BG;
+  h += (S[sc.kind] || (() => ""))(sc);
+  // scene-in wipe
+  const since = t - sc.start;
+  if (since < 0.35 && sc.kind !== "hook") h += `<div class="abs" style="inset:0;background:var(--red);transform:translateX(${easeInOut(since / 0.35) * 100}%);z-index:70"></div>`;
+  if (!["chapter", "stinger", "endcard"].includes(sc.kind)) {
+    const cap = TL.captions.find(c => t >= c.s && t < c.e);
+    if (cap) h += `<div class="caption">${cap.words.map((w, i) => `<span class="box ${i === cap.hl ? "r" : ""}" style="${appear(cap.s + i * 0.04, { dy: 14, scale: .9, dur: .3 })}">${w.replace(/[,.:;]$/, "")}</span>`).join("")}</div>`;
+    h += `<div class="progress" style="width:${1920 * t / TL.duration}px"></div>`;
+    if (!darkScene) h += `<div class="chapterTag"><b>●</b> ${CHAPTER_OF(sc.id)}</div>`;
+  }
+  document.getElementById("stage").innerHTML = h;
+};
+</script>
+</body>
+</html>
