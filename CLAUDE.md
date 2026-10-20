@@ -13,5 +13,5 @@
 See `workflows/pocket-creative-director/` for the edit workflow, prompts and style DNA template.
 Saved style signatures live in `styles/` (e.g. `styles/red-ink-explainer.yaml`); reuse them by name.
 `videos/beginner-gym-engine/` is a full worked example (script, timeline, HTML renderer, audio mix).
-Keynote-style launch films: use the `porcelain-keynote-film` skill in `.claude/skills/`.
+Keynote-style launch films: use the `og-content-generator` skill in `.claude/skills/` (storyboard first, always).
 Never commit the owner's photos or rendered media to this repo.

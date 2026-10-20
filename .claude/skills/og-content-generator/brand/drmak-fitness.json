@@ -1,0 +1,28 @@
+{
+  "name": "Dr Mak Fitness",
+  "handles": { "youtube": "@drmakfitness", "instagram": "@drmak_fitness" },
+  "urls": {
+    "youtube": "https://www.youtube.com/@drmakfitness",
+    "instagram": "https://www.instagram.com/drmak_fitness"
+  },
+  "voice": {
+    "provider": "ElevenLabs",
+    "name": "dr mak",
+    "voice_id": "s0DMVIZPbbCMs31sURvA",
+    "model": "eleven_multilingual_v2",
+    "notes": "Cloned from a Hindi speaker with a Haryanvi accent; script in English, Hindi or Hinglish as asked. Never substitute another voice; ask if it is missing. Speaks fast (~186 wpm): plan ~150 words per minute of video."
+  },
+  "colors": { "accent": "#E0262B", "ink": "#121212", "night": "#0E0E10", "paper": "#F3F1EC", "porcelain": "#F4F0E8" },
+  "type": "Inter / Inter Display",
+  "photos": "Owner supplies black-and-white physique photos (back, side mirror, front mirror). Keep them grayscale, never commit them to git.",
+  "styles": {
+    "explainer": "styles/red-ink-explainer.yaml (16:9 voiced explainer, light canvas, red keyword boxes)",
+    "shorts": "videos/beginner-gym-engine/render/verticals.js (native 9:16, photo + slam hook, beat scenes)",
+    "keynote": "og-content-generator engine (porcelain keynote film, music only)"
+  },
+  "content_rules": [
+    "Science-backed, honest claims; no medical promises; add a doctor disclaimer on training advice.",
+    "Hook in the first second; one idea per 2-3 s on shorts.",
+    "End with a follow/subscribe card using the right handle per platform."
+  ]
+}

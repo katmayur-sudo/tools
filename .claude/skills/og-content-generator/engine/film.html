@@ -211,6 +211,8 @@ window.setFilm = sb => {
   sb.duration = b * BEAT;
   return sb.duration;
 };
+window.SBINFO = () => SB.scenes.map(s => ({ type: s.type, beats: s.beats, start: s.start, end: s.end,
+  copy: [].concat(s.text ?? s.title ?? s.payoff ?? (s.type === "slot" ? (SB.slotLead ?? "New") + " " + SB.chapters[s.index] : s.type === "closer" ? `${s.pre} ${s.word} ${s.post ?? ""}` : s.line ? `${s.line} ${s.phrases.join(" / ")}` : "")).join(" / ") }));
 window.renderAt = t => {
   T = t;
   const sc = SB.scenes.find(s => t >= s.start && t < s.end) || SB.scenes[SB.scenes.length - 1];

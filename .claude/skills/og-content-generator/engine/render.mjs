@@ -1,6 +1,6 @@
 // Render a porcelain keynote film from a storyboard.
 //
-// Usage: node render.mjs <film_dir> <storyboard.json> <music.wav> <out.mp4> [--res 1080|1440|2160] [--stills t1,t2,...]
+// Usage: node render.mjs <film_dir> <storyboard.json> <music.wav|none> <out> [--res 1080|1440|2160] [--stills t1,t2,...] [--board <dir>]
 // <film_dir> holds film.html plus the assets the storyboard references (relative paths).
 // Rendering is split across 4 Chromium pages; frames are piped into FFmpeg and joined with the music.
 import { spawn, spawnSync } from "node:child_process";
@@ -29,6 +29,34 @@ async function frame(p, t) {
   await p.evaluate(x => window.renderAt(x), t);
   await p.evaluate(() => Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; }))));
   return p.screenshot({ type: "jpeg", quality: 93 });
+}
+
+// --board <dir>: the storyboard board. One still per scene (60% into it) laid out with its time,
+// type and copy, saved as board.png + storyboard.md for approval before the full render.
+const boardDir = opt("--board");
+if (boardDir) {
+  const { p } = await page();
+  fs.mkdirSync(boardDir, { recursive: true });
+  const scenes = await p.evaluate(() => window.SBINFO());
+  const cells = [], md = ["| # | Time | Beats | Type | Copy |", "|---|---|---|---|---|"];
+  for (const [i, s] of scenes.entries()) {
+    const name = `scene_${String(i).padStart(2, "0")}.jpg`;
+    fs.writeFileSync(path.join(boardDir, name), await frame(p, s.start + (s.end - s.start) * 0.6));
+    const copy = String(s.copy ?? "").replace(/\*/g, "").replace(/\|/g, "/");
+    cells.push(`<div class="c"><img src="${name}"><div class="m"><b>${i}</b> ${s.start.toFixed(1)}s · ${s.type} · ${s.beats} beats</div><div class="t">${copy}</div></div>`);
+    md.push(`| ${i} | ${s.start.toFixed(1)}s | ${s.beats} | ${s.type} | ${copy} |`);
+  }
+  fs.writeFileSync(path.join(boardDir, "storyboard.md"), `# ${sb.name}: storyboard\n\n${md.join("\n")}\n`);
+  fs.writeFileSync(path.join(boardDir, "board.html"), `<!doctype html><meta charset="utf-8"><style>body{margin:0;padding:40px;background:#111;font-family:Inter,sans-serif;color:#eee;width:2000px}
+    h1{font-weight:600}.g{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}.c img{width:100%;border-radius:10px;display:block}.m{margin-top:8px;font-size:18px;color:#aaa}.m b{color:#fff}.t{font-size:20px;margin-top:4px}</style>
+    <h1>${sb.name} · storyboard · ${scenes.length} scenes · ${scenes.at(-1).end.toFixed(1)} s · ${sb.bpm} BPM</h1><div class="g">${cells.join("")}</div>`);
+  const bp = await browser.newPage({ viewport: { width: 2080, height: 1000 } });
+  await bp.goto("file://" + path.resolve(boardDir, "board.html"));
+  await bp.evaluate(() => Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; }))));
+  await bp.screenshot({ path: path.join(boardDir, "board.png"), fullPage: true });
+  await browser.close();
+  console.log(`board: ${scenes.length} scenes -> ${path.join(boardDir, "board.png")}`);
+  process.exit(0);
 }
 
 const stills = opt("--stills");
