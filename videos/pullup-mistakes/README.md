@@ -10,11 +10,17 @@ the original "dr mak" voice-over, re-cut from 45.7 s down to 36.2 s, and renders
 
 **A 3D athlete does the reps, and the owner's photos appear only in the intro and outro.**
 
-- **3D athlete** (three.js r158, procedural, no model files): clay-style in `porcelain`, glossy black with
-  red rim lights in `redblack`.
+- **3D athlete** (three.js r158, procedural, no model files): a muscular, anatomy-style human built from
+  about 70 muscle-fibre bundles with fibre texture and relief. Each bundle is a tube along a Bezier from
+  origin to insertion. The muscles: traps, deltoids, infraspinatus/teres, lats (a five-bundle fan),
+  erector spinae, obliques, abs, pecs, triceps, biceps, forearms, hamstrings, quads and calves.
+  - `porcelain`: ivory sculpture.
+  - `redblack`: dark muscle with red rim lights.
 - **Pull-up rig:** a 2-bone inverse kinematics (IK) solver puts the arms on the bar. The athlete can shrug,
   lean, swing its legs and drop.
-- **Muscles:** lats, traps, arms and core are separate meshes that glow green (fix) or red (mistake).
+- **Muscles working:** each muscle group has an activation level. Active muscles contract (thicken),
+  glow, and send light along their fibres. Synergists follow: rear delts and the rotator cuff work with
+  the lats. Wrong muscles (traps, biceps) burn red; the right ones (lats, core) glow orange.
 - **Shadow:** the athlete's shadow falls on a shadow-catcher wall.
 - **Camera:** it orbits and pushes in on each scene.
 - **Motion graphics:** arrows, callout pins, rings and range lines are pinned to projected 3D joints, so

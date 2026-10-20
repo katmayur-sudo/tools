@@ -74,65 +74,139 @@ const SCENES = [
 ];
 const sceneAt = t => { let k = 0; SCENES.forEach((s, i) => { if (t >= TL.cues[s.id] - .001) k = i; }); return k; };
 
-// ================= 3D athlete =================
+// ================= 3D athlete: a muscular human built from muscle bundles =================
 // World units are metres. The athlete faces +z (the wall); the camera sits behind, so we see the back.
+// Every muscle is a set of fibre bundles (tubes along a Bezier between origin and insertion, with a
+// spindle profile and a fibre texture). Active muscles contract (thicken) and glow, with light
+// flowing along the fibres. Everything lives in the torso group's space; arm and leg joints are
+// solved in world space and brought into that space each frame.
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z), UP = V3(0, 1, 0);
-const BAR_Y = 2.3, GRIP = .43, SHW = .2, UA = .31, FA = .3, THIGH = .43, SHIN = .42;
-let R3 = null;   // {renderer, scene, cam, parts, mats}
+const BAR_Y = 2.3, GRIP = .43, SHW = .2, UA = .31, FA = .29, THIGH = .44, SHIN = .42;
+const GROUPS = ["traps", "lats", "back", "delts", "arms", "core", "legs", "chest"];
+let R3 = null;
+function fiberTexture(seed) {
+  const c = document.createElement("canvas"); c.width = 256; c.height = 128; const x = c.getContext("2d");
+  let r = seed; const rnd = () => (r = (r * 16807) % 2147483647) / 2147483647;
+  x.fillStyle = "#9a9a9a"; x.fillRect(0, 0, 256, 128);
+  for (let i = 0; i < 70; i++) { const y = rnd() * 128, w = .6 + rnd() * 1.8, v = 90 + rnd() * 165 | 0;
+    x.strokeStyle = `rgb(${v},${v},${v})`; x.lineWidth = w; x.beginPath(); x.moveTo(0, y); x.lineTo(256, y + (rnd() - .5) * 6); x.stroke(); }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(1, 2); return t;
+}
+const PROF = s => .14 + .86 * Math.pow(Math.sin(Math.PI * s), .7);
+const PROF_E = s => .14 + .86 * Math.pow(Math.sin(Math.PI * Math.pow(s, .6)), .8);   // belly near the start
+function makeBundle(mat, r, flat, prof = PROF) {
+  const L = 16, Rn = 12, n = (L + 1) * (Rn + 1), g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(n * 3), 3));
+  const uv = new Float32Array(n * 2), idx = [];
+  for (let i = 0; i <= L; i++) for (let j = 0; j <= Rn; j++) { const k = i * (Rn + 1) + j; uv[2 * k] = i / L; uv[2 * k + 1] = j / Rn;
+    if (i < L && j < Rn) idx.push(k, k + Rn + 1, k + 1, k + 1, k + Rn + 1, k + Rn + 2); }
+  g.setAttribute("uv", new THREE.BufferAttribute(uv, 2)); g.setIndex(idx);
+  const m = new THREE.Mesh(g, mat); m.castShadow = true; m.frustumCulled = false;
+  return { m, r, flat, prof, L, Rn };
+}
+const _t = V3(), _n = V3(), _b = V3(), _p = V3();
+function setBundle(B, a, c, b, out, act = 0) {
+  const pos = B.m.geometry.attributes.position.array, grow = 1 + .3 * act;
+  for (let i = 0; i <= B.L; i++) {
+    const s = i / B.L, u = 1 - s;
+    _p.set(u * u * a.x + 2 * u * s * c.x + s * s * b.x, u * u * a.y + 2 * u * s * c.y + s * s * b.y, u * u * a.z + 2 * u * s * c.z + s * s * b.z);
+    _t.set(2 * u * (c.x - a.x) + 2 * s * (b.x - c.x), 2 * u * (c.y - a.y) + 2 * s * (b.y - c.y), 2 * u * (c.z - a.z) + 2 * s * (b.z - c.z)).normalize();
+    _n.copy(out).addScaledVector(_t, -out.dot(_t)).normalize(); _b.crossVectors(_t, _n);
+    const rad = B.r * B.prof(s) * grow, rx = rad, ry = rad * B.flat * (1 + .25 * act);
+    for (let j = 0; j <= B.Rn; j++) { const th = 2 * Math.PI * j / B.Rn, k = 3 * (i * (B.Rn + 1) + j), cs = Math.cos(th), sn = Math.sin(th);
+      pos[k] = _p.x + _b.x * cs * rx + _n.x * sn * ry; pos[k + 1] = _p.y + _b.y * cs * rx + _n.y * sn * ry; pos[k + 2] = _p.z + _b.z * cs * rx + _n.z * sn * ry; }
+  }
+  B.m.geometry.attributes.position.needsUpdate = true; B.m.geometry.computeVertexNormals();
+}
+// perpendicular part of `hint` relative to segment a->b (used for front/back/side of a limb)
+const perp = (a, b, hint) => { const t = b.clone().sub(a).normalize(); return hint.clone().addScaledVector(t, -hint.dot(t)).normalize(); };
 function build3D() {
   const R = G.name === "redblack";
   const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("gl"), alpha: true, antialias: true, preserveDrawingBuffer: true });
   renderer.setPixelRatio(1); renderer.setSize(1080, 1920, false);
-  renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = R ? 1.1 : 1.0;
+  renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = R ? 1.15 : 1.0;
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; renderer.setClearColor(0x000000, 0);
   const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(28, 1080 / 1920, .1, 60);
-  const skin = R ? new THREE.MeshPhysicalMaterial({ color: 0x2c2829, roughness: .34, metalness: .05, clearcoat: .7, clearcoatRoughness: .25 })
-    : new THREE.MeshStandardMaterial({ color: 0xEFEAE2, roughness: .62 });
-  const dark = new THREE.MeshStandardMaterial({ color: R ? 0x0a0a0b : 0x2a2a2c, roughness: .8 });
+  const base = R ? 0x5a4446 : 0xE6DCCF, fillC = R ? 0x3a2c2e : 0xD3C7B8;
+  const mk = (color, extra = {}) => R ? new THREE.MeshPhysicalMaterial({ color, roughness: .42, clearcoat: .45, clearcoatRoughness: .35, ...extra })
+    : new THREE.MeshStandardMaterial({ color, roughness: .58, ...extra });
+  const mats = {};
+  GROUPS.forEach((g, i) => { const tex = fiberTexture(1234 + i * 77), em = fiberTexture(999 + i * 31);
+    mats[g] = mk(base, { map: tex, bumpMap: tex, bumpScale: 2.2, emissive: new THREE.Color(0), emissiveMap: em, emissiveIntensity: 0 }); });
+  const fill = mk(fillC), dark = new THREE.MeshStandardMaterial({ color: R ? 0x0b0b0c : 0x232325, roughness: .85 });
+  const hairM = new THREE.MeshStandardMaterial({ color: R ? 0x070707 : 0x1d1b1a, roughness: .9 });
   const metal = new THREE.MeshStandardMaterial({ color: R ? 0xbdbdbd : 0xcfcfcf, metalness: .9, roughness: .22 });
-  const frame = new THREE.MeshStandardMaterial({ color: R ? 0x151012 : 0xd9d2c5, roughness: .6, metalness: .2 });
-  const muscle = () => { const m = skin.clone(); m.emissive = new THREE.Color(0); return m; };
-  const mats = { skin, dark, metal, lats: muscle(), traps: muscle(), arms: muscle(), core: muscle() };
-  const sph = (mat, seg = 40) => { const m = new THREE.Mesh(new THREE.SphereGeometry(1, seg, seg / 2 + 8), mat); m.castShadow = true; return m; };
-  const cyl = (r0, r1, mat) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(r1, r0, 1, 32, 1, true), mat); m.castShadow = true; return m; };
+  const frameM = new THREE.MeshStandardMaterial({ color: R ? 0x151012 : 0xd9d2c5, roughness: .6, metalness: .2 });
   // lights
   if (R) {
-    scene.add(new THREE.HemisphereLight(0x401015, 0x050505, .7));
-    const key = new THREE.DirectionalLight(0xffe8e8, 1.7); key.position.set(-2.5, 4, -5);
-    const fill = new THREE.DirectionalLight(0x9fb0ff, .45); fill.position.set(3, 1.5, -4); scene.add(fill); key.castShadow = true; scene.add(key, key.target);
-    for (const [x, c, i] of [[-2.2, 0xff1a2a, 95], [2.2, 0xff1a2a, 95], [0, 0xff4040, 40]]) { const l = new THREE.SpotLight(c, i, 12, .7, .6, 1.6); l.position.set(x, 3.3, 1.8); l.target.position.set(0, 1.7, 0); scene.add(l, l.target); }
+    scene.add(new THREE.HemisphereLight(0x5a1a20, 0x050505, .9));
+    const key = new THREE.DirectionalLight(0xffe2dc, 2.0); key.position.set(-2.5, 4, -5); key.castShadow = true; scene.add(key, key.target);
+    const fillL = new THREE.DirectionalLight(0x9fb0ff, .5); fillL.position.set(3, 1.5, -4); scene.add(fillL);
+    for (const [x, i] of [[-2.2, 110], [2.2, 110], [0, 45]]) { const l = new THREE.SpotLight(0xff1a2a, i, 12, .7, .6, 1.6); l.position.set(x, 3.3, 1.8); l.target.position.set(0, 1.7, 0); scene.add(l, l.target); }
     shadowSetup(key);
   } else {
-    scene.add(new THREE.HemisphereLight(0xffffff, 0xd8cdbd, 1.1));
-    const key = new THREE.DirectionalLight(0xfff6ea, 2.4); key.position.set(-3, 5, -5); key.castShadow = true; scene.add(key, key.target);
-    const rim = new THREE.DirectionalLight(0xffffff, 1.4); rim.position.set(3, 3, 3); scene.add(rim);
+    scene.add(new THREE.HemisphereLight(0xffffff, 0xd8cdbd, 1.0));
+    const key = new THREE.DirectionalLight(0xfff3e6, 2.6); key.position.set(-3, 5, -5); key.castShadow = true; scene.add(key, key.target);
+    const rim = new THREE.DirectionalLight(0xffffff, 1.5); rim.position.set(3, 3, 3); scene.add(rim);
+    const side = new THREE.DirectionalLight(0xfff0e0, .7); side.position.set(4, 1, -2); scene.add(side);
     shadowSetup(key);
   }
-  function shadowSetup(l) { l.target.position.set(0, 1.6, 0); l.shadow.mapSize.set(2048, 2048); const c = l.shadow.camera; c.left = -2; c.right = 2; c.top = 2; c.bottom = -2; c.near = .5; c.far = 15; l.shadow.radius = 6; l.shadow.bias = -.0004; }
-  // a wall behind the bar that only catches the athlete's shadow
+  function shadowSetup(l) { l.target.position.set(0, 1.6, 0); l.shadow.mapSize.set(2048, 2048); const c = l.shadow.camera; c.left = -2; c.right = 2; c.top = 2; c.bottom = -2; c.near = .5; c.far = 15; l.shadow.radius = 5; l.shadow.bias = -.0004; }
   const wall = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), new THREE.ShadowMaterial({ opacity: R ? .55 : .16 }));
   wall.position.set(0, 2, .55); wall.rotation.y = Math.PI; wall.receiveShadow = true; scene.add(wall);
-  // pull-up rig: bar + two uprights
-  const bar = cyl(.019, .019, metal); bar.scale.set(1, 1.7, 1); bar.rotation.z = Math.PI / 2; bar.position.set(0, BAR_Y, 0); scene.add(bar);
-  for (const x of [-.85, .85]) { const p = new THREE.Mesh(new THREE.BoxGeometry(.06, 3.2, .06), frame); p.position.set(x, BAR_Y - 1.4, .12); p.castShadow = true; scene.add(p);
-    const arm = new THREE.Mesh(new THREE.BoxGeometry(.05, .05, .2), frame); arm.position.set(x, BAR_Y, .06); scene.add(arm); }
-  // body parts (torso group is re-posed every frame; limbs are placed between joints)
+  const bar = new THREE.Mesh(new THREE.CylinderGeometry(.019, .019, 1.7, 32), metal); bar.rotation.z = Math.PI / 2; bar.position.set(0, BAR_Y, 0); bar.castShadow = true; scene.add(bar);
+  for (const x of [-.85, .85]) { const p = new THREE.Mesh(new THREE.BoxGeometry(.06, 3.2, .06), frameM); p.position.set(x, BAR_Y - 1.4, .12); p.castShadow = true; scene.add(p);
+    const arm = new THREE.Mesh(new THREE.BoxGeometry(.05, .05, .2), frameM); arm.position.set(x, BAR_Y, .06); scene.add(arm); }
   const torso = new THREE.Group(); scene.add(torso);
-  const add = (m, p, s, rz = 0) => { m.position.set(...p); m.scale.set(...s); m.rotation.z = rz; torso.add(m); return m; };
-  add(sph(skin), [0, -.15, .0], [.235, .24, .14]);                 // upper back / ribcage
-  add(sph(mats.core), [0, -.38, .0], [.155, .2, .115]);                // waist / core
-  const lats = [-1, 1].map(s => add(sph(mats.lats), [s * .13, -.21, -.035], [.1, .21, .05], s * .32));
-  const traps = add(sph(mats.traps), [0, .02, -.015], [.17, .07, .08]);
-  add(sph(skin), [-SHW, 0, 0], [.09, .09, .09]); add(sph(skin), [SHW, 0, 0], [.09, .09, .09]);  // delts
-  add(sph(dark), [0, -.53, 0], [.168, .125, .125]);                    // shorts
-  const neck = cyl(.05, .05, skin); torso.add(neck);
-  const head = sph(skin); head.scale.set(.1, .118, .105); torso.add(head);
-  const hair = sph(dark); hair.scale.set(.106, .1, .108); torso.add(hair);
-  const legs = [-1, 1].map(s => ({ s, thigh: cyl(.078, .06, skin), shin: cyl(.056, .045, skin), knee: sph(skin), foot: sph(dark), hip: sph(dark) }));
-  for (const L of legs) { for (const k of ["thigh", "shin", "knee", "foot", "hip"]) torso.add(L[k]); }
-  const arms = [-1, 1].map(s => ({ s, ua: cyl(.058, .048, mats.arms), fa: cyl(.047, .036, mats.arms), el: sph(mats.arms), hand: sph(skin) }));
-  for (const A of arms) for (const k of ["ua", "fa", "el", "hand"]) scene.add(A[k]);
-  R3 = { renderer, scene, cam, mats, torso, neck, head, hair, legs, arms, lats, traps, joints: {} };
+  const ell = (mat, p, s, rot = [0, 0, 0]) => { const m = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 28), mat); m.position.set(...p); m.scale.set(...s); m.rotation.set(...rot); m.castShadow = true; torso.add(m); return m; };
+  // underlying volumes (ribcage, abdomen, pelvis, neck, head)
+  ell(fill, [0, -.17, .01], [.15, .21, .125]); ell(fill, [0, -.4, .015], [.125, .15, .1]);
+  const shorts = [ell(dark, [0, -.57, 0], [.17, .125, .125])];
+  const neck = ell(fill, [0, .08, 0], [.055, .09, .055]);
+  const head = ell(mats.chest, [0, .25, .012], [.093, .113, .103]), jaw = ell(mats.chest, [0, .195, .05], [.072, .058, .068]);
+  const hair = ell(hairM, [0, .285, -.004], [.097, .08, .104]), hairB = ell(hairM, [0, .262, -.03], [.09, .06, .08]);
+  const ears = [-1, 1].map(s => ell(mats.chest, [s * .093, .24, .005], [.016, .03, .02]));
+  const limbs = {}; const cyl = (mat, r0, r1) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(r1, r0, 1, 24, 1, true), mat); m.castShadow = true; torso.add(m); return m; };
+  const sph = (mat) => { const m = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 18), mat); m.castShadow = true; torso.add(m); return m; };
+  const B = [];   // [bundle, fn(J) -> [a, c, b, out], group]
+  const add = (g, r, flat, f, prof) => { const b = makeBundle(mats[g], r, flat, prof); torso.add(b.m); B.push([b, f, g]); };
+  for (const s of [-1, 1]) {
+    const X = (x, y, z) => V3(s * x, y, z);
+    limbs[s] = { ua: cyl(fill, .045, .04), fa: cyl(fill, .037, .03), el: sph(fill), hand: sph(mats.chest), fingers: sph(mats.chest), thigh: cyl(dark, .09, .085), thighB: cyl(fill, .07, .05), shin: cyl(fill, .045, .033), knee: sph(fill), foot: sph(dark) };
+    // ---- trapezius (upper, middle, lower)
+    add("traps", .05, .45, () => [X(.03, .17, -.03), X(.09, .09, -.085), X(.18, .035, -.035), X(.25, 1, -1)]);
+    add("traps", .046, .4, () => [X(.015, .06, -.085), X(.1, .065, -.105), X(.19, .02, -.06), X(0, .35, -1)]);
+    add("traps", .045, .32, () => [X(.005, -.05, -.118), X(.08, -.035, -.13), X(.16, -.005, -.1), X(0, 0, -1)]);
+    add("traps", .042, .32, () => [X(.005, -.29, -.122), X(.05, -.15, -.135), X(.1, -.04, -.125), X(0, 0, -1)]);
+    // ---- infraspinatus, teres major (rotator cuff block on the shoulder blade)
+    add("back", .045, .45, () => [X(.07, -.13, -.128), X(.13, -.09, -.135), X(.2, -.02, -.07), X(.2, 0, -1)]);
+    add("back", .038, .55, () => [X(.1, -.21, -.12), X(.16, -.15, -.115), X(.205, -.06, -.035), X(.4, 0, -1)]);
+    // ---- latissimus dorsi: five bundles fanning from the upper arm to the spine and pelvis (the V-taper)
+    [[.02, -.2, -.124, .05], [.02, -.31, -.124, .056], [.03, -.43, -.115, .058], [.07, -.51, -.095, .052], [.13, -.48, -.05, .046]].forEach(([x, y, z, r]) =>
+      add("lats", r, .33, J => { const I = X(.2, -.07, -.015), O = X(x, y, z); return [I, I.clone().lerp(O, .5).add(X(.075, 0, -.045)), O, X(.55, 0, -1)]; }, PROF_E));
+    // ---- erector spinae
+    add("core", .036, .7, () => [X(.035, -.53, -.098), X(.05, -.3, -.138), X(.03, -.04, -.122), X(0, 0, -1)]);
+    // ---- obliques, abs, pecs (seen when the camera swings round)
+    add("core", .05, .5, () => [X(.13, -.51, -.005), X(.165, -.38, .0), X(.15, -.24, .03), X(1, 0, .2)]);
+    for (const y of [-.24, -.34, -.44]) add("core", .04, .55, () => [X(.012, y - .045, .118), X(.045, y, .128), X(.075, y + .04, .115), X(0, 0, 1)]);
+    add("chest", .075, .45, () => [X(.02, -.11, .125), X(.11, -.07, .14), X(.19, -.03, .05), X(.1, 0, 1)]);
+    // ---- deltoid: rear, middle, front heads into the upper arm
+    add("delts", .052, .7, J => { const D = J.sh[s].clone().lerp(J.el[s], .42).addScaledVector(J.post[s], .015); return [X(.12, .0, -.085), X(.215, .02, -.075), D, X(0, .2, -1)]; }, PROF_E);
+    add("delts", .058, .7, J => { const D = J.sh[s].clone().lerp(J.el[s], .4); return [X(.17, .055, -.005), X(.255, .035, 0), D, X(1, .4, 0)]; }, PROF_E);
+    add("delts", .05, .7, J => { const D = J.sh[s].clone().lerp(J.el[s], .42).addScaledVector(J.post[s], -.015); return [X(.12, .02, .07), X(.215, .03, .07), D, X(0, .2, 1)]; }, PROF_E);
+    // ---- upper arm: triceps (long + lateral), biceps; forearm: extensors + flexors
+    add("arms", .05, .85, J => { const S = J.sh[s], E = J.el[s], p = J.post[s]; return [S.clone().addScaledVector(p, .035), S.clone().lerp(E, .5).addScaledVector(p, .062), E.clone().addScaledVector(p, .02), p]; });
+    add("arms", .04, .85, J => { const S = J.sh[s], E = J.el[s], p = J.post[s], l = J.lat[s]; return [S.clone().lerp(E, .15).addScaledVector(l, .03).addScaledVector(p, .02), S.clone().lerp(E, .5).addScaledVector(l, .045).addScaledVector(p, .035), E.clone().addScaledVector(p, .02), l]; });
+    add("arms", .046, .9, J => { const S = J.sh[s], E = J.el[s], p = J.post[s]; return [S.clone().lerp(E, .12).addScaledVector(p, -.03), S.clone().lerp(E, .55).addScaledVector(p, -.058), E.clone().addScaledVector(p, -.022), p.clone().negate()]; });
+    add("arms", .034, .85, J => { const E = J.el[s], H = J.hd[s], l = J.latF[s]; return [E.clone().addScaledVector(l, .02), E.clone().lerp(H, .35).addScaledVector(l, .035), H.clone().addScaledVector(l, .01), l]; }, PROF_E);
+    add("arms", .032, .85, J => { const E = J.el[s], H = J.hd[s], l = J.latF[s]; return [E.clone().addScaledVector(l, -.02), E.clone().lerp(H, .35).addScaledVector(l, -.033), H.clone().addScaledVector(l, -.01), l.clone().negate()]; }, PROF_E);
+    // ---- legs: hamstrings, quads, calves (two heads)
+    add("legs", .056, .8, J => { const h = J.hip[s], k = J.knee[s], p = J.postL[s]; return [h.clone().lerp(k, .2).addScaledVector(p, .05), h.clone().lerp(k, .55).addScaledVector(p, .065), k.clone().addScaledVector(p, .03), p]; });
+    add("legs", .066, .8, J => { const h = J.hip[s], k = J.knee[s], p = J.postL[s]; return [h.clone().lerp(k, .2).addScaledVector(p, -.05), h.clone().lerp(k, .5).addScaledVector(p, -.07), k.clone().addScaledVector(p, -.035), p.clone().negate()]; });
+    for (const side of [-1, 1]) add("legs", .042, .8, J => { const k = J.knee[s], f = J.foot[s], p = J.postS[s], l = V3(side * .018, 0, 0);
+      return [k.clone().addScaledVector(p, .03).add(l), k.clone().lerp(f, .28).addScaledVector(p, .055).add(l), k.clone().lerp(f, .62).addScaledVector(p, .02), p]; }, PROF_E);
+  }
+  R3 = { renderer, scene, cam, mats, torso, neck, head, jaw, hair, hairB, ears, limbs, B, joints: {} };
 }
 function link(m, a, b) { const d = b.clone().sub(a), L = d.length(); m.position.copy(a).addScaledVector(d, .5); m.scale.set(1, L, 1); m.quaternion.setFromUnitVectors(UP, d.normalize()); }
 function ball(m, p, r) { m.position.copy(p); m.scale.set(r, r, r); }
@@ -144,45 +218,58 @@ function ik(S, H, a, b, pole) {
   return S.clone().addScaledVector(dir, x).addScaledVector(n, h);
 }
 // st: p (0 dead hang .. 1 chin over bar), shrug, lean (rad, + = legs forward), legSwing, knee,
-//     glow: {lats, traps, arms, core} as [colour, amount], cam: {az, el, dist, look, fov, shake}
+//     glow: {lats, traps, arms, core} as [colour, amount] (amount drives contraction + glow),
+//     cam: {az, el, dist, look, fov, shake}
 function pose(st) {
   const P = R3, p = st.p ?? 0, shrug = st.shrug ?? 0;
   const sy = lerp(BAR_Y - .58, BAR_Y - .1, p) + shrug * .05, lean = st.lean ?? -.1 * p;
   P.torso.position.set(0, sy, -.04 - .06 * p); P.torso.rotation.set(lean, 0, 0);
-  P.neck.position.set(0, .07 - shrug * .03, .0); P.neck.scale.set(1, .14 - shrug * .07, 1);
-  P.head.position.set(0, .22 - shrug * .085, .015); P.hair.position.set(0, .245 - shrug * .085, -.012);
-  // legs in torso space; knees bend so the feet trail behind (toward the camera)
-  const sw = st.legSwing ?? 0, kb = st.knee ?? .8;
-  for (const L of P.legs) {
-    const hip = V3(L.s * .085, -.56, 0), th = sw + .05, sh = sw - kb;
-    const knee = hip.clone().add(V3(L.s * .01, -Math.cos(th) * THIGH, Math.sin(th) * THIGH));
-    const foot = knee.clone().add(V3(0, -Math.cos(sh) * SHIN, Math.sin(sh) * SHIN));
-    link(L.thigh, hip, knee); link(L.shin, knee, foot); ball(L.knee, knee, .06); ball(L.hip, hip, .08);
-    L.foot.position.copy(foot); L.foot.scale.set(.05, .05, .11);
-  }
+  const hd = -shrug * .075;
+  P.head.position.set(0, .25 + hd, .012); P.jaw.position.set(0, .195 + hd, .05); P.hair.position.set(0, .285 + hd, -.004); P.hairB.position.set(0, .262 + hd, -.03);
+  P.ears.forEach((e, i) => e.position.set((i ? 1 : -1) * .093, .24 + hd, .005)); P.neck.scale.set(.055, .09 - shrug * .035, .055); P.neck.position.set(0, .08 + hd / 2, 0);
   P.torso.updateMatrixWorld(true);
-  const J = P.joints;
-  J.head = P.head.getWorldPosition(V3()); J.waist = P.torso.localToWorld(V3(0, -.38, -.12));
-  J.latL = P.torso.localToWorld(V3(-.13, -.2, -.12)); J.latR = P.torso.localToWorld(V3(.13, -.2, -.12));
-  J.latLb = P.torso.localToWorld(V3(-.09, -.4, -.12)); J.latRb = P.torso.localToWorld(V3(.09, -.4, -.12));
-  J.trap = P.torso.localToWorld(V3(0, .04, -.08)); J.foot = P.legs[0].foot.getWorldPosition(V3());
-  for (const A of P.arms) {
-    const S = P.torso.localToWorld(V3(A.s * SHW, 0, 0)), H = V3(A.s * GRIP, BAR_Y, 0);
-    const E = ik(S, H, UA, FA, V3(A.s * 1, -.35, -.55));
-    link(A.ua, S, E); link(A.fa, E, H); ball(A.el, E, .05); ball(A.hand, H, .052);
-    J["sh" + (A.s < 0 ? "L" : "R")] = S; J["el" + (A.s < 0 ? "L" : "R")] = E;
+  const J = { sh: {}, el: {}, hd: {}, post: {}, lat: {}, latF: {}, hip: {}, knee: {}, foot: {}, postL: {}, postS: {} };
+  const toL = v => P.torso.worldToLocal(v.clone()), back = toL(P.torso.localToWorld(V3(0, 0, -1))).normalize();
+  const sw = st.legSwing ?? 0, kb = st.knee ?? .8;
+  for (const s of [-1, 1]) {
+    // arms: solve in world (hands stay on the bar), then work in torso space
+    const Sw = P.torso.localToWorld(V3(s * SHW, 0, 0)), Hw = V3(s * GRIP, BAR_Y, 0), Ew = ik(Sw, Hw, UA, FA, V3(s, -.35, -.55));
+    const S = toL(Sw), E = toL(Ew), H = toL(Hw), Lm = P.limbs[s];
+    J.sh[s] = S; J.el[s] = E; J.hd[s] = H;
+    J.post[s] = perp(S, E, V3(0, 0, -1)); J.lat[s] = perp(S, E, V3(s, 0, 0)); J.latF[s] = perp(E, H, V3(s, 0, -.3));
+    link(Lm.ua, S, E); link(Lm.fa, E, H); ball(Lm.el, E, .04);
+    Lm.hand.position.copy(H); Lm.hand.scale.set(.045, .055, .045); Lm.fingers.position.copy(H).add(V3(0, .012, .025)); Lm.fingers.scale.set(.05, .03, .03);
+    // legs in torso space; knees bend so the feet trail behind (toward the camera)
+    const hip = V3(s * .088, -.58, 0), th = sw + .05, shn = sw - kb;
+    const knee = hip.clone().add(V3(s * .008, -Math.cos(th) * THIGH, Math.sin(th) * THIGH));
+    const foot = knee.clone().add(V3(0, -Math.cos(shn) * SHIN, Math.sin(shn) * SHIN));
+    J.hip[s] = hip; J.knee[s] = knee; J.foot[s] = foot; J.postL[s] = perp(hip, knee, V3(0, 0, -1)); J.postS[s] = perp(knee, foot, V3(0, 0, -1));
+    link(Lm.thigh, hip.clone().add(V3(0, .04, 0)), hip.clone().lerp(knee, .32)); link(Lm.thighB, hip, knee); link(Lm.shin, knee, foot); ball(Lm.knee, knee, .05);
+    Lm.foot.position.copy(foot).add(V3(0, -.02, .03)); Lm.foot.scale.set(.045, .045, .11);
   }
-  // muscle glow
-  for (const k of ["lats", "traps", "arms", "core"]) {
-    const g = st.glow?.[k], m = P.mats[k];
-    if (g && g[1] > 0) { m.emissive.set(g[0]); m.emissiveIntensity = g[1] * (G.name === "redblack" ? 1.2 : 1.6); }
-    else m.emissiveIntensity = 0;
+  // activation per muscle group (0..1): drives contraction and glow; synergists follow the prime mover
+  const act = {};
+  for (const g of GROUPS) act[g] = st.glow?.[g]?.[1] ?? 0;
+  act.back = Math.max(act.back, act.lats * .7); act.delts = Math.max(act.delts, .55 * Math.max(act.lats, act.arms, act.traps));
+  const col = {};
+  for (const g of GROUPS) col[g] = st.glow?.[g]?.[0] === G.acc ? 0xff1d1d : (G.name === "redblack" ? 0xff5a1f : 0xff3a12);
+  col.back = col.lats; col.delts = st.glow?.traps || st.glow?.arms ? 0xff1d1d : col.lats;
+  for (const [b, f, g] of P.B) { const [a, c, e, out] = f(J); setBundle(b, a, c, e, out.normalize(), act[g]); }
+  for (const g of GROUPS) {
+    const m = P.mats[g], a = act[g];
+    m.emissive.setHex(col[g]); m.emissiveIntensity = a * (G.name === "redblack" ? 1.5 : 2.0) * (.85 + .15 * Math.sin(T * 9));
+    m.emissiveMap.offset.x = -T * (.6 + 1.2 * a); m.map.offset.x = 0;
   }
+  // screen anchors for the motion graphics
+  const W = v => P.torso.localToWorld(v.clone());
+  P.joints = { head: P.head.getWorldPosition(V3()), waist: W(V3(0, -.38, -.13)), latL: W(V3(-.13, -.22, -.13)), latR: W(V3(.13, -.22, -.13)),
+    latLb: W(V3(-.09, -.42, -.12)), latRb: W(V3(.09, -.42, -.12)), trap: W(V3(0, .05, -.09)), foot: W(J.foot[-1]),
+    shL: W(J.sh[-1]), shR: W(J.sh[1]), elL: W(J.el[-1]), elR: W(J.el[1]) };
   // camera: orbit around the athlete from behind
   const c = st.cam ?? {}, az = c.az ?? .32, el = c.el ?? .06, dist = c.dist ?? 8.4, look = c.look ?? V3(0, 1.7, 0);
   P.cam.fov = c.fov ?? 28; P.cam.updateProjectionMatrix();
-  const sh = c.shake ?? 0;
-  P.cam.position.set(look.x + Math.sin(az) * dist * Math.cos(el) + Math.sin(T * 91) * sh, look.y + Math.sin(el) * dist + Math.cos(T * 77) * sh, look.z - Math.cos(az) * dist * Math.cos(el));
+  const shk = c.shake ?? 0;
+  P.cam.position.set(look.x + Math.sin(az) * dist * Math.cos(el) + Math.sin(T * 91) * shk, look.y + Math.sin(el) * dist + Math.cos(T * 77) * shk, look.z - Math.cos(az) * dist * Math.cos(el));
   P.cam.lookAt(look);
   P.cam.updateMatrixWorld(true);
 }
