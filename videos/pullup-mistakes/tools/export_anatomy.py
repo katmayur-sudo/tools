@@ -27,13 +27,15 @@ BUDGET = int(sys.argv[sys.argv.index("--budget") + 1]) if "--budget" in sys.argv
 
 BONES = ["root", "spine", "chest", "neck", "head",
          "clav_l", "upperarm_l", "forearm_l", "hand_l", "clav_r", "upperarm_r", "forearm_r", "hand_r",
+         "fing_l", "tip_l", "fing_r", "tip_r",
          "thigh_l", "shin_l", "foot_l", "thigh_r", "shin_r", "foot_r"]
 PARENT = {"root": None, "spine": "root", "chest": "spine", "neck": "chest", "head": "neck",
           "clav_l": "chest", "upperarm_l": "clav_l", "forearm_l": "upperarm_l", "hand_l": "forearm_l",
           "clav_r": "chest", "upperarm_r": "clav_r", "forearm_r": "upperarm_r", "hand_r": "forearm_r",
+          "fing_l": "hand_l", "tip_l": "fing_l", "fing_r": "hand_r", "tip_r": "fing_r",
           "thigh_l": "root", "shin_l": "thigh_l", "foot_l": "shin_l", "thigh_r": "root", "shin_r": "thigh_r", "foot_r": "shin_r"}
 SEG2BONE = {"head": "head", "neck": "neck", "chest": "chest", "abdomen": "spine", "pelvis": "root", "scapula": "clav",
-            "upperarm": "upperarm", "forearm": "forearm", "hand": "hand", "thigh": "thigh", "shin": "shin", "foot": "foot"}
+            "upperarm": "upperarm", "forearm": "forearm", "hand": "hand", "finger": "fing", "tip": "tip", "thigh": "thigh", "shin": "shin", "foot": "foot"}
 
 
 def to_world(v):  # Z-Anatomy (x left, y back, z up) -> (x left, y up, z front)
@@ -94,6 +96,8 @@ def landmarks():
         car = np.vstack([V(f"{b} bone.{s}") for b in ("Lunate", "Capitate", "Scaphoid")])
         J[f"wrist_{s}"] = car.mean(0)
         J[f"knuckle_{s}"] = V(f"Third metacarpal bone.{s}")[V(f"Third metacarpal bone.{s}")[:, 1].argmin()]
+        pp = V(f"Proximal phalanx of third finger of hand.{s}"); dp = V(f"Distal phalanx of third finger of hand.{s}")
+        J[f"pip_{s}"] = pp[pp[:, 1].argmin()]; J[f"fingertip_{s}"] = dp[dp[:, 1].argmin()]
         fem = V(f"Femur.{s}")
         top = fem[fem[:, 1] > fem[:, 1].max() - .05]
         J[f"hip_{s}"] = top[np.argsort(np.abs(top[:, 0]))[:max(8, len(top) // 3)]].mean(0)
@@ -122,6 +126,8 @@ def skeleton(J):
         H[f"upperarm_{s}"] = J[f"shoulder_{s}"]; seg[f"upperarm_{s}"] = (J[f"shoulder_{s}"], J[f"elbow_{s}"])
         H[f"forearm_{s}"] = J[f"elbow_{s}"]; seg[f"forearm_{s}"] = (J[f"elbow_{s}"], J[f"wrist_{s}"])
         H[f"hand_{s}"] = J[f"wrist_{s}"]; seg[f"hand_{s}"] = (J[f"wrist_{s}"], J[f"knuckle_{s}"])
+        H[f"fing_{s}"] = J[f"knuckle_{s}"]; seg[f"fing_{s}"] = (J[f"knuckle_{s}"], J[f"pip_{s}"])
+        H[f"tip_{s}"] = J[f"pip_{s}"]; seg[f"tip_{s}"] = (J[f"pip_{s}"], J[f"fingertip_{s}"])
         H[f"thigh_{s}"] = J[f"hip_{s}"]; seg[f"thigh_{s}"] = (J[f"hip_{s}"], J[f"knee_{s}"])
         H[f"shin_{s}"] = J[f"knee_{s}"]; seg[f"shin_{s}"] = (J[f"knee_{s}"], J[f"ankle_{s}"])
         H[f"foot_{s}"] = J[f"ankle_{s}"]; seg[f"foot_{s}"] = (J[f"ankle_{s}"], J[f"toe_{s}"])
@@ -176,7 +182,7 @@ def bone_cands(segments, side, seg_keys):
     out = []
     for sg in segments:
         b = SEG2BONE[sg]
-        if b in ("clav", "upperarm", "forearm", "hand", "thigh", "shin", "foot"):
+        if b in ("clav", "upperarm", "forearm", "hand", "fing", "tip", "thigh", "shin", "foot"):
             out += [f"{b}_{side}"] if side in "lr" else [f"{b}_l", f"{b}_r"]
         else:
             out.append(b)
@@ -220,8 +226,8 @@ def main():
                 picks.append((o, ("hair", "hair"), ["head"]))
             elif zmin >= SKIN_HEAD_MIN_Z and "Hairs" not in name:
                 picks.append((o, ("skin", "skin"), ["head"]))
-            elif any(w in name for w in HAND_WORDS):
-                picks.append((o, ("skin", "skin"), ["forearm", "hand"]))
+            elif any(w in name for w in HAND_WORDS):  # fingers get their own two joints so they can wrap the bar
+                picks.append((o, ("skin", "skin"), ["forearm", "hand", "finger", "tip"]))
             elif zmax <= FOOT_MAX_Z and any(w in name for w in FOOT_WORDS):
                 picks.append((o, ("skin", "skin"), ["shin", "foot"]))
     total = sum(len(o.data.polygons) for o, _, _ in picks)
@@ -229,8 +235,11 @@ def main():
     print(f"picked {len(picks)} objects, {total} polys -> ratio {ratio:.3f}", flush=True)
     chunks = defaultdict(lambda: {"P": [], "N": [], "F": [], "I": [], "W": [], "n": 0})
     for o, key, segs in picks:
-        boost = 1.8 if key[0] in ("lats", "traps", "delts", "back", "skin") else 1.0
+        boost = 99 if key[0] == "skin" else 1.8 if key[0] in ("lats", "traps", "delts", "back") else 1.0
         P, N, F = mesh_arrays(o, min(1, ratio * boost))
+        if key[0] == "forearms":  # tendons running on into the hand sit under the hand skin: trim them at the wrist
+            wy = min(J["wrist_l"][1], J["wrist_r"][1]) - .004
+            F = F[(P[F][:, :, 1] > wy).all(1)]
         if not len(F):
             continue
         side = side_of(o.name)

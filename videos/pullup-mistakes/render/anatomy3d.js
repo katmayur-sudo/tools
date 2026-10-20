@@ -59,7 +59,7 @@ function build3D() {
   wall.position.set(0, 2, .6); wall.rotation.y = Math.PI; wall.receiveShadow = true; scene.add(wall);
   const metal = new THREE.MeshStandardMaterial({ color: R ? 0xbdbdbd : 0xcfcfcf, metalness: .9, roughness: .22 });
   const frameM = new THREE.MeshStandardMaterial({ color: R ? 0x151012 : 0xd9d2c5, roughness: .6, metalness: .2 });
-  const bar = new THREE.Mesh(new THREE.CylinderGeometry(.016, .016, 1.7, 32), metal); bar.rotation.z = Math.PI / 2; bar.position.set(0, BAR_Y, 0); bar.castShadow = true; scene.add(bar);
+  const bar = new THREE.Mesh(new THREE.CylinderGeometry(.017, .017, 1.7, 40), metal); bar.rotation.z = Math.PI / 2; bar.position.set(0, BAR_Y, 0); bar.castShadow = true; scene.add(bar);
   for (const x of [-.85, .85]) { const p = new THREE.Mesh(new THREE.BoxGeometry(.06, 3.2, .06), frameM); p.position.set(x, BAR_Y - 1.4, .12); p.castShadow = true; scene.add(p);
     const a = new THREE.Mesh(new THREE.BoxGeometry(.05, .05, .2), frameM); a.position.set(x, BAR_Y, .06); scene.add(a); }
   // skeleton (rest = anatomical position, identity rotations)
@@ -119,7 +119,7 @@ function pose(st) {
   B.clav_l.rotation.set(0, 0, up); B.clav_r.rotation.set(0, 0, -up);
   B.root.updateMatrixWorld(true);
   // place the body so the shoulders sit at the height of this rep phase
-  const SL = worldP(B.upperarm_l), Hy = BAR_Y - .055, reach = (P.L.ua + P.L.fa) * .985, dx = GRIP - Math.abs(SL.x);
+  const HL = P.rest("fing_l").distanceTo(P.rest("hand_l")), SL = worldP(B.upperarm_l), Hy = BAR_Y - HL * .97, reach = (P.L.ua + P.L.fa) * .985, dx = GRIP - Math.abs(SL.x);
   const yHang = Hy - Math.sqrt(Math.max(.01, reach * reach - dx * dx - .0016)), yTop = BAR_Y - .17;
   const ys = lerp(yHang, yTop, p);
   B.root.position.y += ys - SL.y; B.root.position.z += (-.03 - .07 * p) - SL.z;
@@ -127,16 +127,22 @@ function pose(st) {
   const J = {};
   for (const [s, sx] of [["l", 1], ["r", -1]]) {
     const ua = B["upperarm_" + s], fa = B["forearm_" + s], hd = B["hand_" + s];
-    const S = worldP(ua), H = V3(sx * GRIP, Hy, -.02);
-    const E = ik(S, H, P.L.ua, P.L.fa, V3(sx, -.35, -.55));
+    // overhand grip: the knuckle line sits on the bar, the palm presses its back, the wrist stays straight
+    const S = worldP(ua), K = V3(sx * GRIP, BAR_Y + .004, -.03), pole = V3(sx, -.35, -.55);
+    let u = K.clone().sub(S).normalize(), H = K.clone().addScaledVector(u, -HL), E = ik(S, H, P.L.ua, P.L.fa, pole);
+    for (let it = 0; it < 3; it++) { u = H.clone().sub(E).normalize(); H = K.clone().addScaledVector(u, -HL); E = ik(S, H, P.L.ua, P.L.fa, pole); }
     const dU0 = P.rest("forearm_" + s).sub(P.rest("upperarm_" + s)).normalize(), dF0 = P.rest("hand_" + s).sub(P.rest("forearm_" + s)).normalize();
     const qU = _q.setFromUnitVectors(dU0, E.clone().sub(S).normalize()).clone();
     setWorldQ(ua, qU);
     const dF = dF0.clone().applyQuaternion(qU), qF = _q2.setFromUnitVectors(dF, H.clone().sub(E).normalize()).clone().multiply(qU);
     setWorldQ(fa, qF);
-    // hand: fingers curl over the bar toward the wall
-    const fd = H.clone().sub(E).normalize(), ax = fd.clone().cross(V3(0, 0, 1)).normalize();
-    setWorldQ(hd, new THREE.Quaternion().setFromAxisAngle(ax, 1.15).multiply(qF));
+    // hand in line with the forearm; fingers wrap over the top of the bar toward the wall (MCP ~80 deg, PIP ~85 deg)
+    const dH = P.rest("fing_" + s).sub(P.rest("hand_" + s)).normalize().applyQuaternion(qF);
+    const qH = new THREE.Quaternion().setFromUnitVectors(dH, K.clone().sub(H).normalize()).multiply(qF);
+    setWorldQ(hd, qH);
+    const ax = K.clone().sub(H).normalize().cross(V3(0, 0, 1)).normalize();
+    setWorldQ(B["fing_" + s], new THREE.Quaternion().setFromAxisAngle(ax, 1.4).multiply(qH));
+    setWorldQ(B["tip_" + s], new THREE.Quaternion().setFromAxisAngle(ax, 2.85).multiply(qH));
     J["sh" + s.toUpperCase()] = S; J["el" + s.toUpperCase()] = worldP(fa);
   }
   // legs: hip flexion swings them, knees bend so the feet trail behind

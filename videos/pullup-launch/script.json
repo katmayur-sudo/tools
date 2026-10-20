@@ -1,0 +1,18 @@
+{
+  "voice": {"name": "dr mak", "voice_id": "s0DMVIZPbbCMs31sURvA", "model": "eleven_multilingual_v2"},
+  "note": "tts = what the voice reads (Hindi in Devanagari, English in Latin); caption = Roman Hinglish shown on screen; scene = storyboard scene index the line starts on",
+  "lines": [
+    {"id": "intro",  "scene": 1,  "tts": "Introducing... the perfect pull-up.", "caption": "Introducing... the perfect pull-up."},
+    {"id": "arms",   "scene": 2,  "tts": "ज़्यादातर लोग pull-up arms से करते हैं... इसीलिए back grow नहीं होती।", "caption": "Zyadatar log pull-up *arms* se karte hain... isiliye back grow nahi hoti."},
+    {"id": "hero",   "scene": 3,  "tts": "Pull-up का असली काम है आपकी back का... आपके lats का।", "caption": "Pull-up ka asli kaam hai aapki *back* ka... aapke *lats* ka."},
+    {"id": "blades", "scene": 4,  "tts": "Number one... Blades. Pull से पहले, shoulders को नीचे और पीछे set करो।", "caption": "Number one... Blades. Pull se pehle, shoulders ko *neeche* aur *peeche* set karo."},
+    {"id": "elbows", "scene": 6,  "tts": "Two... Elbows. Elbows को ribs की तरफ़ drive करो।", "caption": "Two... Elbows. Elbows ko *ribs* ki taraf drive karo."},
+    {"id": "core",   "scene": 8,  "tts": "Three... Core. Core tight, body बिल्कुल still. No swing.", "caption": "Three... Core. Core *tight*, body bilkul still. No swing."},
+    {"id": "range",  "scene": 10, "tts": "Four... Range. नीचे full dead hang, और ऊपर chin bar के ऊपर।", "caption": "Four... Range. Neeche full *dead hang*, aur upar *chin* bar ke upar."},
+    {"id": "tempo",  "scene": 12, "tts": "Five... Tempo. तीन second में, control से नीचे आओ।", "caption": "Five... Tempo. Teen second mein, *control* se neeche aao."},
+    {"id": "onemore","scene": 14, "tts": "And... one more thing.", "caption": "And... one more thing."},
+    {"id": "reveal", "scene": 15, "tts": "आपके lats अब तक सो रहे थे... अब उन्हें जगाओ।", "caption": "Aapke lats ab tak *so* rahe the... ab unhe *jagao*."},
+    {"id": "closer", "scene": 16, "tts": "Pull with your back.", "caption": "Pull with your *back*."},
+    {"id": "end",    "scene": 17, "tts": "Follow करो Dr Mak Fitness... save करो, और अगले pull day पे try करना।", "caption": "Follow karo Dr Mak Fitness... save karo, aur agle pull day pe try karna."}
+  ]
+}
