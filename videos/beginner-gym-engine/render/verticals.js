@@ -290,7 +290,7 @@
       h += hook();
     } else {
       h += leaks(.7);
-      const beats = BEATS[V.id];
+      const beats = BEATS[V.beats || V.id];
       let cur = null, start = 0;
       for (const b of beats) if (t >= at(b[0]) - .05) { cur = b; start = at(b[0]); }
       if (cur) {

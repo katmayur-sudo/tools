@@ -1,6 +1,6 @@
 """Build data + soundtrack for the native 9:16 shorts.
 
-Usage (from videos/beginner-gym-engine/tools): python3 ../shorts/build.py <shorts/script.json> <vo_dir> <out_dir>
+Usage (from videos/beginner-gym-engine/tools): python3 ../shorts/build.py <shorts/script.json> <vo_dir> <out_dir> [short_id ...]
 Writes <out_dir>/<id>.json (cues, captions, timing) and <out_dir>/<id>_audio.wav (-14 LUFS).
 """
 import json
@@ -75,29 +75,34 @@ def main():
     script_path, vo_dir, out = sys.argv[1:4]
     conf = json.load(open(script_path))
     model = WhisperModel("base.en", device="cpu", compute_type="int8")
+    only = sys.argv[4:]   # optional short ids to build
     for sh in conf["shorts"]:
-        sid = sh["id"]
+        if only and sh["id"] not in only:
+            continue
+        sid, style = sh["id"], sh.get("style", sh["id"])   # a language version reuses its original's style
         vo = f"{vo_dir}/{sid}.mp3"
         segs, _ = model.transcribe(load(vo), word_timestamps=True)
         heard = [{"w": w.word.strip(), "s": w.start, "e": w.end} for s in segs for w in s.words]
         words = align(sh["text"].split(), heard)
         dur = round(LEAD + words[-1]["e"] + 0.6, 3)
-        cues = {k: round(v + LEAD, 3) for k, v in find_cues(words, sh["cues"]).items()}
+        phrase = {k: sh.get("cue_phrases", {}).get(k, k) for k in sh["cues"]}   # cue name -> words spoken
+        found = find_cues(words, list(phrase.values()))
+        cues = {k: round(found[p] + LEAD, 3) for k, p in phrase.items()}
         names = list(cues)
         hook_end = cues[names[1]] - 0.05
         sfx = [{"t": 0.0, "type": "whoosh"}, {"t": 0.35, "type": "boom"}]
-        table = SFX[sid]
+        table = SFX[style]
         for k, t in cues.items():
             kind, _, off = table.get(k, "swish").partition("+")
             if t > 0.5:
                 sfx.append({"t": round(t + float(off or 0), 3), "type": kind})
         sfx += [{"t": dur, "type": "whoosh"}, {"t": dur + 1.0, "type": "click"}, {"t": dur + 1.15, "type": "bell"}]
-        photo, pos = PHOTO[sid]
+        photo, pos = PHOTO[style]
         data = {"id": sid, "hook": sh["hook"], "photo": photo, "photoPos": pos, "cues": cues, "dur": dur,
                 "end": round(dur + TAIL, 3), "hookEnd": round(hook_end, 3),
-                "captions": caption_chunks(words, LEAD), "punches": [cues[k] for k in PUNCH[sid]], "sfx": sfx}
-        if sid in AVATAR:
-            data["avatar"] = AVATAR[sid]
+                "captions": caption_chunks(words, LEAD), "beats": style, "punches": [cues[k] for k in PUNCH[style]], "sfx": sfx}
+        if style in AVATAR:
+            data["avatar"] = AVATAR[style]
         json.dump(data, open(f"{out}/{sid}.json", "w"), indent=1)
         mix(sid, vo, sfx, data["end"], out)
         print(sid, "voice", round(dur, 1), "s, total", data["end"], "s, hook ends", data["hookEnd"])

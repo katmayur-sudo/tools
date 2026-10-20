@@ -37,3 +37,8 @@ PYTHONPATH=. python3 ../shorts/build.py ../../home-six-zones/script.json <vo_dir
 node <site>/render/verticals.mjs <site> <data_dir> yt <out_dir>
 ffmpeg -i <out_dir>/v5_six_zones_home_yt_video.mp4 -i <data_dir>/v5_six_zones_home_audio.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest final.mp4
 ```
+
+**Hinglish version** (`v5_six_zones_home_hi`, voice take 4 of 4, 40.3 s): ElevenLabs gets `tts` (Hindi words in
+Devanagari for natural pronunciation), captions use `text` (Roman Hinglish). `style` reuses the English
+short's scenes and sound design; `cue_phrases` maps each scene cue to the Hinglish words that trigger it.
+Build only it with `build.py … <data_dir> v5_six_zones_home_hi`, render with `yt` and `ig`.

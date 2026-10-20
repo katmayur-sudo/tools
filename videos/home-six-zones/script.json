@@ -44,6 +44,43 @@
         "save this"
       ],
       "text": "No gym? No problem. Six moves. Your whole body. Twelve minutes. Legs: squats, fifteen reps. Chest: push-ups, twenty. Arms: chair dips, fifteen. Shoulders: pike push-ups, ten. Abs: dead bugs, ten each side. Fat burn: jumping jacks, thirty seconds. Round two. Your arms start shaking. Your form breaks. This is where most people quit. Don't quit. Drop to your knees for push-ups. Slow every rep down. Rest thirty seconds, then finish the round. Three rounds, three days a week. Add two reps every week. That's how a home workout builds muscle. Save this and follow for the full plan."
+    },
+    {
+      "id": "v5_six_zones_home_hi",
+      "style": "v5_six_zones_home",
+      "language": "Hinglish",
+      "hook": [
+        "Gym nahi? 6 moves.",
+        "POORI BODY"
+      ],
+      "tts": "जिम नहीं है? कोई बात नहीं. सिर्फ six moves. पूरी body. Twelve minutes. Legs: squats, fifteen reps. Chest: push-ups, twenty. Arms: chair dips, fifteen. Shoulders: pike push-ups, ten. Abs: dead bugs, ten each side. Fat burn: jumping jacks, thirty seconds. Round two. Arms काँपने लगेंगे. Form टूट जाएगा. यहीं पे most people quit कर देते हैं. Don't quit. Push-ups घुटनों पे करो. हर rep slow करो. Thirty seconds rest, फिर round पूरा करो. Three rounds, हफ्ते में three दिन. हर हफ्ते two reps बढ़ाओ. ऐसे ही home workout से muscle बनती है. Save करो, और full plan के लिए follow करो.",
+      "text": "Gym nahi hai? Koi baat nahi. Sirf six moves. Poori body. Twelve minutes. Legs: squats, fifteen reps. Chest: push-ups, twenty. Arms: chair dips, fifteen. Shoulders: pike push-ups, ten. Abs: dead bugs, ten each side. Fat burn: jumping jacks, thirty seconds. Round two. Arms kaanpne lagenge. Form toot jaayega. Yahin pe most people quit kar dete hain. Don't quit. Push-ups ghutno pe karo. Har rep slow karo. Thirty seconds rest, phir round poora karo. Three rounds, hafte mein three din. Har hafte two reps badhao. Aise hi home workout se muscle banti hai. Save karo, aur full plan ke liye follow karo.",
+      "cues": [
+        "no gym",
+        "legs",
+        "chest",
+        "arms",
+        "shoulders",
+        "abs",
+        "fat burn",
+        "round two",
+        "most people quit",
+        "don't quit",
+        "your knees",
+        "slow every rep",
+        "thirty seconds",
+        "three rounds",
+        "two reps",
+        "that's how",
+        "save this"
+      ],
+      "cue_phrases": {
+        "no gym": "gym nahi",
+        "your knees": "push-ups ghutno",
+        "slow every rep": "har rep",
+        "that's how": "aise hi",
+        "save this": "save karo"
+      }
     }
   ]
 }
