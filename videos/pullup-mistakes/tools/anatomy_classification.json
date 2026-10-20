@@ -1,0 +1,3496 @@
+[
+{
+"name": "Omohyoid muscle",
+"material": "muscle",
+"superficial": true,
+"group": "neck",
+"segments": [
+"scapula",
+"neck"
+],
+"note": "Inferior belly visible in posterior triangle, superior belly beside sternohyoid"
+},
+{
+"name": "Sternohyoid muscle",
+"material": "muscle",
+"superficial": true,
+"group": "neck",
+"segments": [
+"chest",
+"neck"
+]
+},
+{
+"name": "Semispinalis colli muscle",
+"material": "muscle",
+"superficial": false,
+"group": "neck",
+"segments": [
+"chest",
+"neck"
+]
+},
+{
+"name": "Sternothyroid muscle",
+"material": "muscle",
+"superficial": false,
+"group": "neck",
+"segments": [
+"chest",
+"neck"
+],
+"note": "Mostly under sternohyoid/SCM; only a thin lateral edge may peek"
+},
+{
+"name": "Longissimus colli muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest",
+"neck"
+],
+"note": "Treated as longissimus cervicis (erector spinae column), deep"
+},
+{
+"name": "Subcutaneous acromial bursa",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"scapula"
+]
+},
+{
+"name": "Splenius colli muscle",
+"material": "muscle",
+"superficial": false,
+"group": "neck",
+"segments": [
+"chest",
+"neck"
+],
+"note": "Splenius cervicis lies under trapezius/levator scapulae"
+},
+{
+"name": "Rhomboid minor muscle",
+"material": "muscle",
+"superficial": false,
+"group": "back",
+"segments": [
+"chest",
+"scapula"
+],
+"note": "Fully covered by trapezius"
+},
+{
+"name": "Transverse part of trapezius muscle",
+"material": "muscle",
+"superficial": true,
+"group": "traps",
+"segments": [
+"chest",
+"scapula"
+]
+},
+{
+"name": "Subacromial bursa",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"scapula"
+]
+},
+{
+"name": "Interspinales thoracis muscles",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest"
+]
+},
+{
+"name": "Iliocostalis colli muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest",
+"neck"
+]
+},
+{
+"name": "Serratus posterior superior muscle",
+"material": "muscle",
+"superficial": false,
+"group": "back",
+"segments": [
+"chest"
+],
+"note": "Under rhomboids and trapezius"
+},
+{
+"name": "Subclavius muscle",
+"material": "muscle",
+"superficial": false,
+"group": "chest",
+"segments": [
+"chest",
+"scapula"
+],
+"note": "Inserts on clavicle (moves with shoulder girdle)"
+},
+{
+"name": "Supraspinatus muscle",
+"material": "muscle",
+"superficial": false,
+"group": "back",
+"segments": [
+"scapula",
+"upperarm"
+],
+"note": "Covered by trapezius, acromion and deltoid"
+},
+{
+"name": "Subdeltoid bursa",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"upperarm"
+]
+},
+{
+"name": "Intertubercular tendon sheath",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"upperarm"
+]
+},
+{
+"name": "Subtendinous bursa of trapezius muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"scapula"
+]
+},
+{
+"name": "Subtendinous bursa of infraspinatus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"scapula"
+]
+},
+{
+"name": "Coracobrachial bursa",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"scapula"
+]
+},
+{
+"name": "Clavicular head of pectoralis major muscle",
+"material": "muscle",
+"superficial": true,
+"group": "chest",
+"segments": [
+"chest",
+"upperarm"
+]
+},
+{
+"name": "Rhomboid major muscle",
+"material": "muscle",
+"superficial": true,
+"group": "back",
+"segments": [
+"chest",
+"scapula"
+],
+"note": "Inferior part visible in triangle of auscultation between trapezius and latissimus"
+},
+{
+"name": "Clavicular part of deltoid muscle",
+"material": "muscle",
+"superficial": true,
+"group": "delts",
+"segments": [
+"scapula",
+"upperarm"
+]
+},
+{
+"name": "Deltoid fascia",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"scapula",
+"upperarm"
+],
+"note": "Deep fascia sheet that would hide the deltoid"
+},
+{
+"name": "Infraspinatus muscle",
+"material": "muscle",
+"superficial": true,
+"group": "back",
+"segments": [
+"scapula",
+"upperarm"
+]
+},
+{
+"name": "Acromial part of deltoid muscle",
+"material": "muscle",
+"superficial": true,
+"group": "delts",
+"segments": [
+"scapula",
+"upperarm"
+]
+},
+{
+"name": "Teres minor muscle",
+"material": "muscle",
+"superficial": true,
+"group": "back",
+"segments": [
+"scapula",
+"upperarm"
+]
+},
+{
+"name": "Subscapularis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "back",
+"segments": [
+"scapula",
+"upperarm"
+]
+},
+{
+"name": "Pectoralis minor muscle",
+"material": "muscle",
+"superficial": false,
+"group": "chest",
+"segments": [
+"chest",
+"scapula"
+]
+},
+{
+"name": "Scapular spinal part of deltoid muscle",
+"material": "muscle",
+"superficial": true,
+"group": "delts",
+"segments": [
+"scapula",
+"upperarm"
+]
+},
+{
+"name": "Clavipectoral fascia",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"chest",
+"scapula"
+]
+},
+{
+"name": "Subtendinous bursa of teres major muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"upperarm"
+]
+},
+{
+"name": "Pectoral fascia",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"chest"
+],
+"note": "Deep fascia over pectoralis major"
+},
+{
+"name": "Coracobrachialis muscle",
+"material": "muscle",
+"superficial": true,
+"group": "arms",
+"segments": [
+"scapula",
+"upperarm"
+],
+"note": "Visible in axilla / medial upper arm, especially with arms overhead"
+},
+{
+"name": "Sternocostal head of pectoralis major muscle",
+"material": "muscle",
+"superficial": true,
+"group": "chest",
+"segments": [
+"chest",
+"upperarm"
+]
+},
+{
+"name": "Teres major muscle",
+"material": "muscle",
+"superficial": true,
+"group": "lats",
+"segments": [
+"scapula",
+"upperarm"
+]
+},
+{
+"name": "Multifidus thoracis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest"
+]
+},
+{
+"name": "Levatores breves costarum",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest"
+]
+},
+{
+"name": "Semispinalis thoracis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest"
+]
+},
+{
+"name": "Levatores longi costarum",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest"
+]
+},
+{
+"name": "Serratus anterior muscle",
+"material": "muscle",
+"superficial": true,
+"group": "core",
+"segments": [
+"chest",
+"scapula"
+]
+},
+{
+"name": "Transversus thoracis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest"
+],
+"note": "On inner surface of anterior chest wall"
+},
+{
+"name": "Iliocostalis thoracis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"abdomen",
+"chest"
+],
+"note": "Under latissimus dorsi and serratus posterior"
+},
+{
+"name": "Descending part of trapezius muscle",
+"material": "muscle",
+"superficial": true,
+"group": "traps",
+"segments": [
+"chest",
+"scapula"
+],
+"note": "Bounds (z 1.12-1.41, below the neck) match the lower/ascending fibers from T-spine to scapular spine despite the name; segments chosen from geometry"
+},
+{
+"name": "(Abdominal part of pectoralis major muscle)",
+"material": "muscle",
+"superficial": true,
+"group": "chest",
+"segments": [
+"abdomen",
+"chest",
+"upperarm"
+]
+},
+{
+"name": "Short head of biceps brachii",
+"material": "muscle",
+"superficial": true,
+"group": "arms",
+"segments": [
+"scapula",
+"upperarm",
+"forearm"
+]
+},
+{
+"name": "External intercostal muscles",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest"
+]
+},
+{
+"name": "Innermost intercostal muscles",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest"
+]
+},
+{
+"name": "Internal intercostal muscles",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest"
+]
+},
+{
+"name": "Long head of biceps brachii",
+"material": "muscle",
+"superficial": true,
+"group": "arms",
+"segments": [
+"scapula",
+"upperarm",
+"forearm"
+]
+},
+{
+"name": "Long head of triceps brachii",
+"material": "muscle",
+"superficial": true,
+"group": "arms",
+"segments": [
+"scapula",
+"upperarm",
+"forearm"
+]
+},
+{
+"name": "Lateral head of triceps brachii",
+"material": "muscle",
+"superficial": true,
+"group": "arms",
+"segments": [
+"upperarm",
+"forearm"
+]
+},
+{
+"name": "Brachial fascia",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"upperarm"
+]
+},
+{
+"name": "Spinalis thoracis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"abdomen",
+"chest"
+],
+"note": "Under trapezius and latissimus aponeurosis"
+},
+{
+"name": "Lateral intermuscular septum of arm",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"upperarm"
+]
+},
+{
+"name": "Medial head of triceps brachii",
+"material": "muscle",
+"superficial": true,
+"group": "arms",
+"segments": [
+"upperarm",
+"forearm"
+],
+"note": "Visible distally on both sides of the triceps tendon near the elbow"
+},
+{
+"name": "Rotatores",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"abdomen",
+"chest",
+"neck"
+]
+},
+{
+"name": "Medial intermuscular septum of arm",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"upperarm"
+]
+},
+{
+"name": "Longissimus thoracis muscle",
+"material": "muscle",
+"superficial": true,
+"group": "core",
+"segments": [
+"pelvis",
+"abdomen",
+"chest"
+],
+"note": "Lumbar column bulge shows medially under the thin thoracolumbar aponeurosis, not covered by other muscle bellies"
+},
+{
+"name": "Brachialis muscle",
+"material": "muscle",
+"superficial": true,
+"group": "arms",
+"segments": [
+"upperarm",
+"forearm"
+]
+},
+{
+"name": "Diaphragmatic fascia",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"chest",
+"abdomen"
+]
+},
+{
+"name": "Diaphragm",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"chest",
+"abdomen"
+]
+},
+{
+"name": "Latissimus dorsi muscle",
+"material": "muscle",
+"superficial": true,
+"group": "lats",
+"segments": [
+"abdomen",
+"chest",
+"upperarm"
+]
+},
+{
+"name": "Investing abdominal fascia",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"abdomen"
+],
+"note": "Deep fascia sheet wrapping the trunk"
+},
+{
+"name": "Epicranial aponeurosis",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+],
+"note": "scalp, covered by head skin"
+},
+{
+"name": "Frontalis muscle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Temporoparietalis muscle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Superficial layer of temporal fascia",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Procerus muscle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Corrugator supercilii",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Trochlea of superior oblique muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Temporalis muscle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+],
+"note": "mastication"
+},
+{
+"name": "Occipitalis muscle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Levator palpebrae superioris",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Superior oblique muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Superior rectus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Common tendinous ring",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Superior tarsus",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Lateral rectus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Medial rectus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Orbital part of orbicularis oculi",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Palpebral part of orbicularis oculi",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Inferior rectus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Inferior tarsus",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Inferior oblique muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Nasalis muscle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Superior head of lateral pterygoid muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Levator nasolabialis",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Inferior head of lateral pterygoid muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Zygomaticus minor muscle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Levator labii superioris",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Rectus anterior capitis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "neck",
+"segments": [
+"neck",
+"head"
+],
+"note": "deep prevertebral"
+},
+{
+"name": "Obliquus superior capitis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "neck",
+"segments": [
+"neck",
+"head"
+],
+"note": "suboccipital, deep"
+},
+{
+"name": "Levator anguli oris",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Medial pterygoid muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Rectus lateralis capitis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "neck",
+"segments": [
+"neck",
+"head"
+],
+"note": "deep"
+},
+{
+"name": "Rectus posterior minor capitis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "neck",
+"segments": [
+"neck",
+"head"
+],
+"note": "suboccipital, deep"
+},
+{
+"name": "Zygomaticus major muscle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Depressor septi nasi",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Superior pharyngeal constrictor",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head",
+"neck"
+],
+"note": "pharynx"
+},
+{
+"name": "Deep part of masseter",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+],
+"note": "mastication"
+},
+{
+"name": "Masseteric fascia",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Superficial part of masseter",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+],
+"note": "mastication"
+},
+{
+"name": "Rectus posterior major capitis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "neck",
+"segments": [
+"neck",
+"head"
+],
+"note": "suboccipital, deep"
+},
+{
+"name": "Posterior belly of digastric muscle",
+"material": "exclude",
+"superficial": true,
+"group": "neck",
+"segments": [
+"head",
+"neck"
+],
+"note": "partly visible below mandible angle; may sit under head skin edge"
+},
+{
+"name": "Bucinator",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Orbicularis oris muscle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Stylohyoid muscle",
+"material": "exclude",
+"superficial": true,
+"group": "neck",
+"segments": [
+"head",
+"neck"
+],
+"note": "thin, partly visible beside posterior digastric"
+},
+{
+"name": "Risorius muscle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Obliquus inferior capitis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "neck",
+"segments": [
+"neck"
+],
+"note": "suboccipital, deep"
+},
+{
+"name": "Stylopharyngeus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head",
+"neck"
+],
+"note": "pharynx"
+},
+{
+"name": "Middle pharyngeal constrictor",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"neck"
+],
+"note": "pharynx"
+},
+{
+"name": "Depressor anguli oris",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Genioglossus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head"
+],
+"note": "tongue"
+},
+{
+"name": "Depressor labii inferioris",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Longus capitis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "neck",
+"segments": [
+"neck",
+"head"
+],
+"note": "deep prevertebral"
+},
+{
+"name": "Mylohyoid muscle",
+"material": "exclude",
+"superficial": true,
+"group": "neck",
+"segments": [
+"head",
+"neck"
+],
+"note": "floor of mouth, seen from below; may sit under head skin edge"
+},
+{
+"name": "Hyoglossus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"neck",
+"head"
+],
+"note": "tongue"
+},
+{
+"name": "Spinalis capitis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest",
+"neck",
+"head"
+],
+"note": "erector spinae column, hidden under semispinalis/splenius"
+},
+{
+"name": "Palatopharyngeus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"head",
+"neck"
+],
+"note": "palate/pharynx"
+},
+{
+"name": "Geniohyoid muscle",
+"material": "muscle",
+"superficial": false,
+"group": "neck",
+"segments": [
+"head",
+"neck"
+],
+"note": "deep to mylohyoid"
+},
+{
+"name": "Mentalis muscle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"head"
+]
+},
+{
+"name": "Intermediate tendon of digastric muscle",
+"material": "exclude",
+"superficial": true,
+"group": "neck",
+"segments": [
+"neck"
+]
+},
+{
+"name": "Anterior belly of digastric muscle",
+"material": "exclude",
+"superficial": true,
+"group": "neck",
+"segments": [
+"head",
+"neck"
+]
+},
+{
+"name": "Ascending part of trapezius muscle",
+"material": "muscle",
+"superficial": true,
+"group": "traps",
+"segments": [
+"head",
+"neck",
+"scapula"
+],
+"note": "bounds (z 1.415-1.575, reaches occiput) show these are the upper neck fibres despite the 'ascending' label"
+},
+{
+"name": "Interspinales colli muscles",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"neck"
+]
+},
+{
+"name": "Ary-epiglottic part of oblique arytenoid muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"neck"
+],
+"note": "larynx"
+},
+{
+"name": "Inferior pharyngeal constrictor",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"neck"
+],
+"note": "pharynx"
+},
+{
+"name": "Longissimus capitis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest",
+"neck",
+"head"
+],
+"note": "erector spinae column, under splenius/SCM"
+},
+{
+"name": "Thyro-epiglottic part of thyro-arytenoid muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"neck"
+],
+"note": "larynx"
+},
+{
+"name": "Multifidus colli muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"neck"
+]
+},
+{
+"name": "Thyrohyoid muscle",
+"material": "muscle",
+"superficial": true,
+"group": "neck",
+"segments": [
+"neck"
+],
+"note": "infrahyoid, small part visible beside sternohyoid"
+},
+{
+"name": "Superficial investing cervical fascia",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"neck"
+],
+"note": "fascia sheet would hide neck muscles"
+},
+{
+"name": "Sternocleidomastoid muscle",
+"material": "muscle",
+"superficial": true,
+"group": "neck",
+"segments": [
+"chest",
+"neck",
+"head"
+]
+},
+{
+"name": "Transverse arytenoid muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"neck"
+],
+"note": "larynx"
+},
+{
+"name": "External part of thyro-arytenoid muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"neck"
+],
+"note": "larynx"
+},
+{
+"name": "Lateral crico-arytenoid muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"neck"
+],
+"note": "larynx"
+},
+{
+"name": "Posterior crico-arytenoid muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"neck"
+],
+"note": "larynx"
+},
+{
+"name": "Platysma",
+"material": "exclude",
+"superficial": true,
+"group": "neck",
+"segments": [
+"chest",
+"neck",
+"head"
+],
+"note": "thin outer sheet over anterior neck; may obscure SCM and infrahyoids"
+},
+{
+"name": "Scalenus medius muscle",
+"material": "muscle",
+"superficial": true,
+"group": "neck",
+"segments": [
+"neck",
+"chest"
+],
+"note": "floor of posterior triangle"
+},
+{
+"name": "Straight part of cricothyroid muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"neck"
+],
+"note": "larynx"
+},
+{
+"name": "Longus colli muscle",
+"material": "muscle",
+"superficial": false,
+"group": "neck",
+"segments": [
+"chest",
+"neck"
+],
+"note": "deep prevertebral"
+},
+{
+"name": "Splenius capitis muscle",
+"material": "muscle",
+"superficial": true,
+"group": "neck",
+"segments": [
+"chest",
+"neck",
+"head"
+]
+},
+{
+"name": "Oblique part of cricothyroid muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"neck"
+],
+"note": "larynx"
+},
+{
+"name": "Levator scapulae",
+"material": "muscle",
+"superficial": true,
+"group": "back",
+"segments": [
+"neck",
+"scapula"
+],
+"note": "visible in posterior triangle"
+},
+{
+"name": "Spinalis colli muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest",
+"neck"
+]
+},
+{
+"name": "Scalenus anterior muscle",
+"material": "muscle",
+"superficial": false,
+"group": "neck",
+"segments": [
+"neck",
+"chest"
+],
+"note": "behind clavicular head of SCM"
+},
+{
+"name": "Scalenus posterior muscle",
+"material": "muscle",
+"superficial": true,
+"group": "neck",
+"segments": [
+"neck",
+"chest"
+],
+"note": "small part in lower posterior triangle"
+},
+{
+"name": "Lateral femoral intermuscular septum",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"thigh"
+],
+"note": "septum between vastus lateralis and hamstrings"
+},
+{
+"name": "Vastus lateralis muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"thigh",
+"shin"
+]
+},
+{
+"name": "Long head of biceps femoris",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"pelvis",
+"thigh",
+"shin"
+]
+},
+{
+"name": "Vastus intermedius muscle",
+"material": "muscle",
+"superficial": false,
+"group": "legs",
+"segments": [
+"thigh",
+"shin"
+],
+"note": "covered by rectus femoris and the other vasti"
+},
+{
+"name": "Semimembranosus muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"pelvis",
+"thigh",
+"shin"
+],
+"note": "visible on either side of the semitendinosus in the lower posteromedial thigh"
+},
+{
+"name": "Gracilis muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"pelvis",
+"thigh",
+"shin"
+]
+},
+{
+"name": "Vastus medialis muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"thigh",
+"shin"
+]
+},
+{
+"name": "Semitendinosus muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"pelvis",
+"thigh",
+"shin"
+]
+},
+{
+"name": "Short head of biceps femoris",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"thigh",
+"shin"
+],
+"note": "partly visible laterally above the knee, beside the long head"
+},
+{
+"name": "Suprapatellar bursa",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"thigh"
+]
+},
+{
+"name": "Popliteal fascia",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"thigh",
+"shin"
+],
+"note": "deep fascia sheet over popliteal fossa; would hide gastrocnemius heads and hamstring tendons"
+},
+{
+"name": "Medial subtendinous bursa of gastrocnemius muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"thigh"
+]
+},
+{
+"name": "Lateral subtendinous bursa of gastrocnemius muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"thigh"
+]
+},
+{
+"name": "Medial patellar retinaculum",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"thigh",
+"shin"
+]
+},
+{
+"name": "Lateral patellar retinaculum",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"thigh",
+"shin"
+]
+},
+{
+"name": "Subcutaneous prepatellar bursa",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Subfacial prepatellar bursa",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Subtendinous prepatellar bursa",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Deep infrapatellar bursa",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Subcutaneous infrapatellar bursa",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Semimembranosus bursa",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Inferior subtendinous bursa of biceps femoris muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Popliteus muscle",
+"material": "muscle",
+"superficial": false,
+"group": "legs",
+"segments": [
+"thigh",
+"shin"
+],
+"note": "covered by gastrocnemius heads and plantaris"
+},
+{
+"name": "Subcutaneous bursa of tuberosity of tibia",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Anserine bursa",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Subtendinous bursa of sartorius muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Medial head of gastrocnemius",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"thigh",
+"shin",
+"foot"
+]
+},
+{
+"name": "Lateral head of gastrocnemius",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"thigh",
+"shin",
+"foot"
+]
+},
+{
+"name": "Soleus muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Plantaris muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"thigh",
+"shin",
+"foot"
+],
+"note": "small belly partly visible in popliteal fossa; long tendon runs medial to calcaneal tendon"
+},
+{
+"name": "Anterior intermuscular septum of leg",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Transverse intermuscular septum of leg",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Extensor digitorum longus",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Posterior intermuscular septum of leg",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Crural fascia",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"shin"
+],
+"note": "deep fascia sheet enveloping the whole leg; would hide all leg muscles"
+},
+{
+"name": "Tibialis anterior muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Fibularis longus muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Tibialis posterior muscle",
+"material": "muscle",
+"superficial": false,
+"group": "legs",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Flexor digitorum longus",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"shin",
+"foot"
+],
+"note": "distal belly visible on medial lower leg behind tibia; mesh includes tendons into the sole (hidden by foot skin)"
+},
+{
+"name": "Flexor hallucis longus",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"shin",
+"foot"
+],
+"note": "only a small strip visible just above the ankle beside the calcaneal tendon"
+},
+{
+"name": "Extensor hallucis longus",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Fibularis brevis muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Calcaneal tendon",
+"material": "tendon",
+"superficial": true,
+"group": "legs",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Superior extensor retinaculum of ankle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Tendon sheath of tibialis anterior",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Tendon sheath of extensor digitorum longus",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Tendon sheath of extensor hallucis longus",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Fibularis tertius muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Inferior extensor retinaculum of ankle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"foot"
+]
+},
+{
+"name": "Subcutaneous bursa of medial malleolus",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Tendon sheath of tibialis posterior muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Subcutaneous bursa of lateral malleolus",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"shin"
+]
+},
+{
+"name": "Tendon sheath of flexor hallucis longus",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+]
+},
+{
+"name": "Subtendinous calcaneal bursa",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+]
+},
+{
+"name": "Superior fibular retinaculum",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Tendon sheath of flexor digitorum longus",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+]
+},
+{
+"name": "Common tendon sheath of fibularis muscles",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Tendon of extensor digitorum longus",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "tendon slips on dorsum of foot to toes (z<0.095), inside the foot skin mesh"
+},
+{
+"name": "Flexor retinaculum of ankle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"shin",
+"foot"
+]
+},
+{
+"name": "Subtendinous bursa of tibialis anterior",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+]
+},
+{
+"name": "Extensor hallucis brevis",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle"
+},
+{
+"name": "Inferior fibular retinaculum",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"foot"
+]
+},
+{
+"name": "Extensor digitorum brevis",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle"
+},
+{
+"name": "Subcutaneous calcaneal bursa",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"foot"
+]
+},
+{
+"name": "Dorsal interossei muscles of foot",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle"
+},
+{
+"name": "Plantar tendon sheath of fibularis longus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+]
+},
+{
+"name": "Medial head of flexor hallucis brevis",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle"
+},
+{
+"name": "Plantar interossei muscles",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle"
+},
+{
+"name": "Oblique head of adductor hallucis",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle"
+},
+{
+"name": "Lateral head of flexor hallucis brevis",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle"
+},
+{
+"name": "Abductor hallucis",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle"
+},
+{
+"name": "Quadratus plantae muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle"
+},
+{
+"name": "Lumbrical muscles of foot",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle"
+},
+{
+"name": "(Opponens digiti minimi muscle of foot)",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle (inconstant)"
+},
+{
+"name": "Abductor digiti minimi of foot",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle"
+},
+{
+"name": "Transverse head of adductor hallucis",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle"
+},
+{
+"name": "Flexor digiti minimi of foot",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle"
+},
+{
+"name": "Flexor digitorum brevis",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "intrinsic foot muscle, under plantar aponeurosis"
+},
+{
+"name": "Plantar aponeurosis",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"foot"
+],
+"note": "inside foot skin"
+},
+{
+"name": "Superficial transverse metatarsal ligament",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"foot"
+]
+},
+{
+"name": "Serratus posterior inferior muscle",
+"material": "muscle",
+"superficial": false,
+"group": "back",
+"segments": [
+"abdomen",
+"chest"
+],
+"note": "covered by latissimus dorsi"
+},
+{
+"name": "Subtendinous bursa of triceps brachii muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"upperarm",
+"forearm"
+],
+"note": "bursa"
+},
+{
+"name": "Iliocostalis lumborum muscle",
+"material": "muscle",
+"superficial": true,
+"group": "core",
+"segments": [
+"pelvis",
+"abdomen",
+"chest"
+],
+"note": "erector spinae; lateral margin shows beside thoracolumbar fascia, mostly under latissimus"
+},
+{
+"name": "Multifidus lumborum muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"pelvis",
+"abdomen"
+],
+"note": "deep transversospinalis"
+},
+{
+"name": "Dorsal parts of lateral intertransversarii lumborum muscles",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"abdomen"
+],
+"note": "deep"
+},
+{
+"name": "External abdominal oblique muscle",
+"material": "muscle",
+"superficial": true,
+"group": "core",
+"segments": [
+"chest",
+"abdomen",
+"pelvis"
+]
+},
+{
+"name": "Anconeus muscle",
+"material": "muscle",
+"superficial": true,
+"group": "arms",
+"segments": [
+"upperarm",
+"forearm"
+]
+},
+{
+"name": "Interspinales lumborum muscles",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"abdomen"
+],
+"note": "deep"
+},
+{
+"name": "Bicipitoradial bursa",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"forearm"
+],
+"note": "bursa"
+},
+{
+"name": "Rectus abdominis muscle",
+"material": "muscle",
+"superficial": true,
+"group": "core",
+"segments": [
+"pelvis",
+"abdomen",
+"chest"
+]
+},
+{
+"name": "Transversus abdominis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"chest",
+"abdomen",
+"pelvis"
+],
+"note": "deepest abdominal layer"
+},
+{
+"name": "Supinator",
+"material": "muscle",
+"superficial": false,
+"group": "forearms",
+"segments": [
+"upperarm",
+"forearm"
+],
+"note": "deep to extensors"
+},
+{
+"name": "Ventral parts of lateral intertransversarii lumborum muscles",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"abdomen"
+],
+"note": "deep"
+},
+{
+"name": "Superficial head of pronator teres",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"upperarm",
+"forearm"
+]
+},
+{
+"name": "Internal abdominal oblique muscle",
+"material": "muscle",
+"superficial": true,
+"group": "core",
+"segments": [
+"pelvis",
+"abdomen",
+"chest"
+],
+"note": "mostly under external oblique; small patch in inferior lumbar triangle"
+},
+{
+"name": "Middle layer of thoracolumbar fascia",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"abdomen"
+],
+"note": "deep fascia layer"
+},
+{
+"name": "Posterior layer of thoracolumbar fascia",
+"material": "tendon",
+"superficial": true,
+"group": "lats",
+"segments": [
+"pelvis",
+"abdomen",
+"chest"
+],
+"note": "latissimus dorsi aponeurosis over lumbar erector spinae"
+},
+{
+"name": "Quadratus lumborum muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"pelvis",
+"abdomen",
+"chest"
+],
+"note": "deep"
+},
+{
+"name": "Anterior layer of thoracolumbar fascia",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"abdomen"
+],
+"note": "deep fascia layer"
+},
+{
+"name": "Transversalis fascia",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"abdomen"
+],
+"note": "internal fascia"
+},
+{
+"name": "Linea alba",
+"material": "tendon",
+"superficial": true,
+"group": "core",
+"segments": [
+"chest",
+"abdomen",
+"pelvis"
+],
+"note": "midline raphe between recti"
+},
+{
+"name": "Brachioradialis muscle",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"upperarm",
+"forearm"
+]
+},
+{
+"name": "Deep head of pronator teres",
+"material": "muscle",
+"superficial": false,
+"group": "forearms",
+"segments": [
+"forearm"
+],
+"note": "deep head"
+},
+{
+"name": "Antebrachial fascia",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"forearm"
+],
+"note": "deep fascia sheet hiding forearm muscles"
+},
+{
+"name": "Extensor carpi radialis longus",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"upperarm",
+"forearm",
+"hand"
+]
+},
+{
+"name": "Ulnar head of flexor carpi ulnaris",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"forearm",
+"hand"
+]
+},
+{
+"name": "Humeral head of extensor carpi ulnaris",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"upperarm",
+"forearm",
+"hand"
+]
+},
+{
+"name": "Extensor carpi radialis brevis",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"upperarm",
+"forearm",
+"hand"
+]
+},
+{
+"name": "Flexor carpi radialis",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"upperarm",
+"forearm",
+"hand"
+]
+},
+{
+"name": "Humeral head of flexor carpi ulnaris",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"upperarm",
+"forearm",
+"hand"
+]
+},
+{
+"name": "Psoas major",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"abdomen",
+"pelvis",
+"thigh"
+],
+"note": "hip flexor (iliopsoas), deep"
+},
+{
+"name": "Radial head of flexor digitorum superficialis",
+"material": "muscle",
+"superficial": false,
+"group": "forearms",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "under pronator teres/FCR"
+},
+{
+"name": "Iliopsoas fascia",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "fascia"
+},
+{
+"name": "Palmaris longus muscle",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"upperarm",
+"forearm",
+"hand"
+]
+},
+{
+"name": "Extensor digiti minimi",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"upperarm",
+"forearm",
+"hand"
+]
+},
+{
+"name": "Abductor pollicis longus",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "outcropping muscle on distal dorsal-radial forearm"
+},
+{
+"name": "Ulnar head of extensor carpi ulnaris",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "part of ECU belly"
+},
+{
+"name": "Extensor digitorum",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"upperarm",
+"forearm",
+"hand"
+]
+},
+{
+"name": "Humero-ulnar head of flexor digitorum superficialis",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"upperarm",
+"forearm",
+"hand"
+],
+"note": "visible between palmaris longus and FCU"
+},
+{
+"name": "Gluteus medius muscle",
+"material": "muscle",
+"superficial": true,
+"group": "glutes",
+"segments": [
+"pelvis",
+"thigh"
+]
+},
+{
+"name": "Flexor pollicis longus",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "small distal radial strip visible near wrist"
+},
+{
+"name": "Gluteus minimus muscle",
+"material": "muscle",
+"superficial": false,
+"group": "glutes",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "under gluteus medius"
+},
+{
+"name": "Pronator quadratus",
+"material": "muscle",
+"superficial": false,
+"group": "forearms",
+"segments": [
+"forearm"
+],
+"note": "deep"
+},
+{
+"name": "Inguinal ligament",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"pelvis"
+],
+"note": "ligament"
+},
+{
+"name": "Flexor digitorum profundus",
+"material": "muscle",
+"superficial": false,
+"group": "forearms",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "deep flexor"
+},
+{
+"name": "Iliacus muscle",
+"material": "muscle",
+"superficial": false,
+"group": "core",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "hip flexor (iliopsoas), deep"
+},
+{
+"name": "Piriformis fascia",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "fascia"
+},
+{
+"name": "Piriformis muscle",
+"material": "muscle",
+"superficial": false,
+"group": "glutes",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "under gluteus maximus"
+},
+{
+"name": "Pyramidalis muscle",
+"material": "exclude",
+"superficial": true,
+"group": "core",
+"segments": [
+"pelvis",
+"abdomen"
+],
+"note": "in front of lower rectus abdominis"
+},
+{
+"name": "Extensor pollicis longus",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "only tendon/distal belly at dorsal wrist"
+},
+{
+"name": "Tensor fasciae latae",
+"material": "muscle",
+"superficial": true,
+"group": "glutes",
+"segments": [
+"pelvis",
+"thigh"
+]
+},
+{
+"name": "Extensor pollicis brevis",
+"material": "muscle",
+"superficial": true,
+"group": "forearms",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "outcropping muscle with APL"
+},
+{
+"name": "Iliopectineal arch",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis"
+],
+"note": "ligamentous arch"
+},
+{
+"name": "Tendon sheath of extensors carpi radialis",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "synovial sheath"
+},
+{
+"name": "Tendon sheath of flexor carpi radialis",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "synovial sheath"
+},
+{
+"name": "(Iliopectineal bursa)",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "bursa"
+},
+{
+"name": "Superior gemellus muscle",
+"material": "muscle",
+"superficial": false,
+"group": "glutes",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "deep hip rotator"
+},
+{
+"name": "Tendon sheath - abd. pollicis longus - ext. pollicis brevis",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "synovial sheath"
+},
+{
+"name": "Tendon sheath of extensor carpi ulnaris",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "synovial sheath"
+},
+{
+"name": "Coccygeus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis"
+],
+"note": "pelvic floor"
+},
+{
+"name": "Flexor retinaculum of wrist",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "retinaculum"
+},
+{
+"name": "Bursa of piriformis muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "bursa"
+},
+{
+"name": "Extensor retinaculum of wrist",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "retinaculum"
+},
+{
+"name": "Tendon sheath of extensor digitorum and extensor indicis",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "synovial sheath"
+},
+{
+"name": "Tendon sheath of extensor pollicis longus",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "synovial sheath"
+},
+{
+"name": "Tendinous arch of levator ani",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis"
+],
+"note": "pelvic floor fascia"
+},
+{
+"name": "Sciatic bursa of obturator internus",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis"
+],
+"note": "bursa"
+},
+{
+"name": "Obturator internus",
+"material": "muscle",
+"superficial": false,
+"group": "glutes",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "deep hip rotator"
+},
+{
+"name": "Trochanteric bursa of gluteus minimus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"thigh"
+],
+"note": "bursa"
+},
+{
+"name": "Subtendinous bursa of obturator internus",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "bursa"
+},
+{
+"name": "Trochanteric bursa of gluteus medius muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"thigh"
+],
+"note": "bursa"
+},
+{
+"name": "Iliococcygeus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis"
+],
+"note": "pelvic floor"
+},
+{
+"name": "Gluteus maximus muscle",
+"material": "muscle",
+"superficial": true,
+"group": "glutes",
+"segments": [
+"pelvis",
+"thigh"
+]
+},
+{
+"name": "Inferior gemellus muscle",
+"material": "muscle",
+"superficial": false,
+"group": "glutes",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "deep hip rotator"
+},
+{
+"name": "Tendon sheath of flexor pollicis longus",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "synovial sheath"
+},
+{
+"name": "Deep head of flexor pollicis brevis",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "intrinsic hand (thenar)"
+},
+{
+"name": "Abductor pollicis brevis",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "intrinsic hand (thenar), under hand skin"
+},
+{
+"name": "Pubococcygeus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis"
+],
+"note": "pelvic floor"
+},
+{
+"name": "Tendon sheath of extensor digiti minimi manus",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "synovial sheath"
+},
+{
+"name": "Trochanteric bursa of gluteus maximus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"thigh"
+],
+"note": "bursa"
+},
+{
+"name": "Superficial head of flexor pollicis brevis",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "intrinsic hand (thenar), under hand skin"
+},
+{
+"name": "Obturator externus",
+"material": "muscle",
+"superficial": false,
+"group": "legs",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "deep"
+},
+{
+"name": "Subcutaneous trochanteric bursa",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"thigh"
+],
+"note": "bursa"
+},
+{
+"name": "Opponens pollicis muscle",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "intrinsic hand (thenar), under hand skin"
+},
+{
+"name": "Pubo-analis muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis"
+],
+"note": "pelvic floor"
+},
+{
+"name": "Oblique head of adductor pollicis",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "intrinsic hand"
+},
+{
+"name": "Extensor indicis",
+"material": "muscle",
+"superficial": false,
+"group": "forearms",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "deep to extensor digitorum"
+},
+{
+"name": "Common flexor tendon sheath",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"forearm",
+"hand"
+],
+"note": "synovial sheath"
+},
+{
+"name": "Opponens digiti minimi muscle of hand",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "intrinsic hand (hypothenar)"
+},
+{
+"name": "Quadratus femoris muscle",
+"material": "muscle",
+"superficial": false,
+"group": "glutes",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "deep hip rotator"
+},
+{
+"name": "Sciatic bursa of gluteus maximus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "bursa"
+},
+{
+"name": "Abductor digiti minimi of hand",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "intrinsic hand (hypothenar), under hand skin"
+},
+{
+"name": "External anal sphincter",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis"
+],
+"note": "perineum"
+},
+{
+"name": "Flexor digiti minimi of hand",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "intrinsic hand (hypothenar), under hand skin"
+},
+{
+"name": "Transverse head of adductor pollicis",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "intrinsic hand"
+},
+{
+"name": "Dorsal interossei muscles of hand",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "intrinsic hand, under hand skin"
+},
+{
+"name": "Superior bursa of biceps femoris muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "bursa"
+},
+{
+"name": "Pectineus muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "floor of femoral triangle"
+},
+{
+"name": "Palmar interossei muscles",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "intrinsic hand"
+},
+{
+"name": "Subtendinous bursa of iliacus muscle",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "bursa"
+},
+{
+"name": "Superficial transverse metacarpal ligament",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "ligament"
+},
+{
+"name": "Dorsal fascia of hand",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "hand fascia, under hand skin"
+},
+{
+"name": "Lumbrical muscles of hand",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "intrinsic hand"
+},
+{
+"name": "Palmar aponeurosis",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "hand aponeurosis, under hand skin"
+},
+{
+"name": "(Adductor minimus)",
+"material": "muscle",
+"superficial": false,
+"group": "legs",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "upper part of adductor magnus, under gluteus maximus"
+},
+{
+"name": "Intermuscular gluteal bursae",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"thigh"
+],
+"note": "bursa"
+},
+{
+"name": "Adductor brevis",
+"material": "muscle",
+"superficial": false,
+"group": "legs",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "under adductor longus/pectineus"
+},
+{
+"name": "Cruciform part of fibrous sheath of digit of hand",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "fibrous digital sheath"
+},
+{
+"name": "Synovial sheaths of digits of hand",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"hand"
+],
+"note": "synovial sheath"
+},
+{
+"name": "Fascia lata",
+"material": "exclude",
+"superficial": true,
+"group": "none",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "deep fascia sheet hiding thigh muscles"
+},
+{
+"name": "Adductor longus",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"pelvis",
+"thigh"
+]
+},
+{
+"name": "Iliotibial tract",
+"material": "tendon",
+"superficial": true,
+"group": "glutes",
+"segments": [
+"pelvis",
+"thigh",
+"shin"
+],
+"note": "insertion of TFL and gluteus maximus"
+},
+{
+"name": "Medial femoral intermuscular septum",
+"material": "exclude",
+"superficial": false,
+"group": "none",
+"segments": [
+"thigh"
+],
+"note": "septum"
+},
+{
+"name": "Sartorius muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"pelvis",
+"thigh",
+"shin"
+]
+},
+{
+"name": "Rectus femoris muscle",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"pelvis",
+"thigh",
+"shin"
+]
+},
+{
+"name": "Adductor magnus",
+"material": "muscle",
+"superficial": true,
+"group": "legs",
+"segments": [
+"pelvis",
+"thigh"
+],
+"note": "visible posteromedially"
+}
+]
