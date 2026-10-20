@@ -2,6 +2,7 @@
 
 Ready to paste. Instagram handle **@drmak_fitness**, YouTube **@drmakfitness**.
 Clips ending `_ig` say **Follow** for Reels; clips ending `_yt` say **Subscribe** for Shorts.
+The reels are the native `v1`–`v4` shorts (own script and hook, full 9:16 design).
 
 ---
 
@@ -66,109 +67,110 @@ I reply to every comment 🔥
 
 ---
 
-## 🎬 Reel / Short 1 · Your body has 3 energy gears (~29 s)
+## 🎬 Reel / Short 1 · Your body has 3 gears (~32 s) · `v1_three_gears`
 
 **Instagram**
 ```
-Your body runs on 3 GEARS ⚙️ (most people only ever use one)
+If you only lift weights, you're missing one of these ⚙️
 
-⚡ Gear 1: stored energy, ~10 sec of all-out effort
+⚡ Gear 1: stored energy, ~10 sec all-out
 🔥 Gear 2: fast sugar burn, up to 2 min (that's the burn in a hard set)
-🫀 Gear 3: aerobic engine, runs for HOURS
+❤️ Gear 3: aerobic engine, runs for hours
 
-A good beginner workout trains all three. Which gear did you train today? 👇
+Lifting trains gears 1 + 2. Just 10 min of easy cardio trains gear 3.
+Train all three and your engine gets bigger every week 🔥
 
-📌 Save this · Follow @drmak_fitness for science-backed training
-▶ Full 7-min beginner guide on YouTube: Dr Mak Fitness (link in bio)
+Which gear do you skip? 👇
+📌 Save · Follow @drmak_fitness for the full beginner workout
 
-#metabolism #exercisescience #fitnessfacts #gymbeginner #fitnessforbeginners #cardiovsweights #energysystems #fitnesstips #gymmotivation #fitnessindia #fitnessreels #drmakfitness
+#metabolism #exercisescience #fitnessfacts #liftingweights #cardio #zone2 #gymbeginner #fitnesstips #gymmotivation #fitnessindia #fitnessreels #drmakfitness
 ```
 **YouTube Shorts**
-- Title: `Your Body Has 3 Energy Gears ⚙️ (Most People Only Use One) #shorts`
-- Description: `Gear 1 lasts 10 seconds, gear 3 runs for hours. Which one did you train today? 👇 Full beginner guide on the channel. #shorts #fitness #metabolism #gymbeginner #exercisescience`
+- Title: `If You Only Lift Weights, You're Missing This ⚙️ #shorts`
+- Description: `Your body runs on 3 energy gears. Lifting trains two. Here's how to train the third. Full beginner workout on the channel. #shorts #fitness #metabolism #cardio #gymbeginner`
 
 ---
 
-## 🎬 Reel / Short 2 · Beginner? Start with the goblet squat (~31 s)
+## 🎬 Reel / Short 2 · New to the gym? Start with THIS (~32 s) · `v2_goblet_squat`
 
 **Instagram**
 ```
-Day 1 at the gym? Do THIS before anything else 👇
+New to the gym? Don't start with the barbell squat ❌ Start with THIS 👇
 
-The goblet squat 🏋️ (your legs are your biggest engine)
-✅ Dumbbell at your chest
-✅ Sit down between your hips
-✅ Knees follow your toes
-❌ Heels lifting? Sit back, weight in mid-foot
+The goblet squat 🏋️
+1️⃣ Dumbbell at your chest
+2️⃣ Chest up, back safe
+3️⃣ Feet shoulder-width
+4️⃣ Sit between your hips
+5️⃣ Knees follow your toes
+6️⃣ Drive the floor away
 
-3 sets of 10. Tag your gym partner who skips leg day 😅
+❌ Heels lifting? Keep your weight in your mid-foot.
+3 sets of 10. Your legs are your biggest engine 🔥
 
-📌 Save for leg day · Follow @drmak_fitness
-▶ 7 more beginner exercises on YouTube (link in bio)
+📌 Save for leg day · Tag a gym newbie 👇
+Follow @drmak_fitness
 
 #gobletsquat #legday #squatform #gymbeginner #beginnerworkout #legworkout #formcheck #gymtips #fitnessforbeginners #fitnessindia #gymreels #drmakfitness
 ```
 **YouTube Shorts**
-- Title: `Beginner? Do This Squat First 🏋️ (Not the Barbell) #shorts`
-- Description: `Goblet squat form, the #1 beginner mistake and the fix. 3×10. 7 more beginner exercises in the full video. #shorts #legday #squat #gymbeginner #formcheck`
+- Title: `New to the Gym? Don't Start With the Barbell Squat ❌ #shorts`
+- Description: `Start with the goblet squat: 6 form cues, the #1 mistake and the fix. 3×10. #shorts #legday #squat #gymbeginner #formcheck`
 
 ---
 
-## 🎬 Reel / Short 3 · Your first gym plan (save this) (~39 s)
+## 🎬 Reel / Short 3 · Stop overthinking your gym plan (~27 s) · `v3_first_plan`
 
 **Instagram**
 ```
-The ONLY gym plan a beginner needs 📅 SAVE THIS 📌
+Stop overthinking your first gym plan. This is ALL you need 📅
 
-🗓 Full body, 3 days a week (Mon · Wed · Fri)
-🔁 2–3 sets of 8–12 reps
-⏱ Rest 60–90 sec (~50 min a session)
-🎯 Stop with 2–3 reps still in the tank
-📈 Hit 12 reps on every set → add a little weight
+🗓 3 full-body days (Mon · Wed · Fri)
+🔁 2–3 sets × 8–12 reps
+⏱ Rest 60–90 sec
+🤫 The secret: stop every set with 2–3 reps in the tank
+📈 Hit 12 on every set → add a little weight
 
-Weeks 1–2: go light and learn the moves. Then let the engine grow 🔥
+Run it for 12 weeks before you change anything. That's it.
 
-Comment "PLAN" and I'll send you the full workout 👇
-Follow @drmak_fitness · Full video on YouTube (link in bio)
+Comment "PLAN" and I'll send you the exercises 👇
+📌 Save this · Follow @drmak_fitness
 
 #workoutplan #beginnerworkout #gymplan #fullbodyworkout #progressiveoverload #gymbeginner #3dayworkout #workoutroutine #fitnesstips #fitnessindia #gymreels #drmakfitness
 ```
 **YouTube Shorts**
-- Title: `The Only Beginner Gym Plan You Need 📅 (Save This) #shorts`
-- Description: `3 days · 2–3 sets · 8–12 reps · double progression. Full 8-exercise workout on the channel. #shorts #workoutplan #gym #beginner #progressiveoverload`
+- Title: `Stop Overthinking Your Gym Plan. This Is All You Need 📅 #shorts`
+- Description: `3 days · 2–3 sets · 8–12 reps · 2–3 reps in the tank · 12 weeks. Full workout on the channel. #shorts #workoutplan #gym #beginner #progressiveoverload`
 
 ---
 
-## 🎬 Reel / Short 4 · Grow faster: fuel + 3 mistakes (~37 s)
+## 🎬 Reel / Short 4 · 3 mistakes keeping you stuck (~32 s) · `v4_three_mistakes`
 
 **Instagram**
 ```
-Not seeing gains? It's probably one of these 3 mistakes ❌
+3 mistakes that keep beginners stuck at the same weight ❌
 
-1️⃣ Too heavy, too soon
-2️⃣ Skipping the warm-up
-3️⃣ A new program every week
+1️⃣ Too heavy, too soon: your ego grows, your muscles don't 📉
+2️⃣ Skipping the warm-up: 5 minutes is all it takes
+3️⃣ A new program every week: your body needs time to adapt ⏳
 
-And your engine needs fuel ⛽
-🍳 1.6 g protein per kg (70 kg ≈ 112 g a day)
-🌙 7–9 h sleep: that's when muscle is built
-👟 7–8k steps a day
+And fix your fuel ⛽
+🍳 ~1.6 g protein per kg of body weight
+🌙 7–9 h sleep
 
 Which one are you guilty of? Be honest 👇😅
-
 📌 Save · Follow @drmak_fitness
-▶ Full beginner guide on YouTube (link in bio)
 
-#gymmistakes #musclegain #proteinintake #beginnerfitness #recovery #sleepbetter #noexcuses #fitnesstips #gymbeginner #fitnessindia #gymreels #drmakfitness
+#gymmistakes #musclegain #proteinintake #beginnerfitness #progressiveoverload #recovery #noexcuses #fitnesstips #gymbeginner #fitnessindia #gymreels #drmakfitness
 ```
 **YouTube Shorts**
-- Title: `3 Beginner Gym Mistakes Killing Your Gains ❌ #shorts`
-- Description: `Too heavy, no warm-up, new plan every week, plus how much protein, sleep and steps you need. Full video on the channel. #shorts #gym #protein #musclegain #gymmistakes`
+- Title: `3 Mistakes Keeping You Stuck at the Same Weight ❌ #shorts`
+- Description: `Ego lifting, no warm-up, program hopping, plus the protein and sleep you need. Which one are you? 👇 #shorts #gym #gymmistakes #musclegain #protein`
 
 ---
 
 ## 📈 Posting tips
-- **Order:** #3 (plan, most saveable) → #2 (squat) → #4 (mistakes) → #1 (gears), one a day.
+- **Order:** #2 (squat, strongest hook) → #3 (plan, most saveable) → #4 (mistakes, comment bait) → #1 (gears), one a day.
 - **Time:** test 7–9 pm local time; keep what performs best.
 - **Cover:** the frame where the red headline is fully on screen (about 1 s in).
 - **Comments:** reply to every comment in the first hour; pin the question comment.
