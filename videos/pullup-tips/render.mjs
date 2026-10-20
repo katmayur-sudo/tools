@@ -1,0 +1,61 @@
+// Render the "5 Pull-Up Tips" short (9:16).
+//
+// Usage: node render.mjs <film_dir> <timeline.json> <out> [--stills t1,t2,...] [--workers 4]
+//   --stills : <out> is a directory of JPEG stills; else <out> is the silent MP4 (mux mix.wav after)
+// <film_dir>/assets holds three.min.js (r158) and anatomy.bin/.json from
+// ../pullup-mistakes/tools/export_anatomy.py. WebGL runs on SwiftShader, so no GPU is needed.
+import { spawn } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const PW = process.env.PLAYWRIGHT_MODULE ?? "/opt/node22/lib/node_modules/playwright/index.mjs";
+const { chromium } = await import(fs.existsSync(PW) ? PW : "playwright");
+const [filmDir, sbPath, out, ...rest] = process.argv.slice(2);
+const opt = k => (rest.includes(k) ? rest[rest.indexOf(k) + 1] : undefined);
+const here = path.dirname(fileURLToPath(import.meta.url));
+const assets = path.resolve(filmDir, "assets") + "/";
+const shared = path.resolve(here, "../pullup-mistakes/render") + "/";
+const pagePath = path.resolve(filmDir, ".tips.html");
+fs.writeFileSync(pagePath, fs.readFileSync(path.join(here, "tips.html"), "utf8")
+  .replaceAll("__ASSETS__", "file://" + assets).replaceAll("__RENDER__", "file://" + shared));
+const sb = JSON.parse(fs.readFileSync(sbPath, "utf8"));
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
+  args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist", "--allow-file-access-from-files"] });
+
+async function open() {
+  const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
+  await page.goto("file://" + pagePath);
+  const dur = await page.evaluate(s => window.setShort(s), sb);
+  await page.evaluate(() => document.fonts.ready);
+  return { page, dur };
+}
+const shot = async (page, t) => { await page.evaluate(x => window.renderAt(x), t); return page.screenshot({ type: "jpeg", quality: 92 }); };
+
+if (opt("--stills")) {
+  fs.mkdirSync(out, { recursive: true });
+  const { page } = await open();
+  for (const t of opt("--stills").split(",").map(Number)) fs.writeFileSync(path.join(out, `s_${t.toFixed(2)}.jpg`), await shot(page, t));
+} else {
+  const workers = Number(opt("--workers") ?? 4);
+  const { page: p0, dur } = await open(); await p0.close();
+  const frames = Math.round(dur * 30), per = Math.ceil(frames / workers);
+  const parts = await Promise.all([...Array(workers)].map(async (_, w) => {
+    const { page } = await open(), part = `${out}.part${w}.mp4`;
+    const ff = spawn("ffmpeg", ["-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", "30", "-c:v", "mjpeg", "-i", "-",
+      "-c:v", "libx264", "-preset", "medium", "-crf", "17", "-pix_fmt", "yuv420p", part], { stdio: ["pipe", "inherit", "inherit"] });
+    for (let f = w * per; f < Math.min(frames, (w + 1) * per); f++) {
+      const buf = await shot(page, f / 30);
+      if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once("drain", r));
+    }
+    ff.stdin.end(); await new Promise(r => ff.on("close", r));
+    return part;
+  }));
+  fs.writeFileSync(`${out}.txt`, parts.map(p => `file '${path.resolve(p)}'`).join("\n"));
+  await new Promise(r => spawn("ffmpeg", ["-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", `${out}.txt`, "-c", "copy", out], { stdio: "inherit" }).on("close", r));
+  for (const p of parts) fs.unlinkSync(p);
+  fs.unlinkSync(`${out}.txt`);
+  console.log(frames, "frames ->", out);
+}
+await browser.close();
+fs.unlinkSync(pagePath);
