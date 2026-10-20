@@ -74,6 +74,98 @@ def swish(d=0.35):
     return lowpass(rng.standard_normal(n), 2500) * env(n, 0.12, 0.2) * 0.3
 
 
+def tone(freqs, d, decay, amp=0.3, attack=0.004):
+    n = int(d * SR)
+    t = np.arange(n) / SR
+    x = sum(np.sin(2 * np.pi * f * t) * (0.6 ** k) for k, f in enumerate(freqs))
+    e = np.exp(-t * decay)
+    e[:int(attack * SR)] *= np.linspace(0, 1, int(attack * SR))
+    return x * e * amp
+
+
+def tick():
+    return tone([2400, 4800], 0.05, 120, 0.22) + lowpass(rng.standard_normal(int(0.05 * SR)), 6000) * np.exp(-np.arange(int(0.05 * SR)) / SR * 150) * 0.15
+
+
+def ding():
+    return tone([1318.5, 2637, 3955], 1.0, 5, 0.22)
+
+
+def chime():
+    a, b = tone([1046.5, 2093], 0.9, 5, 0.16), tone([1568, 3136], 0.9, 5, 0.16)
+    out = np.zeros(int(1.1 * SR))
+    out[:len(a)] += a
+    out[int(0.12 * SR):int(0.12 * SR) + len(b)] += b
+    return out
+
+
+def error():
+    n = int(0.28 * SR)
+    t = np.arange(n) / SR
+    saw = 2 * ((t * 150) % 1) - 1
+    return lowpass(saw, 1800) * np.exp(-t * 9) * 0.35 + tone([110], 0.28, 9, 0.25)
+
+
+def boom():
+    n = int(1.6 * SR)
+    t = np.arange(n) / SR
+    f = 42 + 90 * np.exp(-t * 14)
+    body = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 2.6)
+    air = lowpass(rng.standard_normal(n), 900) * np.exp(-t * 7) * 0.5
+    return (body + air) * 0.9
+
+
+def riser(d=1.0):
+    n = int(d * SR)
+    t = np.arange(n) / SR
+    f = 200 * (8 ** (t / d))
+    sweep = np.sin(2 * np.pi * np.cumsum(f) / SR) * 0.12
+    noise = lowpass(rng.standard_normal(n), 4000) * 0.25
+    return (sweep + noise) * (t / d) ** 2
+
+
+def gear():
+    n = int(0.25 * SR)
+    t = np.arange(n) / SR
+    clank = tone([620, 1240, 1870], 0.25, 22, 0.3)
+    return clank + lowpass(rng.standard_normal(n), 2500) * np.exp(-t * 40) * 0.3
+
+
+def counter():
+    out = np.zeros(int(0.8 * SR))
+    for k in range(12):
+        i = int(k * 0.06 * SR)
+        c = tick() * (0.5 + 0.5 * k / 12)
+        out[i:i + len(c)] += c[:len(out) - i]
+    return out * 0.8
+
+
+def thud():
+    n = int(0.25 * SR)
+    t = np.arange(n) / SR
+    return np.sin(2 * np.pi * (60 + 40 * np.exp(-t * 30)) * t) * np.exp(-t * 18) * 0.35
+
+
+def heartbeat():
+    out = np.zeros(int(0.6 * SR))
+    for off, amp in ((0, 1.0), (0.22, 0.7)):
+        b = thud() * amp * 1.2
+        i = int(off * SR)
+        out[i:i + len(b)] += b
+    return out * 0.55
+
+
+def click():
+    out = tone([180], 0.08, 50, 0.3)
+    hi = tone([3200], 0.03, 200, 0.4)
+    out[:len(hi)] += hi
+    return out
+
+
+def bell():
+    return tone([1760, 2217, 2637, 3520], 1.4, 3.2, 0.14)
+
+
 def music(total):
     """Warm minor pad (Am-F-C-G) with a soft pulse at 96 bpm."""
     n = int(total * SR)
@@ -116,12 +208,17 @@ def main():
     total = tl["duration"]
     n = int(total * SR) + SR
     fx = np.zeros(n)
-    bank = {"whoosh": whoosh(), "hit": hit(), "pop": pop(), "swish": swish()}
+    bank = {"whoosh": whoosh(), "hit": hit(), "pop": pop(), "swish": swish(), "tick": tick(),
+            "ding": ding(), "chime": chime(), "error": error(), "boom": boom(), "riser": riser(),
+            "gear": gear(), "counter": counter(), "thud": thud(), "heartbeat": heartbeat(),
+            "click": click(), "bell": bell()}
+    level = {"thud": 0.6, "heartbeat": 0.8, "tick": 0.8, "riser": 0.9}
     for s in tl["sfx"]:
         snd = bank[s["type"]]
-        i = int(s["t"] * SR) - (int(0.45 * SR) if s["type"] == "whoosh" else 0)
+        lead = {"whoosh": 0.45}.get(s["type"], 0.0)
+        i = int(s["t"] * SR) - int(lead * SR)
         i = max(0, i)
-        fx[i:i + len(snd)] += snd[:n - i]
+        fx[i:i + len(snd)] += snd[:n - i] * level.get(s["type"], 1.0)
     write_wav(f"{out}/sfx.wav", fx * 0.8)
     write_wav(f"{out}/music.wav", music(total + 1))
     # voice track: each section placed at its timeline position
@@ -137,7 +234,7 @@ def main():
     # final mix: voice on top, music ducked under the voice, effects in between
     graph = ("[0:a]loudnorm=I=-16:TP=-2:LRA=7,asplit=2[vo][key];"
              "[1:a]volume=0.55[mus];[mus][key]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=400[duck];"
-             "[2:a]volume=0.9[fx];[vo][duck][fx]amix=inputs=3:normalize=0[m];"
+             "[2:a]volume=0.55[fx];[vo][duck][fx]amix=inputs=3:normalize=0[m];"
              "[m]loudnorm=I=-14:TP=-1.5:LRA=9[out]")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", f"{out}/vo.wav", "-i", f"{out}/music.wav",
                     "-i", f"{out}/sfx.wav", "-filter_complex", graph, "-map", "[out]", "-ar", str(SR),

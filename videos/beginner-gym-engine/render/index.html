@@ -99,6 +99,108 @@ function leaks(k = 1) {                 // drifting red light leaks (reference 2
     <div class="abs" style="right:${-460 + 70 * Math.cos(T * .45)}px;bottom:${-300 + 60 * Math.sin(T * .6)}px;width:1100px;height:900px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,70,40,${b}),rgba(255,70,40,0))"></div></div>`;
 }
 
+// ---------- motion-graphic illustrations (replace stock images) ----------
+function gearPath(r, teeth, depth) {
+  let d = "";
+  for (let i = 0; i < teeth * 2; i++) {
+    const a0 = (i / (teeth * 2)) * 2 * Math.PI, a1 = ((i + 1) / (teeth * 2)) * 2 * Math.PI;
+    const rr = i % 2 ? r - depth : r;
+    d += `${i ? "L" : "M"} ${rr * Math.cos(a0)} ${rr * Math.sin(a0)} L ${rr * Math.cos(a1)} ${rr * Math.sin(a1)} `;
+  }
+  return d + "Z";
+}
+const floaty = (k, sp = 1) => Math.sin(T * sp + k * 1.7);
+function mgEngine(x, y, w, h) {                      // food -> engine -> energy
+  const cx = w / 2, cy = h / 2, rot = T * 40;
+  const foods = ["🍗", "🥚", "🍚", "🍌", "🥜"];
+  let f = foods.map((e, k) => { const q = ((T * 0.45 + k / foods.length) % 1); const px = lerp(-40, cx - 60, easeInOut(q)), py = cy + Math.sin(q * Math.PI * 2 + k) * 120 * (1 - q);
+    return `<div class="abs" style="left:${px}px;top:${py - 30}px;font-size:${56 - q * 20}px;opacity:${q < .9 ? 1 : (1 - q) * 10}">${e}</div>`; }).join("");
+  let bolts = [0, 1, 2, 3].map(k => { const q = ((T * 0.7 + k / 4) % 1); const ang = (-40 + k * 27) * D2R;
+    return `<div class="abs" style="left:${cx + Math.cos(ang) * (120 + q * 260)}px;top:${cy + Math.sin(ang) * (120 + q * 260) - 30}px;font-size:54px;opacity:${1 - q}">⚡</div>`; }).join("");
+  const pulse = 1 + 0.08 * Math.sin(T * 6);
+  return `<div class="abs dark" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;overflow:hidden">${leaks(.5)}
+    <svg class="abs" style="left:0;top:0" width="${w}" height="${h}">
+      <g transform="translate(${cx - 70},${cy - 40}) rotate(${rot})"><path d="${gearPath(150, 14, 26)}" fill="none" stroke="#E0262B" stroke-width="10"/><circle r="48" fill="none" stroke="#E0262B" stroke-width="10"/></g>
+      <g transform="translate(${cx + 130},${cy + 120}) rotate(${-rot * 1.8})"><path d="${gearPath(80, 9, 18)}" fill="none" stroke="#fff" stroke-width="8" opacity=".85"/></g>
+      <circle cx="${cx - 70}" cy="${cy - 40}" r="${70 * pulse}" fill="url(#core)"/>
+      <defs><radialGradient id="core"><stop offset="0" stop-color="#FFD0A0"/><stop offset=".4" stop-color="#FF6B3D"/><stop offset="1" stop-color="#E0262B" stop-opacity="0"/></radialGradient></defs>
+    </svg>${f}${bolts}
+    <div class="abs label" style="left:28px;bottom:24px;color:#bbb">food → energy</div></div>`;
+}
+function mgSleep(x, y, w, h) {
+  const zs = [0, 1, 2].map(k => { const q = ((T * 0.35 + k / 3) % 1);
+    return `<div class="abs disp" style="left:${150 + q * 120}px;top:${170 - q * 140}px;font-size:${30 + q * 30}px;font-weight:900;color:#fff;opacity:${Math.sin(q * Math.PI)}">Z</div>`; }).join("");
+  return `<div class="abs dark" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;overflow:hidden;background:linear-gradient(160deg,#1B1B3A,#0E0E10)">
+    <div class="abs" style="left:46px;top:${48 + 8 * floaty(1, 1.2)}px;font-size:120px">🌙</div>${zs}
+    <div class="abs" style="right:40px;bottom:30px;font-size:${70 + 8 * Math.sin(T * 7)}px">🔥</div>
+    <div class="abs label" style="right:36px;top:30px;color:#bbb">still burning</div></div>`;
+}
+function mgMito(x, y, w, h) {
+  const cx = w / 2, cy = h / 2, rx = w * 0.36, ry = h * 0.24, g = 0.6 + 0.4 * Math.sin(T * 3);
+  let cr = ""; for (let i = 0; i <= 40; i++) { const u = i / 40; cr += `${i ? "L" : "M"} ${cx - rx * 0.85 + u * rx * 1.7} ${cy + Math.sin(u * Math.PI * 7 + T * 2) * ry * 0.55} `; }
+  const atp = [...Array(8)].map((_, k) => { const q = ((T * 0.5 + k / 8) % 1), a = k / 8 * 2 * Math.PI;
+    return `<text x="${cx + Math.cos(a) * (rx + 20 + q * 120)}" y="${cy + Math.sin(a) * (ry + 20 + q * 90)}" font-size="22" font-weight="800" fill="#FFB0B2" opacity="${1 - q}">ATP</text>`; }).join("");
+  return `<div class="abs dark" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;overflow:hidden;background:radial-gradient(circle at 50% 50%,#3A0D10,#0E0E10 70%)">
+    <svg class="abs" style="left:0;top:0" width="${w}" height="${h}">
+      <ellipse cx="${cx}" cy="${cy}" rx="${rx + 18}" ry="${ry + 18}" fill="none" stroke="#E0262B" stroke-width="3" opacity="${g * .6}" filter="url(#bl)"/>
+      <defs><filter id="bl"><feGaussianBlur stdDeviation="8"/></filter></defs>
+      <ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#B3171C" stroke="#FF7A7D" stroke-width="10"/>
+      <path d="${cr}" fill="none" stroke="#FFC2C4" stroke-width="8" stroke-linejoin="round"/>${atp}</svg>
+    <div class="abs label" style="left:28px;bottom:24px;color:#FFB0B2">mitochondria · your power plants</div></div>`;
+}
+function mgThermo(x, y, w, h, p) {
+  const col = `rgb(${Math.round(lerp(59, 224, p))},${Math.round(lerp(130, 38, p))},${Math.round(lerp(246, 43, p))})`;
+  const lvl = lerp(0.12, 0.92, easeOut(p)), tube = h - 170;
+  return `<div class="abs card" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;overflow:hidden">
+    <svg class="abs" style="left:${w / 2 - 60}px;top:30px" width="120" height="${h - 40}">
+      <rect x="35" y="0" width="50" height="${tube}" rx="25" fill="#EEE"/>
+      <rect x="47" y="${tube * (1 - lvl)}" width="26" height="${tube * lvl + 20}" rx="13" fill="${col}"/>
+      <circle cx="60" cy="${tube + 40}" r="48" fill="${col}"/></svg>
+    <div class="abs disp" style="left:0;right:0;bottom:24px;text-align:center;font-size:30px;font-weight:900;color:${col}">${p < 1 ? "warming up…" : "ready 🔥"}</div>
+    <div class="abs" style="right:22px;top:${30 + tube * (1 - lvl) - 10}px;font-size:22px;font-weight:800;color:#6B6862">muscle temp ↑</div></div>`;
+}
+function mgHeart(x, y, w, h, t0) {
+  const ph = ((T - t0) % 0.85) / 0.85, beat = ph < 0.12 ? 1 + 0.18 * Math.sin(ph / 0.12 * Math.PI) : (ph > .26 && ph < .36 ? 1 + 0.1 * Math.sin((ph - .26) / .1 * Math.PI) : 1);
+  let pts = ""; for (let i = 0; i <= 120; i++) { const u = i / 120, q = ((u * 3 - (T - t0) / 0.85) % 1 + 1) % 1;
+    const yv = q < .06 ? -q * 300 : q < .1 ? -18 + (q - .06) * 1500 : q < .14 ? 42 - (q - .1) * 1050 : 0; pts += `${u * (w - 60)},${100 + yv} `; }
+  return `<div class="abs dark" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;overflow:hidden">${leaks(.4)}
+    <div class="abs" style="left:0;right:0;top:50px;text-align:center;font-size:170px;transform:scale(${beat})">❤️</div>
+    <svg class="abs" style="left:30px;top:${h - 310}px" width="${w - 60}" height="180"><polyline points="${pts}" fill="none" stroke="#E0262B" stroke-width="5" stroke-linejoin="round"/></svg>
+    <div class="abs disp" style="left:0;right:0;bottom:36px;text-align:center;font-size:44px;font-weight:900;color:#fff">Easy, steady pace</div></div>`;
+}
+function mgProtein(w, h, at) {
+  const kg = 70, g = Math.round(kg * 1.6 * easeOut(prog(at + .3, at + 1.5)));
+  const items = ["🥚", "🍗", "🫘", "🥛", "🧀"];
+  return `<div class="abs" style="left:0;top:0;width:${w}px;height:${h}px;background:var(--red-soft);overflow:hidden">
+    ${items.map((e, k) => { const a = T * 0.8 + k / items.length * 2 * Math.PI; return `<div class="abs" style="left:${w / 2 - 30 + Math.cos(a) * 170}px;top:${h / 2 - 34 + Math.sin(a) * 105}px;font-size:56px">${e}</div>`; }).join("")}
+    <div class="abs disp" style="left:0;right:0;top:${h / 2 - 50}px;text-align:center;font-size:64px;font-weight:900;color:var(--red)">${g} g</div>
+    <div class="abs" style="left:0;right:0;top:${h / 2 + 22}px;text-align:center;font-size:22px;font-weight:700;color:#6B6862">for a 70 kg person</div></div>`;
+}
+function mgSleepClock(w, h, at) {
+  const p = easeOut(prog(at + .3, at + 1.6)), R = 105, circ = 2 * Math.PI * R, frac = 8 / 12;
+  return `<div class="abs" style="left:0;top:0;width:${w}px;height:${h}px;background:linear-gradient(160deg,#1B1B3A,#0E0E10);overflow:hidden">
+    <svg class="abs" style="left:${w / 2 - 130}px;top:${h / 2 - 130}px" width="260" height="260"><circle cx="130" cy="130" r="${R}" stroke="rgba(255,255,255,.12)" stroke-width="22" fill="none"/>
+      <circle cx="130" cy="130" r="${R}" stroke="#E0262B" stroke-width="22" fill="none" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ * (1 - frac * p)}" transform="rotate(-90 130 130)"/></svg>
+    <div class="abs" style="left:0;right:0;top:${h / 2 - 50}px;text-align:center;font-size:84px;transform:translateY(${6 * floaty(2, 1.5)}px)">🌙</div></div>`;
+}
+function mgSteps(w, h, at) {
+  const n = Math.round(8000 * easeOut(prog(at + .2, at + 2)));
+  const feet = [0, 1, 2, 3, 4].map(k => { const q = ((T * 0.6 + k / 5) % 1); return `<div class="abs" style="left:${q * (w - 60)}px;top:${h - 90 + (k % 2) * 26}px;font-size:40px;opacity:${Math.sin(q * Math.PI)};transform:rotate(90deg)">👣</div>`; }).join("");
+  return `<div class="abs" style="left:0;top:0;width:${w}px;height:${h}px;background:#141416;overflow:hidden">
+    <div class="abs disp" style="left:0;right:0;top:${h / 2 - 90}px;text-align:center;font-size:96px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums">${n.toLocaleString("en-US")}</div>
+    <div class="abs label" style="left:0;right:0;top:${h / 2 + 20}px;text-align:center;color:#bbb">steps today</div>${feet}</div>`;
+}
+function mgReps(x, y, sc) {
+  const lt = T - sc.start, rep = Math.floor(lt / 2.6) % 10 + 1, ph = (lt % 2.6) / 2.6;
+  const R = 58, circ = 2 * Math.PI * R;
+  return `<div class="abs card" style="left:${x}px;top:${y}px;width:300px;height:190px;${appear(sc.start + .6)}">
+    <svg class="abs" style="left:24px;top:30px" width="130" height="130"><circle cx="65" cy="65" r="${R}" stroke="#EEE" stroke-width="12" fill="none"/>
+      <circle cx="65" cy="65" r="${R}" stroke="#E0262B" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ * (1 - ph)}" transform="rotate(-90 65 65)"/></svg>
+    <div class="abs disp" style="left:24px;top:62px;width:130px;text-align:center;font-size:46px;font-weight:900">${rep}</div>
+    <div class="abs label" style="left:172px;top:52px">Rep</div>
+    <div class="abs" style="left:172px;top:86px;font-size:26px;font-weight:800;line-height:1.25">slow &amp;<br>controlled</div></div>`;
+}
+
 // ---------- stick-figure rig (2-bone IK) ----------
 const L = { thigh: 95, shin: 95, torso: 140, upper: 66, fore: 62, neck: 18, head: 24 };
 function ik(a, b, l1, l2, bend) {
@@ -278,7 +380,7 @@ function engine(sc) {
       <div class="label">The engine</div>
       <div class="disp" style="font-size:120px;font-weight:900;margin-top:16px">Metabolism</div>
       <div style="font-size:42px;font-weight:500;color:var(--muted);margin-top:24px;line-height:1.3">Every reaction that turns <span class="hl">food</span> into <span class="hl">energy</span>.</div></div>`;
-    h += `<div class="abs" style="${appear(sc.start + 0.4, { until: bStart })}">${photo(1080, 200, 620, 620, "engine", { kbFrom: sc.start, kbTo: bStart, cls: "glow" })}</div>`;
+    h += `<div class="abs" style="${appear(sc.start + 0.4, { until: bStart })}">${mgEngine(1060, 190, 680, 640)}</div>`;
   } else if (T < cStart + 0.3) {
     const segs = [["Resting metabolism", 65, "#141416", c["sixty"]], ["Digestion", 10, "#F07F82", c["ten percent"]], ["Movement", 25, "#E0262B", c["the rest is"]]];
     h += `<div class="abs disp" style="left:140px;top:150px;font-size:70px;font-weight:900;${appear(bStart, { until: cStart })}">Where your daily calories go</div>`;
@@ -291,7 +393,7 @@ function engine(sc) {
         <div style="font-size:30px;font-weight:600;color:var(--muted)">${s[0]}</div></div>`;
       x += 1640 * s[1] / 100;
     });
-    h += `<div class="abs" style="${appear(c["sleep"], { until: c["the rest is"] })}">${photo(140, 690, 420, 250, "sleep")}<div class="abs card" style="left:590px;top:760px;padding:22px 32px;font-size:32px;font-weight:700">…even while you <span class="hl">sleep</span></div></div>`;
+    h += `<div class="abs" style="${appear(c["sleep"], { until: c["the rest is"] })}">${mgSleep(140, 680, 420, 250)}<div class="abs card" style="left:590px;top:760px;padding:22px 32px;font-size:32px;font-weight:700;white-space:nowrap">…even while you <span class="hl">sleep</span></div></div>`;
   } else {
     h += photo(140, 140, 640, 820, "side", { gen: false, kbFrom: cStart, kbTo: sc.end, cls: "glow", pos: "40% 50%", style: appear(cStart, { scale: .95 }) });
     h += `<div class="abs label" style="left:880px;top:160px;${appear(cStart + 0.1)}">At rest, per kg per day</div>`;
@@ -347,7 +449,7 @@ function ignition(sc) {
       <svg class="abs" style="left:40px;top:240px" width="760" height="250"><polyline points="${pts.slice(0, Math.max(1, shown)).join(" ")}" fill="none" stroke="#E0262B" stroke-width="8" stroke-linecap="round"/>
         <line x1="0" y1="222" x2="740" y2="222" stroke="#ccc" stroke-width="3"/><text x="230" y="246" font-size="22" fill="#6B6862" font-weight="700">WORKOUT</text><text x="520" y="246" font-size="22" fill="#6B6862" font-weight="700">RECOVERY</text></svg></div>`;
     // mitochondria
-    h += `<div class="abs" style="${appear(mito)}">${photo(120, 230, 760, 560, "mitochondria", { kbFrom: mito, kbTo: sc.end, cls: "glow" })}</div>`;
+    h += `<div class="abs" style="${appear(mito)}">${mgMito(120, 230, 760, 560)}</div>`;
     h += `<div class="abs" style="left:980px;top:260px;width:820px;${appear(mito + 0.2)}"><div class="label">Over a few weeks</div>
       <div class="disp" style="font-size:84px;font-weight:900;line-height:1.05;margin-top:14px">More <span style="color:var(--red)">mitochondria</span></div>
       <div style="margin-top:30px">${[...Array(12)].map((_, k) => `<span style="display:inline-block;width:52px;height:30px;border-radius:15px;margin:6px;background:var(--red);opacity:${clamp((T - mito - 0.4 - k * 0.15) * 3)}"></span>`).join("")}</div>
@@ -367,7 +469,7 @@ S.warmup = sc => {
     <svg class="abs" style="left:30px;top:30px" width="400" height="400"><circle cx="200" cy="200" r="${R}" stroke="#EEE" stroke-width="26" fill="none"/>
     <circle cx="200" cy="200" r="${R}" stroke="#E0262B" stroke-width="26" fill="none" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ * tp}" transform="rotate(-90 200 200)"/></svg>
     <div class="abs disp" style="left:0;right:0;top:175px;text-align:center;font-size:96px;font-weight:900">${mm}:${ss}</div></div>`;
-  h += `<div class="abs" style="${appear(c["five minutes"] + 0.3)}">${photo(650, 380, 420, 460, "warmup", { kbFrom: sc.start, kbTo: sc.end })}</div>`;
+  h += `<div class="abs" style="${appear(c["five minutes"] + 0.3)}">${mgThermo(650, 380, 420, 460, prog(c["five minutes"], c["warm muscles"]))}</div>`;
   const list = [["10 bodyweight squats", c["ten bodyweight squats"]], ["10 arm circles each way", c["ten arm circles"]], ["10 hip hinges", c["ten hip hinges"]], ["1 light set at ~50%", c["practice set"]]];
   h += list.map((l, i) => `<div class="abs card" style="left:1130px;top:${380 + i * 118}px;width:640px;height:96px;display:flex;align-items:center;gap:22px;padding:0 30px;${appear(l[1], { dy: 0 })};transform:translateX(${(1 - spring(T - l[1])) * 60}px)">
      <div style="width:52px;height:52px;border-radius:50%;background:var(--red);color:#fff;font-weight:900;font-size:30px;display:flex;align-items:center;justify-content:center">✓</div>
@@ -396,9 +498,8 @@ S.exercise = sc => {
      <div class="grid" style="opacity:.6"></div>
      <div class="abs" style="left:110px;top:120px">${figureSVG(sc.pose, T - sc.start, 640, 560)}</div>
      <div class="abs pill" style="right:30px;top:30px;background:var(--red-soft);color:var(--red);font-size:24px"><span style="width:14px;height:14px;border-radius:50%;background:var(--red);display:inline-block"></span>Working muscles</div></div>`;
-  const alt = { row: "rdl", press: "bench", carry: "goblet", stepup: "bench" };
-  const thumb = [sc.img, alt[sc.img]].find(n => n && TL.images.includes(n));
-  if (thumb) h += `<div class="abs" style="${appear(sc.start + 0.6)}">${photo(900, 700, 300, 200, thumb, { kbFrom: sc.start, kbTo: sc.end, style: "border:6px solid #fff;box-shadow:0 20px 40px -10px rgba(0,0,0,.3)" })}</div>`;
+  h += mgReps(900, 690, sc);
+  h += `<div class="abs" style="left:110px;top:70px;${appear(sc.start)}">${[...Array(8)].map((_, i) => `<span style="display:inline-block;width:${i === sc.n - 1 ? 46 : 14}px;height:14px;border-radius:7px;margin-right:8px;background:${i < sc.n ? "var(--red)" : "#D9D5CD"}"></span>`).join("")}</div>`;
   const dt = c["three"];
   h += `<div class="abs pill disp" style="left:1460px;top:900px;background:var(--red);color:#fff;font-size:54px;padding:14px 38px;${appear(dt, { scale: .6 })}">${sc.dose}</div>`;
   return h;
@@ -412,7 +513,7 @@ S.finisher = sc => {
   h += zones.map((z, i) => `<div class="abs" style="left:${140 + i * 200}px;top:${560 - i * 50}px;width:180px;height:${200 + i * 50}px;border-radius:20px;background:${i === 1 && on(c["zone two"]) ? "var(--red)" : "#E2DFD8"};${appear(c["ten minutes"] + i * 0.08)}">
      <div class="disp" style="position:absolute;bottom:20px;width:100%;text-align:center;font-size:44px;font-weight:900;color:${i === 1 && on(c["zone two"]) ? "#fff" : "#9a968e"}">${z}</div></div>`).join("");
   h += `<div class="abs card" style="left:140px;top:840px;padding:22px 34px;font-size:40px;font-weight:800;${appear(c["talk"])}">Talk <span style="color:#1a9a4b">✓</span> &nbsp;&nbsp; Sing <span style="color:var(--red)">${on(c["sing"]) ? "✕" : ""}</span></div>`;
-  h += `<div class="abs" style="${appear(c["ten minutes"] + .3)}">${photo(1180, 260, 620, 560, "cardio", { kbFrom: sc.start, kbTo: sc.end, fallback: `<div class="abs dark" style="left:1180px;top:260px;width:620px;height:560px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px"><div style="font-size:170px;transform:scale(${1 + 0.06 * Math.max(0, Math.sin(T * 7))})">❤️</div><div class="disp" style="font-size:54px;font-weight:900">Easy, steady pace</div><div style="font-size:30px;color:#aaa">Incline walk · easy bike</div></div>` })}</div>`;
+  h += `<div class="abs" style="${appear(c["ten minutes"] + .3)}">${mgHeart(1180, 260, 620, 560, sc.start)}</div>`;
   h += `<div class="abs pill" style="left:1180px;top:850px;background:#141416;color:#fff;font-size:32px;${appear(c["gear three"])}">Gear 3 → builds <span style="color:var(--red)">mitochondria</span></div>`;
   return h;
 };
@@ -459,7 +560,7 @@ S.recovery = sc => {
   h += `<div class="abs disp" style="left:140px;top:110px;font-size:80px;font-weight:900;${appear(sc.start)}">Fuel & maintenance</div>`;
   const items = [["protein", "1.6 g/kg", "protein per day", c["protein"], "🍳"], ["sleep", "7–9 h", "sleep — muscle is built here", c["sleep"], "🌙"], ["steps", "7–8k", "steps a day", c["steps"], "👟"]];
   h += items.map((it, i) => `<div class="abs card" style="left:${140 + i * 560}px;top:250px;width:520px;height:600px;overflow:hidden;${appear(it[3])}">
-     ${photo(0, 0, 520, 340, it[0], { kbFrom: it[3], kbTo: sc.end, style: "border-radius:28px 28px 0 0", fallback: `<div class="abs" style="left:0;top:0;width:520px;height:340px;border-radius:28px 28px 0 0;background:${i === 1 ? "#141416" : "var(--red-soft)"};display:flex;align-items:center;justify-content:center;font-size:150px">${it[4]}</div>` })}
+     ${[mgProtein, mgSleepClock, mgSteps][i](520, 340, it[3])}
      <div class="abs disp" style="left:36px;top:380px;font-size:90px;font-weight:900;color:var(--red)">${it[1]}</div>
      <div class="abs" style="left:40px;top:500px;width:450px;font-size:34px;font-weight:700;line-height:1.3">${it[2]}</div></div>`).join("");
   h += `<div class="abs pill" style="left:540px;top:872px;background:#141416;color:#fff;font-size:30px;${appear(c["everyday movement"])}">Everyday movement often burns more than the workout</div>`;
@@ -543,6 +644,9 @@ window.renderAt = t => {
     if (!darkScene) h += `<div class="chapterTag"><b>●</b> ${CHAPTER_OF(sc.id)}</div>`;
     h += `<div class="abs" style="right:56px;top:30px;z-index:60;font-size:22px;font-weight:800;letter-spacing:.04em;color:${darkScene ? "rgba(255,255,255,.75)" : "rgba(18,18,18,.55)"}"><span style="color:var(--red)">▶</span> @drmakfitness</div>`;
   }
+  let kick = 0;
+  for (const p of TL.punches || []) if (t >= p && t < p + 0.8) kick = Math.max(kick, Math.exp(-(t - p) * 6));
+  if (kick > 0.001) h = `<div class="abs" style="inset:0;transform:scale(${1 + 0.05 * kick}) translate(${Math.sin(t * 95) * 7 * kick}px,${Math.cos(t * 83) * 5 * kick}px)">${h}</div><div class="abs" style="inset:0;z-index:80;pointer-events:none;background:rgba(224,38,43,${0.16 * kick * kick})"></div>`;
   document.getElementById("stage").innerHTML = h;
 };
 </script>

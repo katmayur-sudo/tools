@@ -65,6 +65,33 @@ EXERCISES = {
                         mistake="Lower back lifting", fix="Only reach while it stays flat"),
 }
 
+# sound for each cue (default "pop"); "+0.25" style offsets let a sound land on the animation
+CUE_SFX = {
+    "s00_hook": {"engine": "boom", "wrong exercises": "error+0.25", "too much": "error+0.25",
+                 "no plan": "error+0.25", "in the next": "swish", "engine starts": "pop",
+                 "eight exercises": "pop", "weekly plan": "pop"},
+    "s01_engine": {"sixty": "counter", "ten percent": "tick", "the rest is": "tick", "sleep": "chime",
+                   "kilogram of muscle": "counter", "three times": "boom", "does all the work": "ding"},
+    "s02_ignition": {"gear one": "gear", "gear two": "gear", "gear three": "gear", "bonus": "ding",
+                     "afterburn": "riser", "mitochondria. more": "chime", "bigger": "ding"},
+    "s03_warmup": {"five minutes": "tick", "ten bodyweight squats": "tick", "ten arm circles": "tick",
+                   "ten hip hinges": "tick", "practice set": "tick", "warm muscles": "pop",
+                   "joints": "pop", "first working set": "pop"},
+    "s12_finisher": {"zone two": "ding", "sing": "error"},
+    "s13_plan": {"monday": "tick", "wednesday": "tick", "friday": "tick", "two to three sets": "pop",
+                 "eight to twelve": "pop", "sixty to ninety": "pop", "fifty minutes": "ding",
+                 "in the tank": "counter", "double progression": "riser", "steady increase": "ding"},
+    "s14_fuel": {"protein": "ding", "sleep": "chime", "steps": "counter", "everyday movement": "pop"},
+    "s15_mistakes": {"one:": "error", "two:": "error", "three:": "error", "results": "ding"},
+    "s16_outro": {"warm up": "tick", "eight exercises": "tick", "cardio": "tick", "three days": "tick",
+                  "consistent": "boom", "save this": "ding"},
+    "s17_subscribe": {"subscribe": "click+0.55", "dr mak": "bell+0.15"},
+}
+# cues that also get a camera punch-in (zoom kick)
+PUNCH = {"s00_hook": ["engine"], "s01_engine": ["three times", "does all the work"],
+         "s02_ignition": ["three gears", "afterburn", "bigger"], "s13_plan": ["how heavy", "steady increase"],
+         "s15_mistakes": ["one:", "two:", "three:"], "s16_outro": ["consistent"]}
+
 HIGHLIGHT = {"engine", "metabolism", "muscle", "gears", "mitochondria", "afterburn", "sugar",
              "warm", "squat", "deadlift", "push-up", "row", "press", "step-up", "carry", "bug",
              "mistake", "protein", "sleep", "steps", "plan", "consistent", "light", "heavy",
@@ -132,7 +159,7 @@ def main():
     script = json.load(open(script_path))
     words = json.load(open(words_path))
     t = LEAD_IN
-    scenes, captions, sfx, audio = [], [], [], []
+    scenes, captions, sfx, audio, punches = [], [], [], [], []
     n_ex = 0
     for sec in script["sections"]:
         sid = sec["id"]
@@ -140,6 +167,7 @@ def main():
             label, title = CHAPTERS[sid]
             scenes.append({"id": f"chapter_{sid}", "kind": "chapter", "start": round(t, 3),
                            "end": round(t + CHAPTER, 3), "label": label, "title": title})
+            sfx.append({"t": round(t - 1.0, 3), "type": "riser"})
             sfx.append({"t": round(t, 3), "type": "whoosh"})
             sfx.append({"t": round(t + 0.35, 3), "type": "hit"})
             t += CHAPTER
@@ -174,18 +202,38 @@ def main():
         audio.append({"file": f"{sid}.mp3", "t": round(t, 3)})
         if sec["kind"] != "endcard":
             captions += caption_chunks(w, t)
+        table = CUE_SFX.get(sid, {})
+        if sid in EXERCISES:
+            table = {"the common mistake": "error+0.1", "three": "ding"}
+            for st in scene["stepTimes"]:
+                sfx.append({"t": st, "type": "tick"})
+            # a soft thud on every rep of the animated figure (2.6 s period, bottom of the rep)
+            r = t + 1.3
+            while r < t + dur:
+                sfx.append({"t": round(r, 3), "type": "thud"})
+                r += 2.6
         for k, v in cues.items():
-            sfx.append({"t": v, "type": "pop"})
+            kind, _, off = table.get(k, "pop").partition("+")
+            sfx.append({"t": round(v + float(off or 0), 3), "type": kind})
+        for k in PUNCH.get(sid, []):
+            punches.append(cues[k])
+        if sec["kind"] == "finisher":
+            b = t
+            while b < t + dur:
+                sfx.append({"t": round(b, 3), "type": "heartbeat"})
+                b += 0.85
         t += length
-    # thin out pops so they never fire closer than 0.35s apart
+    # thin out light sounds so they never pile up closer than 0.3s apart
     sfx.sort(key=lambda s: s["t"])
     kept = []
+    light = {"pop", "tick", "thud"}
     for s in sfx:
-        if s["type"] == "pop" and kept and s["t"] - kept[-1]["t"] < 0.35:
+        if s["type"] in light and kept and s["t"] - kept[-1]["t"] < 0.3:
             continue
         kept.append(s)
     json.dump({"fps": 30, "width": 1920, "height": 1080, "duration": round(t, 3),
-               "scenes": scenes, "captions": captions, "sfx": kept, "audio": audio},
+               "scenes": scenes, "captions": captions, "sfx": kept, "audio": audio,
+               "punches": sorted(punches)},
               open(out_path, "w"), indent=1)
     print(f"duration {t:.1f}s ({t / 60:.2f} min), scenes {len(scenes)}, captions {len(captions)}")
 

@@ -34,6 +34,20 @@ system that the agent reuses, rather than one-off prompting.
 | 6:54 | Mistakes, outro | Owner photo, recap, doctor disclaimer, save CTA |
 | 7:29 | End screen (12 s) | @drmakfitness identity, voiced subscribe CTA with animated click + bell, two empty frames for YouTube end-screen videos |
 
+## Visual and sound design
+
+- **No stock images.** Every illustration is code-drawn motion graphics: a spinning engine turning
+  food into energy, a sleeping moon with a still-burning flame, a glowing mitochondrion emitting ATP,
+  a warming thermometer, a beating heart with an ECG trace, a protein calculator (70 kg → 112 g),
+  a sleep clock and a step odometer. The only photos are the owner's.
+- **Engagement devices:** camera punch-ins with a red flash on key lines, word-synced captions,
+  exercise progress dots, a rep counter synced to each animated figure, red stingers per exercise.
+- **Sound design (16 synthesized effects):** riser into chapters, whoosh + hit on stingers, boom on
+  big claims, error buzz on mistakes and crossed-out items, tick on checklists, ding on doses and
+  wins, gear clunks for the three gears, counter rattles on numbers, a soft thud on every rep,
+  heartbeat under the cardio finisher, click + bell on the subscribe button. Effects sit ~8 dB under
+  the voice; music is side-chain ducked; master at -14 LUFS.
+
 ## Rebuild it
 
 ```bash
@@ -42,7 +56,7 @@ system that the agent reuses, rather than one-off prompting.
 python3 tools/transcribe.py script.json vo words.json
 # 3. timeline: scenes, word cues, captions, sfx
 python3 tools/build_timeline.py script.json words.json vo timeline.json
-# 4. B-roll stills (free Pollinations API; objects/places only, no people) → img/
+# 4. (optional) B-roll stills; the current cut uses motion graphics instead of stock images
 python3 tools/fetch_images.py img
 python3 tools/add_images.py timeline.json img
 # 5. soundtrack (synth music + sfx + voice, -14 LUFS)
