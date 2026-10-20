@@ -1,0 +1,405 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- Refined "5 pull-up mistakes" short, 1080x1920. Two grades share one timeline:
+     porcelain (the launch-film look) and redblack (the channel's dark red look).
+     Driven from render.mjs: setShort(timeline, grade, assetBase) then renderAt(t) per frame. -->
+<style>
+  @font-face { font-family: Anton; src: url(__ASSETS__anton.woff2); }
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; }
+  .abs { position: absolute; }
+  #v { position: absolute; inset: 0; overflow: hidden; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <!-- photo grades: luminance -> tone curve per channel -->
+  <filter id="duoP" color-interpolation-filters="sRGB">
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0.09 0.55 0.97"/>
+      <feFuncG type="table" tableValues="0.08 0.52 0.94"/>
+      <feFuncB type="table" tableValues="0.08 0.48 0.89"/>
+    </feComponentTransfer>
+  </filter>
+  <filter id="duoR" color-interpolation-filters="sRGB">
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0 0.42 0.86 1"/>
+      <feFuncG type="table" tableValues="0 0.02 0.36 0.86"/>
+      <feFuncB type="table" tableValues="0 0.03 0.32 0.8"/>
+    </feComponentTransfer>
+  </filter>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="soft"><feGaussianBlur stdDeviation="14"/></filter>
+</svg>
+<div id="v"></div>
+<script>
+let T = 0, TL = null, G = null, ASSET = "assets/", GRAIN = "";
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, p) => a + (b - a) * p;
+const prog = (a, b) => clamp((T - a) / (b - a));
+const easeOut = p => 1 - Math.pow(1 - p, 3);
+const easeInOut = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const back = p => { const c = 1.7; return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+const on = t0 => T >= t0;
+const cue = k => TL.cues[k];
+// fade/slide/scale in from t0 (and optionally out at `until`)
+function appear(t0, o = {}) {
+  const d = o.dur ?? .4, p = prog(t0, t0 + d), e = back(p);
+  let op = clamp(p * 2.5);
+  if (o.until !== undefined) op *= 1 - prog(o.until - .15, o.until);
+  const blur = G.name === "porcelain" ? (1 - easeOut(p)) * 14 : 0;
+  return `opacity:${op};transform:translateY(${(1 - e) * (o.dy ?? 40)}px) scale(${lerp(o.scale ?? .9, 1, e)});filter:blur(${blur}px)`;
+}
+
+const THEMES = {
+  porcelain: {
+    name: "porcelain", bg: "#F4F0E8", ink: "#121212", sub: "#77736C", acc: "#E0262B", hl: "#E0262B", good: "#1F9D55",
+    fig: "#1A1A1A", photo: "url(#duoP)", title: `font-family:'Inter Display';font-weight:800;letter-spacing:-.045em`, titleSize: 96, upper: false,
+    cap: `font-family:'Inter Display';font-weight:800;letter-spacing:-.03em`, capSize: 66,
+    card: "background:rgba(255,255,255,.72);box-shadow:0 30px 60px -28px rgba(40,30,20,.35),0 0 0 1px rgba(0,0,0,.04) inset;backdrop-filter:blur(20px)",
+  },
+  redblack: {
+    name: "redblack", bg: "#050506", ink: "#FFFFFF", sub: "#C9B3B3", acc: "#FF1F2D", hl: "#FFD21E", good: "#2EE86A",
+    fig: "#F1F1F1", photo: "url(#duoR)", title: `font-family:Anton;letter-spacing:.01em`, titleSize: 138, upper: true,
+    cap: `font-family:Anton;letter-spacing:.02em`, capSize: 92,
+    card: "background:rgba(24,4,6,.78);box-shadow:0 0 0 3px rgba(255,31,45,.55) inset,0 0 60px rgba(255,31,45,.35)",
+  },
+};
+
+// ---------------- scene plan ----------------
+const SCENES = [
+  { id: "hook" }, { id: "promise", tag: "", title: "5 MISTAKES" },
+  { id: "m1", n: 1, bad: true, title: "SHRUGGING" }, { id: "f1", n: 1, title: "BLADES DOWN + BACK" },
+  { id: "m2", n: 2, bad: true, title: "ARMS ONLY" }, { id: "f2", n: 2, title: "ELBOWS → RIBS" },
+  { id: "m3", n: 3, bad: true, title: "LEG SWING" }, { id: "f3", n: 3, title: "CORE TIGHT" },
+  { id: "m4", n: 4, bad: true, title: "HALF REPS" }, { id: "f4", n: 4, title: "FULL RANGE" },
+  { id: "m5", n: 5, bad: true, title: "DROPPING" }, { id: "f5", n: 5, title: "3–5 SEC DOWN" },
+  { id: "recap", title: "SAVE THIS" }, { id: "cta" },
+];
+const sceneAt = t => { let k = 0; SCENES.forEach((s, i) => { if (t >= TL.cues[s.id] - .001) k = i; }); return k; };
+
+// ---------------- backgrounds ----------------
+function background() {
+  if (G.name === "porcelain")
+    return `<div class="abs" style="inset:0;background:radial-gradient(120% 70% at 50% 38%,#FBF8F2 0%,#F4F0E8 55%,#ECE6DA 100%)"></div>`;
+  const fl = .85 + .15 * Math.sin(T * 7.3) * Math.sin(T * 3.1);
+  const tubes = [120, 300, 780, 960].map((x, i) => `<div class="abs" style="left:${x}px;top:-40px;width:${i % 3 ? 10 : 14}px;height:2000px;background:linear-gradient(#ff2a3a00,#ff2a3a ${30 + i * 8}%,#ff2a3a00);opacity:${(.18 + .08 * Math.sin(T * 2 + i)) * fl};filter:blur(3px);box-shadow:0 0 60px 18px rgba(255,20,40,.25)"></div>`).join("");
+  return `<div class="abs" style="inset:0;background:radial-gradient(90% 55% at 50% 42%,#3B0308 0%,#14020360 45%,#050506 80%)"></div>${tubes}
+    <div class="abs" style="inset:0;background:radial-gradient(70% 45% at 50% 105%,rgba(160,0,12,.55),transparent 70%)"></div>`;
+}
+function finish() {
+  if (G.name === "porcelain") return "";
+  const ox = Math.floor(T * 30 * 97) % 300, oy = Math.floor(T * 30 * 53) % 300;
+  return `<div class="abs" style="inset:0;background:radial-gradient(75% 60% at 50% 45%,transparent 50%,rgba(0,0,0,.75) 100%);z-index:60"></div>
+    <div class="abs" style="inset:-300px;background-image:url(${GRAIN});background-position:${ox}px ${oy}px;opacity:.10;mix-blend-mode:screen;z-index:61"></div>`;
+}
+
+// ---------------- the owner's back photo + muscle overlays ----------------
+// photo crop is 560x956 (head to hips). Landmarks below are in that space.
+const MIR = x => 590 - x;
+const LAT_L = "M88 470 C150 440 222 468 262 560 C276 660 258 760 238 832 L156 832 C126 712 100 610 88 470 Z";
+const LAT_R = "M502 470 C440 440 368 468 328 560 C314 660 332 760 352 832 L434 832 C464 712 490 610 502 470 Z";
+const TRAPS = "M150 318 C210 292 250 262 295 252 C340 262 380 292 440 318 C410 352 360 345 295 330 C230 345 180 352 150 318 Z";
+function arrow(x1, y1, x2, y2, p, col, w = 14) {
+  const x = lerp(x1, x2, p), y = lerp(y1, y2, p), a = Math.atan2(y2 - y1, x2 - x1), h = 34;
+  if (p <= 0) return "";
+  return `<line x1="${x1}" y1="${y1}" x2="${x}" y2="${y}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>
+    <path d="M${x + Math.cos(a) * 8} ${y + Math.sin(a) * 8} L${x - h * Math.cos(a - .5)} ${y - h * Math.sin(a - .5)} L${x - h * Math.cos(a + .5)} ${y - h * Math.sin(a + .5)} Z" fill="${col}"/>`;
+}
+function photo(o) {
+  const h = o.h ?? 760, k = h / 956, w = 560 * k, x = o.x ?? 540 - w / 2, y = o.y ?? 540;
+  const zoom = o.zoom ?? 1, glow = G.name === "redblack"
+    ? `<div class="abs" style="left:${x - 160}px;top:${y + 80}px;width:${w + 320}px;height:${h * .8}px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,30,45,.55),transparent);filter:blur(30px)"></div>`
+    : `<div class="abs" style="left:${x + w * .12}px;top:${y + h - 40}px;width:${w * .76}px;height:60px;border-radius:50%;background:rgba(60,40,20,.28);filter:blur(22px)"></div>
+       <div class="abs" style="left:${540 - 380}px;top:${y + 40}px;width:760px;height:760px;border-radius:50%;background:#fff;opacity:.55"></div>`;
+  let ov = "";
+  const L = o.lats ?? 0, Tr = o.traps ?? 0;
+  if (Tr > 0) ov += `<path d="${TRAPS}" fill="${G.acc}" opacity="${.75 * Tr}" filter="url(#glow)"/>`;
+  if (L > 0) ov += `<g opacity="${L}" filter="url(#glow)"><path d="${LAT_L}" fill="${o.latCol ?? G.acc}" fill-opacity=".62" stroke="${o.latCol ?? G.acc}" stroke-width="5"/><path d="${LAT_R}" fill="${o.latCol ?? G.acc}" fill-opacity=".62" stroke="${o.latCol ?? G.acc}" stroke-width="5"/></g>`;
+  if (o.latOutline) ov += `<g opacity="${o.latOutline}" fill="none" stroke="${G.ink}" stroke-width="4" stroke-dasharray="14 12"><path d="${LAT_L}"/><path d="${LAT_R}"/></g>`;
+  if (o.up) ov += arrow(110, 330, 110, 210, o.up, G.acc) + arrow(480, 330, 480, 210, o.up, G.acc);
+  if (o.scap) ov += arrow(205, 380, 232, 500, o.scap, G.good) + arrow(385, 380, 358, 500, o.scap, G.good)
+    + (o.scap2 ? arrow(150, 455, 235, 470, o.scap2, G.good) + arrow(440, 455, 355, 470, o.scap2, G.good) : "");
+  if (o.elbow) ov += `<g fill="none" stroke="${G.good}" stroke-width="13" stroke-linecap="round" stroke-dasharray="${900 * o.elbow} 900">
+      <path d="M40 300 C10 430 60 560 160 640"/><path d="M550 300 C580 430 530 560 430 640"/></g>`
+    + (o.elbow > .95 ? arrow(120, 610, 165, 645, 1, G.good) + arrow(470, 610, 425, 645, 1, G.good) : "");
+  return `${glow}<div class="abs" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;transform:scale(${zoom});transform-origin:50% 40%">
+    <img src="${ASSET}back.png" style="position:absolute;inset:0;width:100%;height:100%;filter:${G.photo} contrast(1.08)">
+    <svg class="abs" style="inset:0;overflow:visible" viewBox="0 0 560 956" width="${w}" height="${h}">${ov}</svg></div>`;
+}
+
+// ---------------- animated pull-up figure (side view, facing right) ----------------
+// st: {p: 0 hang .. 1 chin over bar, shrug, swing (rad), bicep, core, lat, ghost}
+function figPose(st) {
+  const hand = [470, 120], S = [445 - 10 * st.p, lerp(410, 168, st.p) - 26 * (st.shrug ?? 0)];
+  const d = Math.hypot(hand[0] - S[0], hand[1] - S[1]), L = 150, mid = [(hand[0] + S[0]) / 2, (hand[1] + S[1]) / 2];
+  const hh = Math.sqrt(Math.max(0, L * L - d * d / 4)), nx = -(hand[1] - S[1]) / d, ny = (hand[0] - S[0]) / d;
+  const flare = st.flare ?? 0;
+  const E = [mid[0] + nx * hh * (1 + flare) * (nx > 0 ? 1 : -1), mid[1] + ny * hh * (nx > 0 ? 1 : -1)];
+  const lean = -.12 * st.p + (st.swing ?? 0) * .35, hip = [S[0] + Math.sin(lean) * 230, S[1] + Math.cos(lean) * 230];
+  const sw = (st.swing ?? 0) + lean, kb = st.knee ?? .15;
+  const knee = [hip[0] + Math.sin(sw + .08) * 160, hip[1] + Math.cos(sw + .08) * 160];
+  const foot = [knee[0] + Math.sin(sw - kb) * 160, knee[1] + Math.cos(sw - kb) * 160];
+  const head = [S[0] + 18 + Math.sin(lean) * -82, S[1] - 84 + 30 * (st.shrug ?? 0)];
+  return { hand, S, E, hip, knee, foot, head };
+}
+function figure(st, x = 163, y = 505) {
+  const P = figPose(st), c = G.fig, line = (a, b, w, col = c, op = 1) => `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${col}" stroke-width="${w}" stroke-linecap="round" opacity="${op}"/>`;
+  const body = (Q, op = 1, col = c) => line(Q.hip, Q.knee, 40, col, op) + line(Q.knee, Q.foot, 34, col, op) + line(Q.S, Q.hip, 70, col, op)
+    + line(Q.S, Q.E, 36, col, op) + line(Q.E, Q.hand, 30, col, op) + `<circle cx="${Q.head[0]}" cy="${Q.head[1]}" r="44" fill="${col}" opacity="${op}"/>`;
+  let ghosts = "";
+  for (const g of st.ghosts ?? []) ghosts += body(figPose(g), .14, G.name === "porcelain" ? "#8a857c" : "#ff4a55");
+  const hl = [];
+  if (st.bicep) hl.push(line(P.S, P.E, 40, G.acc, st.bicep));
+  if (st.lat) { const a = [P.S[0] - 18, P.S[1] + 30], b = [lerp(P.S[0], P.hip[0], .75) - 22, lerp(P.S[1], P.hip[1], .75)];
+    hl.push(`<g filter="url(#glow)">${line(a, b, 26, G.good, st.lat)}</g>`); }
+  if (st.traps) hl.push(`<circle cx="${P.S[0] - 6}" cy="${P.S[1] - 26}" r="34" fill="${G.acc}" opacity="${st.traps}" filter="url(#glow)"/>`);
+  if (st.core) { const cx = lerp(P.S[0], P.hip[0], .6), cy = lerp(P.S[1], P.hip[1], .6), s = lerp(1.6, 1, easeOut(st.core));
+    hl.push(`<g transform="translate(${cx} ${cy}) scale(${s})" opacity="${clamp(st.core * 2)}" fill="none" stroke="${G.good}" stroke-width="10" stroke-linecap="round">
+      <path d="M-80 -90 h-26 v52 M80 -90 h26 v52 M-80 90 h-26 v-52 M80 90 h26 v-52"/></g>`); }
+  const posts = G.name === "porcelain" ? "#cfc8bb" : "#3a1015";
+  return `<svg class="abs" style="left:${x}px;top:${y}px;overflow:visible" width="656" height="623" viewBox="0 0 800 760">
+    <rect x="200" y="40" width="20" height="720" rx="10" fill="${posts}"/><rect x="700" y="40" width="20" height="720" rx="10" fill="${posts}"/>
+    <rect x="160" y="108" width="600" height="24" rx="12" fill="${G.name === "porcelain" ? "#2a2a2a" : "#d9d9d9"}"/>
+    ${st.extra ?? ""}${ghosts}${body(P)}${hl.join("")}</svg>`;
+}
+const rep = (u, period, lo = 0, hi = 1) => lerp(lo, hi, .5 - .5 * Math.cos(2 * Math.PI * u / period));
+
+// ---------------- chrome ----------------
+function head(sc, t0) {
+  if (!sc.title) return "";
+  const s = G.titleSize * (sc.title.length > 14 ? .78 : 1), col = sc.bad ? G.acc : sc.n ? G.good : G.ink;
+  const tag = sc.n ? `<div class="abs" style="left:0;right:0;top:300px;text-align:center;${appear(t0, { dy: 20 })}">
+      <span style="display:inline-block;padding:10px 26px;border-radius:999px;font:800 30px Inter;letter-spacing:.14em;color:${G.name === "porcelain" && !sc.bad ? "#fff" : sc.bad ? "#fff" : "#04140a"};background:${col}">${sc.bad ? "MISTAKE " + sc.n : "✓ FIX " + sc.n}</span></div>` : "";
+  return `${tag}<div class="abs" style="left:40px;right:40px;top:370px;text-align:center;font-size:${s}px;line-height:1;color:${sc.bad && G.name === "redblack" ? G.ink : G.ink};${G.title};${appear(t0 + .06, { dy: 50 })}">${sc.title}</div>`;
+}
+function dots(n, bad) {
+  return `<div class="abs" style="left:0;right:0;top:240px;display:flex;gap:14px;justify-content:center">${[1, 2, 3, 4, 5].map(i =>
+    `<div style="width:${i === n ? 70 : 34}px;height:12px;border-radius:6px;background:${i < n ? G.good : i === n ? (bad ? G.acc : G.good) : G.name === "porcelain" ? "rgba(0,0,0,.14)" : "rgba(255,255,255,.2)"}"></div>`).join("")}</div>`;
+}
+function stamp(ok, t0, x = 830, y = 600) {
+  if (T < t0) return "";
+  const p = prog(t0, t0 + .3), s = 1 + 1.3 * Math.exp(-(T - t0) * 11);
+  return `<div class="abs" style="left:${x}px;top:${y}px;width:160px;height:160px;border-radius:50%;background:${ok ? G.good : G.acc};color:#fff;font:900 100px/160px Inter;text-align:center;opacity:${clamp(p * 3)};transform:scale(${s}) rotate(${ok ? 0 : -8}deg);box-shadow:0 0 50px ${ok ? G.good : G.acc}88">${ok ? "✓" : "✕"}</div>`;
+}
+function meter(label, v, x, y, col) {
+  return `<div class="abs" style="left:${x}px;top:${y}px;width:150px;height:420px;border-radius:30px;${G.card}">
+    <div class="abs" style="left:52px;top:28px;width:46px;height:300px;border-radius:23px;background:${G.name === "porcelain" ? "rgba(0,0,0,.08)" : "rgba(255,255,255,.12)"};overflow:hidden">
+      <div class="abs" style="left:0;right:0;bottom:0;height:${300 * clamp(v)}px;border-radius:23px;background:${col};box-shadow:0 0 30px ${col}"></div></div>
+    <div class="abs" style="left:0;right:0;top:340px;text-align:center;font:900 44px Inter;color:${G.ink}">${Math.round(100 * clamp(v))}%</div>
+    <div class="abs" style="left:0;right:0;top:-46px;text-align:center;font:800 26px Inter;letter-spacing:.16em;color:${G.sub}">${label}</div></div>`;
+}
+function captions() {
+  const W = TL.words; let i = W.findIndex(w => T >= w.s && T < w.e + .25);
+  if (i < 0 || T >= cue("cta") || T < cue("promise")) return "";
+  // chunk: up to 3 words inside the same line
+  const lineOf = k => TL.lines.filter(s => W[k].s >= s - .001).length;
+  let a = i; while (a > 0 && lineOf(a - 1) === lineOf(i) && i - a < 2 && !(W[a - 1].w.match(/[:,.?]$/))) a--;
+  const st = a; let b = st; while (b + 1 < W.length && b - st < 2 && lineOf(b + 1) === lineOf(st) && !W[b].w.match(/[:,.?]$/)) b++;
+  if (i > b) return "";
+  const words = W.slice(st, b + 1), c0 = W[st].s;
+  return `<div class="abs" style="left:60px;right:60px;top:1335px;display:flex;flex-wrap:wrap;justify-content:center;gap:0 22px;z-index:50">${words.map((w, k) => {
+    const cur = st + k === i, said = st + k <= i, txt = G.upper ? w.w.toUpperCase() : w.w;
+    const col = cur ? G.hl : w.hl ? G.acc : G.ink, sc = cur ? 1.08 : 1;
+    const stroke = G.name === "redblack" ? "-webkit-text-stroke:3px #000;text-shadow:0 6px 0 #000,0 0 30px rgba(0,0,0,.8)" : "";
+    return `<span style="display:inline-block;${G.cap};font-size:${G.capSize}px;line-height:1.15;color:${col};opacity:${said ? 1 : .35};transform:scale(${sc});${stroke};${appear(c0 + k * .04, { dy: 20, dur: .25 })}">${txt.replace(/[,.:;]$/, "")}</span>`;
+  }).join("")}</div>`;
+}
+
+// ---------------- the owner's photo, rigged as a back-view pull-up ----------------
+// The cut-out torso (arms masked off) rides up and down; drawn arms reach the bar by 2-bone IK.
+// st: {p: 0 dead hang .. 1 chin over bar, shrug, sway (deg, toward camera), armCol, lats, latCol,
+//      traps, scap, elbowArrows, core, extra (svg in rig space), ghosts: [st...]}
+const RIG = { k: .72, barY: 700, L: 190, hands: [-30, 620], sh: [[92, 356], [498, 352]] };
+const BODY_CLIP = "M232 282 L358 282 L470 300 L536 322 L548 362 L486 470 L446 860 L146 860 L106 480 L42 372 L52 322 L120 300 Z";
+const HEAD_CLIP = "M150 0 L450 0 L450 296 L360 296 L358 282 L232 282 L230 296 L150 296 Z";
+function ik(S, H, out) {
+  const dx = H[0] - S[0], dy = H[1] - S[1], d = Math.min(Math.hypot(dx, dy), 2 * RIG.L - .5);
+  const h = Math.sqrt(Math.max(0, RIG.L * RIG.L - d * d / 4)), m = [S[0] + dx / 2, S[1] + dy / 2];
+  let nx = -dy / Math.hypot(dx, dy), ny = dx / Math.hypot(dx, dy);
+  if (nx * out < 0) { nx = -nx; ny = -ny; }
+  return [m[0] + nx * h, m[1] + ny * h];
+}
+function limb(a, b, w0, w1, fill) {
+  const ang = Math.atan2(b[1] - a[1], b[0] - a[0]), px = -Math.sin(ang), py = Math.cos(ang);
+  return `<path d="M${a[0] + px * w0} ${a[1] + py * w0} L${b[0] + px * w1} ${b[1] + py * w1} L${b[0] - px * w1} ${b[1] - py * w1} L${a[0] - px * w0} ${a[1] - py * w0} Z" fill="${fill}"/>
+    <circle cx="${b[0]}" cy="${b[1]}" r="${w1}" fill="${fill}"/><circle cx="${a[0]}" cy="${a[1]}" r="${w0}" fill="${fill}"/>`;
+}
+function rigPose(st) {
+  const y0 = lerp(340, 70, st.p) - 330 - (st.shrug ?? 0) * 26;
+  const S = RIG.sh.map(([x, y]) => [x, y + y0]), H = RIG.hands.map(x => [x, 0]);
+  const E = [ik(S[0], H[0], -1), ik(S[1], H[1], 1)];
+  return { y0, S, H, E };
+}
+function rigBody(st, op = 1) {
+  const P = rigPose(st), y0 = P.y0, sh = (st.shrug ?? 0) * 34, R = G.name === "redblack";
+    let ov = "";
+  const L = st.lats ?? 0, Tr = st.traps ?? 0;
+  if (Tr > 0) ov += `<path d="${TRAPS}" fill="${G.acc}" opacity="${.8 * Tr}" filter="url(#glow)"/>`;
+  if (L > 0) ov += `<g opacity="${L}" filter="url(#glow)"><path d="${LAT_L}" fill="${st.latCol ?? G.good}" fill-opacity=".42"/><path d="${LAT_R}" fill="${st.latCol ?? G.good}" fill-opacity=".42"/></g>`;
+  if (st.latOutline) ov += `<g opacity="${st.latOutline}" fill="none" stroke="${G.ink}" stroke-width="5" stroke-dasharray="16 12"><path d="${LAT_L}"/><path d="${LAT_R}"/></g>`;
+  if (st.scap) ov += arrow(205, 360, 232, 490, st.scap, G.good, 16) + arrow(385, 360, 358, 490, st.scap, G.good, 16);
+  if (st.core) { const s = lerp(1.5, 1, easeOut(st.core));
+    ov += `<g transform="translate(295 690) scale(${s})" opacity="${clamp(st.core * 2)}" fill="none" stroke="${G.good}" stroke-width="12" stroke-linecap="round">
+      <path d="M-120 -110 h-30 v60 M120 -110 h30 v60 M-120 110 h-30 v-60 M120 110 h30 v-60"/></g>`; }
+  // each arm: dark rim, skin-tone body and a soft highlight, all round-joined so the joints read as one limb
+  const tone = st.armCol ? [st.armCol, st.armCol, "#fff"] : R ? ["#2A0305", "#A3332F", "#FF9A8C"] : ["#4A4743", "#9B968F", "#E9E4DC"];
+  const seg = (a, b, w, c, o = 1) => `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${c}" stroke-width="${w}" stroke-linecap="round" opacity="${o}"/>`;
+  const arms = P.S.map((s, i) => {
+    const e = P.E[i], h = P.H[i], off = i ? -9 : 9, hs = [s[0] + off, s[1]], he = [e[0] + off, e[1]], hh = [h[0] + off * .6, h[1]];
+    return `<g filter="url(#limbSoft)">${seg(s, e, 84, tone[0]) + seg(e, h, 64, tone[0]) + seg(s, e, 70, tone[1]) + seg(e, h, 52, tone[1])
+      + seg(hs, he, 20, tone[2], .28) + seg(he, hh, 14, tone[2], .22)}</g>`; }).join("");
+  const hands = P.H.map(h => `<rect x="${h[0] - 34}" y="${h[1] - 28}" width="68" height="60" rx="26" fill="${tone[0]}"/><rect x="${h[0] - 28}" y="${h[1] - 24}" width="56" height="50" rx="22" fill="${tone[1]}"/>`).join("");
+  let el = "";
+  if (st.elbowArrows) { const q = st.elbowArrows, rib = [[150, 640 + y0], [440, 640 + y0]];
+    el = P.E.map((e, i) => `<path d="M${e[0]} ${e[1]} Q${e[0] + (i ? 40 : -40)} ${(e[1] + rib[i][1]) / 2} ${rib[i][0]} ${rib[i][1]}" fill="none" stroke="${G.good}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${700 * q} 700"/>`
+      + (q > .95 ? arrow(rib[i][0] + (i ? 60 : -60), rib[i][1] - 50, rib[i][0], rib[i][1], 1, G.good, 14) : "")).join(""); }
+  return `<g opacity="${op}">${arms}
+    <g transform="translate(0 ${y0})">
+      <image href="${ASSET}back.png" width="560" height="956" clip-path="url(#bodyClip)" mask="url(#fadeMask)" filter="${G.photo}"/>
+      <image href="${ASSET}back.png" width="560" height="956" clip-path="url(#headClip)" filter="${G.photo}" transform="translate(0 ${sh})"/>
+      ${ov}</g>${hands}${el}</g>`;
+}
+function rig(st) {
+  const k = RIG.k, bar = G.name === "porcelain" ? "#2A2A2A" : "#D9D9D9";
+  const ghosts = (st.ghosts ?? []).map(g => rigBody(g, .16)).join("");
+  const sway = st.sway ?? 0;
+  return `<div class="abs" style="inset:0;transform:perspective(1500px) rotateX(${sway}deg);transform-origin:540px ${RIG.barY}px">
+    <svg class="abs" style="inset:0;overflow:visible" width="1080" height="1920" viewBox="0 0 1080 1920">
+    <defs>
+      <filter id="limbSoft"><feGaussianBlur stdDeviation="1.6"/></filter><clipPath id="bodyClip"><path d="${BODY_CLIP}"/></clipPath><clipPath id="headClip"><path d="${HEAD_CLIP}"/></clipPath>
+      <linearGradient id="fadeG" x1="0" y1="0" x2="0" y2="956" gradientUnits="userSpaceOnUse"><stop offset=".72" stop-color="#fff"/><stop offset=".9" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <mask id="fadeMask" maskUnits="userSpaceOnUse" x="-100" y="-100" width="760" height="1200"><rect x="-100" y="-100" width="760" height="1200" fill="url(#fadeG)"/></mask>
+      <linearGradient id="arm_porcelain" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5E5A55"/><stop offset=".5" stop-color="#A8A39B"/><stop offset="1" stop-color="#6A665F"/></linearGradient>
+      <linearGradient id="arm_redblack" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3A0507"/><stop offset=".5" stop-color="#B8423C"/><stop offset="1" stop-color="#4A0709"/></linearGradient>
+    </defs>
+    <g transform="translate(${540 - 295 * k} ${RIG.barY}) scale(${k})">
+      <rect x="-260" y="-13" width="1110" height="26" rx="13" fill="${bar}"/>
+      <rect x="-275" y="-24" width="30" height="48" rx="8" fill="${bar}"/><rect x="835" y="-24" width="30" height="48" rx="8" fill="${bar}"/>
+      ${st.under ?? ""}${ghosts}${rigBody(st)}${st.extra ?? ""}</g></svg></div>`;
+}
+// rig-space y of a screen y, for lines/labels
+const rigY = y => (y - RIG.barY) / RIG.k;
+
+// ---------------- scene bodies ----------------
+const BODY = {
+  hook: () => {
+    const z = 1.06 + .05 * clamp(T / 1.1), sh = T < .3 ? Math.sin(T * 120) * 10 * (1 - T / .3) : 0;
+    const flick = T > .45 && Math.sin(T * 40) > -.2 ? 1 : .2;
+    const R = G.name === "redblack";
+    const words = R
+      ? `<div style="font-size:150px;color:#fff">STOP DOING</div><div style="font-size:190px;color:${G.hl};margin-top:-6px">PULL-UPS</div>
+         <div style="display:inline-block;margin-top:4px;padding:0 30px;background:${G.acc};color:#fff;font-size:180px;transform:rotate(-3deg);box-shadow:0 0 70px ${G.acc}">WRONG</div>`
+      : `<div style="font-size:110px;color:${G.ink}">Stop doing</div><div style="font-size:150px;color:${G.ink};margin-top:6px">pull-ups</div>
+         <div style="display:inline-block;margin-top:14px;padding:6px 40px 16px;border-radius:999px;background:${G.acc};color:#fff;font-size:120px">wrong.</div>`;
+    return photo({ h: 1180, y: 600, zoom: z, lats: .9 * flick, latCol: G.acc })
+      + `<div class="abs" style="left:0;right:0;top:${R ? 190 : 230}px;text-align:center;line-height:.95;${G.title};transform:translateX(${sh}px) scale(${1 + .25 * Math.exp(-T * 9)})">${words}</div>`
+ ;
+  },
+  promise: t0 => {
+    const v = on(cue("five")) ? 0 : .06 + .05 * Math.sin(T * 20);
+    const slots = [1, 2, 3, 4, 5].map(i => `<div style="width:150px;height:150px;border-radius:30px;${G.card};display:flex;align-items:center;justify-content:center;font-size:90px;color:${G.acc};${G.title};${appear(cue("five") + (i - 1) * .1, { dy: 60, scale: .5 })}">${i}</div>`).join("");
+    return photo({ h: 760, y: 540, x: 200, latOutline: 1 - prog(cue("five"), cue("five") + .3), lats: on(cue("five")) ? 0 : .25 })
+      + `<div style="${appear(cue("lats0"), { dy: 0, scale: .7 })}" class="abs">${meter("LATS", v, 800, 640, G.acc)}</div>`
+      + (on(cue("five")) ? `<div class="abs" style="left:0;right:0;top:1060px;display:flex;gap:22px;justify-content:center">${slots}</div>` : "");
+  },
+  m1: t0 => { const u = T - t0;
+    return rig({ p: rep(u, 1.5, .05, .8), shrug: .5 + .5 * Math.sin(u * 4.2), traps: .55 + .45 * Math.abs(Math.sin(u * 3)), latOutline: .5,
+        extra: arrow(40, 260, 40, 120, easeOut(prog(t0 + .3, t0 + .8)), G.acc, 16) + arrow(550, 260, 550, 120, easeOut(prog(t0 + .3, t0 + .8)), G.acc, 16) })
+      + stamp(false, t0 + .5, 850, 980) + label("TRAPS TAKE OVER", t0 + .9, G.acc); },
+  f1: t0 => { const u = T - t0, set = prog(cue("neeche") - .2, cue("peeche") + .3);
+    return rig({ p: u < 1.2 ? .02 + .12 * easeOut(prog(cue("neeche") - .1, cue("neeche") + .4)) : rep(u - 1.2, 2.2, .14, .95),
+        scap: easeOut(prog(cue("neeche") - .1, cue("neeche") + .5)), lats: set * (.75 + .25 * Math.sin(T * 6)) })
+      + stamp(true, t0 + .3, 850, 980) + `<div class="abs" style="${appear(cue("peeche"), { scale: .7, dy: 0 })}">${meter("LATS", set * .92, 40, 820, G.good)}</div>`; },
+  m2: t0 => { const u = T - t0;
+    return rig({ p: rep(u, 1.3, .1, .85), armCol: G.acc, latOutline: .6 }) + stamp(false, t0 + .4, 850, 980)
+      + `<div class="abs" style="${appear(cue("arms"), { scale: .7, dy: 0 })}">${meter("BICEPS", .95, 40, 820, G.acc)}</div>`
+      + `<div class="abs" style="${appear(cue("arms") + .3, { scale: .7, dy: 0 })}">${meter("LATS", .2, 890, 820, G.sub)}</div>`; },
+  f2: t0 => { const u = T - t0, q = easeInOut(prog(t0 + .2, cue("drive") + .2));
+    return rig({ p: rep(u, 2.1, .1, .95), elbowArrows: q, lats: prog(cue("drive") - .3, cue("drive") + .5) * (.75 + .25 * Math.sin(T * 6)) })
+      + stamp(true, t0 + .3, 850, 980) + label("PULL WITH YOUR BACK", cue("drive"), G.good); },
+  m3: t0 => { const u = T - t0, sw = 24 * Math.sin(u * 4.6), p = rep(u, 1.36, .1, .9);
+    const gh = [1, 2].map(k => ({ p: rep(u - k * .07, 1.36, .1, .9) }));
+    return rig({ p, sway: sw, ghosts: gh, latOutline: .5 }) + stamp(false, t0 + .4, 850, 980) + label("MOMENTUM ≠ MUSCLE", cue("swing") + .2, G.acc); },
+  f3: t0 => { const u = T - t0;
+    return rig({ p: rep(u, 1.9, .05, .95), core: prog(t0 + .2, t0 + .6), lats: .8 }) + stamp(true, t0 + .3, 850, 980) + label("NO SWING", cue("still"), G.good); },
+  m4: t0 => { const u = T - t0, p = rep(u, .9, .3, .62);
+    const chin = `<line x1="-250" y1="0" x2="840" y2="0" stroke="${G.acc}" stroke-width="8" stroke-dasharray="26 16"/><text x="-250" y="-24" font-family="Inter" font-weight="800" font-size="40" fill="${G.acc}">CHIN NEVER GETS HERE</text>`;
+    return rig({ p, extra: chin, latOutline: .5 }) + stamp(false, t0 + .3, 850, 980); },
+  f4: t0 => { const u = T - t0, p = rep(u, 2.2, 0, 1);
+    const ex = `<g opacity="${prog(cue("chin") - .2, cue("chin"))}"><text x="-250" y="-30" font-family="Inter" font-weight="800" font-size="40" fill="${G.good}">CHIN OVER BAR ✓</text></g>
+      <g opacity="${prog(cue("deadhang") - .2, cue("deadhang"))}"><line x1="-250" y1="380" x2="840" y2="380" stroke="${G.good}" stroke-width="6" stroke-dasharray="20 14"/><text x="-250" y="440" font-family="Inter" font-weight="800" font-size="40" fill="${G.good}">FULL DEAD HANG</text></g>`;
+    return rig({ p, lats: .45 + .5 * p, extra: ex }) + stamp(true, t0 + .3, 850, 980) + meter("RANGE", p, 890, 820, G.good); },
+  m5: t0 => { const u = T - t0, d = cue("dhadaam") - t0;
+    const p = u < d - .6 ? rep(u, 1.2, .2, 1) : u < d ? lerp(rep(d - .6, 1.2, .2, 1), 1, prog(t0 + d - .6, t0 + d - .3)) : Math.max(0, 1 - (u - d) / .14) + (u > d + .14 ? .04 * Math.exp(-(u - d - .14) * 8) * Math.abs(Math.sin((u - d) * 30)) : 0);
+    const ring = u > d ? `<circle cx="295" cy="250" r="${120 + (u - d) * 700}" fill="none" stroke="${G.acc}" stroke-width="14" opacity="${clamp(1 - (u - d) * 2)}"/>` : "";
+    const gh = u > d && u < d + .3 ? [1, 2, 3].map(k => ({ p: Math.min(1, p + k * .22) })) : [];
+    return rig({ p, extra: ring, ghosts: gh, latOutline: .4 }) + stamp(false, cue("dhadaam"), 850, 980)
+      + (u > d ? `<div class="abs" style="left:0;right:0;top:1150px;text-align:center;${G.title};font-size:120px;color:${G.acc};transform:scale(${1 + .8 * Math.exp(-(u - d) * 10)}) rotate(-6deg)">THUD!</div>` : ""); },
+  f5: t0 => { const u = T - t0, top = .7, p = u < top ? lerp(.2, 1, easeInOut(u / top)) : Math.max(0, 1 - (u - top) / 2.4);
+    const n = u < top ? 0 : Math.min(3, 1 + Math.floor((u - top) / .8)), sec = u < top ? "" : `<div class="abs" style="left:70px;top:820px;${G.title};font-size:240px;color:${G.good};transform:scale(${1 + .3 * Math.exp(-((u - top) % .8) * 9)})">${n}</div>
+      <div class="abs" style="left:70px;top:1120px;font:800 30px Inter;letter-spacing:.16em;color:${G.sub}">SECONDS</div>`;
+    return rig({ p, lats: .9 }) + stamp(true, t0 + .2, 850, 980) + sec; },
+  recap: t0 => { const items = ["No shrug", "Elbows to ribs", "No swing", "Full range", "Slow negative"];
+    const step = (cue("check") - t0 - .2) / 5;
+    return photo({ h: 700, y: 580, x: 60, lats: .85 + .15 * Math.sin(T * 5), latCol: G.good })
+      + `<div class="abs" style="left:520px;top:600px;width:500px;border-radius:36px;padding:30px 34px;${G.card};${appear(t0, { dy: 60 })}">${items.map((s, i) => {
+        const tk = t0 + .2 + i * step, ok = on(tk);
+        return `<div style="display:flex;align-items:center;gap:22px;height:104px;font:800 40px Inter;color:${G.ink}">
+          <span style="width:62px;height:62px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:38px;color:#fff;background:${ok ? G.good : "transparent"};border:4px solid ${ok ? G.good : G.sub};transform:scale(${ok ? 1 + .5 * Math.exp(-(T - tk) * 10) : 1})">${ok ? "✓" : ""}</span>${s}</div>`; }).join("")}</div>`
+      + `<div class="abs" style="left:560px;top:1200px;${appear(cue("save"), { dy: 30 })};font:900 44px Inter;color:${G.ink}">🔖 Save for pull day</div>`; },
+  cta: t0 => { const click = cue("follow") + .25, done = on(click), press = done && T < click + .15 ? .9 : 1, R = G.name === "redblack";
+    const handle = "@drmakfitness";
+    return photo({ h: 700, y: 330, lats: .6, latCol: G.acc, zoom: 1 + .03 * (T - t0) })
+      + `<div class="abs" style="left:0;right:0;top:1080px;text-align:center;${appear(t0 + .1)}"><div style="${G.title};font-size:${R ? 120 : 92}px;color:${G.ink};line-height:1">${R ? "DR MAK FITNESS" : "Dr Mak Fitness"}</div>
+        <div style="font:800 42px Inter;color:${G.acc};margin-top:14px">${handle}</div></div>`
+      + `<div class="abs" style="left:0;right:0;top:1300px;text-align:center;${appear(t0 + .3)}"><span style="display:inline-block;transform:scale(${press});padding:26px 70px;border-radius:999px;font:900 52px Inter;color:#fff;background:${done ? "#2A2A2E" : G.acc};box-shadow:${done ? "none" : "0 0 50px " + G.acc + "aa"}">${done ? "✓ Subscribed" : "▶ Subscribe"}</span></div>`; },
+};
+function label(text, t0, col) {
+  return `<div class="abs" style="left:0;right:0;top:1190px;text-align:center;${appear(t0, { dy: 30 })}"><span style="display:inline-block;padding:14px 34px;border-radius:999px;font:900 40px Inter;letter-spacing:.08em;color:#fff;background:${col};box-shadow:0 10px 40px ${col}66">${text}</span></div>`;
+}
+
+// ---------------- frame ----------------
+function frame(t) {
+  T = t;
+  const k = sceneAt(t), sc = SCENES[k], t0 = TL.cues[sc.id], u = t - t0;
+  let h = background();
+  let body = BODY[sc.id](t0) + head(sc, t0) + (sc.n ? dots(sc.n, sc.bad) : "");
+  // scene-in move: keynote push (porcelain) or punch + shake (redblack)
+  if (k > 0 && u < .5) {
+    const p = easeOut(clamp(u / .35));
+    if (G.name === "porcelain") body = `<div class="abs" style="inset:0;transform:translateX(${(1 - p) * 120}px) scale(${lerp(1.04, 1, p)});opacity:${clamp(u / .18)}">${body}</div>`;
+    else { const kk = Math.exp(-u * 8), sh = sc.bad ? Math.sin(u * 90) * 14 * kk : 0;
+      body = `<div class="abs" style="inset:0;transform:scale(${1 + .07 * kk}) translateX(${sh}px)">${body}</div>`; }
+  }
+  // the drop in mistake 5 shakes the whole frame
+  if (sc.id === "m5" && t > cue("dhadaam")) { const q = Math.exp(-(t - cue("dhadaam")) * 9); body = `<div class="abs" style="inset:0;transform:translate(${Math.sin(t * 97) * 22 * q}px,${Math.cos(t * 83) * 18 * q}px)">${body}</div>`; }
+  h += body + captions();
+  // cut accent: red slash sweep (redblack) on each new scene
+  if (G.name === "redblack" && k > 0 && u < .22) { const y = 1920 - 2400 * easeInOut(u / .22);
+    h += `<div class="abs" style="left:-120px;right:-120px;top:${y}px;height:200px;background:${G.acc};transform:skewY(-9deg);box-shadow:0 0 90px ${G.acc};z-index:55"></div>`; }
+  // chrome
+  h += `<div class="abs" style="left:0;top:0;height:9px;width:${1080 * t / TL.dur}px;background:${G.acc};z-index:58"></div>`;
+  if (sc.id !== "hook" && sc.id !== "cta") h += `<div class="abs" style="left:60px;top:150px;font:800 30px Inter;color:${G.sub};z-index:58"><span style="color:${G.acc}">●</span> @drmakfitness</div>`;
+  return h + finish();
+}
+window.setShort = (tl, grade, assetBase) => {
+  TL = tl; G = THEMES[grade]; if (assetBase) ASSET = assetBase;
+  document.body.style.background = G.bg;
+  const c = document.createElement("canvas"); c.width = c.height = 300; const x = c.getContext("2d"), d = x.createImageData(300, 300);
+  for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; }
+  x.putImageData(d, 0, 0); GRAIN = c.toDataURL();
+  return TL.dur;
+};
+window.renderAt = t => {
+  let h = frame(t);
+  // loop seam: the last 0.3 s dissolves into the hook's first frame
+  if (t > TL.dur - .3) { const a = prog(TL.dur - .3, TL.dur); h += `<div class="abs" style="inset:0;opacity:${a};z-index:90;background:${G.bg}">${frame(0.0001)}</div>`; T = t; }
+  document.getElementById("v").innerHTML = h;
+};
+</script>
+</body>
+</html>
