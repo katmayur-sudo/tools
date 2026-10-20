@@ -18,10 +18,11 @@ Structure it like the reference in refs/: hook (first 2s), 3 beats, payoff line.
 Return a table: line | target seconds | on-screen text | visual idea. Keep on-screen text to ≤5 words per card.
 ```
 
-## Prompt 2: ElevenLabs v4 voice guide
+## Prompt 2: ElevenLabs voice-over (my cloned voice)
 
 ```text
-Turn this script into an ElevenLabs v4 delivery: pick a voice style, add delivery/emotion tags, pauses and emphasis
+Voice it with my cloned ElevenLabs voice "dr mak" (voice_id s0DMVIZPbbCMs31sURvA), never a stock voice.
+Turn this script into a delivery for that voice: add delivery/emotion tags, pauses and emphasis
 per line, and give me the final text to paste. Then <generate it via the API into audio/vo.mp3 | stop so I generate it by hand>.
 After I confirm the audio, get word-level timestamps into audio/vo_words.json.
 ```

@@ -57,7 +57,7 @@ footage:
     prompt_suffix: "medium close-up, 50mm, soft window light, muted low-contrast grade, no text"
 
 sound:
-  vo: { tool: "ElevenLabs v4", target_lufs: -14 }
+  vo: { tool: "ElevenLabs", voice: "dr mak (cloned)", voice_id: s0DMVIZPbbCMs31sURvA, target_lufs: -14 }
   music: { source: "licensed score pack", duck_db: -12 }
   sfx_hits:                 # timestamp: sound
     - { t: "00:00.0", sfx: riser_short }
