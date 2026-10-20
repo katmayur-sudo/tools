@@ -1,0 +1,74 @@
+# Style DNA / signature template
+# Fill one per reference edit (see Prompt 3). Save as styles/<name>.yaml and reuse by name.
+# Values below are examples in the style seen in the source video; replace them with what you measure.
+
+name: satire-interview
+source:
+  reference: refs/reference.mp4
+  credit: "@original_creator"   # always credit who you learned from
+format:
+  aspect: "9:16"                 # 9:16 reels, 16:9 YouTube
+  resolution: [1080, 1920]
+  fps: 30
+  length_s: 40
+
+pacing:
+  avg_shot_s: 1.4
+  cut_on: word_boundaries        # from VO timestamps
+  hook_s: 2
+  structure: [hook, beat_1, beat_2, beat_3, payoff]
+
+typography:
+  font: "SF Pro Display / Inter"
+  weights: { lead_in: 500, title: 700 }
+  sizes_px: { lead_in: 44, title: 120 }
+  color: "#FFFFFF"
+  position: lower_left          # safe margin 8% from edges
+  punctuation: "Title ends with a full stop."
+  animation:
+    in: { type: fade_up, offset_px: 24, frames: 10, easing: easeOutCubic, stagger_frames: 4 }
+    out: { type: fade, frames: 6 }
+  motion_blur: false            # note from the video: no motion blur on text
+  glow: { enabled: true, blur_px: 20, opacity: 0.5, blend: add }
+
+color_grade:
+  look: "neutral, slightly warm, low contrast"
+  saturation: 0.9               # first pass was "way too punchy"
+  contrast: 1.0
+  background_blur_when_title_px: 30
+
+camera:
+  moves: [slow_push_in_3pct, none]
+  shake: false
+
+transitions:
+  default: hard_cut
+  special:
+    - { type: match_cut, rule: "same subject position + scale across the cut; vary source clips" }
+    - { type: whip, frames: 6 }
+
+effects_library: [match_cut, text_bloom, kinetic_title, bg_blur_under_title, name_card]
+
+footage:
+  talking_head: footage/   # pick from INDEX.md
+  cutaways: [reference_interview_clip, screen_recording]
+  generated_images:
+    allowed: true
+    prompt_suffix: "medium close-up, 50mm, soft window light, muted low-contrast grade, no text"
+
+sound:
+  vo: { tool: "ElevenLabs v4", target_lufs: -14 }
+  music: { source: "licensed score pack", duck_db: -12 }
+  sfx_hits:                 # timestamp: sound
+    - { t: "00:00.0", sfx: riser_short }
+    - { t: "00:02.0", sfx: impact_soft }
+    - { t: "each transition", sfx: whoosh_light }
+    - { t: "screen-recording beats", sfx: ui_click }
+  room_tone: true
+
+self_check:
+  contact_sheet: "scripts/contact_sheet.sh out/draft.mp4 frames/draft"
+  compare_to: frames/ref
+  checks: [text_safe_margins, grade_vs_reference, cuts_on_words, no_black_or_dup_frames, loudness]
+
+notes_history: []   # fold every approved note in here so the signature learns
