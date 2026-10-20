@@ -1,0 +1,18 @@
+{
+  "handles": { "ig": "@drmak_fitness", "yt": "@drmakfitness" },
+  "tail_seconds": 3.0,
+  "shorts": [
+    { "id": "short1_three_gears", "a": 67.5, "b": 93.05, "save": 80.0,
+      "title": ["Your body has", "3 energy gears"],
+      "tail": "Full 7-min beginner guide on the channel" },
+    { "id": "short2_goblet_squat", "a": 137.76, "b": 165.34, "save": 150.0,
+      "title": ["Beginner? Start with", "the goblet squat"],
+      "tail": "7 more beginner exercises on the channel" },
+    { "id": "short3_first_plan", "a": 360.67, "b": 396.78, "save": 372.0,
+      "title": ["Your first gym plan", "(save this)"],
+      "tail": "The full workout is on the channel" },
+    { "id": "short4_fuel_mistakes", "a": 396.78, "b": 430.93, "save": 405.0,
+      "title": ["Grow faster:", "fuel + 3 mistakes"],
+      "tail": "Full beginner guide on the channel" }
+  ]
+}
