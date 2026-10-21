@@ -38,6 +38,12 @@ Use these whenever the request matches. They load automatically from this repo.
   `/ponytail-debt` (list `shortcut:` comments), `/ponytail-gain`, `/ponytail-help`. Only the skills
   are installed, not the plugin's hooks, so it is not auto-on and the band/board/config in
   `/ponytail-help` don't apply here. Not for video or script work.
+- `watch` (v0.2.0, MIT, from github.com/taoufik123-collab/claude-watch): `/watch <url-or-path> [why]`
+  lets Claude watch a video: scene-change frames, pacing (cuts/min), a 0-10s hook microscope, and a
+  transcript, written to `report.md`. Needs ffmpeg (installed) and yt-dlp for URLs: `pip install
+  yt-dlp` each cloud session. It only pulls English captions; Hindi/Hinglish or local files need a
+  Groq/OpenAI Whisper key in `~/.config/watch/.env`, else frames only. Only the skill is installed,
+  not the plugin's hook; the Obsidian steps skip when no vault exists.
 
 When the owner uploads a new skill (zip or folder), read every file before installing, then put
 it in `.claude/skills/<name>/` in this repo (not `~/.claude/skills`, which cloud sessions lose),
