@@ -22,7 +22,7 @@ python -I scripts/mix.py mix.json visual.mp4   # mux the approved mix
 - Renders take several minutes, so run them in the background.
 
 ## Critique loop (before delivering)
-`python -I scripts/check.py final.mp4 words_cut.json` reports:
+`python -I scripts/check.py final.mp4 words_cut.json` (add `--lang hi` for Hindi/Hinglish) reports:
 - duration and resolution
 - `freezedetect` (n=0.001, d=0.6): **no frozen stretches**
 - `blackdetect` (d=0.2): **no black frames**

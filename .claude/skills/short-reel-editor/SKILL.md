@@ -1,6 +1,6 @@
 ---
 name: short-reel-editor
-description: Edit raw talking-head footage into a finished 9:16 Instagram Reel / YouTube Short, driven by the user's script — cut to the script, pick clean takes, hide look-downs with B-roll, add motion graphics (HyperFrames + GSAP), word-synced captions, music + SFX sound design and a cover, with an approval gate at every stage. Use when the user hands over raw footage (one long take with retakes) plus a script and wants an edited reel, or asks to "edit this footage into a reel/short".
+description: Edit raw talking-head footage (English, Hindi or Hinglish) into a finished 9:16 Instagram Reel / YouTube Short, driven by the user's script — cut to the script, pick clean takes, hide look-downs with B-roll, add motion graphics (HyperFrames + GSAP), word-synced captions, music + SFX sound design and a cover, with an approval gate at every stage. Use when the user hands over raw footage (one long take with retakes) plus a script and wants an edited reel, or asks to "edit this footage into a reel/short".
 ---
 
 # Short Reel Editor
@@ -9,13 +9,15 @@ Turns one raw recording (multiple takes, pauses, glances at notes) plus the scri
 
 Every stage is gated on the user's approval. Never skip a gate, even if the user says "just make the video" mid-way; show them what the next gate needs and continue only on approval.
 
-## Before you start: ask two things
+## Before you start: ask three things
 
 1. **The raw footage and the script.** Also ask if any lines have B-roll notes (e.g. "show my Instagram page here", "recreate this diagram") and whether there are reference images or links for them.
 2. **How the sound should be made.**
    - **Epidemic Sound** (needs the user's Epidemic MCP key in `EPIDEMIC_SOUND_API_KEY` or a `.env` file; never print it)
    - **Their own music/SFX files**
    - **Free** (any royalty-free track they point to, or ACE-Step 1.5 if installed)
+
+3. **Language and caption script.** English, Hindi or Hinglish? For Hindi/Hinglish, should captions be **Roman Hinglish** ("protein kitna zaroori hai", the usual choice for Reels) or **Devanagari** ("प्रोटीन कितना ज़रूरी है")? Use `--lang hi` for both Hindi and Hinglish (see `references/cutting.md`).
 
 Also offer to apply their own vocal preset. If they have one in Premiere/Audition, ask for screenshots of the EQ, DeNoise and compressor and copy the numbers (see `references/sound.md`).
 
@@ -67,6 +69,7 @@ On every revision round, change only what was asked, then show the changed frame
 - Word-synced from forced alignment, not raw Whisper times (Whisper runs early).
 - Middle captions are regular weight, ink colour. Graphic-only beats use big italic serif caps, and keywords may be blue.
 - Fix transcription slips against the script ("AI techs" → "AI text").
+- Hindi/Hinglish: Whisper writes most words in Devanagari, English ones included (जिम, प्रोटीन). For Roman captions, add every English or brand word to `fix` under its romanized form (`"jim": "gym"`, `"proteen": "protein"`), using the script's spelling. Then read every caption back against the script before the storyboard gate.
 
 **B-roll content**
 - Use real things over generic mocks: the user's real profile (real avatar and stats), the real post they reference (resolve the link, use its real author, text and video), and real software screen recordings when the script names the tool (e.g. an actual Premiere Pro timeline from a free-licence stock site).

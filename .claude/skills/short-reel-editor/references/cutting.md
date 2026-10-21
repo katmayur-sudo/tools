@@ -3,9 +3,16 @@
 ## 1. Transcribe every take
 ```
 ffmpeg -i raw.MOV -ac 1 -ar 16000 raw16.wav
-python -I scripts/transcribe.py raw16.wav words.json            # medium.en, word timestamps
-python -I scripts/align.py raw16.wav words.json aligned.json     # MMS_FA forced alignment, 20–35s chunks
+# English
+python -I scripts/transcribe.py raw16.wav words.json                       # medium.en, word timestamps
+python -I scripts/align.py raw16.wav words.json aligned.json                # MMS_FA forced alignment, 20–35s chunks
+# Hindi or Hinglish
+python -I scripts/transcribe.py raw16.wav words.json --lang hi --prompt "<names, brands and English words from the script>"
+python -I scripts/align.py raw16.wav words.json aligned.json --lang hi
 ```
+- **Hindi/Hinglish:** `--lang hi` uses `large-v3` (about 3 GB on first run; `--model medium` is faster but weaker on Hindi). Whisper writes the words in Devanagari, usually English ones too ("जिम", "प्रोटीन"). `align.py` romanizes them (`scripts/translit.py`) because the MMS aligner only reads a–z, and `--lang hi` reads digits as "ek, do, teen". The token text stays as Whisper wrote it: `cut.py` doesn't care about script, and the caption script is chosen in `captions.py`.
+- `--prompt` takes a line of the script with the names and English terms spelled the way the owner wants ("Dr. Mak, protein, creatine"). Without it, "Dr. Mak" comes out as "Dr. Muck" in English and "डॉक्टर मैक" in Hindi.
+- Never use a `.en` model for Hindi: it translates or garbles the speech, and `transcribe.py` refuses to run that way.
 - Use `medium.en` with `condition_on_previous_text=False` and VAD (min silence 300 ms). `small.en` silently merges repeated takes ("headless browser" → "headless same").
 - medium.en sometimes drops "Number" before a digit ("Number two" → "2."). Give that pick a forced start time.
 - Whisper word times run early. Always use the forced-alignment `s`/`e` for cuts and captions.

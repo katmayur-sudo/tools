@@ -1,13 +1,16 @@
 """Critique loop: loudness, true peak, frozen/black frames, and voice intelligibility vs the cut's words.
-usage: check.py final.mp4 words_cut.json [--model small.en]"""
+usage: check.py final.mp4 words_cut.json [--lang en|hi] [--model NAME]   (default model: small.en, or medium for hi)
+Hindi/Devanagari words are romanized on both sides before comparing, so script differences don't count as misses."""
 import difflib, json, re, subprocess, sys, wave, os, tempfile
 import numpy as np
 import os as _os, sys as _sys
 _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))  # -I mode skips the script dir
 from common import FF, duration
+from translit import roman
 
 F, WORDS = sys.argv[1], sys.argv[2]
-model = sys.argv[sys.argv.index("--model") + 1] if "--model" in sys.argv else "small.en"
+LANG = sys.argv[sys.argv.index("--lang") + 1] if "--lang" in sys.argv else "en"
+model = sys.argv[sys.argv.index("--model") + 1] if "--model" in sys.argv else ("small.en" if LANG == "en" else "medium")
 print(f"duration {duration(F):.2f}s")
 log = subprocess.run([FF, "-hide_banner", "-nostats", "-i", F, "-vf", "freezedetect=n=0.001:d=0.6,blackdetect=d=0.2",
                       "-af", "ebur128=peak=true", "-f", "null", "-"], capture_output=True, text=True).stderr
@@ -19,8 +22,8 @@ wav = os.path.join(tempfile.mkdtemp(), "a.wav")
 subprocess.run([FF, "-v", "error", "-y", "-i", F, "-ac", "1", "-ar", "16000", wav], check=True)
 a = np.frombuffer(wave.open(wav).readframes(10 ** 9), np.int16).astype(np.float32) / 32768
 from faster_whisper import WhisperModel
-segs, _ = WhisperModel(model, compute_type="int8").transcribe(a, language="en")
-norm = lambda t: [x for x in re.sub(r"[^a-z0-9' ]", " ", t.lower()).split() if x]
+segs, _ = WhisperModel(model, compute_type="int8").transcribe(a, language=LANG)
+norm = lambda t: [x for x in re.sub(r"[^a-z0-9' ]", " ", roman(t).lower()).split() if x]
 ref = norm(" ".join(x["w"] for x in json.load(open(WORDS)))); hyp = norm(" ".join(s.text for s in segs))
 sm = difflib.SequenceMatcher(None, ref, hyp)
 print(f"voice match {sm.ratio() * 100:.1f}%  (compare with the voice-only bus; digits/spelling diffs are harmless)")

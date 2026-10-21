@@ -73,7 +73,7 @@ for a, b, p, q in segs:
             look.append((round(off + x["t"] - a, 2), (not x["face"]) or x["pitch"] > 15))
     off += b - a
 json.dump(segs, open(f"{OUT}/segments.json", "w"))
-json.dump(cw, open(f"{OUT}/words_cut.json", "w"), indent=0)
+json.dump(cw, open(f"{OUT}/words_cut.json", "w"), indent=0, ensure_ascii=False)
 rng = []
 for t, d in look:                 # merge, bridge gaps < 0.6s, drop blips < 0.4s
     if d:

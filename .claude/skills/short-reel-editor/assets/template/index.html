@@ -15,11 +15,19 @@
 /* never name a family Serif / Monospace: CSS treats it as the generic and the font silently doesn't load */
 @font-face{font-family:ISerif;font-style:italic;src:url(assets/fonts/instrument-serif-latin-400-italic.woff2) format("woff2")}
 @font-face{font-family:ISerif;font-style:normal;src:url(assets/fonts/instrument-serif-latin-400-normal.woff2) format("woff2")}
+/* Devanagari fallbacks for Hindi captions: Inter/ISerif have no Devanagari glyphs, so these fill in per glyph */
+@font-face{font-family:NotoDeva;font-weight:500;src:url(assets/fonts/noto-sans-devanagari-500-normal.woff2) format("woff2")}
+@font-face{font-family:NotoDeva;font-weight:600;src:url(assets/fonts/noto-sans-devanagari-600-normal.woff2) format("woff2")}
+@font-face{font-family:NotoDeva;font-weight:700;src:url(assets/fonts/noto-sans-devanagari-700-normal.woff2) format("woff2")}
+@font-face{font-family:NotoDeva;font-weight:800;src:url(assets/fonts/noto-sans-devanagari-800-normal.woff2) format("woff2")}
+@font-face{font-family:NotoDeva;font-weight:900;src:url(assets/fonts/noto-sans-devanagari-900-normal.woff2) format("woff2")}
+@font-face{font-family:TiroDeva;font-style:italic;src:url(assets/fonts/tiro-devanagari-hindi-400-italic.woff2) format("woff2")}
+@font-face{font-family:TiroDeva;font-style:normal;src:url(assets/fonts/tiro-devanagari-hindi-400-normal.woff2) format("woff2")}
 @font-face{font-family:Mono;src:url(assets/fonts/jetbrains-mono-latin-500-normal.woff2) format("woff2")}
 :root{--bg:#F4F3EF;--ink:#161616;--blue:#2E5BFF;--orange:#D97757;--yellow:#FFE14D;--line:#E3E1DB;--green:#1FB45A;--red:#E5484D;--grey:#8a877f}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
-#root{position:relative;width:1080px;height:1920px;background:var(--bg);font-family:Inter,sans-serif;color:var(--ink)}
+#root{position:relative;width:1080px;height:1920px;background:var(--bg);font-family:Inter,NotoDeva,sans-serif;color:var(--ink)}
 .abs{position:absolute}
 .hid{opacity:0;visibility:hidden}
 #stage{left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
@@ -34,13 +42,13 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
 .cap{position:absolute;left:70px;width:940px;text-align:center;opacity:0;visibility:hidden}
 .cap span{opacity:0}
 .cap.A{top:945px;height:100px;line-height:100px;font-weight:500;font-size:74px;letter-spacing:-.02em;color:var(--ink)}
-.cap.B{top:1190px;font-family:ISerif;font-style:italic;font-size:124px;line-height:.95;text-transform:uppercase;letter-spacing:-.01em}
+.cap.B{top:1190px;font-family:ISerif,TiroDeva;font-style:italic;font-size:124px;line-height:.95;text-transform:uppercase;letter-spacing:-.01em}
 .cap.B.blue{color:var(--blue)}
 .card{background:#fff;border:2px solid var(--line);border-radius:30px;box-shadow:0 24px 60px rgba(20,20,20,.10)}
 .chip{display:inline-flex;align-items:center;gap:14px;padding:14px 30px;border-radius:999px;font-weight:800;font-size:44px;white-space:nowrap}
 .mono{font-family:Mono}
 .cover{position:absolute;left:62px;width:956px;text-align:center;color:#fff;text-shadow:0 6px 30px rgba(0,0,0,.5)}
-.csmall{font-family:ISerif;font-style:italic;font-size:64px;line-height:1.05}
+.csmall{font-family:ISerif,TiroDeva;font-style:italic;font-size:64px;line-height:1.05}
 .cbig{font-weight:900;font-size:112px;line-height:.92;letter-spacing:-.03em;text-transform:uppercase}
 .shade{position:absolute;left:0;top:560px;width:1080px;height:1360px;background:linear-gradient(transparent,rgba(0,0,0,.5) 45%,rgba(0,0,0,.25))}
 </style>
@@ -60,8 +68,8 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
 
     <!-- EXAMPLE mode B typeset line (use for look-downs / quick head drops) -->
     <div id="s-type" class="scene">
-      <div id="ty1" class="abs" style="left:0;top:600px;width:1080px;text-align:center;font-family:ISerif;font-style:italic;font-size:118px;line-height:1"></div>
-      <div id="ty2" class="abs" style="left:0;top:740px;width:1080px;text-align:center;font-family:ISerif;font-style:italic;font-size:168px;line-height:1;color:var(--blue);text-transform:uppercase"></div>
+      <div id="ty1" class="abs" style="left:0;top:600px;width:1080px;text-align:center;font-family:ISerif,TiroDeva;font-style:italic;font-size:118px;line-height:1"></div>
+      <div id="ty2" class="abs" style="left:0;top:740px;width:1080px;text-align:center;font-family:ISerif,TiroDeva;font-style:italic;font-size:168px;line-height:1;color:var(--blue);text-transform:uppercase"></div>
     </div>
 
     <!-- full-face cover text (mode C), built by cover() -->

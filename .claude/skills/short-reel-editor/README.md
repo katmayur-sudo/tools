@@ -1,6 +1,6 @@
 # short-reel-editor
 
-A Claude skill that edits raw talking-head footage into a finished 9:16 reel: cut to your script, clean takes, B-roll over every look-down, motion graphics, word-synced captions, sound design and a cover. Every stage stops for your approval.
+A Claude skill that edits raw talking-head footage (English, Hindi or Hinglish) into a finished 9:16 reel: cut to your script, clean takes, B-roll over every look-down, motion graphics, word-synced captions, sound design and a cover. Every stage stops for your approval.
 
 ## Install
 - **Claude Code:** copy this folder to `~/.claude/skills/short-reel-editor`, or ask Claude: "Install this skill for me: <repo url>".
@@ -16,7 +16,7 @@ Optional:
 - your own SFX `.wav` files in `sfx/`
 
 ## Licences of bundled files
-- Inter, Instrument Serif and JetBrains Mono: SIL Open Font License
+- Inter, Instrument Serif, JetBrains Mono, Noto Sans Devanagari and Tiro Devanagari Hindi: SIL Open Font License
 - GSAP: GreenSock standard licence (free)
 - The safe-zone mask is a layout guide.
 

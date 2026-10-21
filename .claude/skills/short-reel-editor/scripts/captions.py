@@ -8,8 +8,13 @@ captions.json: {"words": "cut/words_cut.json", "out": "project/assets/captions.j
   "need": {"video": "models"},                           # phrase only when followed by this word
   "blue": ["frame","SVG","beat"],                        # B-mode keywords in blue
   "nocap": [[10.9, 12.6]],                               # typeset B-roll beats with no caption
-  "warp": "warp.json" (optional: modes/nocap authored on an older cut)}"""
+  "warp": "warp.json" (optional: modes/nocap authored on an older cut),
+  "lang": "hi" (Hindi/Hinglish word grouping), "script": "roman" | "deva" (Hindi/Hinglish: Roman-Hinglish or Devanagari captions; omit to keep whisper's spelling)}
+"fix" keys may be whisper's original token or its romanized form; values are written as given."""
 import json, re, sys
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))  # -I mode skips the script dir
+from translit import roman
 
 C = json.load(open(sys.argv[1]))
 w = json.load(open(C["words"]))
@@ -29,7 +34,14 @@ NOCAP = [(M(a), M(b)) for a, b in C.get("nocap", [])]
 FIX, PHRASE, NEED, BLUE = C.get("fix", {}), C.get("phrases", {}), C.get("need", {}), set(C.get("blue", []))
 MERGE = {(a.lower(), b.lower()): out for a, b, out in C.get("merge", [])}
 SMALL = {"a", "the", "i", "to", "of", "it", "my", "is", "and", "by", "for", "on", "so", "can", "that", "this", "into",
-         "with", "just", "its", "you", "your", "an", "are", "as", "in", "which", "it's", "no", "see", "plus", "but"}
+         "with", "just", "its", "you", "your", "an", "are", "as", "in", "which", "it's", "no", "see", "plus", "but",
+         "aur", "ye", "yeh", "vo", "woh", "jo", "ek", "kya", "na", "मैं", "और", "ये", "यह", "वो", "वह", "जो", "एक", "क्या", "ना"}
+# Hindi postpositions and helpers attach to the word BEFORE them ("protein ka", "zaroori hai")
+# (the Latin spellings only when "lang" is "hi": "the", "me", "hi" are English words too)
+POST = {"का", "की", "के", "को", "से", "में", "पर", "तक", "ने", "है", "हैं", "था", "थी", "थे", "भी", "ही"}
+if C.get("lang") == "hi":
+    POST |= {"ka", "ki", "ke", "ko", "se", "me", "mein", "men", "par", "tak", "ne", "hai", "hain", "tha", "thi", "the", "bhi", "hi"}
+SCRIPT = C.get("script")
 
 toks, i = [], 0
 while i < len(w):
@@ -39,8 +51,9 @@ while i < len(w):
         if key in MERGE:
             t, e = MERGE[key], w[i + 1]["e"]; i += 1
     i += 1
-    t = re.sub(r"[.,!?]+$", "", t)
-    toks.append({"w": FIX.get(t, t), "s": s, "e": e})
+    t = re.sub(r"[.,!?।]+$", "", t)
+    r = roman(t, True) if SCRIPT == "roman" else t
+    toks.append({"w": FIX.get(t, FIX.get(r, r)), "s": s, "e": e, "raw": t})
 
 
 def mode_at(t):
@@ -63,6 +76,8 @@ while i < len(toks):
         n = 1
         if toks[i]["w"].lower() in SMALL and i + 1 < len(toks) and toks[i + 1]["s"] - toks[i]["e"] < 0.35 and not phrase(i + 1):
             n = 2
+    while i + n < len(toks) and n < 3 and toks[i + n]["raw"].lower() in POST and toks[i + n]["s"] - toks[i + n - 1]["e"] < 0.35:
+        n += 1
     grp = toks[i:i + n]
     if any(mode_at(g["s"]) != m for g in grp): grp = grp[:1]; n = 1
     caps.append({"t": grp[0]["s"], "le": grp[-1]["e"], "words": [[g["w"], g["s"]] for g in grp], "m": m,
@@ -73,7 +88,7 @@ for k, c in enumerate(caps):
     sw = [a for a, _ in MODES if c["t"] < a <= nxt]
     c["e"] = round(min([nxt, c["le"] + 0.8] + sw), 2); del c["le"]
 caps = [c for c in caps if c["m"] != "C" and not any(a <= c["t"] < b for a, b in NOCAP)]
-open(C["out"], "w").write("window.CAPS=" + json.dumps(caps) + ";\nwindow.MODES=" + json.dumps(MODES) +
+open(C["out"], "w", encoding="utf-8").write("window.CAPS=" + json.dumps(caps, ensure_ascii=False) + ";\nwindow.MODES=" + json.dumps(MODES) +
                           ";\nwindow.END=" + str(END) + ";\nwindow.WARP=" + json.dumps(WARP or [[0, END, 0, END]]) + ";\n")
 for c in caps:
     print(c["m"], f'{c["t"]:6.2f}-{c["e"]:6.2f}', "*" if c["blue"] else " ", " ".join(x[0] for x in c["words"]))

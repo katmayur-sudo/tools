@@ -11,6 +11,9 @@
 - Inter 500–900
 - Instrument Serif italic, used as the family `ISerif`
 - JetBrains Mono, used as the family `Mono`
+- Noto Sans Devanagari 500–900 (`NotoDeva`) and Tiro Devanagari Hindi (`TiroDeva`), for Hindi
+
+**Hindi:** Inter and Instrument Serif have no Devanagari letters, so each family has a Devanagari fallback that fills in per glyph: Noto Sans Devanagari 500–900 (`NotoDeva`) behind Inter, and Tiro Devanagari Hindi regular and italic (`TiroDeva`) behind ISerif. Mixed lines ("ज़्यादा protein") render each script in its own font. When you write new CSS, keep the pairs together: `font-family:Inter,NotoDeva,sans-serif` and `font-family:ISerif,TiroDeva`. `text-transform:uppercase` does nothing to Devanagari, so big B and C keywords in Hindi rely on size and the blue colour.
 
 **Never name a @font-face family after a generic keyword** (Serif, Monospace, and so on). CSS treats it as the generic family and the bundled font silently doesn't load.
 
@@ -28,6 +31,8 @@
 
 ## Captions
 - Built from forced-aligned words (`scripts/captions.py`).
+- **Hindi/Hinglish:** set `"lang": "hi"` and `"script": "roman"` (Roman Hinglish) or `"deva"` (Devanagari) in `captions.json`. Roman mode spells common words the way people type them (hum, mein, nahi, zaroori, zyada) and everything else by rule. Fix English and brand words through `fix` keyed by their romanized form (`"proteen": "protein"`, `"masal": "muscle"`).
+- Hindi postpositions and helpers (ka/ki/ke, ko, se, mein, par, hai/hain, bhi…) join the word **before** them ("protein ka", "zaroori hai"), up to 3 words per caption.
 - Join a small word ("the", "a", "so", "on"…) to the next word when the gap is under 0.35s. Never join into a phrase start.
 - Keep these phrases together: "code drawn", "real footage", "count up", "Epidemic Sound", "Number 2".
 - Each caption stays until the next one starts, or until its last word ends plus 0.8s, or until the next mode switch, whichever comes first.
