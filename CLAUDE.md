@@ -32,6 +32,12 @@ Use these whenever the request matches. They load automatically from this repo.
   GRAPH_REPORT.md, graph.json); then `/graphify query "…"`, `path`, `explain`. It installs the
   `graphifyy` CLI from PyPI on first run (cloud sessions lose it, so each session reinstalls).
   Code needs no API key; never ask for one. Keep `graphify-out/` out of commits (it's gitignored).
+- `ponytail` (v5.3.2, MIT, from github.com/DietrichGebert/ponytail): lazy senior dev mode for
+  coding tasks, the smallest complete change; `/ponytail lite|full|ultra`, "stop ponytail" ends it.
+  Siblings: `/ponytail-review` (review a diff), `/ponytail-audit` (whole repo, ranked),
+  `/ponytail-debt` (list `shortcut:` comments), `/ponytail-gain`, `/ponytail-help`. Only the skills
+  are installed, not the plugin's hooks, so it is not auto-on and the band/board/config in
+  `/ponytail-help` don't apply here. Not for video or script work.
 
 When the owner uploads a new skill (zip or folder), read every file before installing, then put
 it in `.claude/skills/<name>/` in this repo (not `~/.claude/skills`, which cloud sessions lose),
