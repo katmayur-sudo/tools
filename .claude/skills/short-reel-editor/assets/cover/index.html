@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="assets/lib/gsap.min.js"></script>
+<style>
+@font-face{font-family:Inter;font-weight:600;src:url(assets/fonts/inter-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:800;src:url(assets/fonts/inter-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:900;src:url(assets/fonts/inter-latin-900-normal.woff2) format("woff2")}
+@font-face{font-family:ISerif;font-style:italic;src:url(assets/fonts/instrument-serif-latin-400-italic.woff2) format("woff2")}
+@font-face{font-family:Mono;src:url(assets/fonts/jetbrains-mono-latin-500-normal.woff2) format("woff2")}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#F4F3EF}
+#root{position:relative;width:1080px;height:1920px;background:#F4F3EF;font-family:Inter,sans-serif;color:#161616}
+.abs{position:absolute}
+.row{position:absolute;left:250px;width:580px;height:74px;border-radius:18px;background:#fff;border:3px solid #E3E1DB;display:flex;align-items:center;gap:18px;padding:0 24px;font-size:30px;font-weight:800}
+.row .n{font-family:Mono;font-size:24px;color:#D97757;font-weight:400}
+</style>
+</head>
+<body>
+<!-- Cover 1080x1920. Put the user's studio headshot (white background) at assets/photo.png; multiply-blend melts the white into the beige.
+     Keep key content inside y 300-1650 (the profile grid crops the centre 3:4). Snapshot with: npx hyperframes snapshot . --at 0.5 --no-end -o out -->
+<div id="root" data-composition-id="main" data-start="0" data-duration="1" data-width="1080" data-height="1920">
+  <div class="abs" style="left:170px;top:280px;width:740px;height:740px;background:url(assets/photo.png) center/cover;mix-blend-mode:multiply;-webkit-mask-image:linear-gradient(transparent,#000 8%,#000 64%,transparent 80%),linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(transparent,#000 8%,#000 64%,transparent 80%),linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-composite:intersect"></div>
+  <div class="abs" style="left:0;top:930px;width:1080px;text-align:center;font-family:ISerif;font-style:italic;font-size:64px;line-height:1">SMALL ITALIC HOOK LINE</div>
+  <div class="abs" style="left:0;top:1010px;width:1080px;text-align:center;font-weight:900;font-size:150px;letter-spacing:-.04em;line-height:.95">BIG LINE ONE<br><span style="color:#2E5BFF">LINE TWO</span></div>
+  <div class="row" style="top:1320px;opacity:.45"><span class="n">01</span>Item one</div>
+  <div class="row" style="top:1406px;opacity:.45"><span class="n">02</span>Item two</div>
+  <div class="row" style="top:1492px;border-color:#2E5BFF;box-shadow:0 14px 34px rgba(46,91,255,.25)"><span class="n">03</span>The payoff<span style="margin-left:auto;background:#FFE14D;font-size:24px;font-weight:900;padding:6px 16px;border-radius:999px">WINNER</span></div>
+  <div class="row" style="top:1578px;opacity:.45"><span class="n">04</span>Item four</div>
+</div>
+<script>window.__timelines={main:gsap.timeline({paused:true}).set({}, {}, 1)};</script>
+</body>
+</html>

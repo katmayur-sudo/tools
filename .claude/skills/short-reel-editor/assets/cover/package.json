@@ -1,0 +1,9 @@
+{
+  "name": "reel",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "npx --yes hyperframes@0.8.164 lint .",
+    "render": "npx --yes hyperframes@0.8.164 render . -q high -f 30 -o out/visual.mp4"
+  }
+}
