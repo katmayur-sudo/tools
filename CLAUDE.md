@@ -27,6 +27,11 @@ Use these whenever the request matches. They load automatically from this repo.
   Always pass "Dr. Mak" and the script's English terms via `--prompt` and `fix`.
 - `prompt-master`: writes or fixes a prompt for a specific AI tool (Claude Code, ChatGPT,
   Midjourney, Sora, ElevenLabs…). Confirm the target tool first.
+- `graphify` (v0.9.93, Apache-2.0): `/graphify <path>` turns a folder of code, docs, PDFs,
+  images or video into a queryable knowledge graph (`graphify-out/`: graph.html,
+  GRAPH_REPORT.md, graph.json); then `/graphify query "…"`, `path`, `explain`. It installs the
+  `graphifyy` CLI from PyPI on first run (cloud sessions lose it, so each session reinstalls).
+  Code needs no API key; never ask for one. Keep `graphify-out/` out of commits (it's gitignored).
 
 When the owner uploads a new skill (zip or folder), read every file before installing, then put
 it in `.claude/skills/<name>/` in this repo (not `~/.claude/skills`, which cloud sessions lose),
