@@ -1,0 +1,60 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Thumbnail</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1280px; height: 720px; overflow: hidden; background: #0E0E10;
+         font-family: "Inter Display", "Inter", sans-serif; }
+  /* Owner photo: dropped in at ../assets/user/<file>.jpg, which this repo never stores.
+     Without it the gradient below still reads as a finished thumbnail. */
+  .photo { position: absolute; right: -40px; top: -60px; width: 820px; height: 840px;
+    background-position: center 62%; background-size: cover;
+    filter: grayscale(1) contrast(1.25) brightness(1.05); }
+  .fade { position: absolute; inset: 0;
+    background: linear-gradient(90deg, #0E0E10 38%, rgba(14,14,16,.55) 58%, rgba(14,14,16,0) 80%); }
+  .leak { position: absolute; border-radius: 50%; mix-blend-mode: screen; }
+  .pill { position: absolute; left: 60px; top: 64px; background: #E0262B; color: #fff;
+    font-family: Inter, sans-serif; font-weight: 800; font-size: 26px; padding: 9px 22px;
+    border-radius: 999px; letter-spacing: .10em; }
+  .t1 { position: absolute; left: 56px; color: #fff; font-weight: 900;
+    letter-spacing: -0.04em; line-height: .92; }
+  .box { position: absolute; left: 56px; background: #E0262B; color: #fff; font-weight: 900;
+    letter-spacing: -0.04em; line-height: 1; padding: 6px 28px 18px; border-radius: 14px;
+    box-shadow: 0 0 70px rgba(224,38,43,.5); }
+  .tag { position: absolute; left: 60px; bottom: 62px; background: #fff; color: #111;
+    font-size: 40px; font-weight: 900; padding: 8px 22px; border-radius: 14px;
+    letter-spacing: -0.02em; }
+  .tag b { color: #E0262B; }
+</style></head>
+<body>
+  <div class="photo"></div><div class="fade"></div>
+  <div class="leak" style="left:-260px;top:-220px;width:700px;height:600px;
+       background:radial-gradient(closest-side,rgba(224,38,43,.55),rgba(224,38,43,0))"></div>
+  <div class="leak" style="right:-200px;bottom:-260px;width:800px;height:600px;
+       background:radial-gradient(closest-side,rgba(255,70,40,.45),rgba(255,70,40,0))"></div>
+  <div class="pill"></div>
+  <div class="t1"></div>
+  <div class="box"></div>
+  <div class="tag"></div>
+
+<script>
+const V = {
+  // v1: beginner gym workout. v2: calorie deficit.
+  1: { pill: "BEGINNER · FULL BODY", t1: "8 EXERCISES", t1size: 104, t1top: 208,
+       box: "DAY 1", boxsize: 170, boxtop: 330,
+       tag: "<b>3</b> days a week · no machines", photo: "back.jpg", pos: "center 62%" },
+  2: { pill: "DOCTOR EXPLAINS", t1: "NOT LOSING", t1size: 104, t1top: 208,
+       box: "WEIGHT?", boxsize: 150, boxtop: 330,
+       tag: "the <b>3</b> numbers you got wrong", photo: "face.jpg", pos: "center 38%" },
+}[new URLSearchParams(location.search).get("v") || "1"];
+
+document.querySelector(".pill").textContent = V.pill;
+const t1 = document.querySelector(".t1");
+t1.textContent = V.t1; t1.style.fontSize = V.t1size + "px"; t1.style.top = V.t1top + "px";
+const box = document.querySelector(".box");
+box.textContent = V.box; box.style.fontSize = V.boxsize + "px"; box.style.top = V.boxtop + "px";
+document.querySelector(".tag").innerHTML = V.tag;
+const p = document.querySelector(".photo");
+p.style.backgroundImage = `url(../assets/user/${V.photo})`;
+p.style.backgroundPosition = V.pos;
+</script>
+</body></html>
