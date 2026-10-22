@@ -41,10 +41,10 @@ const V = {
   // v1: beginner gym workout. v2: calorie deficit.
   1: { pill: "BEGINNER · FULL BODY", t1: "8 EXERCISES", t1size: 104, t1top: 208,
        box: "DAY 1", boxsize: 170, boxtop: 330,
-       tag: "<b>3</b> days a week · no machines", photo: "back.jpg", pos: "center 62%" },
+       tag: "<b>3</b> days a week · no machines", photo: "back.jpg", pos: "center 16%" },
   2: { pill: "DOCTOR EXPLAINS", t1: "NOT LOSING", t1size: 104, t1top: 208,
-       box: "WEIGHT?", boxsize: 150, boxtop: 330,
-       tag: "the <b>3</b> numbers you got wrong", photo: "face.jpg", pos: "center 38%" },
+       box: "WEIGHT?", boxsize: 132, boxtop: 330,
+       tag: "the <b>3</b> numbers you got wrong", photo: "back.jpg", pos: "center 16%" },
 }[new URLSearchParams(location.search).get("v") || "1"];
 
 document.querySelector(".pill").textContent = V.pill;
