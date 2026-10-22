@@ -1,150 +1,58 @@
 # Packaging fix: the two live videos
 
-Goal: make the existing videos findable, before making a third.
-Written 2026-10-22. Baseline on that date: video 1 = 95 views, video 2 = 75 views.
+Applied in YouTube Studio on **22 Oct 2026**. Baseline that day: video 1 = 95 views,
+video 2 = 75 views. Read the result on **5 Nov 2026** (see *How to read the result*).
 
-## The diagnosis
+## Why this was needed
 
-At under ~1,000 subscribers YouTube sends almost no browse or suggested traffic.
-Search is the only door open. Both current titles are **browse-style titles** — they
+Under ~1,000 subscribers YouTube sends almost no browse or suggested traffic. Search
+is the only door open, and both videos had **browse-style titles** — the kind that
 work when an audience already knows you, and do nothing when nobody does.
 
-| Video | Current title | Why it gets no impressions |
+| Video | Old title | Why it got no impressions |
 |---|---|---|
-| 1 (7:41) | I Wish I Knew This on Day 1 at the Gym (8 Exercises That Start Your Engine) | "I Wish I Knew This" is a curiosity frame, not a query. "Start Your Engine" is a metaphor nobody types. The searchable phrase, *beginner gym exercises*, is buried in a bracket. |
-| 2 (9:59) | Your Calorie Deficit Isn't Broken. Your Numbers Are. | Clever, and completely unsearchable. No beginner types "calorie deficit isn't broken". They type "why am I not losing weight". |
+| 1 (7:41) | I Wish I Knew This on Day 1 at the Gym (8 Exercises That Start Your Engine) | "I Wish I Knew This" is a curiosity frame, not a query. "Start Your Engine" is a metaphor nobody types. The searchable phrase was buried in a bracket. |
+| 2 (9:59) | Your Calorie Deficit Isn't Broken. Your Numbers Are. | Clever and unsearchable. Nobody types "calorie deficit isn't broken" — they type "weight nahi ghat raha". Worse, the title was English over Hinglish audio. |
 
-Rule for the next 12 months: **the first 3-4 words of every title are the phrase a
-beginner would type.** Cleverness goes after the colon, or nowhere.
+**The rule going forward: the first 3-4 words of every title are the phrase a viewer
+would actually type, in the language the video is spoken in.** Cleverness goes after
+the colon, or nowhere.
 
 ---
 
-## Video 1 — re-title
+## What was changed
 
-**Use this:**
+### Video 1 — beginner gym workout (7:41)
+
+**Title**
 ```
 Beginner Gym Workout: The Only 8 Exercises You Need (Full Body Plan)
 ```
+Backups if this one tests flat: `First Day at the Gym? Do These 8 Exercises (Beginner
+Full Body Workout)` · `8 Best Gym Exercises for Beginners (With Form + Weekly Plan)`
 
-Backups, in order:
-1. `First Day at the Gym? Do These 8 Exercises (Beginner Full Body Workout)`
-2. `8 Best Gym Exercises for Beginners (With Form + Weekly Plan)`
-
-Why: "beginner gym workout" and "first day at the gym" are the two phrases with
-million-view proof in this niche in the last 12 months (Yatinder Singh's *First Month
-At Gym*, 2.13M, Oct 2025; Badri Fitness's Hindi first-day video, 16.9M). "The Only
-8 Exercises You Need" keeps a curiosity hook without costing the keyword.
-
-**Description — change the first two lines to:**
+**Description opening** (rest of the description unchanged)
 ```
 A complete beginner gym workout: the 8 exercises that matter, how to do each one,
 and the 3-day weekly plan. No machines you can't find, no 2-hour sessions.
 ```
-Keep everything below that as-is. The current opening ("Your body has an engine")
-is a good hook for a viewer who already clicked, but search reads the first line too.
 
----
+**Thumbnail** — `8 EXERCISES` / `DAY 1` in the red box, physique photo right.
+Rendered by `render/thumb.html?v=1`.
 
-## Video 2 — re-title
+> **Open question:** this title is English. If video 1's voice-over is Hinglish like
+> video 2, it needs the same language switch — e.g. `Gym Ka Pehla Din? Ye 8 Exercises
+> Karo`. Check before the next change.
 
-**Use this:**
+### Video 2 — calorie deficit (9:59, Hinglish)
+
+**Title**
 ```
-Why You're Not Losing Weight in a Calorie Deficit (Doctor Explains)
+Weight Nahi Ghat Raha? Calorie Deficit Ki 6 Galtiyan
 ```
+Backup: `Calorie Deficit Mein Ho Phir Bhi Weight Nahi Ghat Raha? (6 Wajah)`
 
-Backups:
-1. `Calorie Deficit Not Working? Here's What You're Getting Wrong`
-2. `You're Eating More Than You Think — The Calorie Deficit Mistake`
-
-Why: "why am I not losing weight" is a question people type in full. "(Doctor
-Explains)" is your only unfair advantage on this topic and it is currently nowhere in
-your packaging — put it in the title of every video where it is true.
-
----
-
-## Thumbnails
-
-Both should be rebuilt to the `red-ink-explainer` signature already in
-`styles/red-ink-explainer.yaml`, so the channel reads as one body of work.
-
-Rules that apply to both:
-- **Three or four words maximum**, readable at 120px wide. Test it by shrinking it.
-- Red keyword box on one word only, matching the in-video caption style.
-- Owner's face on one side, looking at the text, not at the camera.
-- No full sentence. No exercise collage. No arrows.
-
-**Video 1:** owner's back photo already used at 0:00, left third. Right side, stacked:
-`8 EXERCISES` / `DAY 1` — with the red box on `DAY 1`.
-
-**Video 2:** owner's face left, concerned expression. Right side: `NOT LOSING` /
-`WEIGHT?` — red box on `WEIGHT?`. A plate or a scale in the lower corner, dim,
-no text on it.
-
----
-
-## Also fix, same sitting
-
-1. **Chapters on video 2.** Video 1 has them; video 2 appears not to. Chapters raise
-   average view duration because people re-enter at the part they want.
-2. **End screen on video 1 points at nothing.** The render leaves two empty end-screen
-   frames (see `videos/beginner-gym-engine/README.md`). Point one at video 2 and one
-   at "most recent upload" — that is free watch time from people already watching.
-3. **Pin the comment on both.** Video 1's is written; video 2 needs one.
-
----
-
-## How to read the result
-
-Change the titles and thumbnails, then **leave them alone for 14 days.** In YouTube
-Studio, look at one number per video: **impressions**, not views.
-
-- Impressions climb → packaging was the problem, repeat this on every future video.
-- Impressions stay flat → the topic has no search demand for a channel this size,
-  and the next video should be chosen from the proven-demand list, not from interest.
-
-Do not change both the title and the thumbnail again inside those 14 days, or the
-result tells you nothing.
-
----
-
-## The bigger question, not answered here
-
-Your script is in English, your voice is Hindi with a Haryanvi accent, and every
-million-view video in the research set was Hindi or Hinglish. English fitness is the
-most crowded category on YouTube; Hinglish beginner fitness, from an actual doctor,
-is not. Worth deciding before video 3 — it changes the script, not just the title.
-
----
-
-# Do this now — ordered checklist
-
-Order matters: title first (biggest lever, costs nothing), thumbnail second,
-everything else third. Do all of it in one sitting, then do not touch it for 14 days.
-
-## Video 1 — "Start Your Engine" (7:41)
-
-- [ ] **Title** → `Beginner Gym Workout: The Only 8 Exercises You Need (Full Body Plan)`
-- [ ] **Description first line** → replace with the two lines in the section above.
-- [ ] **Thumbnail** → `8 EXERCISES` / `DAY 1`, red box on `DAY 1`.
-- [ ] **End screen** → fill both empty frames: one on video 2, one on "most recent upload".
-- [ ] **Pinned comment** → already written in `shorts_captions.md`, just pin it.
-- [ ] **Tags** → already good, leave them.
-
-## Video 2 — "Your Calorie Deficit Isn't Broken" (9:59)
-
-- [ ] **Title** → `Why You're Not Losing Weight in a Calorie Deficit (Doctor Explains)`
-- [ ] **Thumbnail** → `NOT LOSING` / `WEIGHT?`, red box on `WEIGHT?`, concerned face left.
-- [ ] **Description** → paste the block below.
-- [ ] **Chapters** → add them. Timestamps must be filled in from the actual video;
-      the first one must be `0:00`.
-- [ ] **End screen** → one frame on video 1, one on "most recent upload".
-- [ ] **Pinned comment** → paste the line below.
-
-### Video 2 description (final — paste whole)
-
-The video is spoken in Hinglish and covers 6 reasons. Title and description below
-match that; see the language note at the end of this file.
-
+**Description**
 ```
 Calorie deficit mein ho, phir bhi weight nahi ghat raha? Problem aapki willpower
 nahi hai — problem ye hai ki aapka deficit real hai hi nahi.
@@ -179,42 +87,79 @@ weight loss plateau, maintenance calories, tdee, smartwatch calories accurate,
 weight loss tips hindi, dr mak fitness
 ```
 
-### Video 2 pinned comment
-
+**Pinned comment**
 ```
 In 6 mein se kaunsi galti aap kar rahe ho? Number drop karo 👇 (1-6)
 Main har comment ka reply karta hoon.
 ```
 
-## Both videos — the three free wins
-
-1. **Playlist.** Make one playlist, "Start Here: Gym for Beginners", put both videos
-   in it in order. Playlists feed autoplay, and autoplay is watch hours you do not
-   have to earn twice.
-2. **Cards.** Put a card in each video pointing at the other, placed at the moment
-   the topic is mentioned, not at the end.
-3. **Each video's comment.** Reply to every single comment for the first 48 hours.
-   At this channel size it is the only engagement signal you can manufacture honestly.
-
-## What NOT to do
-
-- Do not buy views or run ads to the video. Purchased watch time does not count
-  toward the 4,000 hours and risks the channel.
-- Do not re-upload either video. You lose the existing views and the watch time.
-- Do not change the titles again inside 14 days — the test stops meaning anything.
+**Thumbnail** — `WEIGHT NAHI` / `GHAT RAHA?` in the green box, scrubs photo right,
+graded to the video's own palette (bg `#060606`, accent `#23C55E`, pill `#E54746`,
+sampled from the video). Rendered by `render/thumb.html?v=2`.
 
 ---
 
-# Language note (decided by the chapters, 22 Oct 2026)
+## Thumbnail rules (for every future video)
 
-Video 2 is spoken in Hinglish but was published with an English title. That is the
-worst of both: English-speaking viewers click and bounce when the audio is Hindi,
-and the Hindi-speaking audience the video is actually for never sees it, because
-they search in Hinglish.
+- **Three or four words maximum**, readable at 120px wide. Shrink it to check.
+- One accent box on one phrase, in the colour the video itself uses — a thumbnail
+  graded to a different palette than its video is a mismatch the viewer feels on click.
+- Owner on one side, text on the other. Face to camera for problem/answer videos;
+  physique for training videos.
+- No full sentences, no collages, no arrows.
 
-**Match the title language to the audio language, always.** Both titles below are
-Hinglish for that reason. The research in this repo found no million-view Indian
-fitness video in the last 12 months with an English title on Hindi audio.
+Both variants live in `videos/beginner-gym-engine/render/thumb.html`. Add video 3 as a
+new entry in the `V` object, then `node shot.mjs 3 out.png`. The owner's photos go in
+`assets/user/` and are gitignored — they are never committed.
 
-Video 1 is a separate decision — check which language its voice-over is in before
-re-titling it, and use the English title only if the audio is English.
+---
+
+## Still to do
+
+- [ ] **Playlist** "Start Here: Gym for Beginners", both videos in order. Playlists
+      feed autoplay, and autoplay is watch time you don't earn twice.
+- [ ] **Cards** in each video pointing at the other, placed where the topic comes up,
+      not at the end.
+- [ ] **End screens.** Video 1's render leaves two empty frames (see
+      `beginner-gym-engine/README.md`). One on video 2, one on "most recent upload".
+- [ ] **Replace the scrubs photo** if the original file exists — the current one is a
+      photo of a screen, so it carries moiré and grain. Drop it at
+      `assets/user/face.jpg` and re-run `node shot.mjs 2`.
+- [ ] **Reply to every comment** for the first 48 hours after any change.
+
+---
+
+## How to read the result
+
+Read it on **5 Nov 2026**, not before. In YouTube Studio look at **impressions** per
+video, not views.
+
+- Impressions climb → packaging was the bottleneck. Apply this to every upload.
+- Impressions flat → the topic has no search demand at this channel size. Pick video 3
+  from a proven-demand topic instead of an interesting one.
+
+Changing a title's language resets who YouTube tests the video on, so impressions may
+dip for a few days first. That is expected, not failure.
+
+**Do not** change a title or thumbnail again inside the 14 days, or the test tells you
+nothing. **Do not** buy views or run ads — purchased watch time doesn't count toward
+the 4,000 hours and risks the channel. **Do not** re-upload either video; you lose the
+views and watch time already banked.
+
+---
+
+## Language rule
+
+Video 2 was published in English over Hinglish audio. That is the worst of both:
+English speakers click and bounce when the audio is Hindi, and the Hinglish audience
+the video is made for never finds it, because they search in Hinglish.
+
+**Match the title, description and thumbnail language to the audio language.** No
+million-view Indian fitness video in the last 12 months of research carried an English
+title over Hindi audio.
+
+This is still an open decision for the channel as a whole: the repo's scripts,
+captions and shorts copy are all written in English, while the voice is Hindi with a
+Haryanvi accent. English fitness is the most crowded category on YouTube. Hinglish
+beginner fitness from an actual doctor is not. Settle it before video 3 — it changes
+the script, not just the packaging.
