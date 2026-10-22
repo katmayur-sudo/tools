@@ -113,3 +113,79 @@ Your script is in English, your voice is Hindi with a Haryanvi accent, and every
 million-view video in the research set was Hindi or Hinglish. English fitness is the
 most crowded category on YouTube; Hinglish beginner fitness, from an actual doctor,
 is not. Worth deciding before video 3 — it changes the script, not just the title.
+
+---
+
+# Do this now — ordered checklist
+
+Order matters: title first (biggest lever, costs nothing), thumbnail second,
+everything else third. Do all of it in one sitting, then do not touch it for 14 days.
+
+## Video 1 — "Start Your Engine" (7:41)
+
+- [ ] **Title** → `Beginner Gym Workout: The Only 8 Exercises You Need (Full Body Plan)`
+- [ ] **Description first line** → replace with the two lines in the section above.
+- [ ] **Thumbnail** → `8 EXERCISES` / `DAY 1`, red box on `DAY 1`.
+- [ ] **End screen** → fill both empty frames: one on video 2, one on "most recent upload".
+- [ ] **Pinned comment** → already written in `shorts_captions.md`, just pin it.
+- [ ] **Tags** → already good, leave them.
+
+## Video 2 — "Your Calorie Deficit Isn't Broken" (9:59)
+
+- [ ] **Title** → `Why You're Not Losing Weight in a Calorie Deficit (Doctor Explains)`
+- [ ] **Thumbnail** → `NOT LOSING` / `WEIGHT?`, red box on `WEIGHT?`, concerned face left.
+- [ ] **Description** → paste the block below.
+- [ ] **Chapters** → add them. Timestamps must be filled in from the actual video;
+      the first one must be `0:00`.
+- [ ] **End screen** → one frame on video 1, one on "most recent upload".
+- [ ] **Pinned comment** → paste the line below.
+
+### Video 2 description (fill the chapter times from the video)
+
+```
+You're eating in a deficit and the scale won't move. Here's what's actually
+happening — and the three numbers almost everyone gets wrong.
+
+📌 Save this and re-check your numbers before you cut calories again.
+
+⏱ CHAPTERS
+0:00 [opening — the problem]
+[time] [what a deficit actually is]
+[time] [mistake 1]
+[time] [mistake 2]
+[time] [mistake 3]
+[time] [how to fix your numbers]
+[time] What to do this week
+
+📲 Instagram: @drmak_fitness
+🔔 Subscribe for science-backed training: @drmakfitness
+
+⚠️ Educational content, not medical advice. If you have a medical condition,
+check with your doctor first.
+
+#caloriedeficit #weightloss #fatloss #fitnessscience #drmakfitness
+```
+
+### Video 2 pinned comment
+
+```
+What's your current daily calorie target? Drop the number 👇
+I'll tell you if it's realistic — I reply to every comment.
+```
+
+## Both videos — the three free wins
+
+1. **Playlist.** Make one playlist, "Start Here: Gym for Beginners", put both videos
+   in it in order. Playlists feed autoplay, and autoplay is watch hours you do not
+   have to earn twice.
+2. **Cards.** Put a card in each video pointing at the other, placed at the moment
+   the topic is mentioned, not at the end.
+3. **Each video's comment.** Reply to every single comment for the first 48 hours.
+   At this channel size it is the only engagement signal you can manufacture honestly.
+
+## What NOT to do
+
+- Do not buy views or run ads to the video. Purchased watch time does not count
+  toward the 4,000 hours and risks the channel.
+- Do not re-upload either video. You lose the existing views and the watch time.
+- Do not change the titles again inside 14 days — the test stops meaning anything.
