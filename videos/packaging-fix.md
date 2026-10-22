@@ -140,30 +140,44 @@ everything else third. Do all of it in one sitting, then do not touch it for 14 
 - [ ] **End screen** → one frame on video 1, one on "most recent upload".
 - [ ] **Pinned comment** → paste the line below.
 
-### Video 2 description (fill the chapter times from the video)
+### Video 2 description (paste whole, fill the chapter times)
+
+Written after watching the video: it is about calories that never get counted —
+cooking oil at ~120 per spoon, and the rest.
 
 ```
-You're eating in a deficit and the scale won't move. Here's what's actually
-happening — and the three numbers almost everyone gets wrong.
+You're eating in a deficit and the scale won't move. The problem usually isn't
+your willpower — it's the calories that never make it into your count.
+
+One spoon of cooking oil is ~120 calories. Most people never count it. Here's
+what else you're missing, and how to fix your numbers in one sitting.
 
 📌 Save this and re-check your numbers before you cut calories again.
 
 ⏱ CHAPTERS
-0:00 [opening — the problem]
-[time] [what a deficit actually is]
-[time] [mistake 1]
+0:00 Why the scale isn't moving
+[time] What a calorie deficit actually is
+[time] The oil you never count
 [time] [mistake 2]
 [time] [mistake 3]
-[time] [how to fix your numbers]
+[time] How to fix your numbers
 [time] What to do this week
 
 📲 Instagram: @drmak_fitness
-🔔 Subscribe for science-backed training: @drmakfitness
+🔔 Subscribe for science-backed fitness: @drmakfitness
 
 ⚠️ Educational content, not medical advice. If you have a medical condition,
 check with your doctor first.
 
-#caloriedeficit #weightloss #fatloss #fitnessscience #drmakfitness
+#caloriedeficit #weightloss #fatloss #caloriecounting #fitnessscience #drmakfitness
+```
+
+**Tags**
+```
+calorie deficit, why am i not losing weight, calorie counting mistakes, hidden
+calories, cooking oil calories, weight loss plateau, fat loss, how many calories
+should i eat, tdee, maintenance calories, weight loss mistakes, indian diet
+calories, dr mak fitness
 ```
 
 ### Video 2 pinned comment
