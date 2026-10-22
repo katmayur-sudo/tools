@@ -12,40 +12,55 @@
   .fade { position: absolute; inset: 0;
     background: linear-gradient(90deg, #0E0E10 38%, rgba(14,14,16,.55) 58%, rgba(14,14,16,0) 80%); }
   .leak { position: absolute; border-radius: 50%; mix-blend-mode: screen; }
-  .pill { position: absolute; left: 60px; top: 64px; background: #E0262B; color: #fff;
+  .pill { position: absolute; left: 60px; top: 64px; background: var(--pill); color: #fff;
     font-family: Inter, sans-serif; font-weight: 800; font-size: 26px; padding: 9px 22px;
     border-radius: 999px; letter-spacing: .10em; }
   .t1 { position: absolute; left: 56px; color: #fff; font-weight: 900;
     letter-spacing: -0.04em; line-height: .92; }
-  .box { position: absolute; left: 56px; background: #E0262B; color: #fff; font-weight: 900;
-    letter-spacing: -0.04em; line-height: 1; padding: 6px 28px 18px; border-radius: 14px;
-    box-shadow: 0 0 70px rgba(224,38,43,.5); }
+  .box { position: absolute; left: 56px; background: var(--accent); color: var(--boxink);
+    font-weight: 900; letter-spacing: -0.04em; line-height: 1; padding: 6px 28px 18px;
+    border-radius: 14px; box-shadow: 0 0 70px var(--glow); }
   .tag { position: absolute; left: 60px; bottom: 62px; background: #fff; color: #111;
     font-size: 40px; font-weight: 900; padding: 8px 22px; border-radius: 14px;
     letter-spacing: -0.02em; }
-  .tag b { color: #E0262B; }
+  .tag b { color: var(--accent); }
 </style></head>
 <body>
+  <div class="leak l1"></div><div class="leak l2"></div>
   <div class="photo"></div><div class="fade"></div>
-  <div class="leak" style="left:-260px;top:-220px;width:700px;height:600px;
-       background:radial-gradient(closest-side,rgba(224,38,43,.55),rgba(224,38,43,0))"></div>
-  <div class="leak" style="right:-200px;bottom:-260px;width:800px;height:600px;
-       background:radial-gradient(closest-side,rgba(255,70,40,.45),rgba(255,70,40,0))"></div>
   <div class="pill"></div>
   <div class="t1"></div>
   <div class="box"></div>
   <div class="tag"></div>
 
 <script>
+// Each variant carries its own grade, so a thumbnail matches the video it fronts:
+// v1 is red-ink-explainer; v2 matches the green/black grade of _pHYC7BRZhk.
 const V = {
-  // v1: beginner gym workout. v2: calorie deficit.
   1: { pill: "BEGINNER · FULL BODY", t1: "8 EXERCISES", t1size: 104, t1top: 208,
        box: "DAY 1", boxsize: 170, boxtop: 330,
-       tag: "<b>3</b> days a week · no machines", photo: "back.jpg", pos: "center 16%" },
-  2: { pill: "DOCTOR EXPLAINS", t1: "NOT LOSING", t1size: 104, t1top: 208,
-       box: "WEIGHT?", boxsize: 132, boxtop: 330,
-       tag: "the <b>3</b> numbers you got wrong", photo: "back.jpg", pos: "center 16%" },
+       tag: "<b>3</b> days a week · no machines", photo: "back.jpg", pos: "center 16%",
+       bg: "#0E0E10", pill_bg: "#E0262B", accent: "#E0262B", boxink: "#fff",
+       glow: "rgba(224,38,43,.5)",
+       leak1: "rgba(224,38,43,.55)", leak2: "rgba(255,70,40,.45)" },
+  2: { pill: "DOCTOR EXPLAINS", t1: "NOT LOSING", t1size: 104, t1top: 206,
+       box: "WEIGHT?", boxsize: 132, boxtop: 326,
+       tag: "the calories you <b>never count</b>", photo: "face.jpg", pos: "center 12%",
+       bg: "#060606", pill_bg: "#E54746", accent: "#23C55E", boxink: "#06230F",
+       glow: "rgba(35,197,94,.45)",
+       leak1: "rgba(17,61,34,.95)", leak2: "rgba(35,197,94,.30)" },
 }[new URLSearchParams(location.search).get("v") || "1"];
+
+const r = document.documentElement.style;
+document.body.style.background = V.bg;
+r.setProperty("--pill", V.pill_bg);
+r.setProperty("--accent", V.accent);
+r.setProperty("--boxink", V.boxink);
+r.setProperty("--glow", V.glow);
+const leak = (el, c, css) => Object.assign(document.querySelector(el).style,
+  { background: `radial-gradient(closest-side, ${c}, transparent)` }, css);
+leak(".l1", V.leak1, { left: "-260px", top: "-220px", width: "700px", height: "600px" });
+leak(".l2", V.leak2, { right: "-200px", bottom: "-260px", width: "800px", height: "600px" });
 
 document.querySelector(".pill").textContent = V.pill;
 const t1 = document.querySelector(".t1");
