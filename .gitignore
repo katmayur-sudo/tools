@@ -1,3 +1,4 @@
 .DS_Store
 graphify-out/
 __pycache__/
+videos/*/assets/user/
