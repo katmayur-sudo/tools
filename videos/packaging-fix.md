@@ -140,51 +140,50 @@ everything else third. Do all of it in one sitting, then do not touch it for 14 
 - [ ] **End screen** → one frame on video 1, one on "most recent upload".
 - [ ] **Pinned comment** → paste the line below.
 
-### Video 2 description (paste whole, fill the chapter times)
+### Video 2 description (final — paste whole)
 
-Written after watching the video: it is about calories that never get counted —
-cooking oil at ~120 per spoon, and the rest.
+The video is spoken in Hinglish and covers 6 reasons. Title and description below
+match that; see the language note at the end of this file.
 
 ```
-You're eating in a deficit and the scale won't move. The problem usually isn't
-your willpower — it's the calories that never make it into your count.
+Calorie deficit mein ho, phir bhi weight nahi ghat raha? Problem aapki willpower
+nahi hai — problem ye hai ki aapka deficit real hai hi nahi.
 
-One spoon of cooking oil is ~120 calories. Most people never count it. Here's
-what else you're missing, and how to fix your numbers in one sitting.
+Ek chamach oil = ~120 calories, aur wo kabhi count hi nahi hoti. Is video mein
+6 wajah, aur har ek ka fix.
 
-📌 Save this and re-check your numbers before you cut calories again.
+📌 Save karo aur calories kam karne se pehle apne numbers dobara check karo.
 
 ⏱ CHAPTERS
-0:00 Why the scale isn't moving
-[time] What a calorie deficit actually is
-[time] The oil you never count
-[time] [mistake 2]
-[time] [mistake 3]
-[time] How to fix your numbers
-[time] What to do this week
+0:00 Aapka deficit real kyun nahi hai
+0:58 1. Maintenance ek guess hai
+2:19 2. Aap zyada khaate ho (oil, ghee, tadka)
+3:56 3. Smartwatch calories jhooth bolti hai
+5:10 4. Zyada exercise = zyada burn nahi
+6:30 5. Scale paani dikhata hai, fat nahi
+7:56 6. Weekend poora hafta mita deta hai
+9:12 Recap
 
 📲 Instagram: @drmak_fitness
 🔔 Subscribe for science-backed fitness: @drmakfitness
 
-⚠️ Educational content, not medical advice. If you have a medical condition,
-check with your doctor first.
-
-#caloriedeficit #weightloss #fatloss #caloriecounting #fitnessscience #drmakfitness
+⚠️ Educational content, not medical advice. Koi medical condition hai toh pehle
+apne doctor se baat karein.
 ```
 
 **Tags**
 ```
-calorie deficit, why am i not losing weight, calorie counting mistakes, hidden
-calories, cooking oil calories, weight loss plateau, fat loss, how many calories
-should i eat, tdee, maintenance calories, weight loss mistakes, indian diet
-calories, dr mak fitness
+calorie deficit, weight nahi ghat raha, calorie deficit in hindi, weight loss
+hindi, fat loss hindi, calorie counting mistakes, hidden calories, oil calories,
+weight loss plateau, maintenance calories, tdee, smartwatch calories accurate,
+weight loss tips hindi, dr mak fitness
 ```
 
 ### Video 2 pinned comment
 
 ```
-What's your current daily calorie target? Drop the number 👇
-I'll tell you if it's realistic — I reply to every comment.
+In 6 mein se kaunsi galti aap kar rahe ho? Number drop karo 👇 (1-6)
+Main har comment ka reply karta hoon.
 ```
 
 ## Both videos — the three free wins
@@ -203,3 +202,19 @@ I'll tell you if it's realistic — I reply to every comment.
   toward the 4,000 hours and risks the channel.
 - Do not re-upload either video. You lose the existing views and the watch time.
 - Do not change the titles again inside 14 days — the test stops meaning anything.
+
+---
+
+# Language note (decided by the chapters, 22 Oct 2026)
+
+Video 2 is spoken in Hinglish but was published with an English title. That is the
+worst of both: English-speaking viewers click and bounce when the audio is Hindi,
+and the Hindi-speaking audience the video is actually for never sees it, because
+they search in Hinglish.
+
+**Match the title language to the audio language, always.** Both titles below are
+Hinglish for that reason. The research in this repo found no million-view Indian
+fitness video in the last 12 months with an English title on Hindi audio.
+
+Video 1 is a separate decision — check which language its voice-over is in before
+re-titling it, and use the English title only if the audio is English.
