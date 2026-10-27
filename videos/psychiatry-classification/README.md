@@ -1,7 +1,7 @@
 # Psychiatric Disorders: How They Are Classified
 
-A 9:16 short (1080×1920, 30 fps, ~85 s) for medical students and junior doctors: the eight main
-groups of psychiatric disorders as Davidson's Principles & Practice of Medicine lays them out.
+A 9:16 short (1080×1920, 30 fps, ~85 s) for medical students and junior doctors: the ten ICD-10
+blocks (F00–F98) of Davidson's Box 31.1, Medical Psychiatry, plus delirium on medical wards (Box 31.2).
 Code-drawn motion graphics (no stock or generated images yet), one accent colour per group,
 word-synced captions. Narration is the owner's own recording (`VO_SCRIPT.md`).
 

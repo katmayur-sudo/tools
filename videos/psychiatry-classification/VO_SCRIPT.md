@@ -1,52 +1,62 @@
 # Voice-over script: Psychiatric Disorders, How They Are Classified
 
-About 157 words, about 85 s at a calm teaching pace (~135 words per minute). The video re-times itself to
+Source: Davidson's Principles & Practice of Medicine, Medical Psychiatry, Box 31.1 (WHO ICD-10,
+Chapter V, F00–F99) and Box 31.2 (delirium on medical wards).
+
+About 162 words, about 85 s at a steady teaching pace (~145 words per minute). The video re-times itself to
 your recording, so speak naturally; just keep **the words exactly as written** (the captions use them).
 Leave a short breath between lines. One take, WAV or MP3, no music.
 
 ## Read this
 
-Psychiatry has hundreds of diagnoses. But you only need eight groups to start.
+Every psychiatric diagnosis lives in one chapter of ICD-10. And it has just ten blocks.
 
-Here is the classification, the way Davidson teaches it.
+Here they are, straight from Davidson's table.
 
-One. Organic disorders. Delirium and dementia. A physical illness is driving the mind, so rule it out first.
+One. Organic mental disorders. Dementia, delirium, and disorders due to brain damage or disease.
 
-Two. Substance use disorders. Alcohol and drugs, from harmful use to dependence.
+Two. Psychoactive substances: alcohol, opioids, cannabinoids. Intoxication, harmful use, dependence and withdrawal.
 
-Three. Schizophrenia and other psychoses. The patient loses touch with reality: delusions and hallucinations.
+Three. Schizophrenia and delusional disorders.
 
-Four. Mood disorders. Depression, and bipolar disorder with its highs and lows.
+Four. Mood, or affective, disorders. Depression and bipolar disorder.
 
-Five. Anxiety and stress-related disorders. Panic, phobias, OCD and PTSD. Fear out of proportion to the threat.
+Five. Neurotic, stress-related and somatoform disorders. Phobias, generalised anxiety, OCD, PTSD and adjustment disorders.
 
-Six. Somatic symptom disorders. Real physical symptoms, but no disease that explains them.
+Six. Behavioural syndromes with physiological disturbance. Anorexia, bulimia and sexual dysfunction.
 
-Seven. Eating disorders. Anorexia and bulimia nervosa, driven by weight and shape.
+Seven. Disorders of adult personality and behaviour. Specific personality disorders, trichotillomania and gender identity disorders.
 
-Eight. Personality disorders. Enduring patterns of thinking and behaving that start by early adulthood.
+Eight. Mental retardation, now called intellectual disability. Mild, moderate, severe or profound.
 
-Organic. Substance. Psychotic. Mood. Anxiety. Somatic. Eating. Personality.
+Nine. Disorders of psychological development. Autism and Asperger syndrome.
 
-On the ward, always rule out organic causes first. Save this for your psychiatry posting.
+Ten. Behavioural and emotional disorders of childhood. Hyperkinetic and tic disorders.
+
+Organic. Substances. Schizophrenia. Mood. Neurotic. Physiological. Personality. Intellectual. Developmental. Childhood.
+
+On medical wards, delirium is very common. So always think organic first. Save this for your psychiatry posting.
 
 ## Where each line lands in the silent cut
 
 | Time | Scene | Line |
 |---|---|---|
-| 0:00.0 | hook | Psychiatry has hundreds of diagnoses. But you only need eight groups to start. |
-| 0:06.8 | intro | Here is the classification, the way Davidson teaches it. |
-| 0:11.6 | organic | One. Organic disorders. Delirium and dementia. A physical illness is driving the mind, so rule it out first. |
-| 0:21.0 | substance | Two. Substance use disorders. Alcohol and drugs, from harmful use to dependence. |
-| 0:27.5 | psychotic | Three. Schizophrenia and other psychoses. The patient loses touch with reality: delusions and hallucinations. |
-| 0:34.9 | mood | Four. Mood disorders. Depression, and bipolar disorder with its highs and lows. |
-| 0:41.4 | anxiety | Five. Anxiety and stress-related disorders. Panic, phobias, OCD and PTSD. Fear out of proportion to the threat. |
-| 0:50.4 | somatic | Six. Somatic symptom disorders. Real physical symptoms, but no disease that explains them. |
-| 0:57.4 | eating | Seven. Eating disorders. Anorexia and bulimia nervosa, driven by weight and shape. |
-| 1:03.9 | personality | Eight. Personality disorders. Enduring patterns of thinking and behaving that start by early adulthood. |
-| 1:11.1 | recap | Organic. Substance. Psychotic. Mood. Anxiety. Somatic. Eating. Personality. |
-| 1:16.5 | close | On the ward, always rule out organic causes first. Save this for your psychiatry posting. |
+| 0:00.0 | hook | Every psychiatric diagnosis lives in one chapter of ICD-10. And it has just ten blocks. |
+| 0:07.2 | intro | Here they are, straight from Davidson's table. |
+| 0:10.9 | organic | One. Organic mental disorders. Dementia, delirium, and disorders due to brain damage or disease. |
+| 0:18.0 | substance | Two. Psychoactive substances: alcohol, opioids, cannabinoids. Intoxication, harmful use, dependence and withdrawal. |
+| 0:24.7 | schizophrenia | Three. Schizophrenia and delusional disorders. |
+| 0:27.6 | mood | Four. Mood, or affective, disorders. Depression and bipolar disorder. |
+| 0:32.6 | neurotic | Five. Neurotic, stress-related and somatoform disorders. Phobias, generalised anxiety, OCD, PTSD and adjustment disorders. |
+| 0:40.0 | physiological | Six. Behavioural syndromes with physiological disturbance. Anorexia, bulimia and sexual dysfunction. |
+| 0:45.6 | personality | Seven. Disorders of adult personality and behaviour. Specific personality disorders, trichotillomania and gender identity disorders. |
+| 0:53.0 | intellectual | Eight. Mental retardation, now called intellectual disability. Mild, moderate, severe or profound. |
+| 0:59.4 | development | Nine. Disorders of psychological development. Autism and Asperger syndrome. |
+| 1:04.0 | childhood | Ten. Behavioural and emotional disorders of childhood. Hyperkinetic and tic disorders. |
+| 1:09.5 | recap | Organic. Substances. Schizophrenia. Mood. Neurotic. Physiological. Personality. Intellectual. Developmental. Childhood. |
+| 1:15.8 | close | On medical wards, delirium is very common. So always think organic first. Save this for your psychiatry posting. |
 
-## Say these clearly (captions and cuts are keyed to them)
-Delirium, Dementia, Alcohol, Schizophrenia, Depression, Panic, Anorexia, Enduring, and the eight
-group names in the recap ("Organic. Substance. Psychotic. Mood. Anxiety. Somatic. Eating. Personality.").
+## Say these clearly (cuts are keyed to them)
+"ten" in the first line; the first example in each group (Dementia, Intoxication, delusional, Depression,
+Phobias, Anorexia, Specific, Mild, Autism, Hyperkinetic); the ten recap words; "delirium", "think" and
+"Save" at the end. The ICD-10 codes are on screen only; you don't need to read them.
