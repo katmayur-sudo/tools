@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Psychiatry Classification</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0A0C11; }
+  body { font-family: "Inter", sans-serif; color: #fff; }
+  #stage { position: absolute; inset: 0; overflow: hidden; }
+  .abs { position: absolute; }
+  .d { font-family: "Inter Display", "Inter", sans-serif; font-weight: 900; letter-spacing: -0.035em; line-height: .95; }
+  .label { font-size: 26px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
+  .grid { position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 60px 60px; }
+  .pill { display: inline-block; border-radius: 999px; padding: 14px 34px; margin: 0 16px 18px 0;
+    font-family: "Inter Display"; font-weight: 800; font-size: 50px; letter-spacing: -0.02em; }
+  .card { background: #151821; border-radius: 34px; padding: 34px 40px 38px;
+    box-shadow: 0 0 0 2px rgba(255,255,255,.06) inset, 0 40px 80px -30px rgba(0,0,0,.7); }
+  .cap { position: absolute; left: 50px; right: 50px; top: 1470px; text-align: center; z-index: 50; }
+  .cap span { display: inline-block; font-family: "Inter Display"; font-weight: 800; font-size: 54px;
+    letter-spacing: -0.02em; padding: 4px 16px; margin: 6px 4px; border-radius: 14px; background: rgba(0,0,0,.82);
+    box-shadow: 0 0 0 2px rgba(255,255,255,.12); }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, p) => a + (b - a) * p;
+const ease = p => 1 - Math.pow(1 - clamp(p), 3);
+function spring(t, d = .5) { if (t <= 0) return 0; if (t >= d * 2) return 1; const p = t / d; return 1 - Math.exp(-5 * p) * Math.cos(7 * p); }
+let T = 0, TL = null;
+function appear(at, o = {}) {
+  const dt = T - at, dy = o.dy ?? 50, sc = o.scale ?? .9, dur = o.dur ?? .5;
+  if (dt < 0) return "opacity:0;";
+  const s = spring(dt, dur);
+  return `opacity:${clamp(dt / (dur * .5))};transform:translate(${(1 - s) * (o.dx ?? 0)}px,${(1 - s) * dy}px) scale(${lerp(sc, 1, s)});`;
+}
+// big text that slams in (scale 1.5 -> 1 with a small shake)
+function slam(html, at, top, size, extra = "") {
+  const dt = T - at;
+  if (dt < 0) return "";
+  const s = 1 + .5 * Math.exp(-dt * 10), sh = dt < .3 ? Math.sin(dt * 110) * 9 * (1 - dt / .3) : 0;
+  return `<div class="abs d" style="left:50px;right:50px;top:${top}px;text-align:center;font-size:${size}px;text-shadow:0 0 30px #0A0C11,0 0 60px #0A0C11;opacity:${clamp(dt / .08)};transform:translateX(${sh}px) scale(${s});${extra}">${html}</div>`;
+}
+const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${n >> 8 & 255},${n & 255},${a})`; };
+const COLORS = () => TL.beats.filter(b => b.type === "group").map(b => b.color);
+
+// ---------- code-drawn icons (viewBox 200x200, drawn on with stroke-dashoffset) ----------
+function draw(d, p, col, w = 6, extra = "") {
+  return `<path d="${d}" pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1 - ease(p)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" ${extra}/>`;
+}
+const ICONS = {
+  brain: (p, c, t) => draw("M60 140 C30 140 22 110 34 92 C22 70 40 46 62 50 C68 30 98 26 110 40 C126 26 156 34 158 56 C180 62 184 92 168 104 C176 126 156 146 134 140 C126 156 100 158 92 146 C80 154 64 150 60 140 Z", p, c)
+    + ["M70 70 C82 76 84 92 74 100", "M104 46 C100 64 112 74 126 70", "M146 86 C132 92 132 110 146 116", "M92 104 C104 112 104 126 92 134"].map(d => draw(d, p * 1.2 - .2, c, 5)).join("")
+    + (p > .9 ? `<path d="M120 86 L102 112 L116 112 L98 140" fill="none" stroke="#fff" stroke-width="7" stroke-linejoin="round" opacity="${(Math.sin(t * 9) > -.2) ? 1 : .15}"/>` : ""),
+  bottle: (p, c, t) => draw("M84 30 h26 v24 c18 8 24 22 24 40 v68 c0 8 -6 14 -14 14 h-46 c-8 0 -14 -6 -14 -14 v-68 c0 -18 6 -32 24 -40 z", p, c)
+    + draw("M60 108 h74 v36 h-74", p * 1.3 - .3, c, 5)
+    + `<g transform="translate(162 64) rotate(${t * 70})" opacity="${clamp(p * 2 - 1)}"><path d="M-26 -11 h52 a11 11 0 0 1 0 22 h-52 a11 11 0 0 1 0 -22 z" fill="none" stroke="${c}" stroke-width="5"/><path d="M0 -11 v22" stroke="${c}" stroke-width="5"/></g>`,
+  eye: (p, c, t) => [0, 1, 2].map(k => { const q = (t * .6 + k / 3) % 1; return p > .9 ? `<ellipse cx="100" cy="100" rx="${70 + q * 40}" ry="${40 + q * 40}" fill="none" stroke="${c}" stroke-width="3" opacity="${(1 - q) * .7}"/>` : ""; }).join("")
+    + draw("M20 100 C60 50 140 50 180 100 C140 150 60 150 20 100 Z", p, c)
+    + `<g opacity="${clamp(p * 2 - 1)}" transform="translate(${Math.sin(t * 1.7) * 18} ${Math.sin(t * 2.3) * 5})"><circle cx="100" cy="100" r="26" fill="none" stroke="${c}" stroke-width="6"/><circle cx="100" cy="100" r="11" fill="${c}"/></g>`,
+  wave: (p, c, t) => {
+    let d = "";
+    for (let x = 14; x <= 186; x += 4) d += `${x === 14 ? "M" : "L"}${x} ${100 - 52 * Math.sin(x / 26 + t * 2.2)} `;
+    return `<path d="M14 100 H186" stroke="rgba(255,255,255,.25)" stroke-width="3" stroke-dasharray="8 8"/>` + draw(d, p, c, 7)
+      + `<text x="186" y="34" text-anchor="end" font-size="26" font-weight="800" fill="${c}" opacity="${clamp(p * 2 - 1)}">HIGH</text><text x="186" y="184" text-anchor="end" font-size="26" font-weight="800" fill="${c}" opacity="${clamp(p * 2 - 1)}">LOW</text>`;
+  },
+  pulse: (p, c, t) => {
+    const b = 1 + .12 * Math.max(0, Math.sin(t * 14));
+    return `<g transform="translate(100 62) scale(${b * clamp(p * 1.5)}) translate(-100 -62)"><path d="M100 76 C100 60 76 52 70 68 C64 84 100 100 100 100 C100 100 136 84 130 68 C124 52 100 60 100 76Z" fill="${c}"/></g>`
+      + draw("M10 140 H50 L60 120 L70 140 L80 140 L92 96 L104 176 L116 128 L124 140 H190", p, c, 6);
+  },
+  body: (p, c, t) => `<circle cx="100" cy="38" r="20" fill="none" stroke="${c}" stroke-width="6" stroke-dasharray="1" pathLength="1" stroke-dashoffset="${1 - ease(p)}"/>`
+    + draw("M80 66 h40 c12 0 18 8 18 18 v46 h-16 v54 h-44 v-54 h-16 v-46 c0 -10 6 -18 18 -18 z", p, c)
+    + [[100, 92, 0], [88, 124, 1.3], [112, 150, 2.6]].map(([x, y, ph]) => p > .9 ? `<circle cx="${x}" cy="${y}" r="${6 + 8 * Math.abs(Math.sin(t * 3 + ph))}" fill="${rgba(c, .9)}"/>` : "").join("")
+    + (p > .9 ? `<text x="166" y="70" font-size="54" font-weight="900" fill="#fff" text-anchor="middle" opacity="${.5 + .5 * Math.sin(t * 4)}">?</text>` : ""),
+  plate: (p, c, t) => draw("M100 40 a60 60 0 1 1 -0.1 0", p, c) + draw("M100 62 a38 38 0 1 1 -0.1 0", p * 1.2 - .2, c, 4)
+    + draw("M24 40 v40 M16 40 v26 c0 8 16 8 16 0 v-26 M24 80 v80", p * 1.3 - .3, c, 5)
+    + draw("M176 40 c-12 10 -12 40 0 48 v72", p * 1.3 - .3, c, 5),
+  print: (p, c, t) => [1, 2, 3, 4, 5, 6].map(i => draw(`M${100 - 12 * i} ${110 + (i % 2) * 14} A${12 * i} ${15 * i} 0 1 1 ${100 + 12 * i} ${110 + (i % 3) * 10}`, p * 1.4 - i * .07, c, 5)).join("")
+    + (p > .9 ? `<rect x="20" y="${30 + ((t * 60) % 150)}" width="160" height="4" fill="${c}" opacity=".7"/>` : ""),
+};
+function icon(name, at, col, size = 380) {
+  const p = clamp((T - at) / 1.1);
+  return `<svg width="${size}" height="${size}" viewBox="0 0 200 200" style="overflow:visible">${ICONS[name](p, col, T)}</svg>`;
+}
+
+// ---------- scenes ----------
+function header(beat) {
+  const groups = TL.beats.filter(b => b.type === "group");
+  const segW = (940 - 7 * 12) / 8;
+  return `<div class="abs label" style="left:70px;top:110px;color:rgba(255,255,255,.55)">Psychiatric disorders</div>
+    <div class="abs label" style="right:70px;top:110px;color:${beat.color}">${beat.n} / 8</div>`
+    + groups.map((g, i) => {
+      const lit = g.n < beat.n ? .55 : g.n === beat.n ? 1 : 0;
+      const fill = g.n === beat.n ? clamp((T - beat.start) / .5) : 1;
+      return `<div class="abs" style="left:${70 + i * (segW + 12)}px;top:160px;width:${segW}px;height:12px;border-radius:6px;background:rgba(255,255,255,.12)">
+        <div style="width:${100 * fill}%;height:100%;border-radius:6px;background:${g.color};opacity:${lit}"></div></div>`;
+    }).join("");
+}
+
+function group(b) {
+  const c = b.color, s0 = b.start;
+  const nameSize = b.name.length > 10 ? 118 : 156;
+  const pills = b.examples.map((e, i) => `<span class="pill" style="background:${rgba(c, .16)};box-shadow:0 0 0 3px ${c} inset;${appear(b.cues.examples + i * .3, { dy: 30, scale: .7 })}">${e}</span>`).join("");
+  return header(b)
+    + `<div class="abs" style="left:640px;top:250px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle, ${rgba(c, .22)}, transparent 70%);${appear(s0 + .1, { scale: .5 })}"></div>`
+    + `<div class="abs" style="left:660px;top:270px;${appear(s0 + .15, { scale: .7, dy: 0 })}">${icon(b.icon, s0 + .2, c)}</div>`
+    + `<div class="abs d" style="left:62px;top:250px;font-size:320px;color:transparent;-webkit-text-stroke:5px ${c};${appear(s0, { dx: -120, dy: 0 })}">0${b.n}</div>`
+    + `<div class="abs" style="left:70px;right:70px;top:700px">
+        <div class="d" style="font-size:${nameSize}px;${appear(s0 + .2, { dy: 80 })}">${b.name}</div>
+        <div class="d" style="font-size:62px;font-weight:700;color:${c};margin-top:16px;${appear(s0 + .35)}">${b.sub}</div>
+        <div style="margin-top:44px">${pills}</div>
+        <div class="card" style="margin-top:26px;border-left:12px solid ${c};${appear(b.cues.key, { dy: 60, scale: .95 })}">
+          <div class="label" style="color:${c};margin-bottom:14px">Key feature</div>
+          <div class="d" style="font-size:56px;font-weight:800;line-height:1.08;letter-spacing:-0.02em">${b.key}</div></div></div>`;
+}
+
+const DX = ["Delirium", "Dementia", "Schizophrenia", "Bipolar I", "Depression", "OCD", "PTSD", "Panic disorder", "Agoraphobia",
+  "Anorexia", "Bulimia", "Alcohol dependence", "Opioid use", "GAD", "Hypochondriasis", "Conversion", "Dissociation",
+  "Delusional disorder", "Cyclothymia", "Dysthymia", "Social phobia", "Borderline PD", "Antisocial PD", "Korsakoff",
+  "Catatonia", "Mania", "Puerperal psychosis", "Somatisation", "Adjustment disorder", "Schizoaffective", "Binge eating", "Specific phobia"];
+function rnd(i) { const x = Math.sin(i * 127.1) * 43758.5453; return x - Math.floor(x); }
+function hook(b) {
+  const e = b.cues.eight, cols = COLORS(), dotY = 1080;
+  const words = DX.map((w, i) => {
+    const x0 = 60 + rnd(i) * 760, y0 = 260 + rnd(i + 50) * 1100, dt = T - .1 - i * .04;
+    if (dt < 0) return "";
+    const fly = ease((T - e - (i % 8) * .03) / .55), tx = 150 + (i % 8) * 111, ty = dotY;
+    const x = lerp(x0 + Math.sin(T * .8 + i) * 14, tx, fly), y = lerp(y0 + Math.cos(T * .7 + i) * 10, ty, fly);
+    return `<div class="abs" style="left:${x}px;top:${y}px;font-size:${30 + rnd(i + 9) * 22}px;font-weight:700;color:${fly > 0 ? cols[i % 8] : "rgba(255,255,255,.22)"};opacity:${clamp(dt * 4) * (1 - fly)};transform:translate(-${fly * 50}%,-50%) scale(${1 - fly * .8});white-space:nowrap">${w}</div>`;
+  }).join("");
+  const dots = cols.map((c, i) => `<div class="abs" style="left:${150 + i * 111 - 36}px;top:${dotY - 36}px;width:72px;height:72px;border-radius:50%;background:${c};box-shadow:0 0 40px ${rgba(c, .6)};${appear(e + .45 + i * .05, { scale: .2, dy: 0 })}"></div>`).join("");
+  const before = T < e + .3;
+  return words + (before
+    ? slam(`<span style="color:#FF4D4F">HUNDREDS</span>`, .25, 640, 168) + slam("of diagnoses.", .7, 820, 96)
+    : slam(`Learn <span style="color:#FFD23F">8 groups</span>`, e + .3, 700, 132) + slam("to start.", e + .7, 860, 96, "color:rgba(255,255,255,.7)"))
+    + dots;
+}
+
+function intro(b) {
+  const s0 = b.start, cols = COLORS();
+  const tabs = cols.map((c, i) => `<div class="abs" style="left:${610}px;top:${560 + i * 64}px;width:${120 + (i % 3) * 30}px;height:48px;border-radius:0 14px 14px 0;background:${c};${appear(s0 + .6 + i * .08, { dx: -80, dy: 0, scale: 1 })}"></div>`).join("");
+  return `<div class="abs label" style="left:0;right:0;top:330px;text-align:center;color:#FFD23F;${appear(s0)}">The classification</div>`
+    + slam("The Davidson way", s0 + .15, 390, 104)
+    + `<div class="abs" style="left:260px;top:530px;width:360px;height:560px;border-radius:18px 30px 30px 18px;background:linear-gradient(135deg,#1E2433,#121620);box-shadow:inset 22px 0 0 rgba(255,255,255,.08),0 50px 90px -30px #000;${appear(s0 + .3, { dy: 120, scale: .85 })}">
+        <div class="abs label" style="left:56px;right:30px;top:70px;color:rgba(255,255,255,.5);font-size:22px">Principles &amp; practice of medicine</div>
+        <div class="abs d" style="left:56px;top:150px;font-size:58px">Psychiatry</div>
+        <div class="abs" style="left:56px;top:240px;width:200px;height:6px;background:#FFD23F;border-radius:3px"></div></div>`
+    + tabs
+    + `<div class="abs" style="left:120px;right:120px;top:1230px;text-align:center;font-size:40px;font-weight:600;color:rgba(255,255,255,.6);${appear(s0 + 1.2)}">Groups follow the ICD headings used in the psychiatry chapter</div>`;
+}
+
+function recap(b) {
+  const groups = TL.beats.filter(x => x.type === "group");
+  const s0 = b.start;
+  let lines = "", nodes = "";
+  groups.forEach((g, i) => {
+    const col = i % 2, row = Math.floor(i / 2), x = col ? 560 : 70, y = 600 + row * 190, at = b.cues["g" + g.n];
+    const p = ease((T - at + .2) / .35);
+    lines += `<path d="M540 470 C540 ${y - 40} ${col ? 700 : 380} ${y - 40} ${col ? 700 : 380} ${y}" stroke="${g.color}" stroke-width="5" fill="none" pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1 - p}" opacity=".8"/>`;
+    nodes += `<div class="abs" style="left:${x}px;top:${y}px;width:450px;height:140px;border-radius:30px;background:${rgba(g.color, .14)};box-shadow:0 0 0 3px ${g.color} inset;${appear(at, { scale: .6, dy: 40 })}">
+      <div class="abs d" style="left:30px;top:28px;font-size:84px;color:${g.color}">${g.n}</div>
+      <div class="abs d" style="left:110px;top:0;bottom:0;right:20px;display:flex;align-items:center;font-size:${g.name.length > 10 ? 44 : 54}px;letter-spacing:-0.02em">${g.name}</div></div>`;
+  });
+  return `<div class="abs label" style="left:0;right:0;top:230px;text-align:center;color:#FFD23F;${appear(s0)}">Recap</div>`
+    + `<div class="abs" style="left:190px;top:310px;width:700px;height:160px;border-radius:36px;background:#fff;color:#0A0C11;display:flex;align-items:center;justify-content:center;${appear(s0, { scale: .8 })}"><div class="d" style="font-size:68px;text-align:center">Psychiatric<br>disorders</div></div>`
+    + `<svg class="abs" style="left:0;top:0" width="1080" height="1920">${lines}</svg>` + nodes;
+}
+
+function close(b) {
+  const s0 = b.start, f = b.cues.first, sv = b.cues.save;
+  const box = `<span style="display:inline-block;background:#FF4D4F;border-radius:26px;padding:0 30px 10px;box-shadow:0 0 70px rgba(255,77,79,.55)">organic</span>`;
+  return `<div class="abs label" style="left:0;right:0;top:300px;text-align:center;color:#FF4D4F;${appear(s0)}">On the ward</div>`
+    + slam("Rule out", s0 + .1, 380, 120) + slam(box, s0 + .9, 520, 150) + slam("causes first.", f - .1, 720, 120)
+    + `<div class="abs" style="left:0;right:0;top:960px;text-align:center;${appear(sv, { scale: .6 })}">
+        <svg width="150" height="190" viewBox="0 0 30 38"><path d="M3 2 h24 v34 l-12 -9 l-12 9 z" fill="#FFD23F"/></svg>
+        <div class="d" style="font-size:72px;margin-top:30px">Save this for your<br><span style="color:#FFD23F">psychiatry posting</span></div></div>`
+    + `<div class="abs" style="left:80px;right:80px;top:1700px;text-align:center;font-size:30px;font-weight:600;color:rgba(255,255,255,.45);${appear(sv + .6)}">Source: Davidson's Principles &amp; Practice of Medicine · for education only</div>`;
+}
+
+function captions() {
+  const c = TL.captions.find(x => T >= x.s && T < x.e);
+  if (!c) return "";
+  const beat = TL.beats.find(b => T >= b.start && T < b.end);
+  const hl = beat && beat.color ? beat.color : "#FFD23F";
+  return `<div class="cap">${c.words.map(([w, s], i) => {
+    const next = c.words[i + 1] ? c.words[i + 1][1] : c.e;
+    const now = T >= s && T < next;
+    return `<span style="${now ? `background:${hl};color:${hl === "#FFD23F" || hl === "#8BE04E" || hl === "#2EC4B6" ? "#0A0C11" : "#fff"}` : ""}">${w}</span>`;
+  }).join("")}</div>`;
+}
+
+const SCENES = { hook, intro, group, recap, close };
+window.setData = d => { TL = d; };
+window.renderAt = t => {
+  T = t;
+  const b = TL.beats.find(x => t >= x.start && t < x.end) || TL.beats[TL.beats.length - 1];
+  const c = b.color || "#4DA3FF", dt = t - b.start, out = clamp((b.end - t) / .2);
+  const punch = 1 + .035 * Math.exp(-dt * 5);
+  const wipe = b.type === "group" && dt < .45 ? `<div class="abs" style="top:0;bottom:0;left:${lerp(-1100, 1100, ease(dt / .45))}px;width:1080px;background:${c};z-index:40"></div>` : "";
+  document.getElementById("stage").innerHTML =
+    `<div class="grid" style="transform:translateY(${(t * 12) % 60}px)"></div>
+     <div class="abs" style="left:${-300 + Math.sin(t * .4) * 120}px;top:${200 + Math.cos(t * .3) * 160}px;width:1300px;height:1300px;border-radius:50%;background:radial-gradient(circle, ${rgba(c, .16)}, transparent 65%)"></div>
+     <div class="abs" style="inset:0;opacity:${b === TL.beats[TL.beats.length - 1] ? 1 : out};transform:scale(${punch})">${SCENES[b.type](b)}</div>
+     ${wipe}${captions()}`;
+};
+</script>
+</body>
+</html>
