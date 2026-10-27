@@ -182,14 +182,14 @@ function recap(b) {
 function close(b) {
   const s0 = b.start, d = b.cues.delirium, th = b.cues.think, sv = b.cues.save;
   const box = `<span style="display:inline-block;background:#FF4D4F;border-radius:26px;padding:0 30px 10px;box-shadow:0 0 70px rgba(255,77,79,.55)">Delirium</span>`;
-  return `<div class="abs label" style="left:0;right:0;top:270px;text-align:center;color:#FF4D4F;${appear(s0)}">Medical wards</div>`
+  return `<div class="abs label" style="left:0;right:0;top:270px;text-align:center;color:#FF4D4F;${appear(s0)}">Box 31.2 · Medical wards</div>`
     + slam("On medical wards", s0 + .1, 340, 88, "color:rgba(255,255,255,.8)") + slam(box, d, 460, 150) + slam("is very common.", d + .4, 650, 96)
     + `<div class="abs" style="left:0;right:0;top:790px;text-align:center;${appear(d + .9, { scale: .7 })}"><span class="pill" style="font-size:38px;background:rgba(255,77,79,.16);box-shadow:0 0 0 3px #FF4D4F inset">+++ = over 10% of inpatients</span></div>`
     + slam(`Think <span style="color:#FF4D4F">organic</span> first.`, th, 920, 100)
     + `<div class="abs" style="left:0;right:0;top:1100px;text-align:center;${appear(sv, { scale: .6 })}">
         <svg width="96" height="122" viewBox="0 0 30 38"><path d="M3 2 h24 v34 l-12 -9 l-12 9 z" fill="#FFD23F"/></svg>
         <div class="d" style="font-size:64px;margin-top:18px">Save this for your<br><span style="color:#FFD23F">psychiatry posting</span></div></div>`
-    + `<div class="abs" style="left:80px;right:80px;top:1690px;text-align:center;font-size:28px;font-weight:600;color:rgba(255,255,255,.45);${appear(sv + .6)}">Source: Davidson's Principles &amp; Practice of Medicine (WHO ICD-10) · for education only</div>`;
+    + `<div class="abs" style="left:80px;right:80px;top:1690px;text-align:center;font-size:28px;font-weight:600;color:rgba(255,255,255,.45);${appear(sv + .6)}">Source: Davidson's Principles &amp; Practice of Medicine, Box 31.2 (WHO ICD-10) · for education only</div>`;
 }
 
 function captions() {
