@@ -10,7 +10,7 @@ Format: `- [ ] idea · format · source/date` → `- [x] … → output` when do
 - [x] Dr Mak Fitness launch film · keynote 16:9 61 s · chat 2026-10-20 → `examples/drmak-fitness.storyboard.json`
 
 ## Backlog (from chats)
-- [ ] Psychiatric disorders classification (Davidson Box 31.1, ICD-10, 10 blocks) · 9:16 ~85 s, owner's own VO · chat 2026-10-27 → `videos/psychiatry-classification` (silent cut done, waiting on audio)
+- [ ] Psychiatric disorders classification (Davidson Box 31.1, ICD-10, 10 blocks) · 9:16 ~85 s, owner's own VO · chat 2026-10-27 → `videos/psychiatry-classification` (final with owner VO rendered 2026-10-28)
 - [ ] Generated medical illustrations per disorder group for the psychiatry short · add-on · 2026-10-27
 - [ ] The other 7 exercises as their own shorts (RDL, incline push-up, row, press, step-up, farmer's carry, dead bug) · 9:16 · 2026-10-20
 - [ ] "Zone 2 cardio explained" (gear 3, talk-but-not-sing test) · short + explainer · 2026-10-20
