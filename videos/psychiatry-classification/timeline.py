@@ -28,7 +28,7 @@ def from_audio(beats, path):
     sys.path.insert(0, "../beginner-gym-engine/tools")
     from faster_whisper import WhisperModel
     from transcribe import align, load
-    segs, _ = WhisperModel("base.en", device="cpu", compute_type="int8").transcribe(load(path), word_timestamps=True)
+    segs, _ = WhisperModel("small.en", device="cpu", compute_type="int8").transcribe(load(path), word_timestamps=True)
     heard = [{"w": w.word.strip(), "s": w.start, "e": w.end} for s in segs for w in s.words]
     return align([w for b in beats for w in b["vo"].split()], heard)
 
