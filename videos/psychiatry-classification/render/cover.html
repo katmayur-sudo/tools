@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Psychiatry Cover</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0A0C11; color: #fff; font-family: "Inter", sans-serif; }
+  .grid { position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 60px 60px; }
+  .glow { position: absolute; border-radius: 50%; filter: blur(10px); }
+  .d { font-family: "Inter Display", "Inter"; font-weight: 900; letter-spacing: -0.04em; line-height: .9; }
+  .label { font-size: 30px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; }
+  #list { position: absolute; left: 70px; right: 70px; top: 930px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .row { height: 92px; border-radius: 24px; display: flex; align-items: center; padding: 0 22px; gap: 16px; }
+  .row b { font-family: "Inter Display"; font-weight: 900; font-size: 46px; width: 50px; }
+  .row span { font-family: "Inter Display"; font-weight: 800; font-size: 36px; letter-spacing: -0.02em; }
+  .row i { margin-left: auto; font-style: normal; font-size: 20px; font-weight: 700; opacity: .8; }
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="glow" style="left:-260px;top:120px;width:900px;height:900px;background:radial-gradient(circle,rgba(185,131,255,.28),transparent 65%)"></div>
+<div class="glow" style="left:480px;top:520px;width:800px;height:800px;background:radial-gradient(circle,rgba(77,163,255,.22),transparent 65%)"></div>
+<div class="label" style="position:absolute;left:0;right:0;top:270px;text-align:center;color:#FFD23F">Psychiatry · ICD-10 · F00–F99</div>
+<div class="d" style="position:absolute;left:0;right:0;top:340px;text-align:center;font-size:120px">All psychiatric</div>
+<div class="d" style="position:absolute;left:0;right:0;top:460px;text-align:center;font-size:120px">disorders in</div>
+<div style="position:absolute;left:0;right:0;top:575px;display:flex;justify-content:center;align-items:center;gap:30px">
+  <div class="d" style="font-size:330px;background:linear-gradient(90deg,#FF4D4F,#FF9F1C,#FFD23F,#8BE04E,#2EC4B6,#4DA3FF,#B983FF,#FF6FB5);-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 40px rgba(255,159,28,.35))">10</div>
+  <div class="d" style="font-size:150px">blocks</div>
+</div>
+<div id="list"></div>
+<div style="position:absolute;left:0;right:0;top:1480px;text-align:center">
+  <span class="d" style="display:inline-block;font-size:62px;background:#FFD23F;color:#0A0C11;border-radius:22px;padding:14px 34px 20px;letter-spacing:-0.02em">Davidson, made simple</span>
+</div>
+<div class="label" style="position:absolute;left:0;right:0;top:1610px;text-align:center;color:rgba(255,255,255,.6);font-size:26px">Save for your psychiatry posting</div>
+<script>
+window.setGroups = gs => {
+  document.getElementById("list").innerHTML = gs.map(g => `<div class="row" style="background:${g.color}22;box-shadow:0 0 0 3px ${g.color} inset">
+    <b style="color:${g.color}">${g.n}</b><span>${g.short}</span><i style="color:${g.color}">${g.code.split("–")[0]}</i></div>`).join("");
+};
+</script>
+</body>
+</html>
