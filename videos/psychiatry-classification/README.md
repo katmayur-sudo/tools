@@ -12,9 +12,12 @@ Rendered video and audio are not stored in this repo.
 python3 timeline.py script.json timeline.json
 node render/render.mjs timeline.json out.mp4
 
-# with the owner's voice-over: clean it (RNNoise model: github.com/richardpl/arnndn-models std.rnnn),
-# cut breaths and long pauses, re-time to it, mix music + sfx at -14 LUFS, then render
-ffmpeg -i raw.mp3 -ac 1 -af "adeclip,highpass=f=80,aresample=48000,arnndn=m=std.rnnn:mix=0.95,afftdn=nf=-45:tn=1,equalizer=f=250:t=q:w=1.2:g=-2.5,equalizer=f=3500:t=q:w=1.5:g=2.5,equalizer=f=10000:t=h:w=0.7:g=1.5,deesser=i=0.35,acompressor=threshold=-22dB:ratio=3:attack=8:release=120:makeup=2,loudnorm=I=-16:TP=-1.5:LRA=7" -ar 48000 vo_clean.wav
+# with the owner's voice-over: DeepFilterNet3 denoise (CPU; needs torch + deepfilternet in a venv,
+# model zip from raw.githubusercontent.com/Rikorose/DeepFilterNet/main/models/DeepFilterNet3.zip
+# unzipped into ~/.cache/DeepFilterNet), then EQ/compress, cut breaths and long pauses
+ffmpeg -i raw.mp3 -ac 1 -af "adeclip,highpass=f=70" -ar 48000 in.wav
+python denoise.py in.wav dn.wav
+ffmpeg -i dn.wav -af "equalizer=f=250:t=q:w=1.2:g=-2.5,equalizer=f=3500:t=q:w=1.5:g=2.5,equalizer=f=10000:t=h:w=0.7:g=1.5,deesser=i=0.35,acompressor=threshold=-22dB:ratio=3:attack=8:release=120:makeup=2,loudnorm=I=-16:TP=-1.5:LRA=7" -ar 48000 vo_clean.wav
 python3 tighten.py vo_clean.wav vo.wav
 pip install faster-whisper
 python3 timeline.py script.json timeline.json vo.wav
