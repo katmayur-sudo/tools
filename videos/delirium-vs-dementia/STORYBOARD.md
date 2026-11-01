@@ -54,3 +54,24 @@ Each photo sits behind the text, darkened, with a slow zoom (2–4 s), so the te
 - Free-to-use sources: Pexels, Unsplash, or AI-generated (I can write the prompts). No real hospital patients
   without consent, no textbook figures.
 - Name them by ID, e.g. `IMG-01.jpg`.
+
+## More visual suggestions (owner to pick)
+
+**Owner's own (strongest for trust and reach):** a photo or 3–5 s clip of Dr. Mak in a white coat pointing at
+camera ("Galat!") for the hook and the thumbnail; a closing shot saying "Save karo".
+
+**Famous people (optional viral hook, NOT from Davidson; needs one extra script line, label as public reports):**
+- Robin Williams: Lewy body disease found at autopsy (2014), fits Fark 5.
+- Bruce Willis: frontotemporal dementia, announced by his family (2023).
+- Ronald Reagan: announced his Alzheimer's diagnosis (1994).
+Use Wikimedia Commons images with a licence that allows reuse, and credit them.
+
+**Search terms for free stock photos (Pexels / Unsplash):**
+IMG-01 "confused elderly man", "indian grandfather worried family" · IMG-02 "elderly patient hospital bed night" ·
+IMG-03 "old man photo album" · IMG-04 "senior forgetting keys", "sticky notes fridge" · IMG-05 "elderly scared dark room" ·
+IMG-06 "iv drip", "glucometer", "medicine strips" · IMG-07 "brain mri scan" · IMG-08 "doctor talking elderly patient" ·
+IMG-09 "hospital ward" · IMG-10 "elderly patient sleeping hospital" · IMG-11 "lonely old man sad" ·
+IMG-12 "holding elderly hand hospital", "hospital wall clock" · IMG-13 "family caring grandparent".
+
+**Not needed (I draw these):** ICD blocks, cards, graphs, 4AT/MoCA visuals, icons, brain/clock illustrations.
+**Avoid:** identifiable real patients without written consent; pages or figures from the textbook.
