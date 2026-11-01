@@ -21,6 +21,9 @@
 
 - Topic list, exam pattern and reel order: `notes/bhms-psychology/topics.md`, mapped from the NCH First BHMS
   syllabus (owner shares it as a Drive PDF; don't commit it). The syllabus says what to teach, not the facts.
+- Owner's rule: this series follows the BHMS (homoeopathy degree) syllabus, i.e. what BHMS students are taught.
+  The Davidson-only rule above is for psychiatry content, not for this series. Each reel covers its topic's
+  learning objectives; explanations follow the syllabus's own standard textbooks (listed on PDF p140).
 
 ## Video workflow
 
