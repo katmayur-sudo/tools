@@ -17,6 +17,11 @@
   scratchpad and search it with `pdftotext`. Never commit the PDF.
 - Notes already extracted from the book live in `notes/davidson/` (start there).
 
+## Psychology reel series (BHMS exam content)
+
+- Topic list, exam pattern and reel order: `notes/bhms-psychology/topics.md`, mapped from the NCH First BHMS
+  syllabus (owner shares it as a Drive PDF; don't commit it). The syllabus says what to teach, not the facts.
+
 ## Video workflow
 
 See `workflows/pocket-creative-director/` for the edit workflow, prompts and style DNA template.
