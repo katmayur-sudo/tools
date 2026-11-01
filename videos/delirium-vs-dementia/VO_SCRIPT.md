@@ -3,12 +3,12 @@
 Source: Davidson's Principles & Practice of Medicine, 24th ed (2022). Not from the book: the celebrity
 diagnoses (public reports), the "Dadaji... budhapa hai" line and the closing "Save karo" line.
 
-About 352 words, about 2 min 20 s. Read the words exactly as written (captions use them), one sentence per
+About 355 words, about 2 min 20 s. Read the words exactly as written (captions use them), one sentence per
 line; speed is up to you, the video re-times itself to your recording. One take, WAV or MP3, quiet room, no music.
 
 **Hook**  
-Robin Williams, Bruce Willis, Ronald Reagan.  
-Teeno ko dementia hua.  
+Robin Williams, Bruce Willis, Ronald Reagan, aur apne George Fernandes.  
+Sabko dementia hua.  
 Par jab Dadaji achanak confuse ho jaayein, aur ghar wale bolein budhapa hai, to galat!  
 Ye delirium ho sakta hai.  
 Aaj samjho dono ka fark, sabse simple tarike se.  

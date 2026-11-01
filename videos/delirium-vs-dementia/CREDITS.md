@@ -6,8 +6,9 @@ Add this credit list to the post description.
 | ID | Used in | Image | By | Licence | Source |
 |---|---|---|---|---|---|
 | IMG-01 | Hook; Fark 5 | Robin Williams, 1996 (cropped) | Kingkongphoto & www.celebrity-photos.com | CC BY-SA 2.0 | Wikimedia Commons |
-| IMG-02 | Hook | Bruce Willis (Wikipedia lead photo) | see Commons file page | see Commons | Wikimedia Commons |
-| IMG-03 | Hook | Ronald Reagan (Wikipedia lead photo) | see Commons file page | see Commons | Wikimedia Commons |
+| IMG-02 | Hook | Bruce Willis by Gage Skidmore 3 | Gage Skidmore | CC BY-SA (check exact version on the Commons file page) | Wikimedia Commons |
+| IMG-03 | Hook | Official Portrait of President Reagan 1981 | US federal government | Public domain | Wikimedia Commons |
+| IMG-17 | Hook | George Fernandes, face cropped from a Times of India infographic supplied by the owner | The Times of India | © Times of India (not a free licence; replace with a free photo before monetising) | owner upload |
 | IMG-04 | Delirium definition card; Myth 2 | Patient bed space on a UK hospital ward. | Adrian Wressell, Heart of England NHS FT | Attribution 4.0 International (CC BY 4.0) | [Wellcome Collection](https://wellcomecollection.org/works/gbmpaquk) |
 | IMG-05 | Dementia definition card | An old man diagnosed as suffering from senile dementia. Colour lithogr | Williamson, J., active 1890., Byrom Bramwell | Public Domain Mark | [Wellcome Collection](https://wellcomecollection.org/works/fdh3s4rw) |
 | IMG-06 | Fark 3 (dementia card) | Dementia | Stephen Magrath | CC0 1.0 Universal | [Wellcome Collection](https://wellcomecollection.org/works/ez8yn9et) |
@@ -23,4 +24,4 @@ Add this credit list to the post description.
 | IMG-16 | spare (pills) | Pills and vitamins | Kate Whitley | Attribution 4.0 International (CC BY 4.0) | [Wellcome Collection](https://wellcomecollection.org/works/rbj5a56a) |
 
 Celebrity diagnoses are from public reports (not Davidson): Robin Williams, Lewy body disease found at autopsy (2014);
-Bruce Willis, frontotemporal dementia announced by his family (2023); Ronald Reagan, Alzheimer's disease announced in 1994.
+Bruce Willis, frontotemporal dementia announced by his family (2023); Ronald Reagan, Alzheimer's disease announced in 1994; George Fernandes, Alzheimer's disease (widely reported in Indian media).

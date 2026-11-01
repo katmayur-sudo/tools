@@ -77,7 +77,8 @@ IMG-12 "holding elderly hand hospital", "hospital wall clock" · IMG-13 "family 
 **Avoid:** identifiable real patients without written consent; pages or figures from the textbook.
 
 ## Update: hook and photos chosen (supersedes the lists above)
-- Hook now opens on Robin Williams, Bruce Willis and Ronald Reagan ("Teeno ko dementia hua"), then the Dadaji line.
+- Hook now opens on Robin Williams, Bruce Willis, Ronald Reagan and George Fernandes ("Sabko dementia hua"), then the Dadaji line.
+- George Fernandes photo (IMG-17) is cropped from a Times of India infographic the owner supplied (not a free licence).
 - Photos were sourced by Claude from Wikimedia Commons and Wellcome Collection (free licences); the final
   ID → scene mapping and credits are in `CREDITS.md`. Image fields per scene are in `script.json`.
 - No identifiable real patients: people shown are celebrities (public diagnoses), NHS staff photos, and
