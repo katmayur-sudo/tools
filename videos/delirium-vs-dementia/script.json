@@ -1,0 +1,257 @@
+{
+ "title": "Delirium vs Dementia",
+ "source": "Davidson's Principles and Practice of Medicine, 24th ed (2022): Box 31.1 p1236; p1246-1249; p1252; p1302-1305 (Box 34.11); p1138; p1247. Hook line and closing CTA are not from the book.",
+ "audience": "Medical students, interns",
+ "lang": "Hinglish (Roman)",
+ "wpm": 175,
+ "beats": [
+  {
+   "id": "hook",
+   "type": "hook",
+   "vo": "Dadaji achanak confuse ho gaye, ghar wale bole, budhapa hai. Galat! Ye delirium ho sakta hai. Aaj samjho dono ka fark, sabse simple tarike se.",
+   "cues": {
+    "galat": "Galat!",
+    "delirium": "delirium",
+    "fark": "fark,"
+   }
+  },
+  {
+   "id": "block",
+   "type": "block",
+   "vo": "Dono psychiatric disorders hain, ICD-10 ke pehle block mein: organic mental disorders.",
+   "cues": {
+    "organic": "organic"
+   }
+  },
+  {
+   "id": "defs",
+   "type": "defs",
+   "vo": "Delirium matlab achanak aayi confusion, kisi bimari ya dawa se. Dementia matlab dheere dheere yaaddasht aur soch ka jaana, itna ki roz ke kaam bigdein.",
+   "left": "Achanak aayi confusion",
+   "leftSub": "kisi bimari ya dawa ki wajah se",
+   "right": "Dheere dheere yaaddasht aur soch ka jaana",
+   "rightSub": "roz ke kaam bigad jaayein",
+   "cues": {
+    "right": "Dementia"
+   }
+  },
+  {
+   "id": "d1",
+   "type": "diff",
+   "n": 1,
+   "title": "Shuruaat",
+   "left": "Achanak",
+   "leftSub": "ghante / din",
+   "right": "Dheere dheere",
+   "rightSub": "mahine / saal",
+   "vo": "Pehla fark, shuruaat. Delirium achanak, ghanton ya dinon mein. Dementia dheere, mahinon ya saalon mein.",
+   "cues": {
+    "left": "Delirium",
+    "right": "Dementia"
+   }
+  },
+  {
+   "id": "d2",
+   "type": "diff",
+   "n": 2,
+   "title": "Course",
+   "left": "Upar-neeche",
+   "leftSub": "fluctuating",
+   "right": "Lagataar badhta",
+   "rightSub": "progressive",
+   "vo": "Doosra, course. Delirium upar neeche hota rehta hai. Dementia lagataar badhta hai.",
+   "cues": {
+    "left": "Delirium",
+    "right": "Dementia"
+   }
+  },
+  {
+   "id": "d3",
+   "type": "diff",
+   "n": 3,
+   "title": "Pehli problem",
+   "left": "Dhyan nahi tikta",
+   "leftSub": "attention",
+   "right": "Yaaddasht jaati hai",
+   "rightSub": "nayi baatein yaad nahi",
+   "vo": "Teesra, pehli problem. Delirium mein dhyan nahi tikta. Dementia mein pehle yaaddasht jaati hai.",
+   "cues": {
+    "left": "Delirium",
+    "right": "Dementia"
+   }
+  },
+  {
+   "id": "d4",
+   "type": "diff",
+   "n": 4,
+   "title": "Hosh",
+   "left": "Dhundhla",
+   "leftSub": "consciousness impaired",
+   "right": "Poora hosh",
+   "rightSub": "alert",
+   "vo": "Chautha, hosh. Delirium mein hosh dhundhla. Dementia mein patient alert.",
+   "cues": {
+    "left": "Delirium",
+    "right": "Dementia"
+   }
+  },
+  {
+   "id": "d5",
+   "type": "diff",
+   "n": 5,
+   "title": "Hallucinations",
+   "left": "Aksar visual",
+   "leftSub": "cheezein dikhti hain",
+   "right": "Dikhein to socho",
+   "rightSub": "Lewy body dementia",
+   "vo": "Paanchwa, hallucinations. Delirium mein aksar cheezein dikhti hain. Dementia mein dikhein, to Lewy body socho.",
+   "cues": {
+    "left": "Delirium",
+    "right": "Dementia"
+   }
+  },
+  {
+   "id": "d6",
+   "type": "diff",
+   "n": 6,
+   "title": "Wajah",
+   "left": "Acute bimari / dawa",
+   "leftSub": "infection, withdrawal",
+   "right": "Brain ki dheemi bimari",
+   "rightSub": "Alzheimer's",
+   "vo": "Chhatha, wajah. Delirium ke peeche acute bimari ya dawa, jaise infection ya alcohol withdrawal. Dementia ke peeche brain ki dheemi bimari, jaise Alzheimer's.",
+   "cues": {
+    "left": "Delirium",
+    "right": "Dementia"
+   }
+  },
+  {
+   "id": "d7",
+   "type": "diff",
+   "n": 7,
+   "title": "Theek hoga?",
+   "left": "Aksar haan",
+   "leftSub": "reversible",
+   "right": "Mostly nahi",
+   "rightSub": "progressive",
+   "vo": "Saatwa, kya theek hoga? Delirium aksar theek ho jata hai. Dementia mostly nahi.",
+   "cues": {
+    "left": "Delirium",
+    "right": "Dementia"
+   }
+  },
+  {
+   "id": "d8",
+   "type": "diff",
+   "n": 8,
+   "title": "Test",
+   "left": "4AT",
+   "leftSub": "bedside screening",
+   "right": "MoCA",
+   "rightSub": "cognitive test",
+   "vo": "Aathwa, test. Delirium ke liye 4AT. Dementia ke liye MoCA. Aur haan, dono saath bhi ho sakte hain.",
+   "cues": {
+    "left": "Delirium",
+    "right": "Dementia",
+    "both": "dono"
+   }
+  },
+  {
+   "id": "m1",
+   "type": "myth",
+   "n": 1,
+   "myth": "Budhape mein confusion normal hai",
+   "fact": "Hospital ka har 4th patient delirium se guzarta hai",
+   "vo": "Ab myths. Myth one: budhape mein confusion normal hai. Nahi! Hospital mein har chautha patient delirium se guzarta hai.",
+   "cues": {
+    "fact": "Nahi!"
+   }
+  },
+  {
+   "id": "m2",
+   "type": "myth",
+   "n": 2,
+   "myth": "Delirium matlab shor machana",
+   "fact": "Chupchaap hypoactive delirium sabse zyada miss hota hai",
+   "vo": "Myth two: delirium matlab shor machana. Nahi! Chupchaap hypoactive delirium sabse zyada miss hota hai.",
+   "cues": {
+    "fact": "Nahi!"
+   }
+  },
+  {
+   "id": "m3",
+   "type": "myth",
+   "n": 3,
+   "myth": "Bhoolna matlab dementia",
+   "fact": "Roz ke kaam na bigdein to dementia nahi. Depression bhi dementia jaisa dikhta hai",
+   "vo": "Myth three: bhoolna matlab dementia. Nahi! Roz ke kaam na bigdein, to dementia nahi. Depression bhi dementia jaisa dikh sakta hai.",
+   "cues": {
+    "fact": "Nahi!"
+   }
+  },
+  {
+   "id": "m4",
+   "type": "myth",
+   "n": 4,
+   "myth": "Delirium theek, kahani khatam",
+   "fact": "Delirium aage dementia ka bada risk factor hai",
+   "vo": "Myth four: delirium theek, kahani khatam. Nahi! Delirium aage dementia ka bada risk factor hai.",
+   "cues": {
+    "fact": "Nahi!"
+   }
+  },
+  {
+   "id": "mg1",
+   "type": "mgmt",
+   "who": "Delirium",
+   "items": [
+    "Cause dhoondo, theek karo",
+    "Dawayein check karo",
+    "Ghadi, chashma, family",
+    "Paani, khana, neend",
+    "Sedation pehla ilaaj nahi"
+   ],
+   "vo": "Ab management. Delirium mein cause dhoondo aur theek karo, dawayein check karo, ghadi, chashma aur family se orient karo. Paani, khana, neend ka dhyan. Sedation pehla ilaaj nahi.",
+   "cues": {
+    "i0": "cause",
+    "i1": "dawayein",
+    "i2": "ghadi,",
+    "i3": "Paani,",
+    "i4": "Sedation"
+   }
+  },
+  {
+   "id": "mg2",
+   "type": "mgmt",
+   "who": "Dementia",
+   "items": [
+    "Theek hone wale causes: B12, thyroid, depression",
+    "Patient aur family ko support",
+    "Alzheimer's: dawa progression slow karti hai"
+   ],
+   "vo": "Dementia mein pehle B12, thyroid aur depression jaise theek hone wale causes dekho. Patient aur family ko support do. Alzheimer's mein dawa progression thoda slow karti hai.",
+   "cues": {
+    "i0": "B12,",
+    "i1": "Patient",
+    "i2": "Alzheimer's"
+   }
+  },
+  {
+   "id": "exam",
+   "type": "exam",
+   "vo": "Exam ke liye ek line. Delirium: achanak, fluctuating, attention gaya. Dementia: dheere, progressive, patient alert.",
+   "cues": {
+    "left": "Delirium:",
+    "right": "Dementia:"
+   }
+  },
+  {
+   "id": "close",
+   "type": "close",
+   "vo": "Save karo, aur us dost ko bhejo jo dono ko same samajhta hai.",
+   "cues": {
+    "save": "Save"
+   }
+  }
+ ]
+}

@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Delirium vs Dementia</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100vw; height: 100vh; overflow: hidden; background: #0A0C11; color: #fff; font-family: "Inter", sans-serif; }
+  #stage { position: absolute; inset: 0; overflow: hidden; }
+  .abs { position: absolute; }
+  .d { font-family: "Inter Display", "Inter", sans-serif; font-weight: 900; letter-spacing: -0.03em; line-height: 1.02; }
+  .label { font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
+  .grid { position: absolute; inset: -60px 0 0 0;
+    background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 60px 60px; }
+  .card { border-radius: 3vmin; background: #151821; box-shadow: 0 0 0 2px rgba(255,255,255,.06) inset, 0 4vmin 8vmin -3vmin rgba(0,0,0,.7); }
+  .center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .cap span { display: inline-block; font-family: "Inter Display"; font-weight: 800; letter-spacing: -0.02em;
+    padding: .3vmin 1.4vmin; margin: .5vmin .35vmin; border-radius: 1.2vmin; background: rgba(0,0,0,.82); box-shadow: 0 0 0 2px rgba(255,255,255,.12); }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+const RED = "#FF4D4F", BLUE = "#4DA3FF", YEL = "#FFD23F", GRN = "#3DDC97";
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, p) => a + (b - a) * p;
+const ease = p => 1 - Math.pow(1 - clamp(p), 3);
+function spring(t, d = .5) { if (t <= 0) return 0; if (t >= d * 2) return 1; const p = t / d; return 1 - Math.exp(-5 * p) * Math.cos(7 * p); }
+const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${n >> 8 & 255},${n & 255},${a})`; };
+let T = 0, TL = null, W = 1080, H = 1920, P = true, V = 10.8, K = 1;   // V = 1vmin in px, K = layout scale
+const u = x => x * V * K;                                    // design units -> px
+// centred content area between the header and the captions
+const box = (inner, o = {}) => `<div class="abs" style="left:${u(o.side ?? (P ? 5 : 8))}px;right:${u(o.side ?? (P ? 5 : 8))}px;top:${P ? u(14) : u(9)}px;bottom:${P ? H * .29 : u(13)}px;display:flex;flex-direction:column;justify-content:center;align-items:${o.align ?? "stretch"};gap:${u(o.gap ?? 3)}px">${inner}</div>`;
+function appear(at, o = {}) {
+  const dt = T - at, dy = o.dy ?? 5, sc = o.scale ?? .9, dur = o.dur ?? .5;
+  if (dt < 0) return "opacity:0;";
+  const s = spring(dt, dur);
+  return `opacity:${clamp(dt / (dur * .5))};transform:translate(${(1 - s) * u(o.dx ?? 0)}px,${(1 - s) * u(dy)}px) scale(${lerp(sc, 1, s)});`;
+}
+function slam(html, at, style) {
+  const dt = T - at;
+  if (dt < 0) return `<div style="opacity:0;${style}">${html}</div>`;
+  const s = 1 + .5 * Math.exp(-dt * 10), sh = dt < .3 ? Math.sin(dt * 110) * u(.8) * (1 - dt / .3) : 0;
+  return `<div style="opacity:${clamp(dt / .08)};transform:translateX(${sh}px) scale(${s});${style}">${html}</div>`;
+}
+const stamp = (at, size = 18) => T < at ? "" : `<div class="abs center" style="inset:0;pointer-events:none;transform:scale(${1 + 1.2 * Math.exp(-(T - at) * 12)}) rotate(-10deg);opacity:${clamp((T - at) * 8)}">
+  <div class="d" style="font-size:${u(size * .55)}px;color:${RED};border:${u(1.2)}px solid ${RED};border-radius:${u(2.5)}px;padding:0 ${u(3)}px;background:rgba(10,12,17,.7)">✕</div></div>`;
+
+// ---------- small code-drawn visuals ----------
+function elder(at) {   // simple old-person icon with floating question marks
+  const p = ease((T - at) / .8), bob = Math.sin(T * 2) * 4;
+  const q = [0, 1, 2].map(k => { const t = (T * .5 + k / 3) % 1; return `<text x="${130 + k * 40}" y="${60 - t * 50}" font-size="${34 + k * 6}" font-weight="900" fill="${YEL}" opacity="${Math.sin(t * Math.PI)}">?</text>`; }).join("");
+  return `<svg viewBox="0 0 240 240" width="${u(34)}" height="${u(34)}" style="opacity:${p};transform:translateY(${bob}px)">
+    <circle cx="110" cy="80" r="38" fill="none" stroke="#fff" stroke-width="7"/>
+    <path d="M78 60 q32 -30 64 0" fill="none" stroke="#ccc" stroke-width="6"/>
+    <circle cx="96" cy="84" r="10" fill="none" stroke="#fff" stroke-width="4"/><circle cx="124" cy="84" r="10" fill="none" stroke="#fff" stroke-width="4"/>
+    <path d="M106 84 h8" stroke="#fff" stroke-width="4"/>
+    <path d="M60 220 q0 -90 50 -96 q50 6 50 96" fill="none" stroke="#fff" stroke-width="7"/>
+    <path d="M170 140 v80" stroke="${YEL}" stroke-width="6" stroke-linecap="round"/>${q}</svg>`;
+}
+function graph(kind, col, start, w, h) {   // onset bar / course line drawn over time
+  const p = clamp((T - start) / (kind === "fast" ? .5 : kind === "slow" ? 3 : 2));
+  let d = "";
+  if (kind === "fast" || kind === "slow") return `<div style="width:${w}px;height:${u(2.4)}px;border-radius:${u(1.2)}px;background:rgba(255,255,255,.1);overflow:hidden"><div style="width:${100 * ease(p)}%;height:100%;background:${col}"></div></div>`;
+  for (let x = 0; x <= 100 * p; x += 2) {
+    const y = kind === "wave" ? 50 - 34 * Math.sin(x / 7) * (.6 + .4 * Math.sin(x / 19)) : 85 - x * .7;
+    d += `${x ? "L" : "M"}${x} ${y} `;
+  }
+  return `<svg viewBox="0 0 100 100" width="${w}" height="${h}" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="${col}" stroke-width="4" vector-effect="non-scaling-stroke" stroke-linecap="round"/></svg>`;
+}
+
+// ---------- layout helpers ----------
+const sideW = () => P ? W - u(10) : (W - u(19)) / 2;
+const twoCards = (leftHTML, rightHTML) =>   // portrait: stacked; landscape: side by side
+  `<div style="display:flex;flex-direction:${P ? "column" : "row"};gap:${u(3)}px">${leftHTML}${rightHTML}</div>`;
+const side = (name, col, head, sub, at, extra = "") => `<div class="card" style="flex:1;padding:${u(3)}px ${u(3.5)}px;border-top:${u(.9)}px solid ${col};${appear(at, { dy: 6 })}">
+  <div class="label" style="color:${col};font-size:${u(2.4)}px">${name}</div>
+  <div class="d" style="font-size:${u(6.4)}px;margin-top:${u(1.2)}px">${head}</div>
+  ${sub ? `<div style="font-size:${u(3.2)}px;font-weight:600;color:rgba(255,255,255,.65);margin-top:${u(.8)}px">${sub}</div>` : ""}${extra}</div>`;
+function header(text, col = YEL) {
+  return `<div class="abs label" style="left:0;right:0;top:${P ? u(9) : u(4)}px;text-align:center;font-size:${u(2.4)}px;color:${col}">${text}</div>`;
+}
+
+// ---------- scenes ----------
+function hook(b) {
+  const c = b.cues;
+  const t1 = c.delirium - .1;
+  if (T < t1) return box(`${elder(b.start)}
+      <div style="position:relative;margin-top:${u(2)}px">${slam(`"Budhapa hai"`, b.start + 1.2, `font-family:'Inter Display';font-weight:900;font-size:${u(9)}px;color:rgba(255,255,255,.85)`)}${stamp(c.galat, 16)}</div>`, { align: "center", gap: 0 });
+  return box(`
+    ${slam(`<span style="color:${RED}">DELIRIUM</span>`, t1, `font-family:'Inter Display';font-weight:900;font-size:${u(P ? 13 : 12)}px;letter-spacing:-.04em`)}
+    ${slam("vs", t1 + .35, `font-family:'Inter Display';font-weight:800;font-size:${u(6)}px;color:rgba(255,255,255,.6);margin:${u(1)}px 0`)}
+    ${slam(`<span style="color:${BLUE}">DEMENTIA</span>`, t1 + .6, `font-family:'Inter Display';font-weight:900;font-size:${u(P ? 13 : 12)}px;letter-spacing:-.04em`)}
+    <div style="margin-top:${u(4)}px;${appear(c.fark, { dy: 3 })}"><span class="d" style="display:inline-block;background:${YEL};color:#0A0C11;border-radius:${u(1.6)}px;padding:${u(.6)}px ${u(2.6)}px ${u(1)}px;font-size:${u(4.4)}px">Sabse simple fark</span></div>`, { align: "center", gap: 0 });
+}
+
+const CODES = ["F00", "F10", "F20", "F30", "F40", "F50", "F60", "F70", "F80", "F90"];
+function block(b) {
+  const cols = 5, cw = P ? u(13) : u(14), lit = T > b.start + .6;
+  const chips = CODES.map((c, i) => `<div class="center" style="width:${cw}px;height:${u(9)}px;border-radius:${u(1.8)}px;font-weight:800;font-size:${u(3)}px;
+      ${i === 0 && lit ? `background:${rgba(YEL, .2)};box-shadow:0 0 0 3px ${YEL} inset,0 0 ${u(4)}px ${rgba(YEL, .5)};color:${YEL}` : `background:rgba(255,255,255,.06);color:rgba(255,255,255,${i === 0 ? .8 : .35})`};${appear(b.start + i * .05, { dy: 2, scale: .7 })}">${c}</div>`).join("");
+  return header("ICD-10 · Chapter V") + box(`
+    <div style="display:grid;grid-template-columns:repeat(${cols},${cw}px);gap:${u(1.4)}px">${chips}</div>
+    <div class="d" style="font-size:${u(6.4)}px;text-align:center;margin-top:${u(4)}px;${appear(b.cues.organic - .2)}"><span style="color:${YEL}">Block 1</span> · Organic mental disorders</div>
+    <div style="display:flex;gap:${u(2)}px;margin-top:${u(3)}px">
+      <span class="d" style="font-size:${u(4.4)}px;padding:${u(1)}px ${u(3)}px;border-radius:${u(5)}px;background:${rgba(RED, .18)};box-shadow:0 0 0 3px ${RED} inset;${appear(b.cues.organic + .3, { scale: .6 })}">Delirium</span>
+      <span class="d" style="font-size:${u(4.4)}px;padding:${u(1)}px ${u(3)}px;border-radius:${u(5)}px;background:${rgba(BLUE, .18)};box-shadow:0 0 0 3px ${BLUE} inset;${appear(b.cues.organic + .5, { scale: .6 })}">Dementia</span></div>`, { align: "center", gap: 0 });
+}
+
+function defs(b) {
+  return header("Definition") + box(twoCards(
+    side("Delirium", RED, b.left, b.leftSub, b.start + .1),
+    side("Dementia", BLUE, b.right, b.rightSub, b.cues.right - .1)));
+}
+
+function diff(b) {
+  const n = TL.beats.filter(x => x.type === "diff").length, c = b.cues;
+  const dots = Array.from({ length: n }, (_, i) => `<div style="width:${u(2.2)}px;height:${u(2.2)}px;border-radius:50%;background:${i < b.n ? YEL : "rgba(255,255,255,.18)"}"></div>`).join("");
+  let gl = "", gr = "";
+  const gw = sideW() - u(7);
+  if (b.id === "d1") { gl = `<div style="margin-top:${u(2)}px">${graph("fast", RED, c.left, gw)}</div>`; gr = `<div style="margin-top:${u(2)}px">${graph("slow", BLUE, c.right, gw)}</div>`; }
+  if (b.id === "d2") { gl = `<div style="margin-top:${u(1.5)}px">${graph("wave", RED, c.left, gw, u(P ? 9 : 12))}</div>`; gr = `<div style="margin-top:${u(1.5)}px">${graph("rise", BLUE, c.right, gw, u(P ? 9 : 12))}</div>`; }
+  const both = c.both ? `<div class="center" style="${appear(c.both, { scale: .6 })}">
+      <div style="display:flex;align-items:center;gap:${u(2)}px"><svg width="${u(10)}" height="${u(6)}" viewBox="0 0 100 60"><circle cx="35" cy="30" r="26" fill="${rgba(RED, .5)}"/><circle cx="65" cy="30" r="26" fill="${rgba(BLUE, .5)}"/></svg>
+      <span class="d" style="font-size:${u(4.6)}px">Dono saath bhi ho sakte hain</span></div></div>` : "";
+  return `<div class="abs" style="left:0;right:0;top:${P ? u(9) : u(4)}px;display:flex;justify-content:center;gap:${u(1.2)}px">${dots}</div>`
+    + box(`<div class="center" style="${appear(b.start, { dy: 3 })}">
+        <div class="label" style="font-size:${u(2.6)}px;color:${YEL}">Fark ${b.n} / ${n}</div>
+        <div class="d" style="font-size:${u(P ? 9 : 8)}px;margin-top:${u(.6)}px">${b.title}</div></div>`
+    + twoCards(side("Delirium", RED, b.left, b.leftSub, c.left - .1, gl), side("Dementia", BLUE, b.right, b.rightSub, c.right - .1, gr))
+    + both);
+}
+
+function myth(b) {
+  const f = b.cues.fact;
+  return header(`Myth ${b.n} / 4`, RED) + box(`
+    <div class="card" style="position:relative;padding:${u(3.5)}px;${appear(b.start + .1)}">
+      <div class="label" style="color:${RED};font-size:${u(2.6)}px">❌ Myth</div>
+      <div class="d" style="font-size:${u(6.6)}px;margin-top:${u(1.2)}px;${T > f ? "opacity:.45;text-decoration:line-through;text-decoration-color:" + RED : ""}">${b.myth}</div>${stamp(f, 20)}</div>
+    <div class="card" style="padding:${u(3.5)}px;background:${rgba(GRN, .12)};box-shadow:0 0 0 3px ${GRN} inset;${appear(f + .25, { dy: 6 })}">
+      <div class="label" style="color:${GRN};font-size:${u(2.6)}px">✅ Fact</div>
+      <div class="d" style="font-size:${u(5.6)}px;margin-top:${u(1.2)}px;line-height:1.1">${b.fact}</div></div>`, { side: P ? 5 : 16 });
+}
+
+function mgmt(b) {
+  const col = b.who === "Delirium" ? RED : BLUE;
+  const items = b.items.map((it, i) => {
+    const bad = it.startsWith("Sedation");
+    return `<div style="display:flex;align-items:center;gap:${u(2.4)}px;${appear(b.cues["i" + i] - .1, { dx: -4, dy: 0 })}">
+      <div class="center" style="flex:none;width:${u(6)}px;height:${u(6)}px;border-radius:50%;background:${bad ? RED : col};font-weight:900;font-size:${u(3.4)}px">${bad ? "✕" : "✓"}</div>
+      <div class="d" style="font-size:${u(5)}px;line-height:1.1;font-weight:800">${it}</div></div>`;
+  }).join("");
+  return header("Management · simple") + box(`
+    <div class="d" style="font-size:${u(9)}px;color:${col};${appear(b.start)}">${b.who}</div>
+    <div style="display:flex;flex-direction:column;gap:${u(2.6)}px;margin-top:${u(1)}px">${items}</div>`, { side: P ? 6 : 22, gap: 2 });
+}
+
+function exam(b) {
+  const row = (name, col, words, at) => `<div class="card" style="padding:${u(3)}px ${u(3.5)}px;border-left:${u(1)}px solid ${col};${appear(at, { dx: -5, dy: 0 })}">
+    <div class="label" style="color:${col};font-size:${u(2.6)}px">${name}</div>
+    <div class="d" style="font-size:${u(5.6)}px;margin-top:${u(1)}px">${words}</div></div>`;
+  return header("Exam ke liye ek line") + box(`
+    ${row("Delirium", RED, "Achanak · Fluctuating · Attention gaya", b.cues.left - .1)}
+    ${row("Dementia", BLUE, "Dheere · Progressive · Patient alert", b.cues.right - .1)}`, { side: P ? 5 : 16 });
+}
+
+function close(b) {
+  const sv = b.cues.save;
+  return box(`
+    <svg width="${u(12)}" height="${u(15)}" viewBox="0 0 30 38" style="${appear(sv, { scale: .5 })}"><path d="M3 2 h24 v34 l-12 -9 l-12 9 z" fill="${YEL}"/></svg>
+    <div class="d" style="font-size:${u(8)}px;margin-top:${u(3)}px;${appear(sv + .2)}">Save karo</div>
+    <div class="d" style="font-size:${u(4.6)}px;color:rgba(255,255,255,.75);margin-top:${u(1.5)}px;${appear(sv + .8)}">aur us dost ko bhejo jo dono ko same samajhta hai</div>
+    <div style="font-size:${u(2.4)}px;font-weight:600;color:rgba(255,255,255,.45);margin-top:${u(6)}px;${appear(sv + 1.2)}">Source: Davidson's Principles &amp; Practice of Medicine, 24th ed · For medical students · Educational, not treatment advice</div>`, { align: "center", gap: 0 });
+}
+
+function captions() {
+  const c = TL.captions.find(x => T >= x.s && T < x.e);
+  if (!c) return "";
+  return `<div class="abs cap" style="left:${u(4)}px;right:${u(4)}px;${P ? `top:${H * .74}px` : `bottom:${V * 4}px`};text-align:center;font-size:${V * (P ? 4.8 : 3.4)}px;z-index:50">${c.words.map(([w, s], i) => {
+    const next = c.words[i + 1] ? c.words[i + 1][1] : c.e, now = T >= s && T < next;
+    const lw = w.toLowerCase(), hl = lw.startsWith("delirium") ? RED : lw.startsWith("dementia") ? BLUE : YEL;
+    return `<span style="${now ? `background:${hl};color:${hl === YEL ? "#0A0C11" : "#fff"}` : ""}">${w}</span>`;
+  }).join("")}</div>`;
+}
+
+const SCENES = { hook, block, defs, diff, myth, mgmt, exam, close };
+window.setData = d => { TL = d; };
+window.renderAt = t => {
+  T = t; W = window.innerWidth; H = window.innerHeight; P = H > W; V = Math.min(W, H) / 100; K = P ? 1.3 : 1.25;
+  const b = TL.beats.find(x => t >= x.start && t < x.end) || TL.beats[TL.beats.length - 1];
+  const dt = t - b.start, last = b === TL.beats[TL.beats.length - 1];
+  const fade = last ? 1 : clamp((b.end - t) / .2), punch = 1 + .03 * Math.exp(-dt * 5);
+  const glowCol = b.type === "myth" ? RED : b.type === "mgmt" ? (b.who === "Delirium" ? RED : BLUE) : YEL;
+  document.getElementById("stage").innerHTML =
+    `<div class="grid" style="transform:translateY(${(t * 12) % 60}px)"></div>
+     <div class="abs" style="left:${-W * .3 + Math.sin(t * .4) * 80}px;top:${H * .1 + Math.cos(t * .3) * 100}px;width:${W * .9}px;height:${W * .9}px;border-radius:50%;background:radial-gradient(circle, ${rgba(RED, .14)}, transparent 65%)"></div>
+     <div class="abs" style="right:${-W * .3 + Math.cos(t * .35) * 80}px;bottom:${H * .05 + Math.sin(t * .3) * 100}px;width:${W * .9}px;height:${W * .9}px;border-radius:50%;background:radial-gradient(circle, ${rgba(BLUE, .14)}, transparent 65%)"></div>
+     <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 40%, ${rgba(glowCol, .06)}, transparent 60%)"></div>
+     <div class="abs" style="inset:0;opacity:${fade};transform:scale(${punch})">${SCENES[b.type](b)}</div>
+     ${captions()}`;
+};
+</script>
+</body>
+</html>
