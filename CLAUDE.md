@@ -8,6 +8,15 @@
   the script in the language the owner wants (Hindi, English or Hinglish).
 - If the voice can't be found, stop and ask instead of substituting another voice.
 
+## Psychiatry content source
+
+- For anything psychiatry-related, take facts **only** from Davidson's Principles & Practice of Medicine,
+  **24th edition (2022)**, and cite printed page numbers. Mark anything from outside the book as such.
+- The owner shares the book as a Google Drive PDF. The link is deliberately not stored here because this repo
+  is public; ask the owner for it, then `curl -L "https://drive.google.com/uc?export=download&id=<ID>"` into the
+  scratchpad and search it with `pdftotext`. Never commit the PDF.
+- Notes already extracted from the book live in `notes/davidson/` (start there).
+
 ## Video workflow
 
 See `workflows/pocket-creative-director/` for the edit workflow, prompts and style DNA template.
