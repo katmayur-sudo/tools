@@ -1,0 +1,31 @@
+{
+  "n": 6,
+  "title": "Conscious · Subconscious · Unconscious",
+  "topic": "Mind की 3 layers",
+  "tag": "Must know · SAQ / LAQ",
+  "outside_book": ["the subconscious (preconscious) layer and its phone-number example"],
+  "beats": [
+    {"type": "hook", "kicker": "एक experiment", "big": "आपने चाय <em>नाम</em> देखकर चुनी", "sub": "पर 90% ने कहा: taste देखकर",
+     "vo": "एक experiment में लोगों को दो चाय में से एक चुननी थी। ज़्यादातर ने वो चाय चुनी जिसके नाम में उनके अपने नाम के letters थे। पर नब्बे percent से ज़्यादा ने कहा: हमने taste देखकर चुनी।",
+     "cues": ["ज़्यादातर", "पर"]},
+    {"type": "title",
+     "vo": "यानी हमारे decisions का बड़ा हिस्सा हमें पता ही नहीं होता। आज समझते हैं mind की तीन layers."},
+    {"type": "iceberg", "focus": "conscious", "note": "<em>Conscious</em>: जो अभी इस पल आपकी awareness में है",
+     "vo": "Freud ने mind को iceberg जैसा बताया। पानी के ऊपर दिखने वाला छोटा सा tip है conscious mind: जो इस पल आपकी awareness में है।",
+     "cues": ["tip"]},
+    {"type": "iceberg", "focus": "subconscious", "note": "<em>Subconscious</em>: अभी ध्यान में नहीं, पर कोशिश करो तो याद आ जाए",
+     "vo": "पानी की surface के ठीक नीचे है subconscious, जिसे preconscious भी कहते हैं। अभी ध्यान में नहीं है, पर कोशिश करो तो याद आ जाता है, जैसे किसी का phone number.",
+     "cues": ["subconscious,"]},
+    {"type": "iceberg", "focus": "unconscious", "note": "<em>Unconscious</em>: सबसे बड़ा हिस्सा, out of sight, पर behaviour चलाता है",
+     "vo": "और नीचे का सबसे बड़ा हिस्सा है unconscious. इसकी motivations हमें दिखती नहीं, पर Freud के हिसाब से हमारा behaviour यही चलाती हैं। हम अक्सर नहीं जानते कि हम कोई काम क्यों करते हैं।",
+     "cues": ["unconscious."]},
+    {"type": "points", "title": "Unconscious कहाँ दिखता है", "numbered": true, "items": [["Dreams", "सपने"], ["Slips of the tongue", "ज़ुबान फिसलना"], ["Neurotic symptoms", "जैसे obsessions"], ["Hypnosis", "hypnosis के दौरान"]],
+     "vo": "Unconscious चार जगह झलकता है: dreams में, slips of the tongue में, obsessions जैसे neurotic symptoms में, और hypnosis के दौरान।",
+     "cues": ["dreams", "slips", "obsessions", "hypnosis"]},
+    {"type": "exam", "title": "Answer structure", "items": ["Freud: mind as an iceberg", "Conscious: present awareness (tip)", "Subconscious: recallable with effort", "Unconscious: largest, hidden, drives behaviour", "Seen in dreams, slips, symptoms, hypnosis"],
+     "vo": "Exam में: iceberg का diagram बनाइए, तीनों layers की definition और example लिखिए, और unconscious के चार signs.",
+     "cues": ["iceberg", "तीनों", "example", "unconscious"]},
+    {"type": "close", "big": "Save करो", "next": "Next: Emotion · Thought · Behaviour",
+     "vo": "Save कर लीजिए। अगली reel: mind के तीन expressions, emotion, thought और behaviour."}
+  ]
+}

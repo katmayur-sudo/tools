@@ -1,0 +1,33 @@
+{
+  "n": 7,
+  "title": "Affect · Cognition · Conation",
+  "topic": "Mind के 3 expressions: Emotion, Thought, Behaviour",
+  "tag": "Must know · SAQ / LAQ",
+  "beats": [
+    {"type": "hook", "kicker": "एक second में", "big": "<em>सोचा</em> · <em>डरे</em> · <em>रुके</em>", "sub": "Mind के तीनों हिस्से एक साथ",
+     "vo": "भीड़ वाली सड़क पर मुड़ने ही वाले थे कि तेज़ truck दिखा। आपने सोचा खतरा, डर लगा, और आप रुक गए। एक second में mind के तीनों हिस्से काम कर गए।",
+     "cues": ["सोचा", "एक"]},
+    {"type": "title",
+     "vo": "आज का topic: mind के तीन expressions. Feelings यानी affect, thought यानी cognition, और behaviour यानी conation."},
+    {"type": "triangle", "focus": "affect", "note": "<em>Emotion</em>: mental + physiological feeling state जो attention और behaviour को guide करता है",
+     "vo": "पहला, affect. इसमें emotions और motivation आते हैं। Emotion एक mental और physiological feeling state है, जो हमारा attention और behaviour guide करता है।",
+     "cues": ["Emotion"]},
+    {"type": "points", "title": "Affect \"hot\" होता है: arousal", "items": [["Heart", "ज़्यादा blood pump करता है"], ["Pupils", "dilate होती हैं"], ["Sweating", "body ठंडी करने को"], ["Hormones", "epinephrine, norepinephrine"]],
+     "vo": "Affect hot होता है, क्योंकि इसमें arousal है: दिल तेज़ pump करता है, pupils dilate होती हैं, पसीना आता है, और epinephrine, norepinephrine release होते हैं।",
+     "cues": ["दिल", "pupils", "पसीना", "epinephrine,"]},
+    {"type": "triangle", "focus": "cognition", "note": "<em>Cognition</em>: perception, thinking, memory, judgement",
+     "vo": "दूसरा, cognition: perception, thinking, memory और judgement. ये calm और ज़्यादातर rational होता है।",
+     "cues": ["perception,"]},
+    {"type": "triangle", "focus": "conation", "note": "<em>Conation</em>: behaviour, जो हम करते हैं",
+     "vo": "तीसरा, conation, यानी behaviour: जो हम असल में करते हैं। Emotions हमें move करते हैं: प्यार से हम बच्चे की care करते हैं, डर से हम risk avoid करते हैं।",
+     "cues": ["Emotions"]},
+    {"type": "triangle", "focus": "all", "note": "तीनों एक-दूसरे को और <em>body</em> को affect करते हैं",
+     "vo": "और ये तीनों अलग नहीं हैं। Thought से emotion बनता है, emotion behaviour चलाता है, और तीनों body पर असर डालते हैं।",
+     "cues": ["Thought"]},
+    {"type": "exam", "title": "Answer structure", "items": ["Affect = feelings: emotion + motivation", "Cognition = thought: perception, thinking, memory, judgement", "Conation = behaviour: action", "Draw the triangle: each affects the others", "Effect on body: arousal"],
+     "vo": "Exam में: तीनों की definition, triangle का diagram, आपस का relation, और body पर असर। LAQ में example ज़रूर दीजिए।",
+     "cues": ["definition,", "triangle", "relation,", "body"]},
+    {"type": "close", "big": "Save करो", "next": "Series जारी है",
+     "vo": "Save कर लीजिए, और series follow कीजिए।"}
+  ]
+}

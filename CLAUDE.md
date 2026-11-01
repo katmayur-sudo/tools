@@ -7,6 +7,9 @@
 - It is cloned from a Hindi speaker with a Haryanvi accent: use a multilingual model and write
   the script in the language the owner wants (Hindi, English or Hinglish).
 - If the voice can't be found, stop and ask instead of substituting another voice.
+- 2026-11-01: the ElevenLabs connector's workspace lists it as "Dr mak", `voice_id: i8eMY5Sai8UQByZW6Pv3`
+  (cloned, hi, Haryanvi), and refuses to speak with it: "Instantly cloned voices are not available on your current
+  plan." Until the owner upgrades or says otherwise, don't generate; ask.
 
 ## Psychiatry content source
 
@@ -28,7 +31,9 @@
   *Introduction to Psychology*, Saylor Foundation edition (783 pages, CC BY-NC-SA 3.0; not Morgan's, never cite
   it as Morgan). Shared as a Drive PDF: ask for the link, download it to the scratchpad, search with `pdftotext`, and
   never commit it. `topics.md` gives the book pages for each topic and flags what the book lacks; mark anything
-  from outside the book as such.
+  from outside the book as such. Don't name the book in the reels (owner's rule).
+- Reels are built in `videos/bhms-psychology/` (scripts in `reels/*.json`, readable `SCRIPTS.md`). The owner picks
+  which topics become reels; reels 1–7 have scripts and silent first cuts (voice-over pending).
 
 ## Video workflow
 

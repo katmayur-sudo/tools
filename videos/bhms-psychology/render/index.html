@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>BHMS Psychology Reel</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B0D12; }
+  body { font-family: "Inter", "Mukta", sans-serif; color: #fff; }
+  #stage { position: absolute; inset: 0; overflow: hidden; }
+  .abs { position: absolute; }
+  .d { font-family: "Inter Display", "Mukta", sans-serif; font-weight: 800; letter-spacing: -0.02em; line-height: 1.12; }
+  em { font-style: normal; color: var(--acc); }
+  .label { font-size: 30px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--acc); }
+  .grid { position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 60px 60px; }
+  .card { background: #151821; border-radius: 34px; padding: 40px 44px;
+    box-shadow: 0 0 0 2px rgba(255,255,255,.06) inset, 0 40px 80px -30px rgba(0,0,0,.7); }
+  .pill { display: inline-block; border-radius: 999px; padding: 12px 30px; font-weight: 800; font-size: 34px; }
+  .row { display: flex; align-items: center; gap: 30px; margin-bottom: 44px; }
+  .badge { flex: none; width: 92px; height: 92px; border-radius: 26px; display: flex; align-items: center; justify-content: center;
+    font-family: "Inter Display"; font-weight: 900; font-size: 50px; color: #0B0D12; }
+  .h { font-family: "Inter Display", "Mukta"; font-weight: 800; font-size: 68px; letter-spacing: -0.02em; line-height: 1.05; }
+  .s { font-family: "Mukta", "Inter"; font-weight: 500; font-size: 46px; color: rgba(255,255,255,.66); line-height: 1.2; margin-top: 6px; }
+  .cap { position: absolute; left: 60px; right: 60px; top: 1500px; text-align: center; z-index: 50; }
+  .cap span { display: inline-block; font-family: "Inter Display", "Mukta"; font-weight: 800; font-size: 56px; line-height: 1.25;
+    padding: 2px 14px; margin: 5px 3px; border-radius: 14px; background: rgba(0,0,0,.8); box-shadow: 0 0 0 2px rgba(255,255,255,.1); }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, p) => a + (b - a) * p;
+const ease = p => 1 - Math.pow(1 - clamp(p), 3);
+function spring(t, d = .5) { if (t <= 0) return 0; if (t >= d * 2) return 1; const p = t / d; return 1 - Math.exp(-5 * p) * Math.cos(7 * p); }
+const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${n >> 8 & 255},${n & 255},${a})`; };
+const PAL = ["#FF6B6B", "#FFB547", "#4DD4AC", "#4DA3FF", "#B983FF", "#FF6FB5"];
+const ACC = "#FFB547";
+let T = 0, TL = null;
+
+// style string for an element that pops in at time `at`
+function appear(at, o = {}) {
+  const dt = T - at, dy = o.dy ?? 50, sc = o.scale ?? .92, dur = o.dur ?? .5;
+  if (dt < 0) return "opacity:0;";
+  const s = spring(dt, dur);
+  return `opacity:${clamp(dt / (dur * .5))};transform:translate(${(1 - s) * (o.dx ?? 0)}px,${(1 - s) * dy}px) scale(${lerp(sc, 1, s)});`;
+}
+function slam(html, at, top, size) {
+  const dt = T - at;
+  if (dt < 0) return "";
+  const s = 1 + .4 * Math.exp(-dt * 10), sh = dt < .3 ? Math.sin(dt * 110) * 8 * (1 - dt / .3) : 0;
+  return `<div class="abs d" style="left:60px;right:60px;top:${top}px;text-align:center;font-size:${size}px;opacity:${clamp(dt / .08)};transform:translateX(${sh}px) scale(${s});">${html}</div>`;
+}
+const at = (b, i) => b.cues[i] ?? b.start + .3;   // cue time, or just after the beat starts
+
+// ---------- scenes: each returns HTML for beat b at time T ----------
+const S = {
+  hook: b => `<div class="abs" style="left:0;right:0;top:450px;text-align:center;font-family:Mukta,Inter;font-weight:800;font-size:50px;color:${ACC};${appear(b.start + .05)}">${b.kicker}</div>`
+    + slam(b.big, at(b, 0), 590, 112)
+    + (T >= at(b, 1) ? `<div class="abs d" style="left:80px;right:80px;top:1010px;text-align:center;font-size:62px;color:rgba(255,255,255,.75);${appear(at(b, 1))}">${b.sub}</div>` : ""),
+
+  title: b => {
+    const p = ease((T - b.start) / .6);
+    return `<div class="abs" style="left:0;right:0;top:420px;text-align:center;${appear(b.start)}"><div class="label">BHMS Psychology</div></div>
+      <div class="abs d" style="left:0;right:0;top:520px;text-align:center;font-size:250px;color:${ACC};opacity:${p};transform:scale(${lerp(.6, 1, spring(T - b.start, .6))})">#${TL.n}</div>
+      <div class="abs d" style="left:60px;right:60px;top:830px;text-align:center;font-size:96px;${appear(b.start + .25)}">${TL.title}</div>
+      <div class="abs" style="left:60px;right:60px;top:${TL.title.length > 22 ? 1080 : 970}px;text-align:center;font-family:Mukta;font-weight:600;font-size:54px;color:rgba(255,255,255,.75);${appear(b.start + .45)}">${TL.topic}</div>
+      <div class="abs" style="left:0;right:0;top:${TL.title.length > 22 ? 1190 : 1080}px;text-align:center;${appear(b.start + .65)}"><span class="pill" style="background:${rgba(ACC, .16)};color:${ACC}">${TL.tag}</span></div>`;
+  },
+
+  define: b => `<div class="abs" style="left:70px;top:430px;${appear(b.start)}"><span class="pill" style="background:${ACC};color:#0B0D12;font-size:44px">${b.term}</span></div>
+    <div class="abs d" style="left:70px;right:70px;top:560px;font-size:82px;line-height:1.15;${appear(at(b, 0))}">“${b.text}”</div>
+    ${b.foot ? `<div class="abs" style="left:70px;right:70px;top:1180px;font-family:Mukta;font-weight:600;font-size:50px;color:rgba(255,255,255,.7);${appear(at(b, 1))}">${b.foot}</div>` : ""}`,
+
+  points: b => `<div class="abs d" style="left:70px;right:70px;top:400px;font-size:66px;${appear(b.start)}">${b.title}</div>
+    <div class="abs" style="left:70px;right:70px;top:${b.items.length > 3 ? 560 : 600}px">${b.items.map((it, i) => {
+      const c = PAL[i % PAL.length];
+      return `<div class="row" style="${appear(at(b, i), { dx: -60, dy: 0 })}"><div class="badge" style="background:${c}">${b.numbered ? i + 1 : "✓"}</div>
+        <div><div class="h" style="color:${c}">${it[0]}</div><div class="s">${it[1]}</div></div></div>`;
+    }).join("")}</div>`,
+
+  compare: b => {
+    const col = (side, c, t0, x) => `<div class="abs card" style="left:${x}px;top:560px;width:450px;min-height:620px;${appear(t0)}">
+      <div class="h" style="color:${c};font-size:58px;margin-bottom:26px">${side.h}</div>
+      ${side.items.map(s => `<div class="s" style="color:#fff;font-weight:600;font-size:44px;margin-bottom:22px">• ${s}</div>`).join("")}</div>`;
+    return `<div class="abs d" style="left:70px;right:70px;top:400px;font-size:62px;${appear(b.start)}">${b.title}</div>`
+      + col(b.left, PAL[3], at(b, 0), 60) + col(b.right, PAL[2], at(b, 1), 570)
+      + (T >= at(b, 1) ? `<div class="abs d" style="left:490px;top:820px;width:100px;height:100px;border-radius:50%;background:${ACC};color:#0B0D12;font-size:40px;display:flex;align-items:center;justify-content:center;${appear(at(b, 1), { dy: 0, scale: .3 })}">VS</div>` : "");
+  },
+
+  card: b => `<div class="abs d" style="right:40px;top:300px;font-size:420px;color:${rgba(b.color, .1)};${appear(b.start, { dy: 0 })}">0${b.n}</div>
+    <div class="abs" style="left:70px;top:520px;width:160px;height:12px;border-radius:6px;background:${b.color};transform-origin:left;transform:scaleX(${ease((T - b.start) / .5)})"></div>
+    <div class="abs d" style="left:70px;right:70px;top:580px;font-size:${b.name.length > 13 ? 96 : 116}px;color:${b.color};${appear(b.start + .05)}">${b.name}</div>
+    <div class="abs" style="left:70px;right:70px;top:760px;${appear(b.start + .3)}"><span class="pill" style="background:${rgba(b.color, .16)};color:${b.color}">${b.who}</span></div>
+    <div class="abs card" style="left:70px;right:70px;top:900px;--acc:${b.color};${appear(at(b, 0))}"><div class="d" style="font-size:64px">${b.body}</div></div>`,
+
+  iceberg: b => {
+    const g = groupStart(b), p = ease((T - g) / .9), L = { conscious: 0, subconscious: 1, unconscious: 2 };
+    const lit = k => b.focus === "all" || L[b.focus] === k ? 1 : .28;
+    const name = (k, txt, y, c) => `<text x="700" y="${y}" text-anchor="start" font-family="Inter Display" font-weight="800" font-size="46" fill="${c}" opacity="${lit(k) * p}">${txt}</text>`;
+    const bob = Math.sin(T * 1.4) * 6;
+    return `<svg class="abs" style="left:0;top:330px" width="1080" height="780" viewBox="0 0 1080 780">
+      <rect x="0" y="210" width="1080" height="570" fill="${rgba("#4DA3FF", .07)}"/>
+      <g transform="translate(-170 ${bob})">
+        <path d="M430 210 L500 70 L560 120 L610 40 L700 210 Z" fill="${rgba("#FFFFFF", .9 * lit(0))}" opacity="${p}"/>
+        <path d="M430 210 L700 210 L760 330 L360 330 Z" fill="${rgba("#9FD3FF", .85 * lit(1))}" opacity="${p}"/>
+        <path d="M360 330 L760 330 L840 560 L700 760 L420 780 L250 560 Z" fill="${rgba("#2F6FB3", .95 * lit(2))}" opacity="${p}"/>
+      </g>
+      <path d="M0 210 Q 135 196 270 210 T 540 210 T 810 210 T 1080 210" fill="none" stroke="#9FD3FF" stroke-width="5" opacity="${p}"/>
+      ${name(0, "Conscious", 120, "#fff")}${name(1, "Subconscious", 290, "#9FD3FF")}${name(2, "Unconscious", 620, "#BFDBFF")}
+    </svg>
+    <div class="abs card" style="left:70px;right:70px;top:1130px;--acc:${ACC};${appear(at(b, 0))}"><div class="d" style="font-size:52px;font-family:Mukta,Inter;font-weight:700">${b.note}</div></div>`;
+  },
+
+  triangle: b => {
+    const g = groupStart(b), p = ease((T - g) / .8);
+    const N = [["affect", "Affect", "Feelings", 540, 160, PAL[0]], ["cognition", "Cognition", "Thought", 230, 620, PAL[3]], ["conation", "Conation", "Behaviour", 850, 620, PAL[2]]];
+    const lit = k => b.focus === "all" || b.focus === k;
+    const flow = b.focus === "all" ? (T * 400) % 1000 : 0;
+    const edge = (a, c) => { const dx = c[3] - a[3], dy = c[4] - a[4], k = 150 / Math.hypot(dx, dy);  // stop at the circles
+      return `<line x1="${a[3] + dx * k}" y1="${a[4] + dy * k}" x2="${c[3] - dx * k}" y2="${c[4] - dy * k}" stroke="${b.focus === "all" ? ACC : "rgba(255,255,255,.25)"}" stroke-width="8" stroke-dasharray="26 18" stroke-dashoffset="${-flow}" opacity="${p}"/>`; };
+    return `<svg class="abs" style="left:0;top:330px" width="1080" height="800" viewBox="0 0 1080 800">
+      ${edge(N[0], N[1])}${edge(N[1], N[2])}${edge(N[2], N[0])}
+      ${N.map(([k, h, s, x, y, c]) => `<g opacity="${(lit(k) ? 1 : .3) * p}" transform="translate(${x} ${y}) scale(${lit(k) ? 1 + .04 * Math.sin(T * 5) : .92})">
+        <circle r="145" fill="#12151C"/><circle r="145" fill="${rgba(c, .16)}" stroke="${c}" stroke-width="6"/>
+        <text y="-6" text-anchor="middle" font-family="Inter Display" font-weight="800" font-size="50" fill="${c}">${h}</text>
+        <text y="52" text-anchor="middle" font-family="Mukta" font-weight="600" font-size="40" fill="#fff">${s}</text></g>`).join("")}
+    </svg>
+    <div class="abs card" style="left:70px;right:70px;top:1150px;--acc:${ACC};${appear(at(b, 0))}"><div class="d" style="font-size:50px;font-family:Mukta,Inter;font-weight:700">${b.note}</div></div>`;
+  },
+
+  exam: b => `<div class="abs" style="left:70px;top:380px;${appear(b.start)}"><span class="pill" style="background:#FF6B6B;color:#fff;font-size:38px">EXAM</span></div>
+    <div class="abs d" style="left:70px;right:70px;top:470px;font-size:62px;${appear(b.start + .15)}">${b.title}</div>
+    <div class="abs card" style="left:60px;right:60px;top:620px;padding:34px 40px">${b.items.map((it, i) =>
+      `<div style="display:flex;gap:22px;align-items:flex-start;margin:14px 0;${appear(at(b, i), { dx: -40, dy: 0 })}">
+        <div style="flex:none;width:52px;height:52px;border-radius:14px;background:${PAL[2]};color:#0B0D12;font-weight:900;font-size:36px;display:flex;align-items:center;justify-content:center;margin-top:4px">✓</div>
+        <div style="font-family:Inter,Mukta;font-weight:700;font-size:44px;line-height:1.2">${it}</div></div>`).join("")}</div>`,
+
+  close: b => `<svg class="abs" style="left:440px;top:440px;${appear(b.start, { scale: .4 })}" width="200" height="240" viewBox="0 0 200 240">
+      <path d="M30 20 h140 v200 l-70 -50 l-70 50 z" fill="${ACC}"/></svg>`
+    + slam(b.big, b.start + .2, 740, 140)
+    + `<div class="abs" style="left:0;right:0;top:960px;text-align:center;${appear(b.start + .6)}"><span class="pill" style="background:${rgba(ACC, .16)};color:${ACC};font-size:44px">${b.next}</span></div>`,
+};
+
+// diagrams that span consecutive beats of one type enter only once
+function groupStart(b) {
+  let i = TL.beats.indexOf(b);
+  while (i > 0 && TL.beats[i - 1].type === b.type) i--;
+  return TL.beats[i].start;
+}
+
+function captionHTML() {
+  const c = TL.captions.find(c => T >= c.s && T < c.e);
+  if (!c) return "";
+  return `<div class="cap">${c.words.map(([w, s], i) => {
+    const next = c.words[i + 1]?.[1] ?? c.e, on = T >= s && T < next;
+    return `<span style="${on ? `color:#0B0D12;background:${ACC};` : T < s ? "opacity:.55;" : ""}">${w}</span>`;
+  }).join("")}</div>`;
+}
+
+function chrome() {
+  const p = T / TL.end;
+  return `<div class="grid"></div>
+    <div class="abs" style="left:-200px;top:${200 + Math.sin(T * .3) * 120}px;width:900px;height:900px;border-radius:50%;background:radial-gradient(${rgba(ACC, .1)},transparent 65%)"></div>
+    <div class="abs" style="left:60px;top:150px;font-weight:800;font-size:30px;color:rgba(255,255,255,.55)">Dr. Mak <span style="color:${ACC}">·</span> BHMS Psychology #${TL.n}</div>
+    <div class="abs" style="left:60px;right:60px;top:206px;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"><div style="width:${p * 100}%;height:100%;border-radius:3px;background:${ACC}"></div></div>`;
+}
+
+window.setData = d => { TL = d; document.documentElement.style.setProperty("--acc", ACC); };
+window.renderAt = t => {
+  T = t;
+  const b = TL.beats.find(b => t >= b.start && t < b.end) ?? TL.beats[TL.beats.length - 1];
+  const fade = clamp((b.end - t) / .2), cont = TL.beats[TL.beats.indexOf(b) + 1]?.type === b.type && ["iceberg", "triangle"].includes(b.type);
+  document.getElementById("stage").innerHTML = chrome()
+    + `<div class="abs" style="inset:0;opacity:${cont ? 1 : fade}">${S[b.type](b)}</div>` + captionHTML();
+};
+</script>
+</body>
+</html>
