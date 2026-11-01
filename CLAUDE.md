@@ -23,7 +23,12 @@
   syllabus (owner shares it as a Drive PDF; don't commit it). The syllabus says what to teach, not the facts.
 - Owner's rule: this series follows the BHMS (homoeopathy degree) syllabus, i.e. what BHMS students are taught.
   The Davidson-only rule above is for psychiatry content, not for this series. Each reel covers its topic's
-  learning objectives; explanations follow the syllabus's own standard textbooks (listed on PDF p140).
+  learning objectives.
+- **Facts for every reel come only from the owner's psychology textbook** (owner's rule, 2026-11-01):
+  *Introduction to Psychology*, Saylor Foundation edition (783 pages, CC BY-NC-SA 3.0; not Morgan's, never cite
+  it as Morgan). Shared as a Drive PDF: ask for the link, download it to the scratchpad, search with `pdftotext`, and
+  never commit it. `topics.md` gives the book pages for each topic and flags what the book lacks; mark anything
+  from outside the book as such.
 
 ## Video workflow
 
