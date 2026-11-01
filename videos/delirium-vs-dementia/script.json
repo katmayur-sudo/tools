@@ -1,6 +1,6 @@
 {
  "title": "Delirium vs Dementia",
- "source": "Davidson's Principles and Practice of Medicine, 24th ed (2022): Box 31.1 p1236; p1246-1249; p1252; p1302-1305 (Box 34.11); p1138; p1247. Hook line and closing CTA are not from the book.",
+ "source": "Davidson's Principles and Practice of Medicine, 24th ed (2022): Box 31.1 p1236; p1246-1249; p1252; p1302-1305 (Box 34.11); p1138; p1247. Hook line and closing CTA are not from the book. Celebrity diagnoses in the hook and Fark 5 are from public reports, not the book.",
  "audience": "Medical students, interns",
  "lang": "Hinglish (Roman)",
  "wpm": 175,
@@ -8,12 +8,34 @@
   {
    "id": "hook",
    "type": "hook",
-   "vo": "Dadaji achanak confuse ho gaye, ghar wale bole, budhapa hai. Galat! Ye delirium ho sakta hai. Aaj samjho dono ka fark, sabse simple tarike se.",
+   "vo": "Robin Williams, Bruce Willis, Ronald Reagan. Teeno ko dementia hua. Par jab Dadaji achanak confuse ho jaayein, aur ghar wale bolein budhapa hai, to galat! Ye delirium ho sakta hai. Aaj samjho dono ka fark, sabse simple tarike se.",
    "cues": {
-    "galat": "Galat!",
+    "c1": "Robin",
+    "c2": "Bruce",
+    "c3": "Ronald",
+    "teeno": "Teeno",
+    "dadaji": "Dadaji",
+    "galat": "galat!",
     "delirium": "delirium",
     "fark": "fark,"
-   }
+   },
+   "celebs": [
+    {
+     "img": "IMG-01",
+     "name": "Robin Williams",
+     "dx": "Lewy body disease"
+    },
+    {
+     "img": "IMG-02",
+     "name": "Bruce Willis",
+     "dx": "Frontotemporal dementia"
+    },
+    {
+     "img": "IMG-03",
+     "name": "Ronald Reagan",
+     "dx": "Alzheimer's disease"
+    }
+   ]
   },
   {
    "id": "block",
@@ -33,7 +55,9 @@
    "rightSub": "roz ke kaam bigad jaayein",
    "cues": {
     "right": "Dementia"
-   }
+   },
+   "leftImg": "IMG-04",
+   "rightImg": "IMG-05"
   },
   {
    "id": "d1",
@@ -78,7 +102,8 @@
    "cues": {
     "left": "Delirium",
     "right": "Dementia"
-   }
+   },
+   "rightImg": "IMG-06"
   },
   {
    "id": "d4",
@@ -103,12 +128,14 @@
    "left": "Aksar visual",
    "leftSub": "cheezein dikhti hain",
    "right": "Dikhein to socho",
-   "rightSub": "Lewy body dementia",
-   "vo": "Paanchwa, hallucinations. Delirium mein aksar cheezein dikhti hain. Dementia mein dikhein, to Lewy body socho.",
+   "rightSub": "Lewy body, jaise Robin Williams",
+   "vo": "Paanchwa, hallucinations. Delirium mein aksar cheezein dikhti hain. Dementia mein dikhein, to Lewy body socho, jaise Robin Williams.",
    "cues": {
     "left": "Delirium",
     "right": "Dementia"
-   }
+   },
+   "leftImg": "IMG-07",
+   "rightImg": "IMG-01"
   },
   {
    "id": "d6",
@@ -123,7 +150,9 @@
    "cues": {
     "left": "Delirium",
     "right": "Dementia"
-   }
+   },
+   "leftImg": "IMG-09",
+   "rightImg": "IMG-10"
   },
   {
    "id": "d7",
@@ -154,7 +183,8 @@
     "left": "Delirium",
     "right": "Dementia",
     "both": "dono"
-   }
+   },
+   "leftImg": "IMG-11"
   },
   {
    "id": "m1",
@@ -165,7 +195,8 @@
    "vo": "Ab myths. Myth one: budhape mein confusion normal hai. Nahi! Hospital mein har chautha patient delirium se guzarta hai.",
    "cues": {
     "fact": "Nahi!"
-   }
+   },
+   "bg": "IMG-12"
   },
   {
    "id": "m2",
@@ -176,7 +207,8 @@
    "vo": "Myth two: delirium matlab shor machana. Nahi! Chupchaap hypoactive delirium sabse zyada miss hota hai.",
    "cues": {
     "fact": "Nahi!"
-   }
+   },
+   "bg": "IMG-04"
   },
   {
    "id": "m3",
@@ -187,7 +219,8 @@
    "vo": "Myth three: bhoolna matlab dementia. Nahi! Roz ke kaam na bigdein, to dementia nahi. Depression bhi dementia jaisa dikh sakta hai.",
    "cues": {
     "fact": "Nahi!"
-   }
+   },
+   "bg": "IMG-13"
   },
   {
    "id": "m4",
@@ -218,7 +251,8 @@
     "i2": "ghadi,",
     "i3": "Paani,",
     "i4": "Sedation"
-   }
+   },
+   "bg": "IMG-14"
   },
   {
    "id": "mg2",
@@ -234,7 +268,8 @@
     "i0": "B12,",
     "i1": "Patient",
     "i2": "Alzheimer's"
-   }
+   },
+   "bg": "IMG-15"
   },
   {
    "id": "exam",

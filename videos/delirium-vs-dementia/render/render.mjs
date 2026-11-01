@@ -12,6 +12,7 @@ const { chromium } = createRequire(import.meta.url)("playwright");  // globally 
 const [tlPath, size, out, arg, stills] = process.argv.slice(2);
 const [width, height] = size.split("x").map(Number);
 const tl = JSON.parse(fs.readFileSync(tlPath, "utf8"));
+tl.assets ??= "file://" + path.resolve(path.dirname(tlPath), "assets");  // photos (IMG-xx.jpg) live next to the timeline, outside git
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width, height } });
 await page.goto("file://" + path.join(path.dirname(fileURLToPath(import.meta.url)), "index.html"));

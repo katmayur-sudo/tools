@@ -74,7 +74,12 @@ function graph(kind, col, start, w, h) {   // onset bar / course line drawn over
 const sideW = () => P ? W - u(10) : (W - u(19)) / 2;
 const twoCards = (leftHTML, rightHTML) =>   // portrait: stacked; landscape: side by side
   `<div style="display:flex;flex-direction:${P ? "column" : "row"};gap:${u(3)}px">${leftHTML}${rightHTML}</div>`;
-const side = (name, col, head, sub, at, extra = "") => `<div class="card" style="flex:1;padding:${u(3)}px ${u(3.5)}px;border-top:${u(.9)}px solid ${col};${appear(at, { dy: 6 })}">
+const pic = id => `${TL.assets}/${id}.jpg`;
+const cardBg = (id, at) => id ? `background:linear-gradient(180deg, rgba(21,24,33,.55), rgba(21,24,33,.93) 70%), url('${pic(id)}') center ${30 - 10 * clamp((T - at) / 6)}% / cover;` : "";
+// full-screen photo behind a scene: darkened, slow zoom
+const bg = (id, at) => id ? `<div class="abs" style="inset:0;background:url('${pic(id)}') center/cover;transform:scale(${1.04 + .06 * clamp((T - at) / 8)});opacity:${.3 * clamp((T - at) / .6)};filter:saturate(.85)"></div>
+  <div class="abs" style="inset:0;background:linear-gradient(180deg, rgba(10,12,17,.55), rgba(10,12,17,.85))"></div>` : "";
+const side = (name, col, head, sub, at, extra = "", img) => `<div class="card" style="flex:1;padding:${u(3)}px ${u(3.5)}px;border-top:${u(.9)}px solid ${col};${cardBg(img, at)}${img ? `padding-top:${u(P ? 9 : 12)}px;` : ""}${appear(at, { dy: 6 })}">
   <div class="label" style="color:${col};font-size:${u(2.4)}px">${name}</div>
   <div class="d" style="font-size:${u(6.4)}px;margin-top:${u(1.2)}px">${head}</div>
   ${sub ? `<div style="font-size:${u(3.2)}px;font-weight:600;color:rgba(255,255,255,.65);margin-top:${u(.8)}px">${sub}</div>` : ""}${extra}</div>`;
@@ -86,8 +91,20 @@ function header(text, col = YEL) {
 function hook(b) {
   const c = b.cues;
   const t1 = c.delirium - .1;
-  if (T < t1) return box(`${elder(b.start)}
-      <div style="position:relative;margin-top:${u(2)}px">${slam(`"Budhapa hai"`, b.start + 1.2, `font-family:'Inter Display';font-weight:900;font-size:${u(9)}px;color:rgba(255,255,255,.85)`)}${stamp(c.galat, 16)}</div>`, { align: "center", gap: 0 });
+  if (T < c.dadaji - .1) {
+    const tiles = b.celebs.map((x, i) => { const at = c["c" + (i + 1)] - .15;
+      return `<div style="flex:1;position:relative;border-radius:${u(2.5)}px;overflow:hidden;min-height:${u(P ? 26 : 40)}px;box-shadow:0 0 0 2px rgba(255,255,255,.08);${appear(at, { dy: 8, scale: .85 })}
+        background:url('${pic(x.img)}') center 25% / cover">
+        <div class="abs" style="inset:0;background:linear-gradient(180deg, transparent 45%, rgba(10,12,17,.92))"></div>
+        <div class="abs" style="left:${u(2)}px;right:${u(2)}px;bottom:${u(1.6)}px">
+          <div class="d" style="font-size:${u(P ? 3.6 : 4.4)}px">${x.name}</div>
+          <div style="display:inline-block;margin-top:${u(.6)}px;font-weight:800;font-size:${u(2.4)}px;padding:${u(.3)}px ${u(1.2)}px;border-radius:${u(1)}px;background:${BLUE};${appear(c.teeno + i * .15, { dy: 1 })}">${x.dx}</div></div></div>`; }).join("");
+    return box(`<div style="display:flex;gap:${u(P ? 1.6 : 2)}px;height:${P ? H * .42 : u(48)}px">${tiles}</div>
+      <div class="center" style="${appear(c.teeno, { dy: 3 })}"><span class="d" style="font-size:${u(6)}px">Teeno ko <span style="color:${BLUE}">dementia</span></span>
+      <span style="font-size:${u(2)}px;color:rgba(255,255,255,.5);margin-top:${u(.6)}px">Public reports · photos: Wikimedia Commons</span></div>`, { gap: 2 });
+  }
+  if (T < t1) return box(`${elder(c.dadaji)}
+      <div style="position:relative;margin-top:${u(2)}px">${slam(`"Budhapa hai"`, c.dadaji + 1.2, `font-family:'Inter Display';font-weight:900;font-size:${u(9)}px;color:rgba(255,255,255,.85)`)}${stamp(c.galat, 16)}</div>`, { align: "center", gap: 0 });
   return box(`
     ${slam(`<span style="color:${RED}">DELIRIUM</span>`, t1, `font-family:'Inter Display';font-weight:900;font-size:${u(P ? 13 : 12)}px;letter-spacing:-.04em`)}
     ${slam("vs", t1 + .35, `font-family:'Inter Display';font-weight:800;font-size:${u(6)}px;color:rgba(255,255,255,.6);margin:${u(1)}px 0`)}
@@ -110,8 +127,8 @@ function block(b) {
 
 function defs(b) {
   return header("Definition") + box(twoCards(
-    side("Delirium", RED, b.left, b.leftSub, b.start + .1),
-    side("Dementia", BLUE, b.right, b.rightSub, b.cues.right - .1)));
+    side("Delirium", RED, b.left, b.leftSub, b.start + .1, "", b.leftImg),
+    side("Dementia", BLUE, b.right, b.rightSub, b.cues.right - .1, "", b.rightImg)));
 }
 
 function diff(b) {
@@ -128,13 +145,13 @@ function diff(b) {
     + box(`<div class="center" style="${appear(b.start, { dy: 3 })}">
         <div class="label" style="font-size:${u(2.6)}px;color:${YEL}">Fark ${b.n} / ${n}</div>
         <div class="d" style="font-size:${u(P ? 9 : 8)}px;margin-top:${u(.6)}px">${b.title}</div></div>`
-    + twoCards(side("Delirium", RED, b.left, b.leftSub, c.left - .1, gl), side("Dementia", BLUE, b.right, b.rightSub, c.right - .1, gr))
+    + twoCards(side("Delirium", RED, b.left, b.leftSub, c.left - .1, gl, b.leftImg), side("Dementia", BLUE, b.right, b.rightSub, c.right - .1, gr, b.rightImg))
     + both);
 }
 
 function myth(b) {
   const f = b.cues.fact;
-  return header(`Myth ${b.n} / 4`, RED) + box(`
+  return bg(b.bg, b.start) + header(`Myth ${b.n} / 4`, RED) + box(`
     <div class="card" style="position:relative;padding:${u(3.5)}px;${appear(b.start + .1)}">
       <div class="label" style="color:${RED};font-size:${u(2.6)}px">❌ Myth</div>
       <div class="d" style="font-size:${u(6.6)}px;margin-top:${u(1.2)}px;${T > f ? "opacity:.45;text-decoration:line-through;text-decoration-color:" + RED : ""}">${b.myth}</div>${stamp(f, 20)}</div>
@@ -151,7 +168,7 @@ function mgmt(b) {
       <div class="center" style="flex:none;width:${u(6)}px;height:${u(6)}px;border-radius:50%;background:${bad ? RED : col};font-weight:900;font-size:${u(3.4)}px">${bad ? "✕" : "✓"}</div>
       <div class="d" style="font-size:${u(5)}px;line-height:1.1;font-weight:800">${it}</div></div>`;
   }).join("");
-  return header("Management · simple") + box(`
+  return bg(b.bg, b.start) + header("Management · simple") + box(`
     <div class="d" style="font-size:${u(9)}px;color:${col};${appear(b.start)}">${b.who}</div>
     <div style="display:flex;flex-direction:column;gap:${u(2.6)}px;margin-top:${u(1)}px">${items}</div>`, { side: P ? 6 : 22, gap: 2 });
 }
