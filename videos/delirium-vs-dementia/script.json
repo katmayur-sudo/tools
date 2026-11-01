@@ -8,12 +8,13 @@
   {
    "id": "hook",
    "type": "hook",
-   "vo": "Robin Williams, Bruce Willis, Ronald Reagan. Teeno ko dementia hua. Par jab Dadaji achanak confuse ho jaayein, aur ghar wale bolein budhapa hai, to galat! Ye delirium ho sakta hai. Aaj samjho dono ka fark, sabse simple tarike se.",
+   "vo": "Robin Williams, Bruce Willis, Ronald Reagan, aur apne George Fernandes. Sabko dementia hua. Par jab Dadaji achanak confuse ho jaayein, aur ghar wale bolein budhapa hai, to galat! Ye delirium ho sakta hai. Aaj samjho dono ka fark, sabse simple tarike se.",
    "cues": {
     "c1": "Robin",
     "c2": "Bruce",
     "c3": "Ronald",
-    "teeno": "Teeno",
+    "c4": "George",
+    "teeno": "Sabko",
     "dadaji": "Dadaji",
     "galat": "galat!",
     "delirium": "delirium",
@@ -33,6 +34,11 @@
     {
      "img": "IMG-03",
      "name": "Ronald Reagan",
+     "dx": "Alzheimer's disease"
+    },
+    {
+     "img": "IMG-17",
+     "name": "George Fernandes",
      "dx": "Alzheimer's disease"
     }
    ]
