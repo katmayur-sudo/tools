@@ -1,6 +1,6 @@
 """Edit the owner's voice-over to fit the reel: drop retakes, breaths and long pauses, speed up, time every script word.
 
-Usage: python3 vo.py <reel.json> <raw voice-over> <out_dir> [max_seconds=178]
+Usage: python3 vo.py <reel.json> <raw voice-over> <out_dir> [max_seconds=178] [heard.json]
 Writes out_dir/vo.wav (denoised, cleaned, sped up, -16 LUFS) and out_dir/words.json (script words with times),
 which timeline.py takes as its 3rd argument. Needs: pip install faster-whisper (model "small").
 Whisper hears the Hinglish as Roman text; its word times are aligned back to the script's own words
@@ -52,22 +52,19 @@ def main():
     os.makedirs(out, exist_ok=True)
     beats = json.load(open(reel))["beats"]
     x = pcm(raw, SR, "highpass=f=80,lowpass=f=12000,afftdn=nf=-30:nr=40:tn=1,afftdn=nf=-40:nr=12")  # two passes: room noise, then hiss
-    from faster_whisper import WhisperModel
-    prompt = "BHMS psychology Hinglish. Descartes, Wundt, Titchener, Freud, Watson, Skinner, Piaget, Hahnemann, Kent, Organon, aphorism."
-    segs, _ = WhisperModel("small", device="cpu", compute_type="int8").transcribe(
-        pcm(raw, 16000, "highpass=f=80,afftdn=nf=-35:nr=25:tn=1"), language="en", word_timestamps=True, initial_prompt=prompt)
-    heard = [{"w": w.word.strip(), "s": w.start, "e": w.end} for s in segs for w in s.words]
+    if len(sys.argv) > 5:  # cached transcript: Whisper sometimes translates Hinglish runs instead of transcribing them
+        heard = json.load(open(sys.argv[5]))
+    else:
+        from faster_whisper import WhisperModel
+        prompt = "BHMS psychology Hinglish. Descartes, Wundt, Titchener, Freud, Watson, Skinner, Piaget, Hahnemann, Kent, Organon, aphorism."
+        segs, _ = WhisperModel("small", device="cpu", compute_type="int8").transcribe(
+            pcm(raw, 16000, "highpass=f=80,afftdn=nf=-35:nr=25:tn=1"), language="en", word_timestamps=True, initial_prompt=prompt)
+        heard = [{"w": w.word.strip(), "s": w.start, "e": w.end} for s in segs for w in s.words]
 
     # which heard words the script matched, then drop false starts
     a, b = [norm(w) for b_ in beats for w in b_["vo"].split()], [norm(h["w"]) for h in heard]
     matched = {blk.b + k for blk in difflib.SequenceMatcher(None, a, b, autojunk=False).get_matching_blocks() for k in range(blk.size)}
     keep = drop_retakes(heard, matched)
-    for phrase in json.load(open(reel)).get("vo_cut", []):  # retakes the owner names, as Whisper hears them
-        p = [norm(w) for w in phrase.split()]
-        hits = [i for i in range(len(heard) - len(p) + 1) if [norm(h["w"]) for h in heard[i:i + len(p)]] == p]
-        assert hits, f"vo_cut phrase not heard: {phrase}"
-        for i in hits:
-            keep[i:i + len(p)] = [False] * len(p)
     heard = [h for h, k in zip(heard, keep) if k]
     print(f"{len(keep)} heard words, {keep.count(False)} dropped as retakes")
 
