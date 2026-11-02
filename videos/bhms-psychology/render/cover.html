@@ -1,0 +1,36 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Cover</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0B0D12; color: #fff; font-family: "Inter Display", "Inter", sans-serif; overflow: hidden; }
+  .c { position: relative; overflow: hidden; background: radial-gradient(circle at 70% 30%, rgba(255,181,71,.22), transparent 60%), #0B0D12; }
+  .freud { position: absolute; background: url('../assets/user/freud.jpg') center 15%/cover; filter: grayscale(1) contrast(1.15);
+    -webkit-mask-image: linear-gradient(to left, #000 55%, transparent); }
+  .ice { position: absolute; background: url('../assets/user/iceberg.jpg') center/cover; opacity: .35; }
+  .h { font-weight: 900; letter-spacing: -.03em; line-height: .95; text-shadow: 0 6px 30px rgba(0,0,0,.8); }
+  em { font-style: normal; color: #FFB547; }
+  .tag { display: inline-block; background: #FF6B6B; color: #fff; font-weight: 900; border-radius: 14px; }
+  .chip { display: inline-block; background: #FFB547; color: #0B0D12; font-weight: 900; border-radius: 999px; }
+  .name { font-weight: 800; color: rgba(255,255,255,.75); }
+</style></head>
+<body>
+<!-- Reel cover 1080x1920: key text inside the centre 1080x1440 (3:4 grid crop) -->
+<div id="reel" class="c" style="width:1080px;height:1920px">
+  <div class="ice" style="left:0;right:0;bottom:0;height:900px"></div>
+  <div class="freud" style="right:-60px;top:240px;width:760px;height:1100px"></div>
+  <div style="position:absolute;left:70px;top:300px"><span class="tag" style="font-size:44px;padding:10px 26px">BHMS · EXAM</span></div>
+  <div class="h" style="position:absolute;left:70px;top:400px;width:940px;font-size:160px">7 TOPICS<br><em>3 MIN</em></div>
+  <div class="h" style="position:absolute;left:70px;top:770px;width:760px;font-size:84px">Mind ka <em>sabse bada</em> hissa chhupa hai?</div>
+  <div style="position:absolute;left:70px;top:1080px"><span class="chip" style="font-size:44px;padding:14px 34px">Psychology Unit 1 🧠</span></div>
+  <div class="name" style="position:absolute;left:70px;top:1560px;font-size:40px">Dr. Mayurakshi Katiyar <span style="color:#FFB547">(Psychology)</span></div>
+</div>
+<!-- YouTube thumbnail 1280x720 -->
+<div id="yt" class="c" style="width:1280px;height:720px">
+  <div class="ice" style="left:0;right:0;bottom:0;height:360px"></div>
+  <div class="freud" style="right:-40px;top:0;width:620px;height:720px"></div>
+  <div style="position:absolute;left:56px;top:56px"><span class="tag" style="font-size:34px;padding:8px 20px">BHMS · EXAM</span></div>
+  <div class="h" style="position:absolute;left:56px;top:130px;width:760px;font-size:150px">7 TOPICS<br><em>3 MIN</em></div>
+  <div class="h" style="position:absolute;left:56px;top:470px;width:700px;font-size:58px">Mind ka <em>sabse bada</em> hissa chhupa hai?</div>
+  <div class="name" style="position:absolute;left:56px;top:640px;font-size:30px">Dr. Mayurakshi Katiyar <span style="color:#FFB547">(Psychology)</span></div>
+</div>
+</body></html>
