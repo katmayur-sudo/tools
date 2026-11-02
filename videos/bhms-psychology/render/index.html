@@ -288,7 +288,10 @@ window.renderAt = t => {
   T = t;
   const b = TL.beats.find(b => t >= b.start && t < b.end) ?? TL.beats[TL.beats.length - 1];
   const fade = clamp((b.end - t) / .2), cont = TL.beats[TL.beats.indexOf(b) + 1]?.type === b.type && KEEP.includes(b.type);
-  document.getElementById("stage").innerHTML = chrome(b)
+  const ph = b.photo ? `<div class="abs" style="right:60px;top:250px;width:230px;height:290px;border-radius:24px;border:4px dashed rgba(255,255,255,.35);
+    background:#1A1D26 url('../assets/user/${b.photo[0]}') center/cover;display:flex;align-items:flex-end;z-index:40;${appear(b.start + .2, { scale: .7 })}">
+    <div style="width:100%;padding:8px 10px;background:rgba(0,0,0,.7);font-weight:800;font-size:24px;text-align:center;border-radius:0 0 20px 20px">${b.photo[1]}</div></div>` : "";  // real photo slot: assets/user/<file>, placeholder until supplied
+  document.getElementById("stage").innerHTML = chrome(b) + ph
     + `<div class="abs" style="inset:0;opacity:${cont ? 1 : fade}">${S[b.type](b)}</div>` + captionHTML();
 };
 </script>
