@@ -143,7 +143,7 @@ const S = {
         opacity:${on ? 1 : .42};box-shadow:0 0 0 ${on ? 5 : 2}px ${on ? c : "rgba(255,255,255,.06)"} inset;${on ? appear(t0, { scale: .7 }) : ""}">
         ${TL.beats.find(x => x.type === "grid" && x.active === i).photo ? `<div style="position:absolute;right:22px;bottom:22px;width:110px;height:110px;border-radius:50%;border:4px solid ${c};background:#222 url('../assets/user/${TL.beats.find(x => x.type === "grid" && x.active === i).photo[0]}') center 20%/cover"></div>` : ""}<div style="display:flex;align-items:center;gap:18px">${icon(ic, (T - t0) / .9, c, 100)}<div class="d" style="font-size:${name.length > 13 ? 40 : 46}px;color:${c}">${name}</div></div>
         <div style="font-weight:700;font-size:32px;color:rgba(255,255,255,.65);margin-top:12px">${who}</div>
-        <div class="d" style="font-size:42px;margin-top:14px;${on ? appear(at(b, 0)) : ""}">${mind}</div></div>`;
+        <div class="d" style="font-size:40px;margin-top:14px;max-width:290px;${on ? appear(at(b, 0)) : ""}">${mind}</div></div>`;
     }).join("");
   },
 
