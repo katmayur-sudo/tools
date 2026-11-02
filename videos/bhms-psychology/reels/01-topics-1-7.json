@@ -440,27 +440,6 @@
    "cues": [
     "Teeno"
    ]
-  },
-  {
-   "type": "exam",
-   "title": "7 topics, 7 lines",
-   "items": [
-    "1 · Scientific study of mind & behaviour",
-    "2 · Six schools: structure → society",
-    "3 · §211: mind often decides the remedy",
-    "4 · Dualism, elements, doing, iceberg, black box, interpret",
-    "5 · §9 + Kent: will & understanding",
-    "6 · Conscious · Subconscious · Unconscious",
-    "7 · Affect · Cognition · Conation"
-   ],
-   "vo": "Revision ke liye ye saat lines screenshot kar lo.",
-   "cues": []
-  },
-  {
-   "type": "close",
-   "big": "Save karo",
-   "next": "Next: Brain aur Behaviour",
-   "vo": "Ise save karo, aur agle topics ke liye follow karo."
   }
  ]
 }
