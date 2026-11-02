@@ -21,12 +21,28 @@
    ]
   },
   {
+   "type": "exam",
+   "pill": "IS REEL MEIN",
+   "title": "Aaj ke 3 topics",
+   "items": [
+    "Brain ke important parts",
+    "Emotions brain mein kahan rehte hain",
+    "Mind ka body par asar"
+   ],
+   "vo": "Is reel mein teen cheezein: brain ke important parts, emotions brain mein kahan rehte hain, aur mind ka body par asar.",
+   "cues": [
+    "brain",
+    "emotions",
+    "mind"
+   ]
+  },
+  {
    "type": "chapter",
    "topics": [
     10
    ],
    "title": "Brain ke important parts",
-   "vo": "Topic ten: brain ke important parts."
+   "vo": "Pehle, brain ke important parts."
   },
   {
    "type": "brain",
@@ -94,7 +110,7 @@
     11
    ],
    "title": "Emotions ka address",
-   "vo": "Topic eleven: emotions brain mein kahan rehte hain?"
+   "vo": "Ab, emotions brain mein kahan rehte hain?"
   },
   {
    "type": "brain",
@@ -146,7 +162,7 @@
     8
    ],
    "title": "Mind ka body par asar",
-   "vo": "Topic eight: emotion, thought aur behaviour body ko kaise badalte hain."
+   "vo": "Aur aakhir mein, mind ka body par asar."
   },
   {
    "type": "flow",

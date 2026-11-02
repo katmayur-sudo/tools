@@ -94,14 +94,14 @@ const icon = (name, p, c, size, extra = "") => `<svg width="${size}" height="${s
 const S = {
   hook: b => `<div class="abs" style="left:0;right:0;top:450px;text-align:center;font-weight:800;font-size:44px;letter-spacing:.12em;text-transform:uppercase;color:${ACC};${appear(b.start + .05)}">${b.kicker}</div>`
     + slam(b.big, at(b, 0), 590, 116)
-    + `<div class="abs" style="left:0;right:0;top:800px;display:flex;justify-content:center;gap:18px">${TL.covers.map((n, i) =>
-      `<div class="d" style="width:104px;height:104px;border-radius:26px;background:${PAL[i % 6]};color:#0B0D12;font-size:56px;display:flex;align-items:center;justify-content:center;${appear(at(b, 0) + .25 + i * .08, { scale: .3 })}">${n}</div>`).join("")}</div>`
+    + (TL.n === 1 ? `<div class="abs" style="left:0;right:0;top:800px;display:flex;justify-content:center;gap:18px">${TL.covers.map((n, i) =>
+      `<div class="d" style="width:104px;height:104px;border-radius:26px;background:${PAL[i % 6]};color:#0B0D12;font-size:56px;display:flex;align-items:center;justify-content:center;${appear(at(b, 0) + .25 + i * .08, { scale: .3 })}">${n}</div>`).join("")}</div>` : "")
     + (T >= at(b, 1) ? `<div class="abs d" style="left:80px;right:80px;top:1000px;text-align:center;font-size:62px;color:rgba(255,255,255,.75);${appear(at(b, 1))}">${b.sub}</div>` : ""),
 
   chapter: b => {
     const nums = b.topics.map(n => String(n).padStart(2, "0")).join(" + ");
     return `<div class="abs" style="left:0;right:0;top:470px;text-align:center;${appear(b.start)}"><div class="label" style="font-size:40px">Topic</div></div>`
-      + slam(`<span style="color:${ACC}">${nums}</span>`, b.start + .1, 550, b.topics.length > 1 ? 190 : 260)
+      + (TL.n === 1 ? slam(`<span style="color:${ACC}">${nums}</span>`, b.start + .1, 550, b.topics.length > 1 ? 190 : 260) : "")
       + `<div class="abs d" style="left:60px;right:60px;top:880px;text-align:center;font-size:84px;${appear(b.start + .35)}">${b.title}</div>`
       + `<div class="abs" style="left:0;right:0;top:${b.title.length > 24 ? 1120 : 1030}px;display:flex;justify-content:center;gap:16px">${TL.covers.map(n => {
         const now = b.topics.includes(n), past = n < Math.min(...b.topics);
@@ -270,7 +270,7 @@ const S = {
     </svg>
     <div class="abs card" style="left:70px;right:70px;top:1090px;padding:30px 40px;${appear(at(b, 0))}"><div class="d" style="font-size:48px">${b.note}</div></div>`;
   },
-  exam: b => `<div class="abs" style="left:70px;top:360px;${appear(b.start)}"><span class="pill" style="background:${RED};color:#fff;font-size:38px">EXAM REVISION</span></div>
+  exam: b => `<div class="abs" style="left:70px;top:360px;${appear(b.start)}"><span class="pill" style="background:${RED};color:#fff;font-size:38px">${b.pill ?? "EXAM REVISION"}</span></div>
     <div class="abs d" style="left:70px;right:70px;top:450px;font-size:68px;${appear(b.start + .15)}">${b.title}</div>
     <div class="abs card" style="left:50px;right:50px;top:580px;padding:30px 34px">${b.items.map((it, i) =>
       `<div style="display:flex;gap:20px;align-items:center;margin:12px 0;${appear(at(b, i), { dx: -40, dy: 0 })}">
@@ -305,7 +305,7 @@ function chrome(b) {
   return `<div class="grid"></div>
     <div class="abs" style="left:-200px;top:${200 + Math.sin(T * .3) * 120}px;width:900px;height:900px;border-radius:50%;background:radial-gradient(${rgba(ACC, .1)},transparent 65%)"></div>
     <div class="abs" style="left:60px;top:150px;font-weight:800;font-size:30px;color:rgba(255,255,255,.55)">Dr. Mayurakshi Katiyar <span style="color:${ACC}">(Psychology)</span></div>
-    ${ch ? `<div class="abs" style="right:60px;top:140px;font-weight:800;font-size:30px;padding:6px 20px;border-radius:999px;background:${rgba(ACC, .16)};color:${ACC}">Topic ${ch.topics.join(" + ")}</div>` : ""}
+    ${ch && TL.n === 1 ? `<div class="abs" style="right:60px;top:140px;font-weight:800;font-size:30px;padding:6px 20px;border-radius:999px;background:${rgba(ACC, .16)};color:${ACC}">Topic ${ch.topics.join(" + ")}</div>` : ""}
     <div class="abs" style="left:60px;right:60px;top:206px;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"><div style="width:${p * 100}%;height:100%;border-radius:3px;background:${ACC}"></div></div>`;
 }
 
