@@ -63,6 +63,7 @@ const ICONS = {
     + `<text x="56" y="107" text-anchor="middle" font-size="19" font-weight="800" fill="${c}" opacity="${clamp(p * 2 - 1)}">MIND</text><text x="144" y="107" text-anchor="middle" font-size="19" font-weight="800" fill="${BLUE}" opacity="${clamp(p * 2 - 1)}">BODY</text>`,
   chart: (p, c) => draw("M25 165 h150", p, c, 6) + draw("M50 160 v-40 M85 160 v-80 M120 160 v-55 M155 160 v-110", p * 1.3 - .3, c, 18),
   stack: (p, c) => [55, 95, 135].map((y, i) => draw(`M45 ${y} h22 M85 ${y} h70`, p * 1.5 - i * .25, c, 14)).join(""),
+  shield: (p, c) => draw("M100 24 L164 48 V100 C164 140 136 166 100 180 C64 166 36 140 36 100 V48 Z", p, c) + draw("M100 70 L100 128", p * 1.5 - .5, RED, 10) + (p > .8 ? `<circle cx="100" cy="146" r="7" fill="${RED}"/>` : ""),
   bulb: (p, c) => draw("M100 28 a52 52 0 0 1 30 94 v18 h-60 v-18 a52 52 0 0 1 30 -94 z M80 160 h40 M86 178 h28", p, c)
     + (p > .9 ? `<circle cx="100" cy="80" r="${18 + 4 * Math.sin(T * 8)}" fill="${rgba(c, .5)}"/>` : ""),
   clipboard: (p, c) => draw("M55 40 h90 v140 h-90 z M80 28 h40 v22 h-40 z", p, c) + draw("M72 82 h56 M72 112 h56 M72 142 h36", p * 1.4 - .4, c, 6),
@@ -93,7 +94,7 @@ const icon = (name, p, c, size, extra = "") => `<svg width="${size}" height="${s
 const S = {
   hook: b => `<div class="abs" style="left:0;right:0;top:450px;text-align:center;font-weight:800;font-size:44px;letter-spacing:.12em;text-transform:uppercase;color:${ACC};${appear(b.start + .05)}">${b.kicker}</div>`
     + slam(b.big, at(b, 0), 590, 116)
-    + `<div class="abs" style="left:0;right:0;top:800px;display:flex;justify-content:center;gap:18px">${[1, 2, 3, 4, 5, 6, 7].map((n, i) =>
+    + `<div class="abs" style="left:0;right:0;top:800px;display:flex;justify-content:center;gap:18px">${TL.covers.map((n, i) =>
       `<div class="d" style="width:104px;height:104px;border-radius:26px;background:${PAL[i % 6]};color:#0B0D12;font-size:56px;display:flex;align-items:center;justify-content:center;${appear(at(b, 0) + .25 + i * .08, { scale: .3 })}">${n}</div>`).join("")}</div>`
     + (T >= at(b, 1) ? `<div class="abs d" style="left:80px;right:80px;top:1000px;text-align:center;font-size:62px;color:rgba(255,255,255,.75);${appear(at(b, 1))}">${b.sub}</div>` : ""),
 
@@ -102,7 +103,7 @@ const S = {
     return `<div class="abs" style="left:0;right:0;top:470px;text-align:center;${appear(b.start)}"><div class="label" style="font-size:40px">Topic</div></div>`
       + slam(`<span style="color:${ACC}">${nums}</span>`, b.start + .1, 550, b.topics.length > 1 ? 190 : 260)
       + `<div class="abs d" style="left:60px;right:60px;top:880px;text-align:center;font-size:84px;${appear(b.start + .35)}">${b.title}</div>`
-      + `<div class="abs" style="left:0;right:0;top:${b.title.length > 24 ? 1120 : 1030}px;display:flex;justify-content:center;gap:16px">${[1, 2, 3, 4, 5, 6, 7].map(n => {
+      + `<div class="abs" style="left:0;right:0;top:${b.title.length > 24 ? 1120 : 1030}px;display:flex;justify-content:center;gap:16px">${TL.covers.map(n => {
         const now = b.topics.includes(n), past = n < Math.min(...b.topics);
         return `<div style="width:${now ? 64 : 40}px;height:16px;border-radius:8px;background:${now ? ACC : past ? rgba(ACC, .45) : "rgba(255,255,255,.15)"};${now ? appear(b.start + .5, { dy: 0, scale: .2 }) : ""}"></div>`;
       }).join("")}</div>`;
@@ -244,6 +245,31 @@ const S = {
     <div class="abs card" style="left:70px;right:70px;top:1150px;padding:30px 40px;${appear(at(b, 0))}"><div class="d" style="font-size:50px">${b.note}</div></div>`;
   },
 
+  brain: b => {  // side view, front to the left; focus lights regions, others dim
+    const g = groupStart(b), p = ease((T - g) / .9), on = k => b.focus.includes(k);
+    const R = [
+      ["frontal", "M150 330 C150 180 260 100 400 90 L470 95 L450 330 L200 380 C170 370 150 350 150 330 Z", RED, "Frontal", 250, 250],
+      ["parietal", "M470 95 C600 90 720 140 760 230 L620 330 L450 330 Z", ACC, "Parietal", 600, 200],
+      ["occipital", "M760 230 C820 300 830 380 790 440 L640 420 L620 330 Z", PAL[4], "Occipital", 725, 345],
+      ["temporal", "M200 380 L450 330 L620 330 L640 420 C560 480 380 500 260 460 C220 440 200 410 200 380 Z", BLUE, "Temporal", 420, 420],
+      ["prefrontal", "M150 330 C150 200 220 130 300 105 L300 350 L200 380 C170 370 150 350 150 330 Z", PAL[5], "Prefrontal", 215, 300],
+      ["cerebellum", "M600 500 a100 60 0 1 0 200 0 a100 60 0 1 0 -200 0", GREEN, "Cerebellum", 700, 600],
+      ["stem", "M520 420 L580 420 L592 650 L538 650 Z", "#9FD3FF", "Brain stem · Medulla", 640, 640],
+      ["thalamus", "M486 300 a34 34 0 1 0 68 0 a34 34 0 1 0 -68 0", ACC, "Thalamus", 520, 240],
+      ["hypothalamus", "M462 355 a20 20 0 1 0 40 0 a20 20 0 1 0 -40 0", PAL[5], "Hypothalamus", 470, 255],
+      ["amygdala", "M432 405 a18 18 0 1 0 36 0 a18 18 0 1 0 -36 0", RED, "Amygdala", 330, 470],
+      ["hippocampus", "M460 415 C520 455 600 435 620 385", GREEN, "Hippocampus", 600, 505]];
+    const inner = ["thalamus", "hypothalamus", "amygdala", "hippocampus", "stem"].some(on);
+    return `<svg class="abs" style="left:40px;top:300px;opacity:${p}" width="1000" height="720" viewBox="0 0 1000 720">
+      ${R.map(([k, d, c, label, lx, ly]) => { const lit = on(k), line = k === "hippocampus";
+        const cortex = ["frontal", "parietal", "occipital", "temporal", "prefrontal"].includes(k);
+        if (k === "prefrontal" && !lit) return "";
+        const a = lit ? 1 : cortex && inner ? .12 : .3;
+        return `<path d="${d}" fill="${line ? "none" : rgba(c, lit ? .75 : .25)}" stroke="${c}" stroke-width="${line ? 16 : 4}" stroke-linecap="round" opacity="${a}"/>`
+          + (lit ? `<text x="${lx}" y="${ly}" text-anchor="middle" font-family="Inter Display" font-weight="800" font-size="40" fill="#fff" stroke="#0B0D12" stroke-width="8" paint-order="stroke">${label}</text>` : ""); }).join("")}
+    </svg>
+    <div class="abs card" style="left:70px;right:70px;top:1090px;padding:30px 40px;${appear(at(b, 0))}"><div class="d" style="font-size:48px">${b.note}</div></div>`;
+  },
   exam: b => `<div class="abs" style="left:70px;top:360px;${appear(b.start)}"><span class="pill" style="background:${RED};color:#fff;font-size:38px">EXAM REVISION</span></div>
     <div class="abs d" style="left:70px;right:70px;top:450px;font-size:68px;${appear(b.start + .15)}">${b.title}</div>
     <div class="abs card" style="left:50px;right:50px;top:580px;padding:30px 34px">${b.items.map((it, i) =>
@@ -258,7 +284,7 @@ const S = {
 };
 
 // diagrams that span consecutive beats of one type enter only once
-const KEEP = ["iceberg", "triangle", "grid"];
+const KEEP = ["iceberg", "triangle", "grid", "brain"];
 function groupStart(b) {
   let i = TL.beats.indexOf(b);
   while (i > 0 && TL.beats[i - 1].type === b.type) i--;

@@ -1,0 +1,226 @@
+{
+ "n": 2,
+ "title": "Brain, Emotions aur Body",
+ "topic": "Syllabus topics 8, 10, 11 ek reel mein",
+ "tag": "Semester 1 · Exam revision",
+ "covers": [
+  10,
+  11,
+  8
+ ],
+ "beats": [
+  {
+   "type": "hook",
+   "kicker": "Ek experiment",
+   "big": "<em>7,000</em> / ghanta",
+   "sub": "Brain ka reward center",
+   "vo": "Ek rat ne ek pedal ek ghante mein saat hazaar baar dabaya, jab tak woh thak ke gir nahi gaya. Kyun? Uske brain ka ek hissa use pleasure de raha tha.",
+   "cues": [
+    "saat",
+    "Uske"
+   ]
+  },
+  {
+   "type": "chapter",
+   "topics": [
+    10
+   ],
+   "title": "Brain ke important parts",
+   "vo": "Topic ten: brain ke important parts."
+  },
+  {
+   "type": "brain",
+   "focus": [
+    "stem"
+   ],
+   "note": "<em>Brain stem</em>: breathing, basic life. <em>Medulla</em>: heart rate + breathing",
+   "vo": "Sabse andar brain stem: breathing aur basic life functions. Iska medulla heart rate aur breathing control karta hai.",
+   "cues": [
+    "medulla"
+   ]
+  },
+  {
+   "type": "brain",
+   "focus": [
+    "thalamus"
+   ],
+   "note": "<em>Thalamus</em>: senses ki information filter karke aage bhejta hai; neend mein senses band",
+   "vo": "Uske upar thalamus: senses se aane wali information filter karke aage bhejta hai, aur neend mein senses ko band karta hai.",
+   "cues": [
+    "thalamus:"
+   ]
+  },
+  {
+   "type": "brain",
+   "focus": [
+    "cerebellum"
+   ],
+   "note": "<em>Cerebellum</em> (little brain): voluntary movement + balance",
+   "vo": "Peeche cerebellum, yaani little brain: voluntary movement aur balance coordinate karta hai.",
+   "cues": [
+    "cerebellum,"
+   ]
+  },
+  {
+   "type": "brain",
+   "focus": [
+    "hypothalamus",
+    "amygdala",
+    "hippocampus"
+   ],
+   "note": "<em>Limbic system</em>: emotion + memory",
+   "vo": "Beech mein limbic system: emotion aur memory. Ismein amygdala, hypothalamus aur hippocampus aate hain.",
+   "cues": [
+    "limbic"
+   ]
+  },
+  {
+   "type": "brain",
+   "focus": [
+    "frontal",
+    "parietal",
+    "occipital",
+    "temporal"
+   ],
+   "note": "<em>Frontal</em> thinking, planning, judgement · <em>Parietal</em> touch · <em>Occipital</em> vision · <em>Temporal</em> hearing, language",
+   "vo": "Aur bahar cerebral cortex ke chaar lobes: frontal thinking, planning aur judgement; parietal touch; occipital vision; aur temporal hearing aur language.",
+   "cues": [
+    "frontal"
+   ]
+  },
+  {
+   "type": "chapter",
+   "topics": [
+    11
+   ],
+   "title": "Emotions ka address",
+   "vo": "Topic eleven: emotions brain mein kahan rehte hain?"
+  },
+  {
+   "type": "brain",
+   "focus": [
+    "amygdala"
+   ],
+   "note": "<em>Amygdala</em> (almond): fear + aggression",
+   "vo": "Amygdala, yaani almond: fear aur aggression ko regulate karta hai, khaas kar jab koi cheez threat lagti hai.",
+   "cues": [
+    "fear"
+   ]
+  },
+  {
+   "type": "brain",
+   "focus": [
+    "prefrontal"
+   ],
+   "note": "<em>Prefrontal cortex</em>: aggression ka control center",
+   "vo": "Aur prefrontal cortex control center hai: jab ye zyada active hota hai, hum apna gussa control kar paate hain.",
+   "cues": [
+    "control"
+   ]
+  },
+  {
+   "type": "brain",
+   "focus": [
+    "hypothalamus"
+   ],
+   "note": "<em>Hypothalamus</em>: hunger, thirst, temperature, sex · pleasure / reward",
+   "vo": "Hypothalamus pituitary ke through hormones se judta hai, aur hunger, thirst, temperature aur sex regulate karta hai. Wahi rat wala reward center yahi tha.",
+   "cues": [
+    "hunger,"
+   ]
+  },
+  {
+   "type": "brain",
+   "focus": [
+    "hippocampus"
+   ],
+   "note": "<em>Hippocampus</em>: nayi long-term memory",
+   "vo": "Aur hippocampus nayi long-term memories banata hai. Ye damage ho jaaye, to nayi yaadein banti hi nahi.",
+   "cues": [
+    "nayi"
+   ]
+  },
+  {
+   "type": "chapter",
+   "topics": [
+    8
+   ],
+   "title": "Mind ka body par asar",
+   "vo": "Topic eight: emotion, thought aur behaviour body ko kaise badalte hain."
+  },
+  {
+   "type": "flow",
+   "title": "Stress response",
+   "nodes": [
+    [
+     "bubble",
+     "Stress",
+     "threat"
+    ],
+    [
+     "brain",
+     "HPA axis",
+     "active"
+    ],
+    [
+     "vial",
+     "Hormones",
+     "epinephrine, cortisol"
+    ]
+   ],
+   "vo": "Stress aata hai to HPA axis active hota hai: epinephrine, norepinephrine aur cortisol release hote hain, jo body ko threat ke liye ready karte hain.",
+   "cues": [
+    "Stress",
+    "HPA",
+    "epinephrine,"
+   ]
+  },
+  {
+   "type": "flow",
+   "title": "Selye: General Adaptation Syndrome",
+   "nodes": [
+    [
+     "bubble",
+     "Alarm",
+     "stage 1"
+    ],
+    [
+     "shield",
+     "Resistance",
+     "stage 2"
+    ],
+    [
+     "loop",
+     "Exhaustion",
+     "stage 3"
+    ]
+   ],
+   "vo": "Lamba stress chale to Selye ke general adaptation syndrome ke teen stage: alarm, resistance aur exhaustion.",
+   "cues": [
+    "alarm,",
+    "resistance",
+    "exhaustion."
+   ]
+  },
+  {
+   "type": "icon",
+   "icon": "shield",
+   "title": "Immunity ↓",
+   "text": "Zukaam jaldi, <em>zakhm dheere</em> bharte hain",
+   "color": "#FF6B6B",
+   "vo": "Aur lamba stress immune system ko kamzor karta hai: zukaam jaldi hota hai, aur zakhm dheere bharte hain.",
+   "cues": [
+    "zukaam"
+   ]
+  },
+  {
+   "type": "triangle",
+   "focus": "all",
+   "note": "Thought, emotion, behaviour → <em>poori body</em>",
+   "vo": "Isliye thought, emotion aur behaviour sirf mind mein nahi rehte, ye poori body ko badalte hain.",
+   "cues": [
+    "Isliye"
+   ]
+  }
+ ]
+}

@@ -71,7 +71,7 @@ def main():
         a["end"] = b["start"]
     tl[0]["start"] = 0.0
     tl[-1]["end"] = round(words[-1]["e"] + TAIL, 3)
-    meta = {k: sc[k] for k in ("n", "title", "topic", "tag")}
+    meta = {k: sc[k] for k in ("n", "title", "topic", "tag", "covers")}
     json.dump({**meta, "end": tl[-1]["end"], "beats": tl, "captions": captions(words)},
               open(sys.argv[2], "w"), ensure_ascii=False, indent=1)
     print(f"{sys.argv[1]}: {len(words)} words, {tl[-1]['end']:.1f} s")
