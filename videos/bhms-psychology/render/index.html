@@ -278,7 +278,7 @@ function chrome(b) {
   const p = T / TL.end, ch = TL.beats.slice(0, TL.beats.indexOf(b) + 1).filter(x => x.type === "chapter").pop();
   return `<div class="grid"></div>
     <div class="abs" style="left:-200px;top:${200 + Math.sin(T * .3) * 120}px;width:900px;height:900px;border-radius:50%;background:radial-gradient(${rgba(ACC, .1)},transparent 65%)"></div>
-    <div class="abs" style="left:60px;top:150px;font-weight:800;font-size:30px;color:rgba(255,255,255,.55)">Dr. Mak <span style="color:${ACC}">·</span> BHMS Psychology</div>
+    <div class="abs" style="left:60px;top:150px;font-weight:800;font-size:30px;color:rgba(255,255,255,.55)">Dr. Mayurakshi Katiyar <span style="color:${ACC}">(Psychology)</span></div>
     ${ch ? `<div class="abs" style="right:60px;top:140px;font-weight:800;font-size:30px;padding:6px 20px;border-radius:999px;background:${rgba(ACC, .16)};color:${ACC}">Topic ${ch.topics.join(" + ")}</div>` : ""}
     <div class="abs" style="left:60px;right:60px;top:206px;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"><div style="width:${p * 100}%;height:100%;border-radius:3px;background:${ACC}"></div></div>`;
 }
