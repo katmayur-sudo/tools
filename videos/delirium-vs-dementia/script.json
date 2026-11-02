@@ -41,7 +41,8 @@
      "name": "George Fernandes",
      "dx": "Alzheimer's disease"
     }
-   ]
+   ],
+   "dadajiBg": "IMG-05"
   },
   {
    "id": "block",
@@ -49,7 +50,8 @@
    "vo": "Dono psychiatric disorders hain, ICD-10 ke pehle block mein: organic mental disorders.",
    "cues": {
     "organic": "organic"
-   }
+   },
+   "bg": "IMG-10"
   },
   {
    "id": "defs",
@@ -78,7 +80,9 @@
    "cues": {
     "left": "Delirium",
     "right": "Dementia"
-   }
+   },
+   "leftImg": "IMG-08",
+   "rightImg": "IMG-05"
   },
   {
    "id": "d2",
@@ -93,7 +97,9 @@
    "cues": {
     "left": "Delirium",
     "right": "Dementia"
-   }
+   },
+   "leftImg": "IMG-04",
+   "rightImg": "IMG-13"
   },
   {
    "id": "d3",
@@ -124,7 +130,9 @@
    "cues": {
     "left": "Delirium",
     "right": "Dementia"
-   }
+   },
+   "leftImg": "IMG-12",
+   "rightImg": "IMG-15"
   },
   {
    "id": "d5",
@@ -173,7 +181,9 @@
    "cues": {
     "left": "Delirium",
     "right": "Dementia"
-   }
+   },
+   "leftImg": "IMG-16",
+   "rightImg": "IMG-06"
   },
   {
    "id": "d8",
@@ -284,7 +294,8 @@
    "cues": {
     "left": "Delirium:",
     "right": "Dementia:"
-   }
+   },
+   "bg": "IMG-06"
   },
   {
    "id": "close",
@@ -292,7 +303,8 @@
    "vo": "Save karo, aur us dost ko bhejo jo dono ko same samajhta hai.",
    "cues": {
     "save": "Save"
-   }
+   },
+   "bg": "IMG-14"
   }
  ]
 }

@@ -10,7 +10,7 @@ Format: `- [ ] idea · format · source/date` → `- [x] … → output` when do
 - [x] Dr Mak Fitness launch film · keynote 16:9 61 s · chat 2026-10-20 → `examples/drmak-fitness.storyboard.json`
 
 ## Backlog (from chats)
-- [ ] Delirium vs Dementia (block 1 deep-dive), Hinglish, Davidson 24th ed · 9:16 + 16:9 · chat 2026-11-01 → `videos/delirium-vs-dementia` (silent cut done, waiting on owner VO)
+- [x] Delirium vs Dementia (block 1 deep-dive), Hinglish, Davidson 24th ed · 20-slide carousel (video version waits on owner VO) · chat 2026-11-02 → `videos/delirium-vs-dementia`
 - [ ] Psychiatric disorders classification (Davidson Box 31.1, ICD-10, 10 blocks) · 9:16 ~85 s, owner's own VO · chat 2026-10-27 → `videos/psychiatry-classification` (final with owner VO rendered 2026-10-28)
 - [ ] Generated medical illustrations per disorder group for the psychiatry short · add-on · 2026-10-27
 - [ ] The other 7 exercises as their own shorts (RDL, incline push-up, row, press, step-up, farmer's carry, dead bug) · 9:16 · 2026-10-20

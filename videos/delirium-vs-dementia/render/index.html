@@ -28,10 +28,11 @@ const lerp = (a, b, p) => a + (b - a) * p;
 const ease = p => 1 - Math.pow(1 - clamp(p), 3);
 function spring(t, d = .5) { if (t <= 0) return 0; if (t >= d * 2) return 1; const p = t / d; return 1 - Math.exp(-5 * p) * Math.cos(7 * p); }
 const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${n >> 8 & 255},${n & 255},${a})`; };
+let SLIDE = null;                                            // carousel mode: {n, total, cover}
 let T = 0, TL = null, W = 1080, H = 1920, P = true, V = 10.8, K = 1;   // V = 1vmin in px, K = layout scale
 const u = x => x * V * K;                                    // design units -> px
 // centred content area between the header and the captions
-const box = (inner, o = {}) => `<div class="abs" style="left:${u(o.side ?? (P ? 5 : 8))}px;right:${u(o.side ?? (P ? 5 : 8))}px;top:${P ? u(14) : u(9)}px;bottom:${P ? H * .29 : u(13)}px;display:flex;flex-direction:column;justify-content:center;align-items:${o.align ?? "stretch"};gap:${u(o.gap ?? 3)}px">${inner}</div>`;
+const box = (inner, o = {}) => `<div class="abs" style="left:${u(o.side ?? (P ? 5 : 8))}px;right:${u(o.side ?? (P ? 5 : 8))}px;top:${P ? u(14) : u(9)}px;bottom:${SLIDE ? u(9) : P ? H * .29 : u(13)}px;display:flex;flex-direction:column;justify-content:center;align-items:${o.align ?? "stretch"};gap:${u(o.gap ?? 3)}px">${inner}</div>`;
 function appear(at, o = {}) {
   const dt = T - at, dy = o.dy ?? 5, sc = o.scale ?? .9, dur = o.dur ?? .5;
   if (dt < 0) return "opacity:0;";
@@ -103,8 +104,9 @@ function hook(b) {
       <div class="center" style="${appear(c.teeno, { dy: 3 })}"><span class="d" style="font-size:${u(6)}px">Sabko <span style="color:${BLUE}">dementia</span></span>
       <span style="font-size:${u(2)}px;color:rgba(255,255,255,.5);margin-top:${u(.6)}px">Public reports · photos: Wikimedia Commons, Times of India</span></div>`, { gap: 2 });
   }
-  if (T < t1) return box(`${elder(c.dadaji)}
-      <div style="position:relative;margin-top:${u(2)}px">${slam(`"Budhapa hai"`, c.dadaji + 1.2, `font-family:'Inter Display';font-weight:900;font-size:${u(9)}px;color:rgba(255,255,255,.85)`)}${stamp(c.galat, 16)}</div>`, { align: "center", gap: 0 });
+  if (T < t1) return bg(b.dadajiBg, c.dadaji) + box(`${elder(c.dadaji)}
+      <div style="position:relative;margin-top:${u(2)}px">${slam(`"Budhapa hai"`, c.dadaji + 1.2, `font-family:'Inter Display';font-weight:900;font-size:${u(9)}px;color:rgba(255,255,255,.85)`)}${stamp(c.galat, 16)}</div>
+      ${SLIDE ? `<div class="d" style="font-size:${u(6.4)}px;margin-top:${u(4)}px;text-align:center">Ye <span style="color:${RED}">delirium</span> ho sakta hai!</div>` : ""}`, { align: "center", gap: 0 });
   return box(`
     ${slam(`<span style="color:${RED}">DELIRIUM</span>`, t1, `font-family:'Inter Display';font-weight:900;font-size:${u(P ? 13 : 12)}px;letter-spacing:-.04em`)}
     ${slam("vs", t1 + .35, `font-family:'Inter Display';font-weight:800;font-size:${u(6)}px;color:rgba(255,255,255,.6);margin:${u(1)}px 0`)}
@@ -117,7 +119,7 @@ function block(b) {
   const cols = 5, cw = P ? u(13) : u(14), lit = T > b.start + .6;
   const chips = CODES.map((c, i) => `<div class="center" style="width:${cw}px;height:${u(9)}px;border-radius:${u(1.8)}px;font-weight:800;font-size:${u(3)}px;
       ${i === 0 && lit ? `background:${rgba(YEL, .2)};box-shadow:0 0 0 3px ${YEL} inset,0 0 ${u(4)}px ${rgba(YEL, .5)};color:${YEL}` : `background:rgba(255,255,255,.06);color:rgba(255,255,255,${i === 0 ? .8 : .35})`};${appear(b.start + i * .05, { dy: 2, scale: .7 })}">${c}</div>`).join("");
-  return header("ICD-10 · Chapter V") + box(`
+  return bg(b.bg, b.start) + header("ICD-10 · Chapter V") + box(`
     <div style="display:grid;grid-template-columns:repeat(${cols},${cw}px);gap:${u(1.4)}px">${chips}</div>
     <div class="d" style="font-size:${u(6.4)}px;text-align:center;margin-top:${u(4)}px;${appear(b.cues.organic - .2)}"><span style="color:${YEL}">Block 1</span> · Organic mental disorders</div>
     <div style="display:flex;gap:${u(2)}px;margin-top:${u(3)}px">
@@ -154,7 +156,7 @@ function myth(b) {
   return bg(b.bg, b.start) + header(`Myth ${b.n} / 4`, RED) + box(`
     <div class="card" style="position:relative;padding:${u(3.5)}px;${appear(b.start + .1)}">
       <div class="label" style="color:${RED};font-size:${u(2.6)}px">❌ Myth</div>
-      <div class="d" style="font-size:${u(6.6)}px;margin-top:${u(1.2)}px;${T > f ? "opacity:.45;text-decoration:line-through;text-decoration-color:" + RED : ""}">${b.myth}</div>${stamp(f, 20)}</div>
+      <div class="d" style="font-size:${u(6.6)}px;margin-top:${u(1.2)}px;${T > f && !SLIDE ? "opacity:.45;text-decoration:line-through;text-decoration-color:" + RED : ""}">${b.myth}</div>${SLIDE ? "" : stamp(f, 20)}</div>
     <div class="card" style="padding:${u(3.5)}px;background:${rgba(GRN, .12)};box-shadow:0 0 0 3px ${GRN} inset;${appear(f + .25, { dy: 6 })}">
       <div class="label" style="color:${GRN};font-size:${u(2.6)}px">✅ Fact</div>
       <div class="d" style="font-size:${u(5.6)}px;margin-top:${u(1.2)}px;line-height:1.1">${b.fact}</div></div>`, { side: P ? 5 : 16 });
@@ -177,14 +179,14 @@ function exam(b) {
   const row = (name, col, words, at) => `<div class="card" style="padding:${u(3)}px ${u(3.5)}px;border-left:${u(1)}px solid ${col};${appear(at, { dx: -5, dy: 0 })}">
     <div class="label" style="color:${col};font-size:${u(2.6)}px">${name}</div>
     <div class="d" style="font-size:${u(5.6)}px;margin-top:${u(1)}px">${words}</div></div>`;
-  return header("Exam ke liye ek line") + box(`
+  return bg(b.bg, b.start) + header("Exam ke liye ek line") + box(`
     ${row("Delirium", RED, "Achanak · Fluctuating · Attention gaya", b.cues.left - .1)}
     ${row("Dementia", BLUE, "Dheere · Progressive · Patient alert", b.cues.right - .1)}`, { side: P ? 5 : 16 });
 }
 
 function close(b) {
   const sv = b.cues.save;
-  return box(`
+  return bg(b.bg, b.start) + box(`
     <svg width="${u(12)}" height="${u(15)}" viewBox="0 0 30 38" style="${appear(sv, { scale: .5 })}"><path d="M3 2 h24 v34 l-12 -9 l-12 9 z" fill="${YEL}"/></svg>
     <div class="d" style="font-size:${u(8)}px;margin-top:${u(3)}px;${appear(sv + .2)}">Save karo</div>
     <div class="d" style="font-size:${u(4.6)}px;color:rgba(255,255,255,.75);margin-top:${u(1.5)}px;${appear(sv + .8)}">aur us dost ko bhejo jo dono ko same samajhta hai</div>
@@ -201,22 +203,38 @@ function captions() {
   }).join("")}</div>`;
 }
 
+function cover(b) {
+  const tiles = b.celebs.map(x => `<div style="position:relative;border-radius:${u(2)}px;overflow:hidden;background:#151821 url('${pic(x.img)}') center 22% / cover;box-shadow:0 0 0 2px rgba(255,255,255,.1)">
+      <div class="abs" style="inset:0;background:linear-gradient(180deg, transparent 50%, rgba(10,12,17,.9))"></div>
+      <div class="abs d" style="left:${u(1.4)}px;right:${u(1)}px;bottom:${u(1.2)}px;font-size:${u(2.8)}px">${x.name}</div></div>`).join("");
+  return box(`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:${u(1.2)}px;height:${H * .26}px">${tiles}</div>
+    <div class="center"><div class="label" style="font-size:${u(2.4)}px;color:${YEL}">Sabko dementia hua. Par Dadaji ka achanak confusion?</div>
+      <div class="d" style="font-size:${u(13)}px;color:${RED};margin-top:${u(2)}px;letter-spacing:-.04em">DELIRIUM</div>
+      <div class="d" style="font-size:${u(5)}px;color:rgba(255,255,255,.6)">vs</div>
+      <div class="d" style="font-size:${u(13)}px;color:${BLUE};letter-spacing:-.04em">DEMENTIA</div>
+      <div style="margin-top:${u(3)}px"><span class="d" style="display:inline-block;background:${YEL};color:#0A0C11;border-radius:${u(1.6)}px;padding:${u(.6)}px ${u(2.6)}px ${u(1)}px;font-size:${u(4)}px">8 fark · 4 myths · exam one-liner</span></div></div>`, { gap: 3 });
+}
+
 const SCENES = { hook, block, defs, diff, myth, mgmt, exam, close };
 window.setData = d => { TL = d; };
 window.renderAt = t => {
-  T = t; W = window.innerWidth; H = window.innerHeight; P = H > W; V = Math.min(W, H) / 100; K = P ? 1.3 : 1.25;
+  T = t; W = window.innerWidth; H = window.innerHeight; P = H > W; V = Math.min(W, H) / 100; K = SLIDE ? 1.04 : P ? 1.3 : 1.25;
   const b = TL.beats.find(x => t >= x.start && t < x.end) || TL.beats[TL.beats.length - 1];
   const dt = t - b.start, last = b === TL.beats[TL.beats.length - 1];
-  const fade = last ? 1 : clamp((b.end - t) / .2), punch = 1 + .03 * Math.exp(-dt * 5);
+  const fade = last || SLIDE ? 1 : clamp((b.end - t) / .2), punch = SLIDE ? 1 : 1 + .03 * Math.exp(-dt * 5);
   const glowCol = b.type === "myth" ? RED : b.type === "mgmt" ? (b.who === "Delirium" ? RED : BLUE) : YEL;
   document.getElementById("stage").innerHTML =
     `<div class="grid" style="transform:translateY(${(t * 12) % 60}px)"></div>
      <div class="abs" style="left:${-W * .3 + Math.sin(t * .4) * 80}px;top:${H * .1 + Math.cos(t * .3) * 100}px;width:${W * .9}px;height:${W * .9}px;border-radius:50%;background:radial-gradient(circle, ${rgba(RED, .14)}, transparent 65%)"></div>
      <div class="abs" style="right:${-W * .3 + Math.cos(t * .35) * 80}px;bottom:${H * .05 + Math.sin(t * .3) * 100}px;width:${W * .9}px;height:${W * .9}px;border-radius:50%;background:radial-gradient(circle, ${rgba(BLUE, .14)}, transparent 65%)"></div>
      <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 40%, ${rgba(glowCol, .06)}, transparent 60%)"></div>
-     <div class="abs" style="inset:0;opacity:${fade};transform:scale(${punch})">${SCENES[b.type](b)}</div>
-     ${captions()}`;
+     <div class="abs" style="inset:0;opacity:${fade};transform:scale(${punch})">${SLIDE?.cover ? cover(b) : SCENES[b.type](b)}</div>
+     ${SLIDE ? footer() : captions()}`;
 };
+const footer = () => `<div class="abs" style="left:${u(5)}px;right:${u(5)}px;bottom:${u(3)}px;display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:${u(2.4)}px;color:rgba(255,255,255,.55)">
+  <span>${SLIDE.n} / ${SLIDE.total}</span><span style="letter-spacing:.18em;text-transform:uppercase">Delirium vs Dementia</span>
+  <span style="color:${YEL}">${SLIDE.n < SLIDE.total ? "Swipe →" : "Save karo"}</span></div>`;
+window.renderSlide = (t, n, total, isCover) => { SLIDE = { n, total, cover: isCover }; window.renderAt(t); };
 </script>
 </body>
 </html>
