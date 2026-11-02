@@ -350,7 +350,7 @@
     ]
    },
    "foot": "Common ground: <em>mind + body = one</em>",
-   "vo": "Psychology mind ko scientific method aur behaviour se padhti hai. Organon use totality ka hissa maanta hai. Par dono maante hain: mind aur body ek hain.",
+   "vo": "Psychology mind ko scientific method aur behaviour se padhti hai. Organon usse totality ka hissa maanta hai. Par dono maante hain: mind aur body ek hain.",
    "cues": [
     "Psychology",
     "Organon",
@@ -493,5 +493,8 @@
     "Teeno"
    ]
   }
+ ],
+ "vo_cut": [
+  "jo tum krte hai"
  ]
 }

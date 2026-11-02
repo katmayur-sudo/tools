@@ -62,6 +62,12 @@ def main():
     a, b = [norm(w) for b_ in beats for w in b_["vo"].split()], [norm(h["w"]) for h in heard]
     matched = {blk.b + k for blk in difflib.SequenceMatcher(None, a, b, autojunk=False).get_matching_blocks() for k in range(blk.size)}
     keep = drop_retakes(heard, matched)
+    for phrase in json.load(open(reel)).get("vo_cut", []):  # retakes the owner names, as Whisper hears them
+        p = [norm(w) for w in phrase.split()]
+        hits = [i for i in range(len(heard) - len(p) + 1) if [norm(h["w"]) for h in heard[i:i + len(p)]] == p]
+        assert hits, f"vo_cut phrase not heard: {phrase}"
+        for i in hits:
+            keep[i:i + len(p)] = [False] * len(p)
     heard = [h for h, k in zip(heard, keep) if k]
     print(f"{len(keep)} heard words, {keep.count(False)} dropped as retakes")
 
