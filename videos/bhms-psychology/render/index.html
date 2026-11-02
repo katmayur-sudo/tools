@@ -19,11 +19,6 @@
   .card { background: #151821; border-radius: 34px; padding: 40px 44px;
     box-shadow: 0 0 0 2px rgba(255,255,255,.06) inset, 0 40px 80px -30px rgba(0,0,0,.7); }
   .pill { display: inline-block; border-radius: 999px; padding: 12px 30px; font-weight: 800; font-size: 34px; }
-  .row { display: flex; align-items: center; gap: 30px; margin-bottom: 44px; }
-  .badge { flex: none; width: 92px; height: 92px; border-radius: 26px; display: flex; align-items: center; justify-content: center;
-    font-family: "Inter Display"; font-weight: 900; font-size: 50px; color: #0B0D12; }
-  .h { font-family: "Inter Display", "Mukta"; font-weight: 800; font-size: 68px; letter-spacing: -0.02em; line-height: 1.05; }
-  .s { font-family: "Mukta", "Inter"; font-weight: 500; font-size: 46px; color: rgba(255,255,255,.66); line-height: 1.2; margin-top: 6px; }
   .cap { position: absolute; left: 60px; right: 60px; top: 1500px; text-align: center; z-index: 50; }
   .cap span { display: inline-block; font-family: "Inter Display", "Mukta"; font-weight: 800; font-size: 56px; line-height: 1.25;
     padding: 2px 14px; margin: 5px 3px; border-radius: 14px; background: rgba(0,0,0,.8); box-shadow: 0 0 0 2px rgba(255,255,255,.1); }
@@ -38,7 +33,7 @@ const ease = p => 1 - Math.pow(1 - clamp(p), 3);
 function spring(t, d = .5) { if (t <= 0) return 0; if (t >= d * 2) return 1; const p = t / d; return 1 - Math.exp(-5 * p) * Math.cos(7 * p); }
 const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${n >> 8 & 255},${n & 255},${a})`; };
 const PAL = ["#FF6B6B", "#FFB547", "#4DD4AC", "#4DA3FF", "#B983FF", "#FF6FB5"];
-const ACC = "#FFB547";
+const ACC = "#FFB547", RED = PAL[0], GREEN = PAL[2], BLUE = PAL[3];
 let T = 0, TL = null;
 
 // style string for an element that pops in at time `at`
@@ -54,70 +49,187 @@ function slam(html, at, top, size) {
   const s = 1 + .4 * Math.exp(-dt * 10), sh = dt < .3 ? Math.sin(dt * 110) * 8 * (1 - dt / .3) : 0;
   return `<div class="abs d" style="left:60px;right:60px;top:${top}px;text-align:center;font-size:${size}px;opacity:${clamp(dt / .08)};transform:translateX(${sh}px) scale(${s});">${html}</div>`;
 }
-const at = (b, i) => b.cues[i] ?? b.start + .3;   // cue time, or just after the beat starts
+const at = (b, i) => b.cues[i] ?? b.start + .3 + i * .35;   // cue time, or staggered just after the beat starts
+
+// ---------- code-drawn icons (viewBox 200x200), drawn on with stroke-dashoffset ----------
+function draw(d, p, col, w = 7) {
+  return `<path d="${d}" pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1 - ease(p)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+}
+const ICONS = {
+  bubble: (p, c) => draw("M34 36 h132 a16 16 0 0 1 16 16 v74 a16 16 0 0 1 -16 16 h-76 l-38 32 v-32 h-18 a16 16 0 0 1 -16 -16 v-74 a16 16 0 0 1 16 -16 z", p, c)
+    + draw("M100 62 v40", p * 1.4 - .4, c, 10) + (p > .8 ? `<circle cx="100" cy="122" r="7" fill="${c}"/>` : ""),
+  split: (p, c) => draw("M56 100 m-38 0 a38 38 0 1 0 76 0 a38 38 0 1 0 -76 0", p, c) + draw("M144 100 m-38 0 a38 38 0 1 0 76 0 a38 38 0 1 0 -76 0", p, BLUE)
+    + `<line x1="100" y1="30" x2="100" y2="170" stroke="#fff" stroke-width="4" stroke-dasharray="8 8" opacity="${clamp(p * 2 - 1)}"/>`
+    + `<text x="56" y="107" text-anchor="middle" font-size="19" font-weight="800" fill="${c}" opacity="${clamp(p * 2 - 1)}">MIND</text><text x="144" y="107" text-anchor="middle" font-size="19" font-weight="800" fill="${BLUE}" opacity="${clamp(p * 2 - 1)}">BODY</text>`,
+  chart: (p, c) => draw("M25 165 h150", p, c, 6) + draw("M50 160 v-40 M85 160 v-80 M120 160 v-55 M155 160 v-110", p * 1.3 - .3, c, 18),
+  stack: (p, c) => [55, 95, 135].map((y, i) => draw(`M45 ${y} h22 M85 ${y} h70`, p * 1.5 - i * .25, c, 14)).join(""),
+  bulb: (p, c) => draw("M100 28 a52 52 0 0 1 30 94 v18 h-60 v-18 a52 52 0 0 1 30 -94 z M80 160 h40 M86 178 h28", p, c)
+    + (p > .9 ? `<circle cx="100" cy="80" r="${18 + 4 * Math.sin(T * 8)}" fill="${rgba(c, .5)}"/>` : ""),
+  clipboard: (p, c) => draw("M55 40 h90 v140 h-90 z M80 28 h40 v22 h-40 z", p, c) + draw("M72 82 h56 M72 112 h56 M72 142 h36", p * 1.4 - .4, c, 6),
+  list: (p, c) => draw("M48 60 l8 8 l14 -16 M84 60 h76 M50 100 h12 M84 100 h76 M50 140 h12 M84 140 h76", p, c, 8),
+  vial: (p, c) => draw("M78 28 h44 M88 28 v42 l-32 92 a14 14 0 0 0 13 18 h62 a14 14 0 0 0 13 -18 l-32 -92 v-42", p, c) + draw("M62 132 h76", p * 1.3 - .3, c, 6),
+  house: (p, c) => draw("M24 104 L100 38 L176 104 M46 86 v90 h108 v-90", p, c)
+    + `<g opacity="${clamp(p * 2 - 1)}"><circle cx="100" cy="112" r="13" fill="${ACC}"/><path d="M100 126 v26 M84 138 h32 M100 152 l-12 18 M100 152 l12 18" stroke="${ACC}" stroke-width="7" stroke-linecap="round" fill="none"/></g>`,
+  grid9: (p, c) => [0, 1, 2].flatMap(r => [0, 1, 2].map(k => draw(`M${42 + k * 42} ${42 + r * 42} h34 v34 h-34 z`, p * 1.6 - (r * 3 + k) * .07, c, 6))).join(""),
+  gear: (p, c) => `<g transform="rotate(${T * 40} 100 100)">` + draw("M100 100 m-46 0 a46 46 0 1 0 92 0 a46 46 0 1 0 -92 0", p, c)
+    + [...Array(8)].map((_, i) => { const a = i * Math.PI / 4; return draw(`M${100 + 46 * Math.cos(a)} ${100 + 46 * Math.sin(a)} L${100 + 66 * Math.cos(a)} ${100 + 66 * Math.sin(a)}`, p * 1.4 - .4, c, 16); }).join("")
+    + draw("M100 100 m-14 0 a14 14 0 1 0 28 0 a14 14 0 1 0 -28 0", p, c, 6) + "</g>",
+  iceberg: (p, c) => draw("M14 92 q20 -8 43 0 t43 0 t43 0 t43 0", p, BLUE, 5) + draw("M78 92 L100 46 L122 92", p, "#fff", 6) + draw("M66 100 L134 100 L164 146 L104 182 L36 148 Z", p, c, 6),
+  box: (p, c) => draw("M62 72 L100 52 L138 72 L138 128 L100 148 L62 128 Z M62 72 L100 92 L138 72 M100 92 V148", p, c)
+    + draw("M8 100 h40 M38 90 l10 10 l-10 10", p * 1.4 - .4, "#fff", 6) + draw("M152 100 h40 M182 90 l10 10 l-10 10", p * 1.6 - .6, "#fff", 6)
+    + `<text x="24" y="80" font-size="22" font-weight="800" fill="#fff" opacity="${clamp(p * 2 - 1)}">S</text><text x="168" y="80" font-size="22" font-weight="800" fill="#fff" opacity="${clamp(p * 2 - 1)}">R</text>`,
+  brain: (p, c) => draw("M60 140 C30 140 22 110 34 92 C22 70 40 46 62 50 C68 30 98 26 110 40 C126 26 156 34 158 56 C180 62 184 92 168 104 C176 126 156 146 134 140 C126 156 100 158 92 146 C80 154 64 150 60 140 Z", p, c)
+    + ["M70 70 C82 76 84 92 74 100", "M104 46 C100 64 112 74 126 70", "M146 86 C132 92 132 110 146 116", "M92 104 C104 112 104 126 92 134"].map(d => draw(d, p * 1.2 - .2, c, 5)).join(""),
+  people: (p, c) => draw("M60 78 m-16 0 a16 16 0 1 0 32 0 a16 16 0 1 0 -32 0 M100 66 m-19 0 a19 19 0 1 0 38 0 a19 19 0 1 0 -38 0 M140 78 m-16 0 a16 16 0 1 0 32 0 a16 16 0 1 0 -32 0", p, c, 6)
+    + draw("M34 142 a26 26 0 0 1 52 0 M70 136 a30 30 0 0 1 60 0 M114 142 a26 26 0 0 1 52 0", p * 1.3 - .3, c, 6),
+  moon: (p, c) => draw("M122 36 a64 64 0 1 0 44 104 a50 50 0 1 1 -44 -104 z", p, c) + (p > .8 ? `<circle cx="150" cy="58" r="5" fill="${c}"/><circle cx="168" cy="88" r="4" fill="${c}"/>` : ""),
+  slip: (p, c) => draw("M34 46 h132 a14 14 0 0 1 14 14 v62 a14 14 0 0 1 -14 14 h-70 l-34 28 v-28 h-28 a14 14 0 0 1 -14 -14 v-62 a14 14 0 0 1 14 -14 z", p, c) + draw("M58 92 l16 -16 l16 16 l16 -16 l16 16 l16 -16", p * 1.4 - .4, c, 6),
+  loop: (p, c) => `<g transform="rotate(${T * 90} 100 100)">` + draw("M100 38 a62 62 0 1 1 -54 32", p, c) + draw("M30 66 l16 4 l6 -16", p, c) + "</g>",
+  spiral: (p, c) => `<g transform="rotate(${-T * 120} 100 100)">` + draw("M100 100 m0 -8 a8 8 0 1 1 -8 8 a18 18 0 1 1 18 18 a30 30 0 1 1 -30 -30 a44 44 0 1 1 44 44 a60 60 0 1 1 -60 -60", p, c, 6) + "</g>",
+};
+const icon = (name, p, c, size, extra = "") => `<svg width="${size}" height="${size}" viewBox="0 0 200 200" style="${extra}">${ICONS[name](p, c)}</svg>`;
 
 // ---------- scenes: each returns HTML for beat b at time T ----------
 const S = {
-  hook: b => `<div class="abs" style="left:0;right:0;top:450px;text-align:center;font-family:Mukta,Inter;font-weight:800;font-size:50px;color:${ACC};${appear(b.start + .05)}">${b.kicker}</div>`
-    + slam(b.big, at(b, 0), 590, 112)
-    + (T >= at(b, 1) ? `<div class="abs d" style="left:80px;right:80px;top:1010px;text-align:center;font-size:62px;color:rgba(255,255,255,.75);${appear(at(b, 1))}">${b.sub}</div>` : ""),
+  hook: b => `<div class="abs" style="left:0;right:0;top:450px;text-align:center;font-weight:800;font-size:44px;letter-spacing:.12em;text-transform:uppercase;color:${ACC};${appear(b.start + .05)}">${b.kicker}</div>`
+    + slam(b.big, at(b, 0), 590, 116)
+    + `<div class="abs" style="left:0;right:0;top:800px;display:flex;justify-content:center;gap:18px">${[1, 2, 3, 4, 5, 6, 7].map((n, i) =>
+      `<div class="d" style="width:104px;height:104px;border-radius:26px;background:${PAL[i % 6]};color:#0B0D12;font-size:56px;display:flex;align-items:center;justify-content:center;${appear(at(b, 0) + .25 + i * .08, { scale: .3 })}">${n}</div>`).join("")}</div>`
+    + (T >= at(b, 1) ? `<div class="abs d" style="left:80px;right:80px;top:1000px;text-align:center;font-size:62px;color:rgba(255,255,255,.75);${appear(at(b, 1))}">${b.sub}</div>` : ""),
 
-  title: b => {
-    const p = ease((T - b.start) / .6);
-    return `<div class="abs" style="left:0;right:0;top:420px;text-align:center;${appear(b.start)}"><div class="label">BHMS Psychology</div></div>
-      <div class="abs d" style="left:0;right:0;top:520px;text-align:center;font-size:250px;color:${ACC};opacity:${p};transform:scale(${lerp(.6, 1, spring(T - b.start, .6))})">#${TL.n}</div>
-      <div class="abs d" style="left:60px;right:60px;top:830px;text-align:center;font-size:96px;${appear(b.start + .25)}">${TL.title}</div>
-      <div class="abs" style="left:60px;right:60px;top:${TL.title.length > 22 ? 1080 : 970}px;text-align:center;font-family:Mukta;font-weight:600;font-size:54px;color:rgba(255,255,255,.75);${appear(b.start + .45)}">${TL.topic}</div>
-      <div class="abs" style="left:0;right:0;top:${TL.title.length > 22 ? 1190 : 1080}px;text-align:center;${appear(b.start + .65)}"><span class="pill" style="background:${rgba(ACC, .16)};color:${ACC}">${TL.tag}</span></div>`;
+  chapter: b => {
+    const nums = b.topics.map(n => String(n).padStart(2, "0")).join(" + ");
+    return `<div class="abs" style="left:0;right:0;top:470px;text-align:center;${appear(b.start)}"><div class="label" style="font-size:40px">Topic</div></div>`
+      + slam(`<span style="color:${ACC}">${nums}</span>`, b.start + .1, 550, b.topics.length > 1 ? 190 : 260)
+      + `<div class="abs d" style="left:60px;right:60px;top:880px;text-align:center;font-size:84px;${appear(b.start + .35)}">${b.title}</div>`
+      + `<div class="abs" style="left:0;right:0;top:${b.title.length > 24 ? 1120 : 1030}px;display:flex;justify-content:center;gap:16px">${[1, 2, 3, 4, 5, 6, 7].map(n => {
+        const now = b.topics.includes(n), past = n < Math.min(...b.topics);
+        return `<div style="width:${now ? 64 : 40}px;height:16px;border-radius:8px;background:${now ? ACC : past ? rgba(ACC, .45) : "rgba(255,255,255,.15)"};${now ? appear(b.start + .5, { dy: 0, scale: .2 }) : ""}"></div>`;
+      }).join("")}</div>`;
+  },
+
+  word: b => `<div class="abs label" style="left:70px;top:400px;${appear(b.start)}">Definition</div>
+    <div class="abs d" style="left:70px;right:70px;top:460px;font-size:84px;line-height:1.15;${appear(b.start + .15)}">“Psychology is ${b.text}”</div>
+    <div class="abs" style="left:60px;right:60px;top:900px;display:flex;align-items:center;justify-content:center;gap:30px">${b.parts.map(([w, m], i) =>
+      `${i ? `<div class="d" style="font-size:90px;color:rgba(255,255,255,.5);${appear(at(b, 1))}">+</div>` : ""}
+       <div class="card" style="width:400px;text-align:center;padding:36px 20px;${appear(at(b, i), { scale: .6 })}">
+         <div class="d" style="font-size:80px;color:${PAL[i ? 3 : 0]}">${w}</div>
+         <div style="font-weight:700;font-size:50px;color:rgba(255,255,255,.8);margin-top:10px">= ${m}</div></div>`).join("")}</div>`,
+
+  icon: b => `<div class="abs" style="left:0;right:0;top:390px;display:flex;justify-content:center;${appear(b.start, { scale: .7 })}">${icon(b.icon, (T - b.start) / 1.1, b.color, 420)}</div>
+    <div class="abs d" style="left:60px;right:60px;top:860px;text-align:center;font-size:92px;color:${b.color};${appear(b.start + .3)}">${b.title}</div>
+    <div class="abs d" style="left:60px;right:60px;top:1000px;text-align:center;font-size:64px;line-height:1.2;--acc:${b.color};${appear(at(b, 0))}">${b.text}</div>`,
+
+  flow: b => {
+    const xs = [190, 540, 890], cols = [BLUE, ACC, GREEN];
+    const arrows = xs.slice(1).map((x, i) => { const p = ease((T - at(b, i + 1)) / .4);
+      return `<line x1="${xs[i] + 125}" y1="745" x2="${xs[i] + 125 + (x - xs[i] - 250) * p}" y2="745" stroke="${ACC}" stroke-width="8" stroke-linecap="round"/>`
+        + (p > .95 ? `<path d="M${x - 141} 731 l16 14 l-16 14" stroke="${ACC}" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>` : ""); }).join("");
+    return `<div class="abs d" style="left:70px;right:70px;top:420px;text-align:center;font-size:76px;${appear(b.start)}">${b.title}</div>
+      <svg class="abs" style="left:0;top:0" width="1080" height="1920">${arrows}</svg>
+      ${b.nodes.map(([ic, h, s], i) => `<div class="abs" style="left:${xs[i] - 160}px;top:620px;width:320px;text-align:center;${appear(at(b, i), { scale: .5 })}">
+        <div style="margin:0 auto;width:250px;height:250px;border-radius:50%;background:${rgba(cols[i], .14)};box-shadow:0 0 0 5px ${cols[i]} inset;display:flex;align-items:center;justify-content:center">${icon(ic, (T - at(b, i)) / .8, cols[i], 150)}</div>
+        <div class="d" style="font-size:${h.length > 12 ? 48 : 58}px;margin-top:26px">${h}</div>
+        <div style="font-weight:600;font-size:40px;color:rgba(255,255,255,.6)">${s}</div></div>`).join("")}
+      ${b.foot ? `<div class="abs card" style="left:120px;right:120px;top:1170px;text-align:center;padding:30px;${appear(at(b, 3))}"><div class="d" style="font-size:56px">${b.foot}</div></div>` : ""}`;
+  },
+
+  grid: b => {
+    const g0 = groupStart(b), tiles = TL.beats.find(x => x.start === g0).tiles;
+    return `<div class="abs label" style="left:70px;top:330px;${appear(g0)}">Schools of psychology · Mind =</div>` + tiles.map(([ic, name, who, mind], i) => {
+      const x = i % 2 ? 560 : 60, y = 400 + Math.floor(i / 2) * 340, t0 = TL.beats.find(x => x.type === "grid" && x.active === i).start, on = b.active === i, c = PAL[i];
+      if (T < t0) return `<div class="abs" style="left:${x}px;top:${y}px;width:460px;height:310px;border-radius:30px;border:3px dashed rgba(255,255,255,.08)"></div>`;
+      return `<div class="abs card" style="left:${x}px;top:${y}px;width:460px;height:310px;padding:26px 30px;
+        opacity:${on ? 1 : .42};box-shadow:0 0 0 ${on ? 5 : 2}px ${on ? c : "rgba(255,255,255,.06)"} inset;${on ? appear(t0, { scale: .7 }) : ""}">
+        <div style="display:flex;align-items:center;gap:18px">${icon(ic, (T - t0) / .9, c, 100)}<div class="d" style="font-size:${name.length > 13 ? 40 : 46}px;color:${c}">${name}</div></div>
+        <div style="font-weight:700;font-size:32px;color:rgba(255,255,255,.65);margin-top:12px">${who}</div>
+        <div class="d" style="font-size:42px;margin-top:14px;${on ? appear(at(b, 0)) : ""}">${mind}</div></div>`;
+    }).join("");
+  },
+
+  book: b => {
+    const p = ease((T - b.start) / .8), hit = T >= at(b, 0);
+    return `<div class="abs d" style="left:0;right:0;top:400px;text-align:center;font-size:72px;${appear(b.start)}">Kent's <em>Repertory</em></div>
+      <div class="abs" style="left:110px;top:560px;width:860px;height:660px;perspective:1600px">
+        <div class="abs card" style="left:0;top:0;width:430px;height:660px;border-radius:30px 6px 6px 30px;padding:50px 40px">
+          <div class="label" style="color:rgba(255,255,255,.5);margin-bottom:30px">Contents</div>
+          ${b.chapters.map((c, i) => `<div class="d" style="font-size:52px;margin-bottom:26px;color:${i === 0 && hit ? ACC : "rgba(255,255,255,.75)"};${i === 0 && hit ? `transform:scale(${1 + .08 * spring(T - at(b, 0), .4)});transform-origin:left` : ""}">${i + 1}. ${c}</div>`).join("")}
+          <div class="d" style="font-size:52px;color:rgba(255,255,255,.3)">…</div></div>
+        <div class="abs" style="left:426px;top:20px;width:8px;height:620px;border-radius:4px;background:rgba(255,255,255,.18)"></div>
+        <div class="abs card" style="left:434px;top:0;width:426px;height:660px;border-radius:6px 30px 30px 6px;display:flex;align-items:center;justify-content:center;
+          transform-origin:left;transform:rotateY(${(1 - p) * -110}deg);background:${hit ? "#2A2418" : "#151821"}">
+          <div class="d" style="font-size:110px;color:${ACC};${appear(at(b, 0), { scale: .4 })}">MIND</div></div>
+      </div>`;
   },
 
   define: b => `<div class="abs" style="left:70px;top:430px;${appear(b.start)}"><span class="pill" style="background:${ACC};color:#0B0D12;font-size:44px">${b.term}</span></div>
-    <div class="abs d" style="left:70px;right:70px;top:560px;font-size:82px;line-height:1.15;${appear(at(b, 0))}">“${b.text}”</div>
-    ${b.foot ? `<div class="abs" style="left:70px;right:70px;top:1180px;font-family:Mukta;font-weight:600;font-size:50px;color:rgba(255,255,255,.7);${appear(at(b, 1))}">${b.foot}</div>` : ""}`,
-
-  points: b => `<div class="abs d" style="left:70px;right:70px;top:400px;font-size:66px;${appear(b.start)}">${b.title}</div>
-    <div class="abs" style="left:70px;right:70px;top:${b.items.length > 3 ? 560 : 600}px">${b.items.map((it, i) => {
-      const c = PAL[i % PAL.length];
-      return `<div class="row" style="${appear(at(b, i), { dx: -60, dy: 0 })}"><div class="badge" style="background:${c}">${b.numbered ? i + 1 : "✓"}</div>
-        <div><div class="h" style="color:${c}">${it[0]}</div><div class="s">${it[1]}</div></div></div>`;
-    }).join("")}</div>`,
+    <div class="abs d" style="left:70px;right:70px;top:560px;font-size:${b.text.length > 120 ? 70 : 82}px;line-height:1.15;${appear(at(b, 0))}">“${b.text}”</div>
+    ${b.foot ? `<div class="abs card" style="left:70px;right:70px;top:1150px;padding:30px 40px;${appear(at(b, 1))}"><div style="font-weight:700;font-size:50px">${b.foot}</div></div>` : ""}`,
 
   compare: b => {
-    const col = (side, c, t0, x) => `<div class="abs card" style="left:${x}px;top:560px;width:450px;min-height:620px;${appear(t0)}">
-      <div class="h" style="color:${c};font-size:58px;margin-bottom:26px">${side.h}</div>
-      ${side.items.map(s => `<div class="s" style="color:#fff;font-weight:600;font-size:44px;margin-bottom:22px">• ${s}</div>`).join("")}</div>`;
-    return `<div class="abs d" style="left:70px;right:70px;top:400px;font-size:62px;${appear(b.start)}">${b.title}</div>`
-      + col(b.left, PAL[3], at(b, 0), 60) + col(b.right, PAL[2], at(b, 1), 570)
-      + (T >= at(b, 1) ? `<div class="abs d" style="left:490px;top:820px;width:100px;height:100px;border-radius:50%;background:${ACC};color:#0B0D12;font-size:40px;display:flex;align-items:center;justify-content:center;${appear(at(b, 1), { dy: 0, scale: .3 })}">VS</div>` : "");
+    const col = (side, c, t0, x) => `<div class="abs card" style="left:${x}px;top:540px;width:450px;min-height:560px;${appear(t0)}">
+      <div class="d" style="color:${c};font-size:60px;margin-bottom:26px">${side.h}</div>
+      ${side.items.map(s => `<div style="font-weight:700;font-size:40px;margin-bottom:20px;line-height:1.18">• ${s}</div>`).join("")}</div>`;
+    return `<div class="abs d" style="left:70px;right:70px;top:400px;font-size:66px;${appear(b.start)}">${b.title}</div>`
+      + col(b.left, BLUE, at(b, 0), 60) + col(b.right, GREEN, at(b, 1), 570)
+      + (T >= at(b, 1) ? `<div class="abs d" style="left:490px;top:770px;width:100px;height:100px;border-radius:50%;background:${ACC};color:#0B0D12;font-size:40px;display:flex;align-items:center;justify-content:center;${appear(at(b, 1), { dy: 0, scale: .3 })}">VS</div>` : "")
+      + (b.foot ? `<div class="abs card" style="left:60px;right:60px;top:1200px;text-align:center;padding:28px;${appear(at(b, 2))}"><div class="d" style="font-size:54px">${b.foot}</div></div>` : "");
   },
 
-  card: b => `<div class="abs d" style="right:40px;top:300px;font-size:420px;color:${rgba(b.color, .1)};${appear(b.start, { dy: 0 })}">0${b.n}</div>
-    <div class="abs" style="left:70px;top:520px;width:160px;height:12px;border-radius:6px;background:${b.color};transform-origin:left;transform:scaleX(${ease((T - b.start) / .5)})"></div>
-    <div class="abs d" style="left:70px;right:70px;top:580px;font-size:${b.name.length > 13 ? 96 : 116}px;color:${b.color};${appear(b.start + .05)}">${b.name}</div>
-    <div class="abs" style="left:70px;right:70px;top:760px;${appear(b.start + .3)}"><span class="pill" style="background:${rgba(b.color, .16)};color:${b.color}">${b.who}</span></div>
-    <div class="abs card" style="left:70px;right:70px;top:900px;--acc:${b.color};${appear(at(b, 0))}"><div class="d" style="font-size:64px">${b.body}</div></div>`,
+  tea: b => {
+    const lit = T >= at(b, 1), grow = ease((T - at(b, 1)) / 1.2);
+    const bar = (pc, c, y, lab) => `<div class="abs" style="left:110px;top:${y}px;width:860px;${appear(at(b, 1))}">
+      <div style="display:flex;justify-content:space-between;font-weight:800;font-size:40px;margin-bottom:10px"><span>${lab}</span><span style="color:${c}">${Math.round(pc * grow)}%</span></div>
+      <div style="height:30px;border-radius:15px;background:rgba(255,255,255,.08)"><div style="height:100%;border-radius:15px;background:${c};width:${pc * grow}%"></div></div></div>`;
+    const packet = (name, own, x) => `<div class="abs card" style="left:${x}px;top:500px;width:400px;height:330px;text-align:center;padding:40px 20px;
+      box-shadow:0 0 0 ${own && lit ? 6 : 2}px ${own && lit ? ACC : "rgba(255,255,255,.08)"} inset;${appear(at(b, 0) + (own ? 0 : .2), { scale: .6 })}">
+      <div class="label" style="color:rgba(255,255,255,.5)">Tea</div>
+      <div class="d" style="font-size:86px;margin-top:30px"><span style="color:${own && lit ? ACC : "#fff"}">${name.slice(0, 3)}</span>${name.slice(3)}</div>
+      <div style="font-weight:700;font-size:34px;color:rgba(255,255,255,.55);margin-top:18px">${own ? "apna naam" : "partner ka naam"}</div></div>`;
+    return `<div class="abs d" style="left:70px;right:70px;top:380px;text-align:center;font-size:62px;${appear(b.start)}">Jonathan ko chai chunni hai</div>`
+      + packet("Jonoki", true, 100) + packet("Elioki", false, 580)
+      + (lit ? bar(64, ACC, 900, "Apne naam wali chai") + bar(36, "#8A8F9C", 1010, "Partner ke naam wali") : "")
+      + (T >= at(b, 2) ? `<div class="abs card" style="left:120px;right:120px;top:1160px;text-align:center;padding:30px;${appear(at(b, 2), { scale: .6 })}">
+          <div class="d" style="font-size:54px"><em>90%+</em> ne kaha: "taste dekh ke chuni"</div></div>` : "");
+  },
 
   iceberg: b => {
     const g = groupStart(b), p = ease((T - g) / .9), L = { conscious: 0, subconscious: 1, unconscious: 2 };
     const lit = k => b.focus === "all" || L[b.focus] === k ? 1 : .28;
-    const name = (k, txt, y, c) => `<text x="700" y="${y}" text-anchor="start" font-family="Inter Display" font-weight="800" font-size="46" fill="${c}" opacity="${lit(k) * p}">${txt}</text>`;
-    const bob = Math.sin(T * 1.4) * 6;
-    return `<svg class="abs" style="left:0;top:330px" width="1080" height="780" viewBox="0 0 1080 780">
-      <rect x="0" y="210" width="1080" height="570" fill="${rgba("#4DA3FF", .07)}"/>
+    const name = (k, txt, y, c) => `<text x="700" y="${y}" text-anchor="start" font-family="Inter Display" font-weight="800" font-size="50" fill="${c}" opacity="${lit(k) * p}">${txt}</text>`;
+    const bob = Math.sin(T * 1.4) * 6, chips = b.chips || [];
+    return `<svg class="abs" style="left:0;top:300px" width="1080" height="780" viewBox="0 0 1080 780">
+      <rect x="0" y="210" width="1080" height="570" fill="${rgba(BLUE, .07)}"/>
       <g transform="translate(-170 ${bob})">
         <path d="M430 210 L500 70 L560 120 L610 40 L700 210 Z" fill="${rgba("#FFFFFF", .9 * lit(0))}" opacity="${p}"/>
         <path d="M430 210 L700 210 L760 330 L360 330 Z" fill="${rgba("#9FD3FF", .85 * lit(1))}" opacity="${p}"/>
         <path d="M360 330 L760 330 L840 560 L700 760 L420 780 L250 560 Z" fill="${rgba("#2F6FB3", .95 * lit(2))}" opacity="${p}"/>
       </g>
       <path d="M0 210 Q 135 196 270 210 T 540 210 T 810 210 T 1080 210" fill="none" stroke="#9FD3FF" stroke-width="5" opacity="${p}"/>
-      ${name(0, "Conscious", 120, "#fff")}${name(1, "Subconscious", 290, "#9FD3FF")}${name(2, "Unconscious", 620, "#BFDBFF")}
+      ${name(0, "Conscious", 120, "#fff")}${name(1, "Subconscious", 290, "#9FD3FF")}${name(2, "Unconscious", 600, "#BFDBFF")}
     </svg>
-    <div class="abs card" style="left:70px;right:70px;top:1130px;--acc:${ACC};${appear(at(b, 0))}"><div class="d" style="font-size:52px;font-family:Mukta,Inter;font-weight:700">${b.note}</div></div>`;
+    <div class="abs card" style="left:70px;right:70px;top:${chips.length ? 1060 : 1110}px;padding:30px 40px;${appear(at(b, 0))}"><div class="d" style="font-size:50px">${b.note}</div></div>
+    ${chips.map(([ic, txt], i) => `<div class="abs" style="left:${i % 2 ? 560 : 70}px;top:${1250 + Math.floor(i / 2) * 110}px;width:450px;height:94px;border-radius:24px;background:#151821;display:flex;align-items:center;gap:16px;padding:0 22px;${appear(at(b, i + 1), { scale: .6 })}">
+      ${icon(ic, (T - at(b, i + 1)) / .7, PAL[[4, 1, 0, 5][i]], 70)}<div class="d" style="font-size:42px">${txt}</div></div>`).join("")}`;
+  },
+
+  truck: b => {
+    const tx = lerp(1150, 560, ease((T - at(b, 0)) / .9)), shake = T < at(b, 3) + .3 ? Math.sin(T * 60) * 2 : 0;
+    const chip = (i, h, s, c) => `<div class="abs card" style="left:70px;right:70px;top:${960 + i * 150}px;height:128px;padding:0 36px;display:flex;align-items:center;gap:26px;
+      box-shadow:0 0 0 4px ${c} inset;${appear(at(b, i + 1), { dx: -80, dy: 0 })}"><div class="d" style="font-size:54px;color:${c};width:300px">${h}</div><div style="font-weight:700;font-size:42px;color:rgba(255,255,255,.8)">${s}</div></div>`;
+    return `<div class="abs" style="left:0;right:0;top:560px;height:300px;background:#1A1D26"></div>
+      <div class="abs" style="left:0;right:0;top:703px;height:12px;background:repeating-linear-gradient(90deg,${ACC} 0 70px,transparent 70px 130px);opacity:.7"></div>
+      <svg class="abs" style="left:150px;top:500px" width="160" height="280" viewBox="0 0 160 280"><g stroke="#fff" stroke-width="12" stroke-linecap="round" fill="none">
+        <circle cx="80" cy="50" r="30" fill="#fff"/><path d="M80 82 v100 M30 120 h100 M80 182 l-40 70 M80 182 l40 70"/></g></svg>
+      <svg class="abs" style="left:${tx}px;top:${590 + shake}px" width="420" height="260" viewBox="0 0 420 260">
+        <rect x="120" y="30" width="290" height="170" rx="16" fill="${RED}"/><path d="M10 110 L40 60 H120 V200 H10 Z" fill="#E8EAF0"/><rect x="45" y="75" width="60" height="45" rx="6" fill="${BLUE}"/>
+        <circle cx="70" cy="215" r="34" fill="#0B0D12" stroke="#fff" stroke-width="8"/><circle cx="330" cy="215" r="34" fill="#0B0D12" stroke="#fff" stroke-width="8"/></svg>`
+      + chip(0, "Socha", "\"Khatra!\" · Cognition", BLUE) + chip(1, "Dar laga", "Affect", RED) + chip(2, "Ruk gaye", "Conation", GREEN);
   },
 
   triangle: b => {
     const g = groupStart(b), p = ease((T - g) / .8);
-    const N = [["affect", "Affect", "Feelings", 540, 160, PAL[0]], ["cognition", "Cognition", "Thought", 230, 620, PAL[3]], ["conation", "Conation", "Behaviour", 850, 620, PAL[2]]];
+    const N = [["affect", "Affect", "Feelings", 540, 160, RED], ["cognition", "Cognition", "Thought", 230, 620, BLUE], ["conation", "Conation", "Behaviour", 850, 620, GREEN]];
     const lit = k => b.focus === "all" || b.focus === k;
     const flow = b.focus === "all" ? (T * 400) % 1000 : 0;
     const edge = (a, c) => { const dx = c[3] - a[3], dy = c[4] - a[4], k = 150 / Math.hypot(dx, dy);  // stop at the circles
@@ -127,17 +239,17 @@ const S = {
       ${N.map(([k, h, s, x, y, c]) => `<g opacity="${(lit(k) ? 1 : .3) * p}" transform="translate(${x} ${y}) scale(${lit(k) ? 1 + .04 * Math.sin(T * 5) : .92})">
         <circle r="145" fill="#12151C"/><circle r="145" fill="${rgba(c, .16)}" stroke="${c}" stroke-width="6"/>
         <text y="-6" text-anchor="middle" font-family="Inter Display" font-weight="800" font-size="50" fill="${c}">${h}</text>
-        <text y="52" text-anchor="middle" font-family="Mukta" font-weight="600" font-size="40" fill="#fff">${s}</text></g>`).join("")}
+        <text y="52" text-anchor="middle" font-family="Inter" font-weight="600" font-size="40" fill="#fff">${s}</text></g>`).join("")}
     </svg>
-    <div class="abs card" style="left:70px;right:70px;top:1150px;--acc:${ACC};${appear(at(b, 0))}"><div class="d" style="font-size:50px;font-family:Mukta,Inter;font-weight:700">${b.note}</div></div>`;
+    <div class="abs card" style="left:70px;right:70px;top:1150px;padding:30px 40px;${appear(at(b, 0))}"><div class="d" style="font-size:50px">${b.note}</div></div>`;
   },
 
-  exam: b => `<div class="abs" style="left:70px;top:380px;${appear(b.start)}"><span class="pill" style="background:#FF6B6B;color:#fff;font-size:38px">EXAM</span></div>
-    <div class="abs d" style="left:70px;right:70px;top:470px;font-size:62px;${appear(b.start + .15)}">${b.title}</div>
-    <div class="abs card" style="left:60px;right:60px;top:620px;padding:34px 40px">${b.items.map((it, i) =>
-      `<div style="display:flex;gap:22px;align-items:flex-start;margin:14px 0;${appear(at(b, i), { dx: -40, dy: 0 })}">
-        <div style="flex:none;width:52px;height:52px;border-radius:14px;background:${PAL[2]};color:#0B0D12;font-weight:900;font-size:36px;display:flex;align-items:center;justify-content:center;margin-top:4px">✓</div>
-        <div style="font-family:Inter,Mukta;font-weight:700;font-size:44px;line-height:1.2">${it}</div></div>`).join("")}</div>`,
+  exam: b => `<div class="abs" style="left:70px;top:360px;${appear(b.start)}"><span class="pill" style="background:${RED};color:#fff;font-size:38px">EXAM REVISION</span></div>
+    <div class="abs d" style="left:70px;right:70px;top:450px;font-size:68px;${appear(b.start + .15)}">${b.title}</div>
+    <div class="abs card" style="left:50px;right:50px;top:580px;padding:30px 34px">${b.items.map((it, i) =>
+      `<div style="display:flex;gap:20px;align-items:center;margin:12px 0;${appear(at(b, i), { dx: -40, dy: 0 })}">
+        <div style="flex:none;width:50px;height:50px;border-radius:14px;background:${PAL[i % 6]};color:#0B0D12;font-weight:900;font-size:34px;display:flex;align-items:center;justify-content:center">✓</div>
+        <div style="font-weight:700;font-size:${b.items.length > 5 ? 39 : 44}px;line-height:1.2">${it}</div></div>`).join("")}</div>`,
 
   close: b => `<svg class="abs" style="left:440px;top:440px;${appear(b.start, { scale: .4 })}" width="200" height="240" viewBox="0 0 200 240">
       <path d="M30 20 h140 v200 l-70 -50 l-70 50 z" fill="${ACC}"/></svg>`
@@ -146,6 +258,7 @@ const S = {
 };
 
 // diagrams that span consecutive beats of one type enter only once
+const KEEP = ["iceberg", "triangle", "grid"];
 function groupStart(b) {
   let i = TL.beats.indexOf(b);
   while (i > 0 && TL.beats[i - 1].type === b.type) i--;
@@ -161,11 +274,12 @@ function captionHTML() {
   }).join("")}</div>`;
 }
 
-function chrome() {
-  const p = T / TL.end;
+function chrome(b) {
+  const p = T / TL.end, ch = TL.beats.slice(0, TL.beats.indexOf(b) + 1).filter(x => x.type === "chapter").pop();
   return `<div class="grid"></div>
     <div class="abs" style="left:-200px;top:${200 + Math.sin(T * .3) * 120}px;width:900px;height:900px;border-radius:50%;background:radial-gradient(${rgba(ACC, .1)},transparent 65%)"></div>
-    <div class="abs" style="left:60px;top:150px;font-weight:800;font-size:30px;color:rgba(255,255,255,.55)">Dr. Mak <span style="color:${ACC}">·</span> BHMS Psychology #${TL.n}</div>
+    <div class="abs" style="left:60px;top:150px;font-weight:800;font-size:30px;color:rgba(255,255,255,.55)">Dr. Mak <span style="color:${ACC}">·</span> BHMS Psychology</div>
+    ${ch ? `<div class="abs" style="right:60px;top:140px;font-weight:800;font-size:30px;padding:6px 20px;border-radius:999px;background:${rgba(ACC, .16)};color:${ACC}">Topic ${ch.topics.join(" + ")}</div>` : ""}
     <div class="abs" style="left:60px;right:60px;top:206px;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"><div style="width:${p * 100}%;height:100%;border-radius:3px;background:${ACC}"></div></div>`;
 }
 
@@ -173,8 +287,8 @@ window.setData = d => { TL = d; document.documentElement.style.setProperty("--ac
 window.renderAt = t => {
   T = t;
   const b = TL.beats.find(b => t >= b.start && t < b.end) ?? TL.beats[TL.beats.length - 1];
-  const fade = clamp((b.end - t) / .2), cont = TL.beats[TL.beats.indexOf(b) + 1]?.type === b.type && ["iceberg", "triangle"].includes(b.type);
-  document.getElementById("stage").innerHTML = chrome()
+  const fade = clamp((b.end - t) / .2), cont = TL.beats[TL.beats.indexOf(b) + 1]?.type === b.type && KEEP.includes(b.type);
+  document.getElementById("stage").innerHTML = chrome(b)
     + `<div class="abs" style="inset:0;opacity:${cont ? 1 : fade}">${S[b.type](b)}</div>` + captionHTML();
 };
 </script>

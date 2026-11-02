@@ -8,7 +8,7 @@ import json
 import re
 import sys
 
-WPM = 150      # Hinglish teaching pace
+WPM = 175      # Roman Hinglish (many short words) at a teaching pace
 LEAD = 0.4     # silence before the first word
 PAUSE = 0.5    # gap between beats
 TAIL = 2.0     # end card after the last word

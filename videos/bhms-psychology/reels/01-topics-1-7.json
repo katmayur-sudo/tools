@@ -1,0 +1,466 @@
+{
+ "n": 1,
+ "title": "Psychology: Mind ki Basics",
+ "topic": "Syllabus topics 1 to 7, ek reel mein",
+ "tag": "Semester 1 · Exam revision",
+ "covers": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7
+ ],
+ "outside_book": [
+  "Kent's Repertory opens with the Mind chapter (Mind, Vertigo, Head ...)",
+  "Organon §9, §211 and Kent's 'will and understanding' (homoeopathy texts)",
+  "the subconscious (preconscious) layer and its phone-number example",
+  "case taking → rubrics → Materia Medica comes from the syllabus's own course outcomes"
+ ],
+ "beats": [
+  {
+   "type": "hook",
+   "kicker": "BHMS Psychology",
+   "big": "<em>7 topics</em>, ek reel",
+   "sub": "Exam se pehle bas ye dekh lo",
+   "vo": "BHMS psychology ke pehle saat topics, ek hi reel mein. Exam se pehle bas ye dekh lo.",
+   "cues": [
+    "saat",
+    "Exam"
+   ]
+  },
+  {
+   "type": "chapter",
+   "topics": [
+    1
+   ],
+   "title": "Psychology kya hai?",
+   "vo": "Topic one: psychology kya hai?"
+  },
+  {
+   "type": "word",
+   "text": "the <em>scientific study</em> of <em>mind</em> and <em>behaviour</em>",
+   "parts": [
+    [
+     "Psyche",
+     "life"
+    ],
+    [
+     "Logos",
+     "explanation"
+    ]
+   ],
+   "vo": "Psychology is the scientific study of mind and behaviour. Psyche matlab life, logos matlab explanation.",
+   "cues": [
+    "Psyche",
+    "logos"
+   ]
+  },
+  {
+   "type": "icon",
+   "icon": "bubble",
+   "title": "Hindsight bias",
+   "text": "\"Mujhe to pehle se pata tha!\"",
+   "color": "#FF6B6B",
+   "vo": "Science kyun? Kyunki common sense aksar galat hota hai. Result ke baad lagta hai, mujhe to pehle se pata tha. Ye hai hindsight bias.",
+   "cues": [
+    "Result",
+    "hindsight"
+   ]
+  },
+  {
+   "type": "flow",
+   "title": "Empirical method",
+   "nodes": [
+    [
+     "chart",
+     "Data",
+     "collect"
+    ],
+    [
+     "stack",
+     "Organize",
+     "arrange"
+    ],
+    [
+     "bulb",
+     "Conclusion",
+     "nikaalo"
+    ]
+   ],
+   "foot": "Science tests <em>facts</em>, not values",
+   "vo": "Isliye psychology empirical method use karti hai: data collect karo, organize karo, conclusion nikaalo. Test sirf facts hote hain, values nahi.",
+   "cues": [
+    "data",
+    "organize",
+    "conclusion",
+    "facts"
+   ]
+  },
+  {
+   "type": "chapter",
+   "topics": [
+    2,
+    4
+   ],
+   "title": "Schools + unka Mind concept",
+   "vo": "Topic two aur four: schools, aur har school ka mind concept."
+  },
+  {
+   "type": "icon",
+   "icon": "split",
+   "title": "Dualism · Descartes",
+   "text": "Mind, body se bilkul <em>alag</em>",
+   "color": "#FFB547",
+   "vo": "Pehle Descartes ka dualism: mind, body se bilkul alag hai.",
+   "cues": [
+    "Descartes"
+   ]
+  },
+  {
+   "type": "grid",
+   "active": 0,
+   "vo": "Phir aaya structuralism: Wundt aur Titchener. Introspection se mind ke basic elements dhoondhna.",
+   "cues": [
+    "Introspection"
+   ],
+   "tiles": [
+    [
+     "grid9",
+     "Structuralism",
+     "Wundt · Titchener",
+     "Mind = basic elements"
+    ],
+    [
+     "gear",
+     "Functionalism",
+     "William James",
+     "Mind = for doing"
+    ],
+    [
+     "iceberg",
+     "Psychodynamic",
+     "Freud",
+     "Mind = iceberg"
+    ],
+    [
+     "box",
+     "Behaviourism",
+     "Watson · Skinner",
+     "Mind = black box"
+    ],
+    [
+     "brain",
+     "Cognitive",
+     "Bartlett · Piaget",
+     "Mind = interpreter"
+    ],
+    [
+     "people",
+     "Social-cultural",
+     "Heider · Festinger",
+     "Mind ← society, culture"
+    ]
+   ]
+  },
+  {
+   "type": "grid",
+   "active": 1,
+   "vo": "Functionalism: William James. Unke liye thinking, doing ke liye hai.",
+   "cues": [
+    "Unke"
+   ]
+  },
+  {
+   "type": "grid",
+   "active": 2,
+   "vo": "Psychodynamic: Freud. Mind ek iceberg hai, zyada hissa unconscious.",
+   "cues": [
+    "Mind"
+   ]
+  },
+  {
+   "type": "grid",
+   "active": 3,
+   "vo": "Behaviourism: Watson aur Skinner. Mind ek black box hai, sirf stimulus aur response padho.",
+   "cues": [
+    "Mind"
+   ]
+  },
+  {
+   "type": "grid",
+   "active": 4,
+   "vo": "Cognitive: Bartlett aur Piaget. Mind har stimulus ko interpret karta hai.",
+   "cues": [
+    "Mind"
+   ]
+  },
+  {
+   "type": "grid",
+   "active": 5,
+   "vo": "Aur social-cultural: society aur culture hamari thinking aur behaviour ko shape karte hain.",
+   "cues": [
+    "society"
+   ]
+  },
+  {
+   "type": "chapter",
+   "topics": [
+    3
+   ],
+   "title": "Homoeopath ko psychology kyun?",
+   "vo": "Topic three: homoeopath ko psychology kyun padhni hai?"
+  },
+  {
+   "type": "book",
+   "chapters": [
+    "MIND",
+    "Vertigo",
+    "Head",
+    "Eye"
+   ],
+   "vo": "Kent ki Repertory kholiye. Sabse pehla chapter? Mind.",
+   "cues": [
+    "Mind."
+   ]
+  },
+  {
+   "type": "define",
+   "term": "Organon §211",
+   "text": "the state of the <em>disposition</em> often chiefly determines the remedy",
+   "foot": "Mental state aksar remedy decide karta hai",
+   "vo": "Organon ke aphorism 211 mein Hahnemann kehte hain: patient ka mental state aksar remedy decide karta hai.",
+   "tts": "Organon ke aphorism two eleven mein Hahnemann kehte hain: patient ka mental state aksar remedy decide karta hai.",
+   "cues": [
+    "Hahnemann",
+    "patient"
+   ]
+  },
+  {
+   "type": "flow",
+   "title": "Psychology ka direct use",
+   "nodes": [
+    [
+     "clipboard",
+     "Case taking",
+     "observe"
+    ],
+    [
+     "list",
+     "Rubrics",
+     "convert"
+    ],
+    [
+     "vial",
+     "Materia Medica",
+     "match"
+    ]
+   ],
+   "vo": "Isliye case taking mein emotions, thoughts, behaviour observe karo, unhe rubrics mein badlo, aur Materia Medica se match karo.",
+   "cues": [
+    "case",
+    "rubrics",
+    "Materia"
+   ]
+  },
+  {
+   "type": "chapter",
+   "topics": [
+    5
+   ],
+   "title": "Organon mein Mind",
+   "vo": "Topic five: Organon mein mind."
+  },
+  {
+   "type": "define",
+   "term": "Organon §9",
+   "text": "the <em>vital force</em> keeps the organism in harmony, so the <em>reason-gifted mind</em> can use it for the higher purposes of existence",
+   "vo": "Aphorism 9: vital force body ko harmony mein rakhti hai, taaki hamara reason-gifted mind is body ko existence ke higher purposes ke liye use kar sake.",
+   "tts": "Aphorism nine: vital force body ko harmony mein rakhti hai, taaki hamara reason-gifted mind is body ko existence ke higher purposes ke liye use kar sake.",
+   "cues": [
+    "vital",
+    "reason-gifted"
+   ]
+  },
+  {
+   "type": "icon",
+   "icon": "house",
+   "title": "Kent",
+   "text": "Man = <em>will</em> + <em>understanding</em><br>Body = the house he lives in",
+   "color": "#4DD4AC",
+   "vo": "Kent ke liye insaan asal mein will aur understanding hai, aur body woh ghar hai jismein woh rehta hai.",
+   "cues": [
+    "will"
+   ]
+  },
+  {
+   "type": "compare",
+   "title": "Mind: do nazariye",
+   "left": {
+    "h": "Psychology",
+    "items": [
+     "Scientific method",
+     "Behaviour se mind tak",
+     "Physiological = psychological"
+    ]
+   },
+   "right": {
+    "h": "Organon",
+    "items": [
+     "Totality ka hissa",
+     "Vital force jodti hai",
+     "Mental symptoms se remedy"
+    ]
+   },
+   "foot": "Common ground: <em>mind + body = one</em>",
+   "vo": "Psychology mind ko scientific method aur behaviour se padhti hai. Organon use totality ka hissa maanta hai. Par dono maante hain: mind aur body ek hain.",
+   "cues": [
+    "Psychology",
+    "Organon",
+    "dono"
+   ]
+  },
+  {
+   "type": "chapter",
+   "topics": [
+    6
+   ],
+   "title": "Conscious · Subconscious · Unconscious",
+   "vo": "Topic six: conscious, subconscious aur unconscious."
+  },
+  {
+   "type": "tea",
+   "vo": "Ek experiment mein log zyada tar wahi chai chunte the jiske naam mein unke apne naam ke letters the. Par nabbe percent se zyada ne kaha: taste dekh ke chuni.",
+   "cues": [
+    "chai",
+    "naam",
+    "nabbe"
+   ]
+  },
+  {
+   "type": "iceberg",
+   "focus": "conscious",
+   "note": "<em>Conscious</em>: jo abhi aapki awareness mein hai",
+   "vo": "Freud ke hisaab se mind ek iceberg hai. Upar ka tip hai conscious: jo abhi aapki awareness mein hai.",
+   "cues": [
+    "conscious:"
+   ]
+  },
+  {
+   "type": "iceberg",
+   "focus": "subconscious",
+   "note": "<em>Subconscious</em>: abhi dhyan mein nahi, par yaad aa jaaye (phone number)",
+   "vo": "Surface ke theek neeche subconscious: abhi dhyan mein nahi, par koshish karo to yaad aa jaaye, jaise kisi ka phone number.",
+   "cues": [
+    "subconscious:"
+   ]
+  },
+  {
+   "type": "iceberg",
+   "focus": "unconscious",
+   "note": "<em>Unconscious</em>: sabse bada, chhupa hua, behaviour chalata hai",
+   "chips": [
+    [
+     "moon",
+     "Dreams"
+    ],
+    [
+     "slip",
+     "Slips of tongue"
+    ],
+    [
+     "loop",
+     "Obsessions"
+    ],
+    [
+     "spiral",
+     "Hypnosis"
+    ]
+   ],
+   "vo": "Aur neeche sabse bada hissa unconscious, jo chupke se behaviour chalata hai. Ye dikhta hai dreams mein, slips of the tongue mein, obsessions mein, aur hypnosis mein.",
+   "cues": [
+    "unconscious,",
+    "dreams",
+    "slips",
+    "obsessions,",
+    "hypnosis"
+   ]
+  },
+  {
+   "type": "chapter",
+   "topics": [
+    7
+   ],
+   "title": "Mind ke 3 expressions",
+   "vo": "Topic seven: mind ke teen expressions."
+  },
+  {
+   "type": "truck",
+   "vo": "Sadak par achanak truck dikha. Aapne socha khatra, dar laga, aur aap ruk gaye.",
+   "cues": [
+    "truck",
+    "socha",
+    "dar",
+    "ruk"
+   ]
+  },
+  {
+   "type": "triangle",
+   "focus": "cognition",
+   "note": "Socha = <em>Cognition</em>: perception, thinking, memory, judgement",
+   "vo": "Socha, yaani cognition: perception, thinking, memory aur judgement.",
+   "cues": [
+    "cognition:"
+   ]
+  },
+  {
+   "type": "triangle",
+   "focus": "affect",
+   "note": "Dar = <em>Affect</em>: emotion + motivation. Arousal: dil tez, pupils dilate, paseena",
+   "vo": "Dar, yaani affect: emotions aur motivation. Isme arousal hota hai: dil tez, pupils dilate, paseena.",
+   "cues": [
+    "affect:"
+   ]
+  },
+  {
+   "type": "triangle",
+   "focus": "conation",
+   "note": "Ruk gaye = <em>Conation</em>: behaviour, jo hum karte hain",
+   "vo": "Aur ruk gaye, yaani conation: behaviour, jo hum karte hain.",
+   "cues": [
+    "conation:"
+   ]
+  },
+  {
+   "type": "triangle",
+   "focus": "all",
+   "note": "Teeno ek doosre ko aur <em>body</em> ko affect karte hain",
+   "vo": "Teeno ek doosre ko aur body ko affect karte hain.",
+   "cues": [
+    "Teeno"
+   ]
+  },
+  {
+   "type": "exam",
+   "title": "7 topics, 7 lines",
+   "items": [
+    "1 · Scientific study of mind & behaviour",
+    "2 · Six schools: structure → society",
+    "3 · §211: mind often decides the remedy",
+    "4 · Dualism, elements, doing, iceberg, black box, interpret",
+    "5 · §9 + Kent: will & understanding",
+    "6 · Conscious · Subconscious · Unconscious",
+    "7 · Affect · Cognition · Conation"
+   ],
+   "vo": "Revision ke liye ye saat lines screenshot kar lo.",
+   "cues": []
+  },
+  {
+   "type": "close",
+   "big": "Save karo",
+   "next": "Next: Brain aur Behaviour",
+   "vo": "Ise save karo, aur agle topics ke liye follow karo."
+  }
+ ]
+}
