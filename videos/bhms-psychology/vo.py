@@ -51,7 +51,7 @@ def main():
     limit = float(sys.argv[4]) if len(sys.argv) > 4 else 178
     os.makedirs(out, exist_ok=True)
     beats = json.load(open(reel))["beats"]
-    x = pcm(raw, SR, "highpass=f=80,afftdn=nf=-35:nr=25:tn=1")
+    x = pcm(raw, SR, "highpass=f=80,lowpass=f=12000,afftdn=nf=-30:nr=40:tn=1,afftdn=nf=-40:nr=12")  # two passes: room noise, then hiss
     from faster_whisper import WhisperModel
     prompt = "BHMS psychology Hinglish. Descartes, Wundt, Titchener, Freud, Watson, Skinner, Piaget, Hahnemann, Kent, Organon, aphorism."
     segs, _ = WhisperModel("small", device="cpu", compute_type="int8").transcribe(
