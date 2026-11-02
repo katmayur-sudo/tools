@@ -141,7 +141,7 @@ const S = {
       if (T < t0) return `<div class="abs" style="left:${x}px;top:${y}px;width:460px;height:310px;border-radius:30px;border:3px dashed rgba(255,255,255,.08)"></div>`;
       return `<div class="abs card" style="left:${x}px;top:${y}px;width:460px;height:310px;padding:26px 30px;
         opacity:${on ? 1 : .42};box-shadow:0 0 0 ${on ? 5 : 2}px ${on ? c : "rgba(255,255,255,.06)"} inset;${on ? appear(t0, { scale: .7 }) : ""}">
-        <div style="display:flex;align-items:center;gap:18px">${icon(ic, (T - t0) / .9, c, 100)}<div class="d" style="font-size:${name.length > 13 ? 40 : 46}px;color:${c}">${name}</div></div>
+        ${TL.beats.find(x => x.type === "grid" && x.active === i).photo ? `<div style="position:absolute;right:22px;bottom:22px;width:110px;height:110px;border-radius:50%;border:4px solid ${c};background:#222 url('../assets/user/${TL.beats.find(x => x.type === "grid" && x.active === i).photo[0]}') center 20%/cover"></div>` : ""}<div style="display:flex;align-items:center;gap:18px">${icon(ic, (T - t0) / .9, c, 100)}<div class="d" style="font-size:${name.length > 13 ? 40 : 46}px;color:${c}">${name}</div></div>
         <div style="font-weight:700;font-size:32px;color:rgba(255,255,255,.65);margin-top:12px">${who}</div>
         <div class="d" style="font-size:42px;margin-top:14px;${on ? appear(at(b, 0)) : ""}">${mind}</div></div>`;
     }).join("");
@@ -186,7 +186,7 @@ const S = {
       <div class="label" style="color:rgba(255,255,255,.5)">Tea</div>
       <div class="d" style="font-size:86px;margin-top:30px"><span style="color:${own && lit ? ACC : "#fff"}">${name.slice(0, 3)}</span>${name.slice(3)}</div>
       <div style="font-weight:700;font-size:34px;color:rgba(255,255,255,.55);margin-top:18px">${own ? "apna naam" : "partner ka naam"}</div></div>`;
-    return `<div class="abs d" style="left:70px;right:70px;top:380px;text-align:center;font-size:62px;${appear(b.start)}">Jonathan ko chai chunni hai</div>`
+    return `<div class="abs d" style="left:70px;right:320px;top:330px;font-size:62px;${appear(b.start)}">Jonathan ko chai chunni hai</div>`
       + packet("Jonoki", true, 100) + packet("Elioki", false, 580)
       + (lit ? bar(64, ACC, 900, "Apne naam wali chai") + bar(36, "#8A8F9C", 1010, "Partner ke naam wali") : "")
       + (T >= at(b, 2) ? `<div class="abs card" style="left:120px;right:120px;top:1160px;text-align:center;padding:30px;${appear(at(b, 2), { scale: .6 })}">
@@ -288,7 +288,7 @@ window.renderAt = t => {
   T = t;
   const b = TL.beats.find(b => t >= b.start && t < b.end) ?? TL.beats[TL.beats.length - 1];
   const fade = clamp((b.end - t) / .2), cont = TL.beats[TL.beats.indexOf(b) + 1]?.type === b.type && KEEP.includes(b.type);
-  const ph = b.photo ? `<div class="abs" style="right:60px;top:250px;width:230px;height:290px;border-radius:24px;border:4px dashed rgba(255,255,255,.35);
+  const ph = b.photo && b.type !== "grid" ? `<div class="abs" style="right:60px;top:250px;width:230px;height:290px;border-radius:24px;border:4px dashed rgba(255,255,255,.35);
     background:#1A1D26 url('../assets/user/${b.photo[0]}') center/cover;display:flex;align-items:flex-end;z-index:40;${appear(b.start + .2, { scale: .7 })}">
     <div style="width:100%;padding:8px 10px;background:rgba(0,0,0,.7);font-weight:800;font-size:24px;text-align:center;border-radius:0 0 20px 20px">${b.photo[1]}</div></div>` : "";  // real photo slot: assets/user/<file>, placeholder until supplied
   document.getElementById("stage").innerHTML = chrome(b) + ph
