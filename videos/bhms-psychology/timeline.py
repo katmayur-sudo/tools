@@ -1,7 +1,7 @@
 """Timeline for a BHMS psychology reel: beat starts, cue times and captions.
 
-Usage: python3 timeline.py reels/01-….json timeline.json
-Timing is estimated from the words (silent first cut); the video re-times once a voice-over exists.
+Usage: python3 timeline.py reels/01-….json timeline.json [words.json]
+Without words.json (from vo.py) timing is estimated from the words (silent first cut).
 Each beat's "cues" are words of its "vo", in order; each one times the next item on screen.
 """
 import json
@@ -11,7 +11,7 @@ import sys
 WPM = 175      # Roman Hinglish (many short words) at a teaching pace
 LEAD = 0.4     # silence before the first word
 PAUSE = 0.5    # gap between beats
-TAIL = 2.0     # end card after the last word
+TAIL = 1.5     # hold after the last word
 END = ".?!:।"
 
 
@@ -58,7 +58,8 @@ def captions(words):
 def main():
     sc = json.load(open(sys.argv[1]))
     beats = sc["beats"]
-    words = estimated(beats)
+    words = json.load(open(sys.argv[3])) if len(sys.argv) > 3 else estimated(beats)  # words.json from vo.py
+    assert len(words) == sum(len(b["vo"].split()) for b in beats), "words.json is for another script"
     i, tl = 0, []
     for b in beats:
         bw = words[i:i + len(b["vo"].split())]
@@ -73,7 +74,7 @@ def main():
     meta = {k: sc[k] for k in ("n", "title", "topic", "tag")}
     json.dump({**meta, "end": tl[-1]["end"], "beats": tl, "captions": captions(words)},
               open(sys.argv[2], "w"), ensure_ascii=False, indent=1)
-    print(f"{sys.argv[1]}: {len(words)} words, {tl[-1]['end']:.1f} s (estimated)")
+    print(f"{sys.argv[1]}: {len(words)} words, {tl[-1]['end']:.1f} s")
 
 
 if __name__ == "__main__":
