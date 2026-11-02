@@ -14,3 +14,5 @@ Save karo, exam se pehle revise karo.
 ## Pinned comment
 
 📌 Clarification: Psyche (ψυχή) ka original Greek arth "soul / spirit / breath" hai, jise life ka essence maana jaata tha; baad mein ye "mind" ban gaya. Logos = study / explanation. To Psychology = "study of the soul/mind". Exam definition: Psychology is the scientific study of mind and behaviour. ✅
+
+💬 Koi topic samajh nahi aaya, ya kisi topic par detail mein alag reel / video chahiye? Comment mein topic ka naam likho, next video usi par banayenge! 👇
