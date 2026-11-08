@@ -1,0 +1,81 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Carousel</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1350px; overflow: hidden; background: #0B0D12; color: #fff; font-family: "Inter", sans-serif; }
+  .s { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(circle at 85% 8%, var(--glow), transparent 55%), #0B0D12; }
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px); background-size: 60px 60px; }
+  .d { font-family: "Inter Display", "Inter", sans-serif; font-weight: 900; letter-spacing: -.03em; line-height: 1.02; }
+  em { font-style: normal; color: var(--acc); }
+  .top { position: absolute; left: 64px; right: 64px; top: 52px; display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 28px; color: rgba(255,255,255,.6); }
+  .dots { display: flex; gap: 6px; } .dots i { width: 14px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.15); } .dots i.on { width: 34px; background: var(--acc); }
+  .kick { display: inline-block; font-weight: 900; font-size: 30px; letter-spacing: .08em; text-transform: uppercase; color: #0B0D12; background: var(--acc); padding: 8px 20px; border-radius: 12px; }
+  .card { background: #151821; border-radius: 30px; padding: 30px 36px; box-shadow: 0 0 0 2px rgba(255,255,255,.06) inset; }
+  .row { display: flex; gap: 22px; align-items: flex-start; margin-bottom: 22px; }
+  .b { flex: none; width: 58px; height: 58px; border-radius: 16px; background: var(--acc); color: #0B0D12; font-weight: 900; font-size: 30px; display: flex; align-items: center; justify-content: center; }
+  .h { font-family: "Inter Display"; font-weight: 800; font-size: 44px; line-height: 1.1; }
+  .t { font-weight: 600; font-size: 34px; line-height: 1.3; color: rgba(255,255,255,.75); margin-top: 4px; }
+  .swipe { position: absolute; right: 64px; bottom: 50px; font-weight: 900; font-size: 34px; color: var(--acc); }
+  .big .h { font-size: 54px; } .big .t { font-size: 40px; } .big .row { margin-bottom: 38px; } .big .b { width: 68px; height: 68px; font-size: 34px; }
+  .exam { position: absolute; left: 64px; bottom: 44px; font-weight: 800; font-size: 26px; color: rgba(255,255,255,.55); }
+</style></head>
+<body><div id="s" class="s"></div>
+<script>
+const PAL = { red: "#FF6B6B", amber: "#FFB547", green: "#4DD4AC", blue: "#4DA3FF", purple: "#B983FF", pink: "#FF6FB5" };
+const rgba = (h, a) => { const n = parseInt(h.slice(1), 16); return `rgba(${n >> 16},${n >> 8 & 255},${n & 255},${a})`; };
+// side-view brain, front to the left; `on` = regions to light (same shapes as the reel's brain scene)
+const REG = {
+  frontal: ["M150 330 C150 180 260 100 400 90 L470 95 L450 330 L200 380 C170 370 150 350 150 330 Z", PAL.red, "Frontal", 250, 250],
+  parietal: ["M470 95 C600 90 720 140 760 230 L620 330 L450 330 Z", PAL.amber, "Parietal", 600, 200],
+  occipital: ["M760 230 C820 300 830 380 790 440 L640 420 L620 330 Z", PAL.purple, "Occipital", 725, 345],
+  temporal: ["M200 380 L450 330 L620 330 L640 420 C560 480 380 500 260 460 C220 440 200 410 200 380 Z", PAL.blue, "Temporal", 420, 425],
+  prefrontal: ["M150 330 C150 200 220 130 300 105 L300 350 L200 380 C170 370 150 350 150 330 Z", PAL.pink, "Prefrontal", 215, 300],
+  cerebellum: ["M600 500 a100 60 0 1 0 200 0 a100 60 0 1 0 -200 0", PAL.green, "Cerebellum", 700, 600],
+  stem: ["M520 420 L580 420 L592 650 L538 650 Z", "#9FD3FF", "Brain stem", 640, 650],
+  thalamus: ["M486 300 a34 34 0 1 0 68 0 a34 34 0 1 0 -68 0", PAL.amber, "Thalamus", 520, 245],
+  hypothalamus: ["M462 355 a20 20 0 1 0 40 0 a20 20 0 1 0 -40 0", PAL.pink, "Hypothalamus", 470, 255],
+  amygdala: ["M432 405 a18 18 0 1 0 36 0 a18 18 0 1 0 -36 0", PAL.red, "Amygdala", 330, 475],
+  hippocampus: ["M460 415 C520 455 600 435 620 385", PAL.green, "Hippocampus", 600, 510],
+};
+const CORTEX = ["frontal", "parietal", "occipital", "temporal"];
+function brain(on, w = 760, labels = true) {
+  const inner = on.some(k => !CORTEX.includes(k) && k !== "prefrontal");
+  return `<svg width="${w}" height="${w * .72}" viewBox="120 60 740 610">${Object.entries(REG).map(([k, [d, c, lab, x, y]]) => {
+    const lit = on.includes(k), line = k === "hippocampus";
+    if (k === "prefrontal" && !lit) return "";
+    const a = lit ? 1 : CORTEX.includes(k) && inner ? .12 : .28;
+    return `<path d="${d}" fill="${line ? "none" : rgba(c, lit ? .78 : .22)}" stroke="${c}" stroke-width="${line ? 16 : 4}" stroke-linecap="round" opacity="${a}"/>`
+      + (lit && labels ? `<text x="${x}" y="${y}" text-anchor="middle" font-family="Inter Display" font-weight="800" font-size="40" fill="#fff" stroke="#0B0D12" stroke-width="9" paint-order="stroke">${lab}</text>` : "");
+  }).join("")}</svg>`;
+}
+const rows = (items, num) => items.map(([h, t], i) => `<div class="row"><div class="b">${num ? i + 1 : "✓"}</div><div><div class="h">${h}</div>${t ? `<div class="t">${t}</div>` : ""}</div></div>`).join("");
+
+window.show = (S, i, n) => {
+  const acc = PAL[S.c || "amber"];
+  const el = document.getElementById("s");
+  el.style.setProperty("--acc", acc); el.style.setProperty("--glow", rgba(acc, .22));
+  let body = "";
+  if (S.k === "cover") body = `
+    <div style="position:absolute;left:64px;top:170px"><span class="kick">${S.kick}</span></div>
+    <div class="d" style="position:absolute;left:64px;right:64px;top:250px;font-size:118px">${S.title}</div>
+    <div style="position:absolute;left:40px;right:40px;top:640px;display:flex;justify-content:center">${brain(S.brain, 640, false)}</div>
+    <div class="d" style="position:absolute;left:64px;right:64px;top:1110px;font-size:44px;color:rgba(255,255,255,.8)">${S.sub}</div>`;
+  else if (S.k === "brain") body = `
+    <div style="position:absolute;left:64px;top:150px"><span class="kick">${S.kick}</span></div>
+    <div class="d" style="position:absolute;left:64px;right:64px;top:225px;font-size:76px">${S.title}</div>
+    <div style="position:absolute;left:0;right:0;top:${S.title.length > 26 ? 400 : 330}px;display:flex;justify-content:center">${brain(S.brain, 620, S.brain.length < 4)}</div>
+    <div class="card" style="position:absolute;left:64px;right:64px;bottom:120px">${rows(S.items, S.num)}</div>`;
+  else if (S.k === "stat") body = `
+    <div style="position:absolute;left:64px;top:150px"><span class="kick">${S.kick}</span></div>
+    <div class="d" style="position:absolute;left:64px;right:64px;top:250px;font-size:220px;color:var(--acc)">${S.stat}</div>
+    <div class="d" style="position:absolute;left:64px;right:64px;top:500px;font-size:72px">${S.title}</div>
+    <div class="card" style="position:absolute;left:64px;right:64px;top:${S.title.length > 40 ? 820 : 760}px">${rows(S.items, S.num)}</div>`;
+  else body = `
+    <div style="position:absolute;left:64px;top:150px"><span class="kick">${S.kick}</span></div>
+    <div class="d" style="position:absolute;left:64px;right:64px;top:225px;font-size:${S.title.length > 34 ? 72 : 84}px">${S.title}</div>
+    <div class="card big" style="position:absolute;left:64px;right:64px;top:${S.title.length > 34 ? 480 : 430}px">${rows(S.items, S.num)}</div>`;
+  el.innerHTML = `<div class="grid"></div>
+    <div class="top"><span>Dr. Mayurakshi Katiyar</span><span class="dots">${Array.from({ length: n }, (_, j) => `<i class="${j === i ? "on" : ""}"></i>`).join("")}</span></div>
+    ${body}${S.exam ? `<div class="exam">📝 ${S.exam}</div>` : ""}${i < n - 1 ? `<div class="swipe">${S.swipe || "Swipe →"}</div>` : ""}`;
+};
+</script></body></html>

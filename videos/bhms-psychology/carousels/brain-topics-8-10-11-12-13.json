@@ -1,0 +1,48 @@
+{
+ "covers": [8, 10, 11, 12, 13],
+ "slides": [
+  {"k": "cover", "c": "amber", "kick": "BHMS Psychology", "title": "Tumhara brain <em>24/7</em> kya kar raha hai? 🧠", "brain": ["frontal", "parietal", "occipital", "temporal", "cerebellum", "stem"],
+   "sub": "Brain ke parts, emotions, memory, attention aur stress, ek hi post mein. Exam ke liye save karo 📌"},
+  {"k": "list", "c": "amber", "kick": "Is post mein", "title": "5 exam topics, 20 slides", "num": true, "items": [
+    ["Brain ke important parts", "kaun sa hissa kya karta hai"], ["Emotions ka address", "dar, gussa, pleasure brain mein kahan"],
+    ["Memory, attention, planning", "ye kaam brain ka kaun sa hissa karta hai"], ["Brain sab kuch kaise jodta hai", "neurons, hemispheres, nervous system"],
+    ["Mind ka body par asar", "stress, hormones, immunity"]]},
+  {"k": "stat", "c": "pink", "kick": "Ek sachcha experiment", "stat": "7,000×", "title": "Ek rat ne <em>ek ghante</em> mein pedal dabaya", "items": [
+    ["Jab tak thak ke gir nahi gaya", "pedal dabate hi brain ka ek hissa use pleasure deta tha"], ["Kaun sa hissa?", "Jawab slide 9 par 👀"]], "swipe": "Guess karo →"},
+  {"k": "brain", "c": "blue", "kick": "Brain ka map", "title": "Brain ki 3 layers", "brain": ["stem", "thalamus", "cerebellum", "hypothalamus", "amygdala", "hippocampus"], "num": true, "items": [
+    ["Old brain", "brain stem, thalamus, cerebellum: survival"], ["Limbic system", "emotion + memory"], ["Cerebral cortex", "bahar ki layer: sochna, planning"]], "exam": "Topic: physiological basis of mind"},
+  {"k": "brain", "c": "blue", "kick": "Old brain · 1", "title": "Brain stem: <em>life support</em>", "brain": ["stem"], "items": [
+    ["Brain stem", "breathing, attention, motor responses"], ["Medulla", "heart rate + breathing control. Akela medulla bhi life chala sakta hai"]]},
+  {"k": "brain", "c": "amber", "kick": "Old brain · 2", "title": "Thalamus: brain ka <em>filter</em>", "brain": ["thalamus"], "items": [
+    ["Thalamus", "senses ki info filter karke cortex tak bhejta hai; neend mein senses band"], ["Reticular formation", "stimulate karo to jaanwar turant fully awake: alertness"]]},
+  {"k": "brain", "c": "green", "kick": "Old brain · 3", "title": "Cerebellum = <em>little brain</em>", "brain": ["cerebellum"], "items": [
+    ["Voluntary movement + balance", "damage ho to chalna, balance, haath steady rakhna mushkil"], ["Alcohol", "cerebellum par asar daalta hai, isliye ladkhadana"]]},
+  {"k": "brain", "c": "red", "kick": "Cortex", "title": "4 lobes, 4 kaam", "brain": ["frontal", "parietal", "occipital", "temporal"], "num": true, "items": [
+    ["Frontal", "thinking, planning, memory, judgement"], ["Parietal", "touch"], ["Occipital", "vision"], ["Temporal", "hearing + language"]], "exam": "Diagram banao, marks pakke"},
+  {"k": "brain", "c": "pink", "kick": "Jawab mil gaya ✅", "title": "Rat ka secret: <em>Hypothalamus</em>", "brain": ["hypothalamus"], "items": [
+    ["Reward center", "needs poori hone par pleasure ki feeling"], ["Regulates", "hunger, thirst, body temperature, sex"], ["Pituitary se link", "nervous system ↔ hormones (endocrine)"]]},
+  {"k": "brain", "c": "red", "kick": "Emotions ka address", "title": "Dar aur gussa kahan se aata hai?", "brain": ["amygdala", "prefrontal"], "items": [
+    ["Amygdala (almond)", "fear aur aggression; threat dikhe to sabse active"], ["Prefrontal cortex", "gusse ka brake: zyada active = zyada self-control"]]},
+  {"k": "brain", "c": "green", "kick": "Memory ka address", "title": "Hippocampus = brain ka <em>librarian</em>", "brain": ["hippocampus"], "items": [
+    ["Nayi long-term memory", "info thodi der rakhta hai, phir cortex mein store karwata hai"], ["Damage ho to", "nayi yaadein ban hi nahi paati"]]},
+  {"k": "list", "c": "purple", "kick": "Exam favourite", "title": "Memory ke 3 alag address", "num": true, "items": [
+    ["Hippocampus → explicit", "facts, events: jo hum jaan-boojh ke yaad karte hain"], ["Cerebellum → implicit", "skills, habits: bina soche yaad"], ["Amygdala → emotional", "dar ya khushi wali yaadein"]], "exam": "SAQ: brain areas of memory"},
+  {"k": "list", "c": "amber", "kick": "Attention", "title": "Party mein ek awaaz kaise sun lete ho?", "items": [
+    ["Selective attention", "shor mein bhi ek hi baat par focus"], ["Thalamus + reticular formation", "faltu info filter, brain alert"], ["Par poora nahi", "kisi ne aapka naam liya to turant sun lete ho"]]},
+  {"k": "brain", "c": "red", "kick": "Executive functions", "title": "Planning aur judgement ka boss", "brain": ["frontal"], "items": [
+    ["Frontal lobe", "thinking, planning, memory, judgement"], ["Association areas", "learning, judging, moral reflecting, spatial reasoning: jo humein insaan banate hain"]]},
+  {"k": "list", "c": "blue", "kick": "Sab kuch kaise judta hai · 1", "title": "Neurons ki chemical chat", "items": [
+    ["Neuron = building block", "electrical signal neuron ke andar daudta hai"], ["Neurotransmitters", "synapse (gap) par chemical messages: neuron se neuron tak"], ["Memory bhi chemistry", "synapses badalte hain jab hum seekhte hain"]]},
+  {"k": "list", "c": "purple", "kick": "Sab kuch kaise judta hai · 2", "title": "2 hemispheres, 1 bridge", "items": [
+    ["Left ↔ Right", "left brain right body ko control karta hai, aur ulta"], ["Corpus callosum", "dono hemispheres ko jodne wala bridge"], ["Neuroplasticity", "brain flexible hai: naye connections, naye neurons"]]},
+  {"k": "list", "c": "green", "kick": "Sab kuch kaise judta hai · 3", "title": "Body ka accelerator vs brake", "items": [
+    ["Sympathetic", "stress mein body ready: dil tez, pupils dilate, paseena"], ["Parasympathetic", "body calm: dil aur saans dheemi, recovery"], ["Dono opposite", "ek gas, ek brake: balance = health"]]},
+  {"k": "list", "c": "red", "kick": "Mind → body", "title": "Stress aate hi body mein kya hota hai?", "num": true, "items": [
+    ["HPA axis active", "brain → pituitary → adrenal"], ["Hormones", "epinephrine, norepinephrine, cortisol"], ["Selye ke 3 stages", "alarm → resistance → exhaustion"]], "exam": "LAQ: General Adaptation Syndrome"},
+  {"k": "stat", "c": "red", "kick": "Lamba stress = khatra", "stat": "⚠️", "title": "Immunity kamzor, zakhm dheere", "items": [
+    ["Immune system weak", "zukaam aur bimariyan jaldi"], ["DNA damage", "zakhm dheere bharte hain"], ["Isliye", "thought, emotion, behaviour poori body badalte hain"]]},
+  {"k": "list", "c": "amber", "kick": "Exam cheat-sheet 📌", "title": "Ek nazar mein revision", "items": [
+    ["Stem / medulla", "life · Thalamus: filter · Cerebellum: balance"], ["Lobes", "frontal-think · parietal-touch · occipital-see · temporal-hear"], ["Hypothalamus", "reward, hunger · Amygdala: fear · Prefrontal: control"], ["Hippocampus", "new memory · Stress: HPA → cortisol → GAS"]],
+   "exam": "💾 Save · 📤 BHMS dost ko bhejo · 💬 Next topic comment karo"}
+ ]
+}
