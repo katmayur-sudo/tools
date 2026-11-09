@@ -75,7 +75,7 @@ window.show = (S, i, n) => {
     <div class="d" style="position:absolute;left:64px;right:64px;top:225px;font-size:${S.title.length > 34 ? 72 : 84}px">${S.title}</div>
     <div class="card big" style="position:absolute;left:64px;right:64px;top:${S.title.length > 34 ? 480 : 430}px">${rows(S.items, S.num)}</div>`;
   el.innerHTML = `<div class="grid"></div>
-    <div class="top"><span>Dr. Mayurakshi Katiyar</span><span class="dots">${Array.from({ length: n }, (_, j) => `<i class="${j === i ? "on" : ""}"></i>`).join("")}</span></div>
+    <div class="top"><span>Dr. Mayurakshi Katiyar <span style="color:var(--acc)">· BHMS · MD Scholar</span></span><span class="dots">${Array.from({ length: n }, (_, j) => `<i class="${j === i ? "on" : ""}"></i>`).join("")}</span></div>
     ${body}${S.exam ? `<div class="exam">📝 ${S.exam}</div>` : ""}${i < n - 1 ? `<div class="swipe">${S.swipe || "Swipe →"}</div>` : ""}`;
 };
 </script></body></html>
