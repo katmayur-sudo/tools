@@ -8,6 +8,8 @@ Swipe karo 👉 F10–F19 ka poora block: 4 stages, DT vs hallucinosis, Wernicke
 
 📌 Save karo viva ke liye, aur us dost ko bhejo jiska psychiatry posting chal raha hai.
 
+— Dr. Mayurakshi Katiyar, BHMS · MD (Hom.) Scholar
+
 Source: Davidson's Principles & Practice of Medicine, 24th ed (Ch 31). ICD-10 sub-codes: WHO. For medical students; educational, not treatment advice.
 Images: Wellcome Collection ("L'Alcool tue" poster, public domain; ward and bed photos by Adrian Wressell, Heart of England NHS FT, CC BY 4.0).
 
