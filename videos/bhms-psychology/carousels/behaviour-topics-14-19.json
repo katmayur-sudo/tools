@@ -1,0 +1,431 @@
+{
+ "covers": [
+  14,
+  15,
+  16,
+  17,
+  18,
+  19
+ ],
+ "outside_book": [
+  "topic 18's birds/fish/primates examples (book only has evolutionary psychology and fitness)",
+  "slide 6's limits line is a paraphrase, not a book line",
+  "generalization/discrimination one-line definitions are standard wording; the book names them"
+ ],
+ "slides": [
+  {
+   "k": "cover",
+   "c": "red",
+   "kick": "BHMS Psychology",
+   "title": "Garam tawa chhua… haath <em>pehle</em> hata, socha baad mein 🔥",
+   "brain": [
+    "stem",
+    "cerebellum"
+   ],
+   "sub": "Reflex, instinct, Pavlov ke kutte aur behaviour ki science. 6 exam topics, 20 slides 📌"
+  },
+  {
+   "k": "list",
+   "c": "red",
+   "kick": "Is post mein",
+   "title": "6 exam topics, ek post",
+   "num": true,
+   "items": [
+    [
+     "Reflexes aur newborn reflexes",
+     ""
+    ],
+    [
+     "Conditioned vs unconditioned",
+     ""
+    ],
+    [
+     "Conscious vs unconscious behaviour",
+     ""
+    ],
+    [
+     "Behaviour ko science kaise padhti hai",
+     ""
+    ],
+    [
+     "Behaviour ka evolution",
+     ""
+    ],
+    [
+     "Emotions aur thoughts",
+     ""
+    ]
+   ]
+  },
+  {
+   "k": "stat",
+   "c": "red",
+   "kick": "Reflex",
+   "stat": "⚡",
+   "title": "Brain ko pata chalne se <em>pehle</em> haath hat gaya",
+   "items": [
+    [
+     "Reflex",
+     "involuntary, lagbhag instant movement, kisi stimulus par"
+    ],
+    [
+     "Shortcut",
+     "spinal cord ke interneurons seedha motor neurons ko signal bhejte hain; brain tak message nahi jaata"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "amber",
+   "kick": "Newborn reflexes · 1",
+   "title": "Baby survival kit ke saath paida hota hai",
+   "items": [
+    [
+     "Rooting",
+     "gaal chhuo → muh mudta, chusne ki koshish → feeding"
+    ],
+    [
+     "Blink",
+     "tez roshni → aankh band → aankh ki safety"
+    ],
+    [
+     "Withdrawal",
+     "talve par chubhan → pair khinch → dard se door"
+    ]
+   ],
+   "exam": "SAQ: newborn reflexes"
+  },
+  {
+   "k": "list",
+   "c": "amber",
+   "kick": "Newborn reflexes · 2",
+   "title": "4 aur reflexes, 4 kaam",
+   "items": [
+    [
+     "Tonic neck",
+     "ek taraf sir, wahi haath seedha → hand-eye coordination"
+    ],
+    [
+     "Grasp",
+     "hatheli mein cheez → kas ke pakadna, thodi der wazan bhi"
+    ],
+    [
+     "Moro",
+     "tez awaaz ya girne ka ehsaas → haath-pair phaila ke wapas → girne se bachao"
+    ],
+    [
+     "Stepping",
+     "pair surface ke paas → chalne jaisi movement → motor development"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "amber",
+   "kick": "Role aur limits",
+   "title": "Reflex sirf shuruaat hai",
+   "items": [
+    [
+     "Role",
+     "pehle kuch mahine survive karne mein madad"
+    ],
+    [
+     "Limit",
+     "fixed response; naye situations ke liye baby ko naye routines seekhne padte hain"
+    ],
+    [
+     "Isliye",
+     "aage ka zyada behaviour seekha hua (learned) hota hai"
+    ]
+   ]
+  },
+  {
+   "k": "stat",
+   "c": "green",
+   "kick": "Pavlov · 1",
+   "stat": "🐕",
+   "title": "Khana aaya bhi nahi, kutton ke muh mein <em>paani</em> kyun?",
+   "items": [
+    [
+     "Observation",
+     "lab technician ko dekhte hi kutte laar tapkane lage"
+    ],
+    [
+     "Experiment",
+     "khane se pehle ek sound; kuch baar ke baad sirf sound par hi laar"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "green",
+   "kick": "Pavlov · 2 · Exam favourite",
+   "title": "Classical conditioning ke 4 terms",
+   "num": true,
+   "items": [
+    [
+     "UCS (unconditioned stimulus)",
+     "khana: bina seekhe response"
+    ],
+    [
+     "UCR (unconditioned response)",
+     "khane par laar"
+    ],
+    [
+     "CS (conditioned stimulus)",
+     "sound: pehle neutral, ab signal"
+    ],
+    [
+     "CR (conditioned response)",
+     "sirf sound par laar"
+    ]
+   ],
+   "exam": "LAQ: diagram ke saath likho"
+  },
+  {
+   "k": "list",
+   "c": "green",
+   "kick": "Pavlov · 3",
+   "title": "Seekha hua response kab mitta, kab lauta?",
+   "items": [
+    [
+     "Extinction",
+     "sirf sound, khana nahi → laar band"
+    ],
+    [
+     "Spontaneous recovery",
+     "break ke baad laar phir se, thodi kam"
+    ],
+    [
+     "Generalization",
+     "milte-julte stimulus par bhi wahi response"
+    ],
+    [
+     "Discrimination",
+     "alag stimulus par response nahi"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "blue",
+   "kick": "Innate vs learned",
+   "title": "Nature ya experience? Dono!",
+   "items": [
+    [
+     "Innate (unconditioned)",
+     "bina seekhe: reflexes, UCR"
+    ],
+    [
+     "Learned (conditioned)",
+     "experience se: CR"
+    ],
+    [
+     "Phobia example",
+     "gaadi chalate panic attack → driving se hi dar (driving = CS)"
+    ],
+    [
+     "Nature ka role",
+     "evolution ne kuch associations seekhna aasaan banaya"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "purple",
+   "kick": "Conscious vs unconscious",
+   "title": "Kuch yaad jaan-boojh ke, kuch bina jaane",
+   "items": [
+    [
+     "Explicit (conscious)",
+     "jo hum jaan-boojh ke yaad karte hain: episodic + semantic"
+    ],
+    [
+     "Implicit (unconscious)",
+     "experience behaviour badalta hai, pata bhi nahi chalta"
+    ],
+    [
+     "Implicit ke 3 type",
+     "procedural memory, conditioning effects, priming"
+    ]
+   ]
+  },
+  {
+   "k": "stat",
+   "c": "purple",
+   "kick": "Procedural memory",
+   "stat": "🚲",
+   "title": "Cycle chalana yaad hai, par <em>kaise</em> samjhaoge?",
+   "items": [
+    [
+     "Procedural memory",
+     "kaam kaise karna hai: chalna, bolna, phone dial karna"
+    ],
+    [
+     "Point",
+     "complex kaam bhi bina soche, bina explain kiye ho jaate hain"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "blue",
+   "kick": "Behaviour ki science",
+   "title": "Psychology ke 3 research designs",
+   "num": true,
+   "items": [
+    [
+     "Descriptive",
+     "abhi kya ho raha hai: ek snapshot"
+    ],
+    [
+     "Correlational",
+     "do cheezein saath badalti hain? jaise height aur weight → prediction"
+    ],
+    [
+     "Experimental",
+     "cause aur effect pakka karna"
+    ]
+   ],
+   "exam": "SAQ / LAQ: scientific methods"
+  },
+  {
+   "k": "list",
+   "c": "blue",
+   "kick": "Experiment ki language",
+   "title": "Independent vs dependent variable",
+   "items": [
+    [
+     "Independent variable",
+     "jo researcher badalta hai: cause"
+    ],
+    [
+     "Dependent variable",
+     "jo measure hota hai: effect"
+    ],
+    [
+     "Groups",
+     "shuru mein sab barabar, phir ek ko experience diya, phir measure"
+    ]
+   ]
+  },
+  {
+   "k": "stat",
+   "c": "blue",
+   "kick": "Exam trap",
+   "stat": "≠",
+   "title": "Correlation hai, matlab cause nahi",
+   "items": [
+    [
+     "Correlation",
+     "sirf batata hai ki do cheezein judi hain"
+    ],
+    [
+     "Cause",
+     "sirf experiment se pakka hota hai"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "amber",
+   "kick": "Behaviour ka evolution",
+   "title": "Behaviour kyun bana? Survival ke liye",
+   "items": [
+    [
+     "Evolutionary psychology",
+     "memory, emotion, personality: sabka adaptive function"
+    ],
+    [
+     "Fitness",
+     "koi trait survive aur reproduce karne mein kitna madad karta hai"
+    ],
+    [
+     "Functionalism se aaya",
+     "William James + Darwin ki soch"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "pink",
+   "kick": "Emotion → behaviour",
+   "title": "Emotions humein <em>move</em> karte hain",
+   "items": [
+    [
+     "Pyaar",
+     "isliye hum bachchon ki care karte hain"
+    ],
+    [
+     "Dar",
+     "isliye bheed wali sadak par turn nahi lete"
+    ],
+    [
+     "Guilt",
+     "party miss ki, isliye dost se extra achha bartav"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "pink",
+   "kick": "Thought → behaviour",
+   "title": "Same baat, alag reaction. Kyun?",
+   "items": [
+    [
+     "Interpretation",
+     "\"You are so beautiful\": koi khush, koi shak mein. Mind stimulus ko interpret karta hai"
+    ],
+    [
+     "Attitudes",
+     "kisi cheez ke baare mein lambi rai: kuch genes se, kuch experience se"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "pink",
+   "kick": "Motivation",
+   "title": "Behaviour ka engine",
+   "items": [
+    [
+     "Motivation",
+     "driving force jo behaviour shuru aur direct karti hai"
+    ],
+    [
+     "Drives",
+     "body ka balance bigde to andar ki push: bhookh, pyaas"
+    ],
+    [
+     "Goals",
+     "jo end state hum paana chahte hain"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "red",
+   "kick": "Exam cheat-sheet 📌",
+   "title": "Ek nazar mein revision",
+   "items": [
+    [
+     "Reflex",
+     "spinal shortcut · newborn: rooting, blink, grasp, Moro, stepping"
+    ],
+    [
+     "Pavlov",
+     "UCS→UCR · CS→CR · extinction · recovery"
+    ],
+    [
+     "Explicit vs implicit",
+     "conscious vs unconscious"
+    ],
+    [
+     "Research",
+     "descriptive · correlational · experimental (IV→DV)"
+    ]
+   ],
+   "exam": "💾 Save · 📤 BHMS dost ko bhejo · 💬 Next topic comment karo"
+  }
+ ]
+}
