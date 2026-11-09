@@ -7,7 +7,7 @@
   .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px); background-size: 60px 60px; }
   .d { font-family: "Inter Display", "Inter", sans-serif; font-weight: 900; letter-spacing: -.03em; line-height: 1.02; }
   em { font-style: normal; color: var(--acc); }
-  .top { position: absolute; left: 64px; right: 64px; top: 52px; display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 28px; color: rgba(255,255,255,.6); }
+  .top { position: absolute; left: 64px; right: 64px; top: 40px; display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 28px; color: rgba(255,255,255,.6); }
   .dots { display: flex; gap: 6px; } .dots i { width: 14px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.15); } .dots i.on { width: 34px; background: var(--acc); }
   .kick { display: inline-block; font-weight: 900; font-size: 30px; letter-spacing: .08em; text-transform: uppercase; color: #0B0D12; background: var(--acc); padding: 8px 20px; border-radius: 12px; }
   .card { background: #151821; border-radius: 30px; padding: 30px 36px; box-shadow: 0 0 0 2px rgba(255,255,255,.06) inset; }
@@ -75,7 +75,7 @@ window.show = (S, i, n) => {
     <div class="d" style="position:absolute;left:64px;right:64px;top:225px;font-size:${S.title.length > 34 ? 72 : 84}px">${S.title}</div>
     <div class="card big" style="position:absolute;left:64px;right:64px;top:${S.title.length > 34 ? 480 : 430}px">${rows(S.items, S.num)}</div>`;
   el.innerHTML = `<div class="grid"></div>
-    <div class="top"><span>Dr. Mayurakshi Katiyar <span style="color:var(--acc)">· BHMS · MD Scholar</span></span><span class="dots">${Array.from({ length: n }, (_, j) => `<i class="${j === i ? "on" : ""}"></i>`).join("")}</span></div>
+    <div class="top"><span style="line-height:1.15">Dr. Mayurakshi Katiyar<br><span style="color:var(--acc);font-size:24px">BHMS · MD Scholar</span></span><span class="dots">${Array.from({ length: n }, (_, j) => `<i class="${j === i ? "on" : ""}"></i>`).join("")}</span></div>
     ${body}${S.exam ? `<div class="exam">📝 ${S.exam}</div>` : ""}${i < n - 1 ? `<div class="swipe">${S.swipe || "Swipe →"}</div>` : ""}`;
 };
 </script></body></html>
