@@ -73,9 +73,9 @@ window.show = (S, i, n) => {
   else body = `
     <div style="position:absolute;left:64px;top:150px"><span class="kick">${S.kick}</span></div>
     <div class="d" style="position:absolute;left:64px;right:64px;top:225px;font-size:${S.title.length > 34 ? 72 : 84}px">${S.title}</div>
-    <div class="card big" style="position:absolute;left:64px;right:64px;top:${S.title.length > 34 ? 480 : 430}px">${rows(S.items, S.num)}</div>`;
+    <div class="card ${i === n - 1 ? "" : "big"}" style="position:absolute;left:64px;right:64px;top:${S.title.length > 34 ? 480 : 430}px">${rows(S.items, S.num)}</div>`;
   el.innerHTML = `<div class="grid"></div>
-    <div class="top"><span style="display:flex;align-items:center;gap:16px"><img src="../assets/user/logo-mk.png" style="width:72px;height:72px;border-radius:50%;background:#fff"><span style="line-height:1.15">Dr. Mayurakshi Katiyar<br><span style="color:var(--acc);font-size:24px">BHMS · MD (Hom.) Scholar</span></span></span><span class="dots">${Array.from({ length: n }, (_, j) => `<i class="${j === i ? "on" : ""}"></i>`).join("")}</span></div>
-    ${body}${S.exam ? `<div class="exam">📝 ${S.exam}</div>` : ""}${i < n - 1 ? `<div class="swipe">${S.swipe || "Swipe →"}</div>` : ""}`;
+    <div class="top"><span style="display:flex;align-items:center;gap:16px">${i === 0 || i === n - 1 ? `<img src="../assets/user/logo-mk.png" style="width:72px;height:72px;border-radius:50%;background:#fff">` : ""}<span style="line-height:1.15">Dr. Mayurakshi Katiyar<br><span style="color:var(--acc);font-size:24px">BHMS · MD (Hom.) Scholar</span></span></span><span class="dots">${Array.from({ length: n }, (_, j) => `<i class="${j === i ? "on" : ""}"></i>`).join("")}</span></div>
+    ${body}${S.exam ? `<div class="exam" style="${i === n - 1 ? "right:330px;font-size:30px;line-height:1.4" : ""}">📝 ${S.exam}</div>` : ""}${i < n - 1 ? `<div class="swipe">${S.swipe || "Swipe →"}</div>` : `<img src="../assets/user/logo-full.png" style="position:absolute;right:56px;bottom:40px;width:240px;height:240px;border-radius:50%;box-shadow:0 0 0 5px rgba(255,255,255,.08)">`}`;
 };
 </script></body></html>
