@@ -1,0 +1,42 @@
+# Signature: grid-tile travel montage
+# Built from: https://www.instagram.com/reel/DcN0AH-t8Ml/ (qfroost, 12.3 s, 4:3, silent-ish music only, no VO/text)
+
+name: grid-tile-travel
+credit: ["qfroost (Instagram)"]
+
+core_idea: >
+  No hard cuts at all. A fixed grid (~8 cols x 6 rows) sits over the frame and every
+  transition happens tile by tile: the next clip appears in scattered squares that grow
+  into a block, then flood the frame. One continuous "mosaic wipe" film.
+
+format:
+  aspect: "4:3"   # works in 9:16 too, keep square tiles
+  length_s: 12
+  fps: 30
+
+grid:
+  cells: [8, 6]           # square cells
+  lines: "thin, ~1px, white/black at 15-25% opacity, always visible over footage"
+  lines_fade_out: "last ~1.5 s (final shot is clean)"
+
+transitions:
+  type: tile-reveal
+  every_s: 1.0-1.5        # ~8 scenes in 12 s
+  pattern:
+    - "seed 1-3 random tiles of next clip (or flat colour tiles sampled from its palette)"
+    - "grow outward as a rough rectangle around the subject over ~0.5 s"
+    - "fill the rest of the frame; old clip lingers in a few edge tiles"
+  colour_tiles: "solid tiles (sky blue, peach, lilac) flash before footage fills them"
+  climax: "mid-film (~3-5 s) mosaic burst: each tile a DIFFERENT clip, a collage of the whole trip, then collapses into one shot"
+  tile_timing: "stepped, on the music beat; no easing, tiles pop in"
+
+shots:
+  - "wide landscape with tiny subject (scale)"
+  - "subject from behind looking at horizon"
+  - "close profile portrait"
+  - "walking-away on stairs / path"
+  - "end: silhouette at sunset, held 2 s, clean"
+
+grade: "warm golden-hour, soft film look, teal water vs orange rock"
+text: none
+audio: "music only, cuts on beats"
