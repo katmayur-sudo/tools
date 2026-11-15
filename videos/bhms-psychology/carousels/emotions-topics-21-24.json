@@ -1,0 +1,415 @@
+{
+ "covers": [
+  21,
+  22,
+  23,
+  24
+ ],
+ "outside_book": [
+  "slide 4: emotion vs feeling vs mood one-liners (book defines emotion only)",
+  "Bhava-Rasa theory and Lazarus's cognitive mediational theory by name (book has cognitive appraisal)"
+ ],
+ "slides": [
+  {
+   "k": "cover",
+   "c": "pink",
+   "kick": "BHMS Psychology",
+   "title": "Dil pehle dhadka ya <em>dar</em> pehle laga? 💓",
+   "brain": [],
+   "sub": "Emotions ki poori science: types, theories, brain aur hormones. 4 exam topics, 20 slides 📌"
+  },
+  {
+   "k": "list",
+   "c": "pink",
+   "kick": "Is post mein",
+   "title": "4 exam topics, ek post",
+   "num": true,
+   "items": [
+    [
+     "Emotion kya hai? Face kaise batata hai",
+     ""
+    ],
+    [
+     "Emotions ke types",
+     ""
+    ],
+    [
+     "Emotion ki theories",
+     ""
+    ],
+    [
+     "Brain aur hormones ka role",
+     ""
+    ]
+   ]
+  },
+  {
+   "k": "stat",
+   "c": "pink",
+   "kick": "Ek sachcha experiment",
+   "stat": "200 ft",
+   "title": "Hilte pul par mile, to <em>pyaar</em> zyada hua?",
+   "items": [
+    [
+     "Bridge study",
+     "hilte, ooche pul par ek ladki ne ladkon se survey bharwaya aur apna number diya"
+    ],
+    [
+     "Result",
+     "aadhe se zyada ne call kiya; neeche wale mazboot pul par bahut kam ne. Kyun? Jawab slide 13 par 👀"
+    ]
+   ],
+   "swipe": "Guess karo →"
+  },
+  {
+   "k": "list",
+   "c": "pink",
+   "kick": "Definition",
+   "title": "Emotion vs feeling vs mood",
+   "items": [
+    [
+     "Emotion",
+     "mental + physiological feeling state jo attention aur behaviour ko guide karta hai"
+    ],
+    [
+     "Feeling",
+     "emotion ka andar ka, personal experience"
+    ],
+    [
+     "Mood",
+     "halka, lamba chalne wala state; kisi ek cause se nahi"
+    ]
+   ],
+   "exam": "SAQ: define emotion"
+  },
+  {
+   "k": "list",
+   "c": "amber",
+   "kick": "Affect",
+   "title": "Emotion \"hot\" kyun hota hai?",
+   "items": [
+    [
+     "Affect = emotion + motivation",
+     "dono ka Latin root: \"to move\""
+    ],
+    [
+     "Arousal",
+     "sympathetic system: dil tez, pupils dilate, paseena"
+    ],
+    [
+     "Cognition",
+     "calm aur rational; emotion hot aur energetic"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "amber",
+   "kick": "Face padho",
+   "title": "Chehra jhooth nahi bolta",
+   "items": [
+    [
+     "Nonverbal communication",
+     "tone of voice, chaal, posture, touch, facial expressions"
+    ],
+    [
+     "Basic emotions ke chehre",
+     "duniya bhar mein ek jaise, log doosri culture ke chehre bhi sahi padh lete hain"
+    ],
+    [
+     "Gestures alag",
+     "\"V\" sign ya finger ka matlab culture ke saath badalta hai"
+    ]
+   ],
+   "exam": "Practical: facial recognition spotters"
+  },
+  {
+   "k": "stat",
+   "c": "amber",
+   "kick": "Facial feedback",
+   "stat": "😁✏️",
+   "title": "Pen daanton mein pakdo, cartoon <em>zyada funny</em> lagega",
+   "items": [
+    [
+     "Experiment",
+     "pen daanton mein (smile jaisa) vs hothon mein (frown jaisa)"
+    ],
+    [
+     "Result",
+     "smile position wale ko cartoon zyada mazedaar laga: face emotion ko badhata hai"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "green",
+   "kick": "Types · 1",
+   "title": "6 basic emotions",
+   "num": true,
+   "items": [
+    [
+     "Anger · Disgust · Fear",
+     ""
+    ],
+    [
+     "Happiness · Sadness · Surprise",
+     ""
+    ],
+    [
+     "Kyun basic?",
+     "evolution se aaye; fast judgement ke liye; har culture mein ek jaise"
+    ]
+   ],
+   "exam": "MCQ favourite"
+  },
+  {
+   "k": "list",
+   "c": "green",
+   "kick": "Types · 2",
+   "title": "Primary vs secondary emotions",
+   "items": [
+    [
+     "Primary (basic)",
+     "limbic system se: amygdala, hypothalamus, thalamus"
+    ],
+    [
+     "Secondary",
+     "cognitive appraisal se bane: jaise jealousy, pride, guilt"
+    ],
+    [
+     "Example",
+     "goal mila → joy, satisfaction; dost ko tumhara prize mila → anger, resentment, shame"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "green",
+   "kick": "Types · 3",
+   "title": "Positive vs negative: 2 axis",
+   "items": [
+    [
+     "Valence",
+     "pleasant ya unpleasant (positive / negative)"
+    ],
+    [
+     "Arousal",
+     "low se high energy"
+    ],
+    [
+     "Circumplex",
+     "har secondary emotion in dono ke beech kahin baithta hai"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "blue",
+   "kick": "Theory · 1",
+   "title": "James-Lange: body pehle",
+   "items": [
+    [
+     "Claim",
+     "emotion arousal ka <em>result</em> hai"
+    ],
+    [
+     "William James",
+     "\"hum rote hain isliye dukhi, kaanpte hain isliye darte hain\""
+    ],
+    [
+     "Order",
+     "event → body reaction → emotion"
+    ]
+   ],
+   "exam": "LAQ: compare 3 theories"
+  },
+  {
+   "k": "list",
+   "c": "blue",
+   "kick": "Theory · 2",
+   "title": "Cannon-Bard: dono saath-saath",
+   "items": [
+    [
+     "Claim",
+     "emotion aur arousal ek saath hote hain"
+    ],
+    [
+     "Example",
+     "khatra dikha → dar aur tez dhadkan ek hi time"
+    ],
+    [
+     "Support",
+     "limbic system ka fast pathway itna tez ki dono simultaneous lagte hain"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "blue",
+   "kick": "Theory · 3 · Jawab ✅",
+   "title": "Schachter-Singer: arousal + <em>label</em>",
+   "items": [
+    [
+     "Two-factor",
+     "emotion = arousal + cognition"
+    ],
+    [
+     "Arousal sab mein same",
+     "cognitive appraisal decide karta hai kaun sa emotion"
+    ],
+    [
+     "Bridge ka secret",
+     "pul ki darr wali dhadkan ko ladkon ne attraction samajh liya: misattribution"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "purple",
+   "kick": "3 theories ek nazar mein",
+   "title": "Exam table",
+   "items": [
+    [
+     "James-Lange",
+     "body → emotion"
+    ],
+    [
+     "Cannon-Bard",
+     "body + emotion saath"
+    ],
+    [
+     "Schachter-Singer",
+     "body + soch (label) → emotion"
+    ],
+    [
+     "Cognitive appraisal",
+     "situation ka matlab hi emotion banata hai"
+    ]
+   ],
+   "exam": "LAQ: is table ko diagram ke saath likho"
+  },
+  {
+   "k": "brain",
+   "c": "red",
+   "kick": "Brain ka role",
+   "title": "Emotions ka control room",
+   "brain": [
+    "thalamus",
+    "amygdala",
+    "hypothalamus"
+   ],
+   "items": [
+    [
+     "Limbic system",
+     "basic emotions ka ghar: amygdala, hypothalamus, thalamus"
+    ],
+    [
+     "Amygdala",
+     "dar aur aggression"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "red",
+   "kick": "2 raaste",
+   "title": "Fast vs slow emotional pathway",
+   "items": [
+    [
+     "Fast (limbic)",
+     "thalamus → amygdala: car saamne aayi, pair turant brake par"
+    ],
+    [
+     "Slow (cortex)",
+     "thalamus → frontal lobe → amygdala: jealousy, jeet ki khushi"
+    ],
+    [
+     "Thalamus",
+     "dono raaston ka gatekeeper"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "amber",
+   "kick": "Hormones · 1",
+   "title": "Endocrine system: chemical messenger",
+   "items": [
+    [
+     "Hormone",
+     "chemical jo poori body mein ghoom kar emotions aur behaviour regulate karta hai"
+    ],
+    [
+     "Nervous + endocrine",
+     "dono milkar growth, reproduction, metabolism aur emotions chalate hain"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "amber",
+   "kick": "Hormones · 2",
+   "title": "Kaun si gland, kya kaam",
+   "items": [
+    [
+     "Pituitary",
+     "\"master gland\": growth, pain response, sex hormones ka signal"
+    ],
+    [
+     "Adrenal",
+     "epinephrine + norepinephrine: excitement, threat, stress"
+    ],
+    [
+     "Pineal",
+     "melatonin: neend-jaagne ka cycle"
+    ],
+    [
+     "Thyroid",
+     "body kitni tezi se energy use karti hai"
+    ]
+   ]
+  },
+  {
+   "k": "stat",
+   "c": "red",
+   "kick": "Hormones · 3",
+   "stat": "⚡",
+   "title": "Adrenaline aaya, body <em>turbo mode</em> mein",
+   "items": [
+    [
+     "Epinephrine + norepinephrine",
+     "sympathetic system ko on karte hain"
+    ],
+    [
+     "Effect",
+     "dil aur phephde tez, pupils dilate, blood sugar up: threat se ladne ki energy"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "pink",
+   "kick": "Exam cheat-sheet 📌",
+   "title": "Ek nazar mein revision",
+   "items": [
+    [
+     "Emotion",
+     "mental + physiological state · face se communicate"
+    ],
+    [
+     "Types",
+     "6 basic · primary vs secondary · valence × arousal"
+    ],
+    [
+     "Theories",
+     "James-Lange · Cannon-Bard · Schachter-Singer"
+    ],
+    [
+     "Biology",
+     "limbic system · pituitary · adrenaline"
+    ]
+   ],
+   "exam": "💾 Save · 📤 BHMS dost ko bhejo · 💬 Next topic comment karo"
+  }
+ ]
+}
