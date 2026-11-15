@@ -15,6 +15,7 @@ await page.goto("file://" + path.join(path.dirname(fileURLToPath(import.meta.url
 await page.evaluate(() => document.fonts.ready);
 for (const [i, s] of slides.entries()) {
   await page.evaluate(([s, i, n]) => window.show(s, i, n), [s, i, slides.length]);
+  await page.evaluate(() => Promise.all([...document.images].map(im => im.complete ? 0 : new Promise(r => { im.onload = im.onerror = r; }))));  // photos load async
   await page.screenshot({ path: path.join(out, `slide-${String(i + 1).padStart(2, "0")}.jpg`), type: "jpeg", quality: 92 });
 }
 await browser.close();

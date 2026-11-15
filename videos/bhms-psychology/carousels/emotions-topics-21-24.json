@@ -44,22 +44,25 @@
    ]
   },
   {
-   "k": "stat",
+   "k": "photo",
    "c": "pink",
    "kick": "Ek sachcha experiment",
-   "stat": "200 ft",
    "title": "Hilte pul par mile, to <em>pyaar</em> zyada hua?",
    "items": [
     [
      "Bridge study",
-     "hilte, ooche pul par ek ladki ne ladkon se survey bharwaya aur apna number diya"
+     "200 ft ooche hilte pul par ladki ne survey bharwaya, number diya"
     ],
     [
      "Result",
-     "aadhe se zyada ne call kiya; neeche wale mazboot pul par bahut kam ne. Kyun? Jawab slide 13 par 👀"
+     "aadhe se zyada ne call kiya; mazboot pul par bahut kam. Kyun? Jawab slide 13 par 👀"
     ]
    ],
-   "swipe": "Guess karo →"
+   "swipe": "Guess karo →",
+   "img": [
+    "bridge.jpg",
+    "Capilano suspension bridge, Canada"
+   ]
   },
   {
    "k": "list",
@@ -103,41 +106,44 @@
    ]
   },
   {
-   "k": "list",
+   "k": "photo",
    "c": "amber",
    "kick": "Face padho",
    "title": "Chehra jhooth nahi bolta",
    "items": [
     [
      "Nonverbal communication",
-     "tone of voice, chaal, posture, touch, facial expressions"
+     "tone, chaal, posture, touch, facial expressions"
     ],
     [
      "Basic emotions ke chehre",
-     "duniya bhar mein ek jaise, log doosri culture ke chehre bhi sahi padh lete hain"
-    ],
-    [
-     "Gestures alag",
-     "\"V\" sign ya finger ka matlab culture ke saath badalta hai"
+     "duniya bhar mein ek jaise; gestures culture se badalte hain"
     ]
    ],
-   "exam": "Practical: facial recognition spotters"
+   "exam": "Practical: facial recognition spotters",
+   "img": [
+    "basic-emotions-faces.jpg",
+    "6 basic emotions ke chehre"
+   ]
   },
   {
-   "k": "stat",
+   "k": "photo",
    "c": "amber",
    "kick": "Facial feedback",
-   "stat": "😁✏️",
-   "title": "Pen daanton mein pakdo, cartoon <em>zyada funny</em> lagega",
+   "title": "Pen daanton mein pakdo, cartoon <em>zyada funny</em>",
    "items": [
     [
      "Experiment",
-     "pen daanton mein (smile jaisa) vs hothon mein (frown jaisa)"
+     "pen daanton mein (smile) vs hothon mein (frown)"
     ],
     [
      "Result",
-     "smile position wale ko cartoon zyada mazedaar laga: face emotion ko badhata hai"
+     "smile position mein cartoon zyada mazedaar: face emotion badhata hai"
     ]
+   ],
+   "img": [
+    "pen-in-teeth.jpg",
+    "Pen daanton mein vs hothon mein"
    ]
   },
   {
@@ -203,64 +209,64 @@
    ]
   },
   {
-   "k": "list",
+   "k": "photo",
    "c": "blue",
    "kick": "Theory · 1",
    "title": "James-Lange: body pehle",
    "items": [
     [
      "Claim",
-     "emotion arousal ka <em>result</em> hai"
+     "emotion arousal ka result: event → body → emotion"
     ],
     [
-     "William James",
-     "\"hum rote hain isliye dukhi, kaanpte hain isliye darte hain\""
-    ],
-    [
-     "Order",
-     "event → body reaction → emotion"
+     "James",
+     "\"rote hain isliye dukhi, kaanpte hain isliye darte hain\""
     ]
    ],
-   "exam": "LAQ: compare 3 theories"
+   "exam": "LAQ: compare 3 theories",
+   "img": [
+    "william-james.jpg",
+    "William James"
+   ]
   },
   {
-   "k": "list",
+   "k": "photo",
    "c": "blue",
    "kick": "Theory · 2",
    "title": "Cannon-Bard: dono saath-saath",
    "items": [
     [
      "Claim",
-     "emotion aur arousal ek saath hote hain"
-    ],
-    [
-     "Example",
-     "khatra dikha → dar aur tez dhadkan ek hi time"
+     "emotion aur arousal ek saath"
     ],
     [
      "Support",
-     "limbic system ka fast pathway itna tez ki dono simultaneous lagte hain"
+     "limbic fast pathway itna tez ki dono simultaneous lagte hain"
     ]
+   ],
+   "img": [
+    "walter-cannon.jpg",
+    "Walter Cannon"
    ]
   },
   {
-   "k": "list",
+   "k": "photo",
    "c": "blue",
    "kick": "Theory · 3 · Jawab ✅",
    "title": "Schachter-Singer: arousal + <em>label</em>",
    "items": [
     [
      "Two-factor",
-     "emotion = arousal + cognition"
-    ],
-    [
-     "Arousal sab mein same",
-     "cognitive appraisal decide karta hai kaun sa emotion"
+     "emotion = arousal + cognition (label)"
     ],
     [
      "Bridge ka secret",
-     "pul ki darr wali dhadkan ko ladkon ne attraction samajh liya: misattribution"
+     "pul ki dhadkan ko attraction samajh liya: misattribution"
     ]
+   ],
+   "img": [
+    "stanley-schachter.jpg",
+    "Stanley Schachter"
    ]
   },
   {
@@ -346,27 +352,23 @@
    ]
   },
   {
-   "k": "list",
+   "k": "photo",
    "c": "amber",
    "kick": "Hormones · 2",
    "title": "Kaun si gland, kya kaam",
    "items": [
     [
      "Pituitary",
-     "\"master gland\": growth, pain response, sex hormones ka signal"
-    ],
-    [
-     "Adrenal",
-     "epinephrine + norepinephrine: excitement, threat, stress"
-    ],
-    [
-     "Pineal",
-     "melatonin: neend-jaagne ka cycle"
+     "master gland · Adrenal: adrenaline · Pineal: melatonin"
     ],
     [
      "Thyroid",
-     "body kitni tezi se energy use karti hai"
+     "body kitni tezi se energy use kare"
     ]
+   ],
+   "img": [
+    "endocrine-glands.jpg",
+    "Endocrine glands ka diagram"
    ]
   },
   {
