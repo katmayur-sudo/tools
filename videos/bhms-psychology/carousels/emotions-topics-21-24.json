@@ -124,7 +124,9 @@
    "img": [
     "basic-emotions-faces.jpg",
     "6 basic emotions ke chehre"
-   ]
+   ],
+   "fit": "contain",
+   "nocap": true
   },
   {
    "k": "photo",
@@ -144,7 +146,8 @@
    "img": [
     "pen-in-teeth.jpg",
     "Pen daanton mein vs hothon mein"
-   ]
+   ],
+   "fit": "contain"
   },
   {
    "k": "list",
@@ -227,7 +230,9 @@
    "img": [
     "william-james.jpg",
     "William James"
-   ]
+   ],
+   "fit": "contain",
+   "bg": "#1A1D26"
   },
   {
    "k": "photo",
@@ -247,7 +252,9 @@
    "img": [
     "walter-cannon.jpg",
     "Walter Cannon"
-   ]
+   ],
+   "fit": "contain",
+   "bg": "#1A1D26"
   },
   {
    "k": "photo",
@@ -267,7 +274,9 @@
    "img": [
     "stanley-schachter.jpg",
     "Stanley Schachter"
-   ]
+   ],
+   "fit": "contain",
+   "bg": "#1A1D26"
   },
   {
    "k": "list",
@@ -358,18 +367,17 @@
    "title": "Kaun si gland, kya kaam",
    "items": [
     [
-     "Pituitary",
-     "master gland · Adrenal: adrenaline · Pineal: melatonin"
-    ],
-    [
-     "Thyroid",
-     "body kitni tezi se energy use kare"
+     "Pituitary = master gland",
+     "Adrenal: adrenaline · Pineal: melatonin · Thyroid: energy speed"
     ]
    ],
    "img": [
     "endocrine-glands.jpg",
     "Endocrine glands ka diagram"
-   ]
+   ],
+   "fit": "contain",
+   "h": 600,
+   "nocap": true
   },
   {
    "k": "stat",
