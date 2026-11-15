@@ -1,6 +1,6 @@
 // Render the F10–F19 carousel: slides.json -> 1080x1350 PNGs. Photos come from <out_dir>/../assets (outside git).
 //
-// Usage: node render.mjs <out_dir> [assets_dir]
+// Usage: node render.mjs <out_dir> [assets_dir] [slides.json]
 import { createRequire } from "node:module";
 import fs from "node:fs";
 import path from "node:path";
@@ -8,8 +8,8 @@ import { fileURLToPath } from "node:url";
 
 const { chromium } = createRequire(import.meta.url)("playwright");
 const here = path.dirname(fileURLToPath(import.meta.url));
-const [out, assets = path.join(out, "..", "assets")] = process.argv.slice(2);
-const data = JSON.parse(fs.readFileSync(path.join(here, "slides.json"), "utf8"));
+const [out, assets = path.join(out, "..", "assets"), slidesPath = path.join(here, "slides.json")] = process.argv.slice(2);
+const data = JSON.parse(fs.readFileSync(slidesPath, "utf8"));
 if (data.slides.length > 20) throw new Error("Instagram allows 20 slides");
 fs.mkdirSync(out, { recursive: true });
 // the page loads photos from ./assets next to it, so render a copy beside the assets
