@@ -10,7 +10,7 @@ Format: `- [ ] idea · format · source/date` → `- [x] … → output` when do
 - [x] Dr Mak Fitness launch film · keynote 16:9 61 s · chat 2026-10-20 → `examples/drmak-fitness.storyboard.json`
 
 ## Backlog (from chats)
-- [ ] F20–F29 Schizophrenia: first-rank symptoms + "voices from outside the head" · carousel · @mk_health_and_homoeopathy · 2026-11-15
+- [x] F20–F29 Schizophrenia: first-rank symptoms + "voices from outside the head" · carousel → `videos/schizophrenia-carousel` · @mk_health_and_homoeopathy · 2026-11-15
 - [ ] Depression vs normal sadness (F30–F39) · reel · 2026-11-15
 - [ ] Bipolar: mania vs hypomania vs depression · carousel · 2026-11-15
 - [ ] Anxiety vs panic attack vs heart attack (F40–F48) · reel · 2026-11-15
