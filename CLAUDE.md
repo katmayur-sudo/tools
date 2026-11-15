@@ -35,6 +35,8 @@
 - Reels are built in `videos/bhms-psychology/` (scripts in `reels/*.json`, readable `SCRIPTS.md`). The owner picks
   which topics become reels; reels 1–7 have scripts and silent first cuts (voice-over pending).
 
+- Captions: hashtags are always all lowercase (owner's rule), e.g. #bhms #bhmspsychology.
+
 ## Video workflow
 
 See `workflows/pocket-creative-director/` for the edit workflow, prompts and style DNA template.

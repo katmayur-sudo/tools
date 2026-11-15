@@ -15,7 +15,7 @@ BHMS Psychology ke pehle 7 topics, sirf 3 minute mein 🧠📚
 
 💾 Save karo, exam se pehle revise karo. Apne BHMS dost ko share karo!
 
-#BHMS #FirstBHMS #BHMSPsychology #Psychology #Homoeopathy #Organon #HomoeopathyStudents #ExamRevision #MedicalStudents #PsychologyNotes
+#bhms #firstbhms #bhmspsychology #psychology #homoeopathy #organon #homoeopathystudents #examrevision #medicalstudents #psychologynotes
 
 ## YouTube Shorts
 
@@ -26,7 +26,7 @@ BHMS Psychology ke pehle 7 syllabus topics ek video mein: definition, schools of
 
 📌 Psyche (ψυχή) ka original Greek arth "soul / spirit / breath" hai (life ka essence), baad mein "mind". Logos = study / explanation. Psychology = "study of the soul/mind". Exam definition: Psychology is the scientific study of mind and behaviour.
 
-#shorts #BHMS #Psychology #Homoeopathy #BHMSPsychology
+#shorts #bhms #psychology #homoeopathy #bhmspsychology
 
 ## Pinned comment (both)
 
