@@ -1,25 +1,36 @@
-# Reel: "Udaas hona ya Depression?" (F30–F39), talking head + graphics
+# Reel: "Udaas ho ya Depressed?" (F30–F39), face + cards
 
-Format: 9:16, about 70 s, Hinglish. You on camera (A-roll) plus my motion graphics (B-roll) cut in between.
-Facts: Davidson 24th ed p1241–1242, p1253–1254 (Boxes 31.8, 31.9, 31.18). Hook and CTA are not from the book.
+Decisions (owner, 2026-11-19): Reel 9:16 · ~90 s · Hinglish, Roman captions · one continuous take ·
+mix of full-face and picture-in-picture (PiP) · question hook · calm & warm · depression + mania.
+Facts: Davidson 24th ed p1241–1242, p1253–1254 (Boxes 31.8, 31.9). Hook and CTA are not from the book.
 
-| # | Time | Shot | You say | On screen |
+Shot types: **FULL** = you full screen with captions · **PIP** = my card full screen, you in a circle bottom-right.
+
+| # | Time | Shot | You say (one continuous take) | Card / on screen |
 |---|---|---|---|---|
-| 1 | 0–4 s | **A** close-up, look into lens | Har udaasi depression nahi hoti. Aur har depression udaasi jaisa nahi dikhta. | Big text: "Udaas ya Depressed?" |
-| 2 | 4–8 s | **A** medium | Main Dr. Mayurakshi, aur 60 second mein fark samjhate hain. | Name + logo lower-third |
-| 3 | 8–20 s | **B** split screen | Normal udaasi kisi bure waqt ka reaction hai, samajh mein aati hai, aur khud theek ho jaati hai. Depression zyada severe hota hai, lamba chalta hai, aur treatment maangta hai. | Red/blue cards: "Normal udaasi" vs "Depression" |
-| 4 | 20–28 s | **A** lean in | Sabse bada sign? Anhedonia. Jo cheezein pehle achhi lagti thi, ab kuch bhi achha nahi lagta. | Word slam: "ANHEDONIA" |
-| 5 | 28–38 s | **B** body icons | Depression sirf mann mein nahi, sharir mein bhi dikhta hai: bhook kam, neend kharab, thakaan, sab kuch slow. | Body outline, symptoms pop in |
-| 6 | 38–46 s | **A** + small graphic | Aur hamesha check karo: thyroid, steroids, stroke jaisi cheezein bhi depression jaisa bana sakti hain. | Chips: Thyroid · Steroids · Stroke |
-| 7 | 46–56 s | **A** close-up, serious, slower | Agar kisi ka mood bahut low hai, to suicide ke baare mein seedha poochho. Poochne se risk nahi badhta. Na poochne se mauka chhoot jaata hai. | Text: "Poochne se risk nahi badhta" + helpline* |
-| 8 | 56–64 s | **B** check-list | Achhi baat: dawa aur therapy dono kaam karte hain, saath mein sabse zyada. Bas theek hone ke baad bhi follow-up zaroori hai. | ✓ Therapy ✓ Dawa ✓ Follow-up |
-| 9 | 64–72 s | **A** smile, point down | Poora mood disorders ka carousel profile pe hai. Save karo, aur jise zaroorat ho usse share karo. | Logo + "Save · Share" |
+| 1 | 0–6 s | FULL, close | Aap udaas ho, ya depressed? Bas ek sawaal poochho: kya ab kuch bhi achha lagta hai? | Text: "Udaas ya Depressed?" |
+| 2 | 6–10 s | FULL | Main Dr. Mayurakshi. Chaliye, 90 second mein mood disorders samajhte hain. | Logo + name lower-third |
+| 3 | 10–23 s | PIP | Udaasi kisi bure waqt ka reaction hai. Samajh mein aati hai, aur waqt ke saath theek ho jaati hai. Depression zyada gehra hota hai, lamba chalta hai, aur ilaaj maangta hai. | Split card: Normal udaasi vs Depression |
+| 4 | 23–31 s | FULL, lean in | Aur wo ek sawaal? Anhedonia. Jo cheezein pehle khushi deti thi, ab kuch bhi achha nahi lagta. Yahi sabse bada sign hai. | Word: "ANHEDONIA" |
+| 5 | 31–40 s | PIP | Depression sharir mein bhi dikhta hai: bhook kam, neend kharab, thakaan, aur sab kuch slow. | Body outline, 4 symptoms pop in |
+| 6 | 40–47 s | PIP | Par pehle check karo: thyroid, steroids, ya stroke bhi aisa mood bana sakte hain. | Chips: Thyroid · Steroids · Stroke |
+| 7 | 47–56 s | FULL, slow, serious | Agar mood bahut low ho, to suicide ke baare mein seedha poochho. Poochne se risk nahi badhta. | Text + helpline* |
+| 8 | 56–69 s | PIP | Ab iska ulta: mania. Bahut zyada khushi ya irritability, neend ki zaroorat nahi, bahut bolna, aur paise udaana. Jab depression aur mania dono aayein, use bipolar disorder kehte hain. | Sun icon, mania list, then "Depression ↕ Mania = Bipolar" |
+| 9 | 69–80 s | PIP | Achhi baat ye hai ki dawa aur therapy dono kaam karti hain, aur saath mein sabse achha. Bipolar mein sirf antidepressant nahi, mood stabiliser bhi zaroori hai. | ✓ Therapy ✓ Dawa ✓ Mood stabiliser |
+| 10 | 80–90 s | FULL, smile | Poora mood disorders carousel mere profile pe hai. Save karo, aur jise zaroorat ho, usse share karo. | Logo + "Save · Share" |
 
 *Helpline: Tele-MANAS 14416 (confirm before posting).
 
-## Recording tips
-- Vertical (9:16), 1080p or 4K, eyes at the top third, face lit from a window in front of you.
-- Phone mic close or a clip mic; quiet room. Read each numbered line as its own take; retakes are fine, I'll pick the best.
-- Shots 1, 2, 4, 6, 7, 9 are on camera. During 3, 5, 8 your voice continues over graphics, so just keep talking to camera.
-- White coat or plain solid colour; keep the background simple.
-- Send the raw file(s) as they are; I'll cut, clean the audio, add captions, graphics, music and your logo.
+## How to record
+- Phone vertical (9:16), 1080p or 4K, back camera if someone can help, else front camera at eye level.
+- Frame: head and shoulders, face in the centre, a little space above the head (I crop the PiP circle from this).
+- Light from a window in front of you; plain wall behind; white coat or a solid colour.
+- Quiet room, phone close or a clip mic.
+- Read the whole script in one take, calm and warm. Pause ~1 second between numbered parts.
+- If you fumble, pause, then repeat the whole sentence. I keep the best take.
+- Look into the lens on FULL parts; on PIP parts keep talking naturally to camera.
+- Send the raw file as it is (no filters, no in-app music).
+
+## What I do after
+Cut to the script, keep best takes, remove noise/pauses/breaths, add cards and PiP, Roman Hinglish
+captions, soft music, logo, export 9:16 for Reels/Shorts.
