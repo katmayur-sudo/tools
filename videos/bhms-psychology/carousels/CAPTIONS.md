@@ -82,3 +82,24 @@ Science ka jawab is post mein hai. Swipe karo, aakhri slide tak 👉
 🔔 Follow karo for more BHMS psychology
 
 #bhms #firstbhms #bhmspsychology #psychology #homoeopathy #sexualorientation #genderidentity #mentalhealth #medicalstudents #examrevision #psychologynotes #homoeopathystudents #studygram
+
+## Emotions & body, happiness, culture: topics 27–29
+
+Kya paisa sach mein khushi deta hai? 💸
+Science ka jawab slide 11 par hai. Swipe karo 👉
+
+🧠 BHMS Psychology: 3 exam topics, 16 slides
+✅ Gussa dil ko kaise bimaar karta hai + Holmes & Rahe stress scale
+✅ Marshmallow test aur emotion regulation
+✅ Optimism, self-efficacy, hardiness: stress ka antidote
+✅ Khushi ka sabse bada secret: social support
+✅ Culture: chehra universal, ishaare nahi
+
+📝 Exam tip: positive emotions ke health par asar aur culture ke points SAQ ke liye yaad karo. Slide 15 = poora cheat-sheet.
+
+💾 Save karo exam se pehle revise karne ke liye
+📤 Apne BHMS batchmate ko bhejo
+💬 Kaun sa topic samajh nahi aaya? Comment karo, uspe next post banayenge!
+🔔 Follow karo for more BHMS psychology
+
+#bhms #firstbhms #bhmspsychology #psychology #homoeopathy #happiness #emotionalhealth #stress #mentalhealth #medicalstudents #examrevision #psychologynotes #homoeopathystudents #studygram
