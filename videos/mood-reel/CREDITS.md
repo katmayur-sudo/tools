@@ -8,6 +8,6 @@
 | R-05 | Shot 6 · Organic causes | Free blood sample tube image | ? | CC0 1.0 | rawpixel (https://www.rawpixel.com/image/5911629/image-public-domain-person-doctor) |
 | R-06 | Shot 8 · Mania | Shopping bags, receipt, ₹ notes, card (drawn) | Claude, for this reel | own artwork | — |
 | R-08 | Shot 9 · Treatment works | sunrise walk | Carly-Jayne | BY 2.0 | flickr (https://www.flickr.com/photos/75535370@N06/6932794865) |
-| R-09 | Shot 10 · Logo background | Life is Beautiful | Gabe Kronisch | BY 2.0 | flickr (https://www.flickr.com/photos/127576132@N03/21632969633) |
+| R-09 | Not used in the final cut (shot 10 is full-face) | Life is Beautiful | Gabe Kronisch | BY 2.0 | flickr (https://www.flickr.com/photos/127576132@N03/21632969633) |
 
 R-03 dropped (no free photo found; shot 4 is full-face). R-07 (sun + rain) is drawn.

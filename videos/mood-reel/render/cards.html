@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Mood Reel Cards</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; color: #fff; font-family: "Inter", sans-serif; }
+  .full { position: absolute; inset: 0; background: #0A0C11; }
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 60px 60px; }
+  .d { font-family: "Inter Display", "Inter"; font-weight: 900; letter-spacing: -0.03em; line-height: 1.04; }
+  .k { font-weight: 800; font-size: 28px; letter-spacing: .2em; text-transform: uppercase; color: #FFD23F; }
+  .abs { position: absolute; }
+  .panel { position: absolute; left: 60px; right: 60px; border-radius: 34px; overflow: hidden; box-shadow: 0 0 0 2px rgba(255,255,255,.08) inset, 0 30px 60px -30px #000; }
+  .photo { position: absolute; inset: 0; background-size: cover; background-position: center; }
+  .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,12,17,.25), rgba(10,12,17,.88) 75%); }
+  .chip { display: inline-flex; align-items: center; gap: 16px; padding: 16px 28px; border-radius: 999px; font-family: "Inter Display"; font-weight: 800; font-size: 44px; margin: 0 14px 18px 0; }
+  .row { display: flex; align-items: center; gap: 22px; font-family: "Inter Display"; font-weight: 800; font-size: 46px; line-height: 1.12; }
+  .dot { flex: none; width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 900; color: #0A0C11; }
+  .r { color: #FF4D4F; } .b { color: #4DA3FF; } .y { color: #FFD23F; } .g { color: #3DDC97; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+// Cards sit in the zone y 140–1250 (the PiP circle is top-right, captions ~1300–1450, Instagram UI below).
+const A = "assets/";
+const head = (kicker, title) => `<div class="abs" style="left:60px;top:150px;width:640px"><div class="k">${kicker}</div><div class="d" style="font-size:76px;margin-top:16px">${title}</div></div>`;
+const base = inner => `<div class="full"><div class="grid"></div>${inner}</div>`;
+const CARDS = {
+  s3: n => base(head("Mood disorders", "Udaasi <span class=y>vs</span> Depression") + `
+    <div class="panel" style="top:470px;height:370px"><div class="photo" style="background-image:url('${A}R-01.jpg')"></div><div class="shade"></div>
+      <div class="abs" style="left:40px;bottom:30px;right:30px"><div class="d" style="font-size:54px">Normal udaasi</div>
+      <div style="font-size:34px;font-weight:700;color:rgba(255,255,255,.85);margin-top:10px">Bure waqt ka reaction · samajh mein aati · waqt ke saath theek</div></div></div>
+    ${n >= 1 ? `<div class="panel" style="top:870px;height:370px;box-shadow:0 0 0 4px #4DA3FF inset"><div class="photo" style="background-image:url('${A}R-02.jpg')"></div><div class="shade"></div>
+      <div class="abs" style="left:40px;bottom:30px;right:30px"><div class="d b" style="font-size:54px">Depression</div>
+      <div style="font-size:34px;font-weight:700;color:rgba(255,255,255,.9);margin-top:10px">Zyada gehra · lamba chalta hai · ilaaj maangta hai</div></div></div>` : ""}`),
+  s5: n => base(head("Somatic symptoms", "Sharir mein <span class=b>bhi</span> dikhta hai") + `
+    <div class="panel" style="top:470px;height:470px;background:#fff"><div class="photo" style="background-image:url('${A}R-04.jpg');background-size:contain;background-repeat:no-repeat"></div></div>
+    <div class="abs" style="left:60px;right:60px;top:980px">${["Bhook kam", "Neend kharab", "Thakaan", "Sab kuch slow"].slice(0, n).map(t => `<span class="chip" style="background:rgba(77,163,255,.16);box-shadow:0 0 0 3px #4DA3FF inset">${t}</span>`).join("")}</div>`),
+  s6: n => base(head("Pehle check karo", "Organic <span class=r>causes</span>") + `
+    <div class="panel" style="top:470px;height:500px"><div class="photo" style="background-image:url('${A}R-05.jpg')"></div><div class="shade" style="background:linear-gradient(180deg,transparent,rgba(10,12,17,.6))"></div></div>
+    <div class="abs" style="left:60px;right:60px;top:1010px">${["Thyroid", "Steroids", "Stroke"].slice(0, n).map(t => `<span class="chip" style="background:rgba(255,77,79,.16);box-shadow:0 0 0 3px #FF4D4F inset">${t}</span>`).join("")}</div>`),
+  s8: n => n < 5 ? base(head("Ulta: elevated mood", "<span class=y>Mania</span>") + `
+    <div class="panel" style="top:400px;height:560px;background:#0A0C11"><div class="photo" style="background-image:url('${A}R-06.png');background-size:cover;background-position:center 70%"></div></div>
+    <div class="abs" style="left:60px;right:60px;top:990px;display:flex;flex-wrap:wrap">${["Bahut khushi / irritability", "Neend ki zaroorat nahi", "Bahut bolna", "Paise udaana"].slice(0, n).map(t => `<span class="chip" style="font-size:38px;background:rgba(255,210,63,.14);box-shadow:0 0 0 3px #FFD23F inset">${t}</span>`).join("")}</div>`)
+    : base(head("Depression + Mania", "= <span class=y>Bipolar</span> disorder") + `
+    <div class="abs" style="left:0;right:0;top:470px;display:flex;justify-content:center;align-items:center;gap:60px">
+      <div style="text-align:center"><svg width="300" height="300" viewBox="0 0 200 200"><path d="M55 110 a35 35 0 0 1 10 -68 a45 45 0 0 1 85 10 a30 30 0 0 1 0 58 Z" fill="none" stroke="#fff" stroke-width="8"/>${[60, 90, 120, 150].map((x, i) => `<path d="M${x} ${130 + (i % 2) * 12} l-10 26" stroke="#4DA3FF" stroke-width="8" stroke-linecap="round"/>`).join("")}</svg><div class="d b" style="font-size:56px">Depression</div></div>
+      <div class="d" style="font-size:120px;color:rgba(255,255,255,.7)">⇅</div>
+      <div style="text-align:center"><svg width="300" height="300" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40" fill="#FFD23F"/>${Array.from({ length: 8 }, (_, i) => { const a = i * Math.PI / 4; return `<path d="M${100 + 55 * Math.cos(a)} ${100 + 55 * Math.sin(a)} L${100 + 80 * Math.cos(a)} ${100 + 80 * Math.sin(a)}" stroke="#FFD23F" stroke-width="9" stroke-linecap="round"/>`; }).join("")}</svg><div class="d y" style="font-size:56px">Mania</div></div></div>
+    <div class="abs d" style="left:60px;right:60px;top:960px;text-align:center;font-size:48px;font-weight:800;color:rgba(255,255,255,.85)">Dono aayein to: <span class=y>Bipolar disorder</span></div>`),
+  s9: n => base(head("Achhi baat", "Ilaaj <span class=g>kaam karta hai</span>") + `
+    <div class="panel" style="top:470px;height:360px"><div class="photo" style="background-image:url('${A}R-08.jpg');background-position:center 60%"></div><div class="shade" style="background:linear-gradient(180deg,transparent,rgba(10,12,17,.5))"></div></div>
+    <div class="abs" style="left:60px;right:60px;top:880px;display:flex;flex-direction:column;gap:22px">${["Dawa", "Therapy", "Dono saath: sabse achha", "Bipolar: + mood stabiliser"].slice(0, n).map((t, i) => `<div class="row"><div class="dot" style="background:${i === 3 ? "#FFD23F" : "#3DDC97"}">✓</div><div>${t}</div></div>`).join("")}</div>`),
+  // overlays on full-face shots (transparent background)
+  o1: () => `<div class="abs" style="left:0;right:0;top:1000px;text-align:center"><span class="d" style="display:inline-block;font-size:96px;padding:14px 34px 22px;border-radius:26px;background:rgba(10,12,17,.72)">Udaas ya <span class=b>Depressed?</span></span></div>`,
+  o2: () => `<div class="abs" style="left:60px;top:1060px;display:flex;align-items:center;gap:22px;padding:18px 34px 18px 18px;border-radius:999px;background:rgba(10,12,17,.78);box-shadow:0 0 0 2px rgba(255,255,255,.12) inset">
+      <img src="${A}logo_mk.png" style="width:110px;height:110px;border-radius:50%;object-fit:cover"><div><div class="d" style="font-size:46px">Dr. Mayurakshi Katiyar</div><div style="font-size:28px;font-weight:700;color:rgba(255,255,255,.75)">BHMS · MD (Hom.) Scholar</div></div></div>`,
+  o7: () => `<div class="abs" style="left:0;right:0;top:960px;text-align:center"><span class="d" style="display:inline-block;font-size:76px;padding:14px 34px 22px;border-radius:26px;background:rgba(10,12,17,.72)">Poochne se risk<br><span class=g>nahi badhta</span></span></div>`,
+  o10: () => `<div class="abs" style="left:0;right:0;top:1010px;display:flex;align-items:center;justify-content:center;gap:28px">
+      <img src="${A}logo_full.png" style="width:190px;height:190px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 4px rgba(255,255,255,.2)">
+      <span class="d" style="font-size:64px;padding:10px 30px 16px;border-radius:22px;background:rgba(10,12,17,.72)">Save <span class=y>·</span> Share</span></div>`,
+};
+window.show = (id, n) => { document.getElementById("stage").innerHTML = CARDS[id](n); };
+</script>
+</body>
+</html>
