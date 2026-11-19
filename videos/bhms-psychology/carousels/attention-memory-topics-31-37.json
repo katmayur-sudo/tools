@@ -1,0 +1,46 @@
+{
+ "covers": [31, 32, 33, 34, 35, 36, 37],
+ "outside_book": ["topic 31's brain regions for attention: the book only says thalamus/reticular formation filter and keep us alert", "ADHD 'symptoms before 7 years' is the old DSM-IV-TR line the book quotes; DSM-5 says before 12"],
+ "slides": [
+  {"k": "hook", "c": "blue", "kick": "Attention + Memory", "title": "Raat bhar padha, subah <em>sab bhool</em> gaye? 😩",
+   "qs": ["Ek baar mein kitni cheezein yaad reh sakti hain?", "Ratta vs roz thoda: kaun jeetega?", "Kya aapki yaadein jhooth bol sakti hain?"],
+   "sub": "Exam ke liye memory hack bhi andar hain. Swipe karo 👉"},
+  {"k": "list", "c": "blue", "kick": "Is post mein", "title": "7 exam topics, ek post", "num": true, "items": [
+    ["Attention aur concentration", ""], ["Attention ki problems (ADHD)", ""], ["Memory ke types aur stages", ""], ["Memory par asar aur assessment", ""], ["Forgetting aur yaad badhane ke tareeke", ""], ["Budhape mein memory", ""], ["Memory distortion", ""]]},
+  {"k": "list", "c": "amber", "kick": "Attention", "title": "Selective attention: spotlight", "items": [
+    ["Definition", "ek cheez par focus, baaki ignore"], ["Party example", "shor mein bhi ek awaaz sun lena"], ["Brain", "thalamus + reticular formation faltu info filter karte, alert rakhte"]]},
+  {"k": "stat", "c": "amber", "kick": "Gorilla test", "stat": "🦍", "title": "Ball pass gino… aur <em>gorilla</em> dikha hi nahi!", "items": [
+    ["Experiment (Simons & Chabris)", "log passes ginne mein itne busy ki beech se guzarta gorilla miss"], ["Lesson", "attention limited hai: jo focus mein nahi, wo dikhta hi nahi"]]},
+  {"k": "list", "c": "amber", "kick": "Attention ki problem", "title": "ADHD kya hai?", "items": [
+    ["Definition", "developmental disorder: focus, attention aur concentration mein dikkat"], ["Child mein", "jaldi bore, distract, seat par na baith paana, instructions follow na karna"], ["Adults mein bhi", "college students mein 7% tak diagnosed"]], "exam": "SAQ: disturbed attention in childhood"},
+  {"k": "list", "c": "green", "kick": "Memory · types", "title": "Explicit vs implicit", "items": [
+    ["Explicit (conscious)", "episodic: apni life ke events · semantic: facts aur concepts"], ["Implicit (unconscious)", "procedural (cycle chalana), conditioning, priming"]]},
+  {"k": "list", "c": "green", "kick": "Memory · stages", "title": "3 stages: sensory → STM → LTM", "num": true, "items": [
+    ["Sensory memory", "second se bhi kam ka buffer; visual = iconic memory"], ["Short-term memory (STM)", "kam time, kam jagah"], ["Long-term memory (LTM)", "lamba storage; zyada info yahan tak pahunchti hi nahi"]], "exam": "LAQ: stages of memory (Atkinson-Shiffrin)"},
+  {"k": "stat", "c": "green", "kick": "Magic number", "stat": "7 ± 2", "title": "STM ek baar mein bas itna hi rakhti hai", "items": [
+    ["George Miller", "\"seven plus or minus two\" items"], ["18 seconds", "bina rehearsal ke STM ki info lagbhag gayab"]]},
+  {"k": "list", "c": "green", "kick": "Hack · 1", "title": "Chunking: 12 letters ko 4 bana do", "items": [
+    ["Mushkil", "XOFCBANNCVTM"], ["Aasaan", "FOX · CNN · ABC · MTV (4 chunks)"], ["Exam mein", "lambi list ko groups mein todo: mnemonic banao"]]},
+  {"k": "list", "c": "purple", "kick": "Memory ke 3 process", "title": "Encoding → storage → retrieval", "num": true, "items": [
+    ["Encoding", "info ko memory mein daalna; distract the to naam yaad nahi"], ["Storage", "info ko rakhna"], ["Retrieval", "zaroorat par wapas nikaalna"]]},
+  {"k": "list", "c": "purple", "kick": "Kya memory ko badhata hai", "title": "Factors affecting memory", "items": [
+    ["Attention", "jis par dhyan, wahi encode"], ["Elaborative encoding", "info ko meaningful aur apne se jodna"], ["Assess kaise", "recall (khud likho) vs recognition (pehchano)"]]},
+  {"k": "stat", "c": "red", "kick": "Forgetting curve", "stat": "📉", "title": "Pehle tezi se bhoolte, phir <em>ruk</em> jaata hai", "items": [
+    ["Ebbinghaus", "nonsense syllables yaad kiye; decay pehle tez, phir level off"], ["Spanish course", "3 saal mein aadhi vocabulary gayi, phir constant"]]},
+  {"k": "list", "c": "red", "kick": "Jawab ✅ · exam hack", "title": "Ratta vs roz thoda: roz thoda jeeta", "items": [
+    ["Spacing effect", "same time roz thoda-thoda > last minute cramming"], ["Overlearning", "yaad hone ke baad bhi practice karte raho"], ["Elaboration", "rattne ki jagah meaning samjho"]]},
+  {"k": "list", "c": "amber", "kick": "Budhape mein memory", "title": "Sab kuch nahi bhoolte", "items": [
+    ["Slow processing", "word yaad aane mein der, par dekh ke pehchan lete hain"], ["Attention control", "topic se bhatakna zyada"], ["Sab nahi girta", "kuch memory same rehti, kuch behtar bhi hoti"]]},
+  {"k": "stat", "c": "amber", "kick": "Belief ka asar", "stat": "🇨🇳 vs 🇺🇸", "title": "Jo maante hain memory jaayegi, unki <em>sach mein</em> gayi", "items": [
+    ["Levy & Langer", "budhe Americans ne Chinese se kharab score kiya"], ["Wajah", "\"budhape mein memory girti hai\" wali soch"]]},
+  {"k": "stat", "c": "pink", "kick": "Jawab ✅ · Memory distortion", "stat": "💥", "title": "Ek shabd ne <em>accident</em> ki yaad badal di", "items": [
+    ["Loftus & Palmer", "\"smashed\" vs \"contacted\" poochha: speed ka estimate badal gaya"], ["Misinformation effect", "baad ki info purani memory ko badal deti hai"]]},
+  {"k": "list", "c": "pink", "kick": "Yaadein jhooth kaise bolti hain", "title": "Memory = recording nahi, <em>reconstruction</em>", "items": [
+    ["Source monitoring error", "sach mein hua ya sapna tha? 25% students confused"], ["Eyewitness", "galat hote hue bhi utne hi confident"], ["Danger", "court ya clinic mein galat yaad = galat faisla"]], "exam": "Nice to know: memory distortion"},
+  {"k": "list", "c": "blue", "kick": "Doctor ke liye", "title": "Case taking mein kaam ki baat", "items": [
+    ["Leading questions mat poochho", "\"smashed\" jaisa shabd patient ki yaad badal sakta hai"], ["Open questions", "patient ko apne shabdon mein batane do"]]},
+  {"k": "list", "c": "blue", "kick": "Exam cheat-sheet 📌", "title": "Ek nazar mein revision", "items": [
+    ["Attention", "selective · gorilla test · ADHD"], ["Memory", "explicit/implicit · sensory → STM (7±2) → LTM"], ["Process", "encoding → storage → retrieval · chunking"], ["Forgetting", "Ebbinghaus curve · spacing · Loftus misinformation"]]},
+  {"k": "outro", "c": "blue", "follow": "Follow karo for more BHMS psychology 🔔", "items": [["💾 Save", "exam se pehle revision ke liye"], ["📤 Share", "apne BHMS batchmate ko bhejo"], ["💬 Comment", "kaun sa topic next chahiye?"]]}
+ ]
+}
