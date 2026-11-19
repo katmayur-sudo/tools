@@ -1,0 +1,39 @@
+{
+ "covers": [25, 26],
+ "outside_book": ["slides 11–13: sex vs gender identity definitions (the book only covers gender identity as an old DSM-IV 'disorder'; that framing is outdated and not used)", "slide 9: the 'love lives little different' line is the book's; nothing added about Indian law"],
+ "slides": [
+  {"k": "cover", "c": "purple", "kick": "BHMS Psychology", "title": "Attraction ka <em>remote</em> kahan hai? 🧠", "brain": [],
+   "sub": "Sexual behaviour, hormones aur orientation ki science: simple, respectful, exam-ready. 2 topics 📌"},
+  {"k": "list", "c": "purple", "kick": "Is post mein", "title": "2 exam topics, ek post", "num": true, "items": [
+    ["Emotions aur sexual behaviour", "brain, hormones, culture"], ["Sexual orientation aur identity", "science, myths, society"]]},
+  {"k": "stat", "c": "purple", "kick": "Book ki line", "stat": "#1", "title": "Reproduction: insaan ka <em>sabse important</em> behaviour?", "items": [
+    ["Kyun?", "iske bina hum mein se koi yahan na hota"], ["Sirf sex nahi", "courtship, ghar basana, parenting, child care: sab saath"]]},
+  {"k": "brain", "c": "pink", "kick": "Brain ka role", "title": "Control room: hypothalamus + pituitary", "brain": ["hypothalamus"], "items": [
+    ["Hypothalamus", "sexual drive aur pleasure/reward"], ["Pituitary", "ovaries aur testes ko sex hormones banane ka signal"]], "exam": "SAQ: brain systems in sexual behaviour"},
+  {"k": "list", "c": "pink", "kick": "Hormones", "title": "Estrogen aur testosterone", "items": [
+    ["Estrogen", "women mein; menstrual cycle ke saath badalta hai, ovulation par peak"], ["Testosterone", "men aur women dono mein; desire maintain karta hai"], ["Menopause", "interest kam ho sakta hai; hormone treatment se wapas aa sakta hai"]]},
+  {"k": "list", "c": "pink", "kick": "Masters & Johnson", "title": "Sexual response cycle: 4 stages", "num": true, "items": [
+    ["Excitement", ""], ["Plateau", "saans, pulse, BP badhte hain"], ["Orgasm", ""], ["Resolution", "body wapas normal; men mein refractory period"]], "exam": "MCQ favourite"},
+  {"k": "list", "c": "amber", "kick": "Men vs women", "title": "Biology same, interest alag?", "items": [
+    ["Biology", "response cycle dono mein lagbhag ek jaisa"], ["Book ke findings", "men mein interest zyada consistent; women ki desire time ke saath zyada badalti"], ["Kyun? (evolutionary view)", "child rearing mein zyada investment → women zyada selective"]]},
+  {"k": "list", "c": "amber", "kick": "Variety", "title": "Sabka sexual behaviour alag", "items": [
+    ["Range", "behaviour men aur women ke beech hi nahi, har group ke andar bhi bahut alag"], ["Low desire", "lagbhag 1/4 women low desire report karti hain; ~1% ko attraction hi nahi"], ["Hyperactive drive", "3–6% (zyadatar men) mein drive itni strong ki life par haavi"]]},
+  {"k": "list", "c": "blue", "kick": "Definition", "title": "Sexual orientation kya hai?", "items": [
+    ["Sexual orientation", "sexual desire kis taraf hai: opposite sex, same sex, ya dono"], ["Heterosexual", "opposite sex ki taraf (majority)"], ["Homosexual / bisexual", "same sex ki taraf / dono ki taraf"]], "exam": "SAQ: define sexual orientation"},
+  {"k": "stat", "c": "blue", "kick": "Numbers (book data)", "stat": "3–4%", "title": "Men gay, 1–2% women lesbian, ~1% bisexual", "items": [
+    ["Relationships", "zyadatar committed, long-term: heterosexual logon jaisa hi"], ["Fark sirf", "jahan culture ya kanoon rok lagate hain"]]},
+  {"k": "list", "c": "blue", "kick": "Nature ya nurture?", "title": "Research kya kehti hai", "items": [
+    ["Primarily biological", "book ke hisaab se orientation mainly biology se"], ["Brain", "hypothalamus ke kuch areas mein fark paya gaya"], ["Twins", "identical twins 52% vs fraternal 22%: genes ka role"], ["Hormones", "sex hormones ka exposure bhi asar daalta hai"]], "exam": "LAQ point: nature vs nurture"},
+  {"k": "list", "c": "green", "kick": "Myth vs fact", "title": "Kya ye mental illness hai? <em>Nahi.</em>", "items": [
+    ["American Psychiatric Association", "1973 se homosexuality ko mental illness nahi maanta"], ["History", "jab se record hai, tab se insaanon mein; kai jaanwaron mein bhi"]]},
+  {"k": "list", "c": "green", "kick": "Identity", "title": "Sex, gender identity, sexual identity", "items": [
+    ["Sex", "biological: body, chromosomes, hormones"], ["Gender identity", "insaan khud ko andar se kya mehsoos karta hai: man, woman ya koi aur"], ["Sexual identity", "apni orientation ko insaan kaise samajhta aur batata hai"]]},
+  {"k": "list", "c": "red", "kick": "Society ki challenges", "title": "Prejudice ka asli asar", "items": [
+    ["Prejudice", "ostracism (samaaj se alag karna), depression, suicide tak"], ["Attitudes", "kai jagah tolerance badh rahi hai, kai jagah abhi bhi acceptance nahi"], ["Better attitudes", "gay, lesbian, bisexual logon ki rozmarra life behtar"]]},
+  {"k": "list", "c": "red", "kick": "Doctor ke liye", "title": "Clinic mein kya yaad rakhein?", "items": [
+    ["Respect", "orientation aur identity patient ki personal baat: judge mat karo"], ["Mental health", "prejudice se aayi depression/anxiety ko pehchano"], ["Confidentiality", "patient ka bharosa sabse pehle"]]},
+  {"k": "list", "c": "purple", "kick": "Exam cheat-sheet 📌", "title": "Ek nazar mein revision", "items": [
+    ["Brain", "hypothalamus + pituitary · hormones: estrogen, testosterone"], ["Response cycle", "excitement → plateau → orgasm → resolution"], ["Orientation", "hetero · homo · bi · primarily biological (twins 52% vs 22%)"], ["Society", "APA 1973 · prejudice → depression"]],
+   "exam": "💾 Save · 📤 BHMS dost ko bhejo · 💬 Next topic comment karo"}
+ ]
+}
