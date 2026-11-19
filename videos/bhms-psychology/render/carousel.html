@@ -55,7 +55,18 @@ window.show = (S, i, n) => {
   const el = document.getElementById("s");
   el.style.setProperty("--acc", acc); el.style.setProperty("--glow", rgba(acc, .22));
   let body = "";
-  if (S.k === "cover") body = `
+  if (S.k === "hook") body = `
+    <div style="position:absolute;left:64px;top:130px"><span class="kick">${S.kick}</span></div>
+    <div class="d" style="position:absolute;left:64px;right:64px;top:215px;font-size:112px">${S.title}</div>
+    <div style="position:absolute;left:64px;right:64px;top:${S.top || 640}px">${S.qs.map((q, j) => `<div style="display:inline-block;margin:0 0 22px;padding:22px 30px;border-radius:28px 28px 28px 6px;background:${j % 2 ? "#151821" : "var(--acc)"};color:${j % 2 ? "#fff" : "#0B0D12"};font-family:'Inter Display';font-weight:800;font-size:44px;line-height:1.15;transform:rotate(${j % 2 ? 1.5 : -1.5}deg)">${q}</div><br>`).join("")}</div>
+    <div class="d" style="position:absolute;left:64px;right:64px;bottom:150px;font-size:46px;color:rgba(255,255,255,.75)">${S.sub}</div>`;
+  else if (S.k === "outro") body = `
+    <div style="position:absolute;left:0;right:0;top:150px;display:flex;justify-content:center"><img src="../assets/user/logo-full.png" style="width:330px;height:330px;border-radius:50%;box-shadow:0 0 0 6px rgba(255,255,255,.08),0 30px 80px rgba(0,0,0,.6)"></div>
+    <div class="d" style="position:absolute;left:64px;right:64px;top:520px;text-align:center;font-size:72px">Dr. Mayurakshi Katiyar</div>
+    <div style="position:absolute;left:64px;right:64px;top:610px;text-align:center;font-weight:800;font-size:38px;color:var(--acc)">BHMS · MD (Hom.) Scholar</div>
+    <div class="card big" style="position:absolute;left:64px;right:64px;top:710px">${S.items.map(([h, t]) => `<div class="row"><div><div class="h">${h}</div><div class="t">${t}</div></div></div>`).join("")}</div>
+    <div class="d" style="position:absolute;left:64px;right:64px;bottom:90px;text-align:center;font-size:46px;color:var(--acc)">${S.follow}</div>`;
+  else if (S.k === "cover") body = `
     <div style="position:absolute;left:64px;top:170px"><span class="kick">${S.kick}</span></div>
     <div class="d" style="position:absolute;left:64px;right:64px;top:250px;font-size:118px">${S.title}</div>
     <div style="position:absolute;left:40px;right:40px;top:775px;display:flex;justify-content:center"><img src="../assets/user/logo-full.png" style="width:220px;height:220px;border-radius:50%;box-shadow:0 0 0 6px rgba(255,255,255,.08),0 30px 80px rgba(0,0,0,.6)"></div>
@@ -83,7 +94,7 @@ window.show = (S, i, n) => {
     <div class="d" style="position:absolute;left:64px;right:64px;top:225px;font-size:${S.title.length > 34 ? 72 : 84}px">${S.title}</div>
     <div class="card ${i === n - 1 ? "" : "big"}" style="position:absolute;left:64px;right:64px;top:${S.title.length > 34 ? 480 : 430}px">${rows(S.items, S.num)}</div>`;
   el.innerHTML = `<div class="grid"></div>
-    <div class="top"><span style="display:flex;align-items:center;gap:16px">${i === 0 || i === n - 1 ? `<img src="../assets/user/logo-mk.png" style="width:72px;height:72px;border-radius:50%;background:#fff">` : ""}<span style="line-height:1.15">Dr. Mayurakshi Katiyar<br><span style="color:var(--acc);font-size:24px">BHMS · MD (Hom.) Scholar</span></span></span><span class="dots">${Array.from({ length: n }, (_, j) => `<i class="${j === i ? "on" : ""}"></i>`).join("")}</span></div>
-    ${body}${S.exam ? `<div class="exam" style="${i === n - 1 ? "right:330px;font-size:30px;line-height:1.4" : ""}">📝 ${S.exam}</div>` : ""}${i < n - 1 ? `<div class="swipe">${S.swipe || "Swipe →"}</div>` : `<img src="../assets/user/logo-full.png" style="position:absolute;right:56px;bottom:40px;width:240px;height:240px;border-radius:50%;box-shadow:0 0 0 5px rgba(255,255,255,.08)">`}`;
+    <div class="top"><span></span><span class="dots">${Array.from({ length: n }, (_, j) => `<i class="${j === i ? "on" : ""}"></i>`).join("")}</span></div>
+    ${body}${S.exam ? `<div class="exam" style="${i === n - 1 ? "right:330px;font-size:30px;line-height:1.4" : ""}">📝 ${S.exam}</div>` : ""}${i < n - 1 ? `<div class="swipe">${S.swipe || "Swipe →"}</div>` : ""}`;
 };
 </script></body></html>
