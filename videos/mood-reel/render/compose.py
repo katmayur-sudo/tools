@@ -1,16 +1,17 @@
 """Compose the mood-disorders reel from the graded cut, card PNGs and word timings.
 
-Usage: python3 compose.py <scratch>   (expects raw1/graded.mp4, raw1/words_cut_v2.json,
-raw1/segments_v2.json, reel/cards/*.png, reel/assets/shot4_anhedonia.png, reel/circle_mask.png,
+Usage: python3 compose.py <scratch>   (expects raw1/graded4k.mp4, raw1/words_cut_v3.json,
+raw1/segments_v2.json, reel/cards/*.png (rendered at 2x), reel/assets/shot4_anhedonia.png, reel/circle_mask.png,
 reel/ring.png). Writes <scratch>/out/: shots/*.mp4, silent.mp4, captions.ass, cues.json.
 """
 import json, os, subprocess, sys
 
 S = sys.argv[1]
 OUT = f"{S}/out"; os.makedirs(f"{OUT}/shots", exist_ok=True)
-W = json.load(open(f"{S}/raw1/words_cut_v2.json"))
+W = json.load(open(f"{S}/raw1/words_cut_v3.json"))
 SEG = json.load(open(f"{S}/raw1/segments_v2.json"))
-FPS, DUR = 30, 69.9
+FPS = 30
+DUR = sum(round(b * FPS) - round(a * FPS) for a, b in SEG) / FPS  # frame-exact, matches recut.py
 CARDS, ASSETS = f"{S}/reel/cards", f"{S}/reel/assets"
 
 # word 108 has no aligned time: interpolate between its neighbours
@@ -66,12 +67,12 @@ files = []
 for n, (kind, w0, card, states, ov, ovw) in enumerate(SHOTS):
     t0, t1 = starts[n], starts[n + 1]; d = t1 - t0
     f = f"{OUT}/shots/{n + 1:02d}.mp4"; files.append(f)
-    src = ["-ss", f"{t0:.4f}", "-t", f"{d:.4f}", "-i", f"{S}/raw1/graded.mp4"]
+    src = ["-ss", f"{t0:.4f}", "-t", f"{d:.4f}", "-i", f"{S}/raw1/graded4k.mp4"]
     if n: cues["whoosh"].append(t0)
     if kind == "full":
         z = zoom_expr(t0, d)
-        fc = (f"[0:v]scale=w='trunc(1080*{z}/2)*2':h='trunc(1920*{z}/2)*2':eval=frame,"
-              f"crop=1080:1920,setsar=1[v]")
+        fc = (f"[0:v]scale=w='trunc(2160*{z}/2)*2':h='trunc(3840*{z}/2)*2':eval=frame,"
+              f"crop=2160:3840,setsar=1[v]")
         ins = src
         if ov:
             ot = max(cs(ovw) - t0, 0.25)
@@ -81,8 +82,8 @@ for n, (kind, w0, card, states, ov, ovw) in enumerate(SHOTS):
             cues["pop"].append(t0 + ot)
     elif kind == "card":
         ins = ["-loop", "1", "-t", f"{d:.4f}", "-i", f"{ASSETS}/shot4_anhedonia.png"]
-        fc = (f"[0:v]scale=w='trunc(1080*(1+0.04*t/{d:.3f})/2)*2':h='trunc(1920*(1+0.04*t/{d:.3f})/2)*2':eval=frame,"
-              f"crop=1080:1920,setsar=1,fade=in:st=0:d=0.6:color=0xF6F3EC[v]")
+        fc = (f"[0:v]scale=2160:3840:flags=lanczos,scale=w='trunc(2160*(1+0.04*t/{d:.3f})/2)*2':h='trunc(3840*(1+0.04*t/{d:.3f})/2)*2':eval=frame,"
+              f"crop=2160:3840,setsar=1,fade=in:st=0:d=0.6:color=0xF6F3EC[v]")
     else:  # pip: card states stacked, then the face circle
         ins = ["-loop", "1", "-t", f"{d:.4f}", "-i", f"{CARDS}/{card}_0.png"]
         fc, last = "", "[0:v]"
@@ -94,10 +95,10 @@ for n, (kind, w0, card, states, ov, ovw) in enumerate(SHOTS):
             last = f"[b{k}]"
         m = len(states) + 1
         ins += src + ["-i", f"{S}/reel/circle_mask.png", "-i", f"{S}/reel/ring.png"]
-        fc += (f"{last}scale=w='trunc(1080*(1+0.03*t/{d:.3f})/2)*2':h='trunc(1920*(1+0.03*t/{d:.3f})/2)*2':eval=frame,"
-               f"crop=1080:1920,setsar=1[bg];"
-               f"[{m}:v]crop=760:760:130:170,scale=320:320,format=rgba[f];[{m + 1}:v]format=gray[mk];"
-               f"[f][mk]alphamerge[fc];[bg][fc]overlay=730:100[v1];[v1][{m + 2}:v]overlay=720:90[v]")
+        fc += (f"{last}scale=w='trunc(2160*(1+0.03*t/{d:.3f})/2)*2':h='trunc(3840*(1+0.03*t/{d:.3f})/2)*2':eval=frame,"
+               f"crop=2160:3840,setsar=1[bg];"
+               f"[{m}:v]crop=1520:1520:260:340,scale=640:640,format=rgba[f];[{m + 1}:v]format=gray[mk];"
+               f"[f][mk]alphamerge[fc];[bg][fc]overlay=1460:200[v1];[v1][{m + 2}:v]overlay=1440:180[v]")
     run([*ins, "-filter_complex", fc, "-map", "[v]", "-t", f"{d:.4f}", *ENC, f])
     print(f"shot {n + 1} {kind} {t0:.2f}-{t1:.2f}")
 

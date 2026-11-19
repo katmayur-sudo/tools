@@ -1,13 +1,14 @@
 """Calm pad + soft piano bed and light SFX for the mood reel, then the final mix.
 
-Usage: python3 audio.py <scratch>  (needs raw1/cut_v2.mov for the clean voice and out/cues.json)
+Usage: python3 audio.py <scratch>  (needs raw1/voice_cut.wav from recut.py and out/cues.json)
 Writes out/music.wav, out/sfx.wav, out/mix.wav (-14 LUFS, TP <= -1.5).
 """
 import json, subprocess, sys, wave
 import numpy as np
 
 S = sys.argv[1]; OUT = f"{S}/out"
-SR, DUR = 48000, 69.97
+SR = 48000
+with wave.open(f"{S}/raw1/voice_cut.wav") as _w: DUR = _w.getnframes() / SR
 rng = np.random.default_rng(7)
 t = np.arange(int(SR * DUR)) / SR
 
@@ -79,7 +80,7 @@ fc = ("[0:a]aresample=48000,pan=stereo|c0=c0|c1=c0,asplit=2[v][sc];"
       "[m][sc]sidechaincompress=threshold=0.03:ratio=4:attack=40:release=450:makeup=1[md];"
       "[2:a]volume=-9dB,equalizer=f=2500:t=o:w=1.4:g=-4,pan=stereo|c0=c0|c1=c0[s];"
       "[v][md][s]amix=inputs=3:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=9,aresample=48000[a]")
-subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", f"{S}/raw1/cut_v2.mov", "-i", f"{OUT}/music.wav",
+subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", f"{S}/raw1/voice_cut.wav", "-i", f"{OUT}/music.wav",
                 "-i", f"{OUT}/sfx.wav", "-filter_complex", fc, "-map", "[a]", "-t", str(DUR),
                 "-c:a", "pcm_s16le", f"{OUT}/mix.wav"], check=True)
 print("ok")
