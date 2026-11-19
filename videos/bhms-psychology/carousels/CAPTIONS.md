@@ -61,3 +61,24 @@ Psychology ke 3 bade scientists ka 3 alag jawab hai. Swipe karo 👉
 📷 Image credits: Facial feedback photo: Quentin Gronau/Flickr · Endocrine diagram: © Cleveland Clinic 2023 · Portraits of William James, Walter Cannon, Stanley Schachter and the Capilano bridge photo via Wikimedia Commons / public sources.
 
 #bhms #firstbhms #bhmspsychology #psychology #homoeopathy #emotions #psychologynotes #medicalstudents #examrevision #homoeopathystudents #studygram
+
+## Sexual behaviour + orientation: topics 25–26
+
+Kya orientation ek choice hai? 🤔
+Science ka jawab is post mein hai. Swipe karo, aakhri slide tak 👉
+
+🧠 BHMS Psychology: 2 exam topics, 17 slides
+✅ Attraction ka control room: hypothalamus + pituitary
+✅ Estrogen, testosterone aur sexual response cycle ke 4 stages
+✅ Sexual orientation: definition, numbers aur nature vs nurture
+✅ Twins ka data: identical 52% vs fraternal 22%
+✅ Myth vs fact, sex vs gender identity, aur society ki challenges
+
+📝 Exam tip: sexual orientation ki definition aur nature vs nurture ke points SAQ/LAQ ke liye yaad karo. Slide 16 = poora cheat-sheet.
+
+💾 Save karo exam se pehle revise karne ke liye
+📤 Apne BHMS batchmate ko bhejo
+💬 Kaun sa topic samajh nahi aaya? Comment karo, uspe next post banayenge!
+🔔 Follow karo for more BHMS psychology
+
+#bhms #firstbhms #bhmspsychology #psychology #homoeopathy #sexualorientation #genderidentity #mentalhealth #medicalstudents #examrevision #psychologynotes #homoeopathystudents #studygram

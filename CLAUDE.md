@@ -35,6 +35,11 @@
 - Reels are built in `videos/bhms-psychology/` (scripts in `reels/*.json`, readable `SCRIPTS.md`). The owner picks
   which topics become reels; reels 1–7 have scripts and silent first cuts (voice-over pending).
 
+- Carousels (owner's rule, 2026-11-19): `videos/bhms-psychology/render/carousel.mjs` + `carousels/*.json`, up to 20
+  slides at 1080x1350, storyboard PDF first, final zip only after approval. Structure for every new carousel:
+  slide 1 = `hook` (topic name as kicker, a curiosity question, 2-3 question bubbles answered inside, swipe cue);
+  slides in between carry no name or logo; second-last = exam cheat-sheet; last = `outro` (full logo, name,
+  "BHMS · MD (Hom.) Scholar", Save/Share/Comment, Follow line). Logos live in gitignored `assets/user/`.
 - Captions: hashtags are always all lowercase (owner's rule), e.g. #bhms #bhmspsychology.
 
 ## Video workflow
