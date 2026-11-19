@@ -125,3 +125,24 @@ Memory ka science aur exam hacks andar hain. Swipe karo 👉
 🔔 Follow karo for more BHMS psychology
 
 #bhms #firstbhms #bhmspsychology #psychology #homoeopathy #memory #attention #studytips #examhacks #medicalstudents #examrevision #psychologynotes #homoeopathystudents #studygram
+
+## Perception: topics 39–43
+
+Aap duniya ko dekhte nahi, brain usse banata hai 👁️
+Brain ke tricks aur exam points andar hain. Swipe karo 👉
+
+🧠 BHMS Psychology: 5 exam topics, 17 slides
+✅ Sensation vs perception + psychophysics
+✅ Gestalt principles: figure-ground, similarity, proximity, continuity
+✅ Visual cliff, motion (beta effect), constancy aur illusions
+✅ Social perception: "what is beautiful is good" bias
+✅ Dyslexia aur hallucinations
+
+📝 Exam tip: Gestalt principles diagram ke saath LAQ mein likho. Slide 16 = poora cheat-sheet.
+
+💾 Save karo exam se pehle revise karne ke liye
+📤 Apne BHMS batchmate ko bhejo
+💬 Kaun sa topic samajh nahi aaya? Comment karo, uspe next post banayenge!
+🔔 Follow karo for more BHMS psychology
+
+#bhms #firstbhms #bhmspsychology #psychology #homoeopathy #perception #gestalt #opticalillusion #medicalstudents #examrevision #psychologynotes #homoeopathystudents #studygram
