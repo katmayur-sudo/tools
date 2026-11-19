@@ -14,12 +14,11 @@ Shot types: **FULL** = you full screen with captions · **PIP** = my card full s
 | 4 | 23–31 s | FULL, lean in | Aur wo ek sawaal? Anhedonia. Jo cheezein pehle khushi deti thi, ab kuch bhi achha nahi lagta. Yahi sabse bada sign hai. | Word: "ANHEDONIA" |
 | 5 | 31–40 s | PIP | Depression sharir mein bhi dikhta hai: bhook kam, neend kharab, thakaan, aur sab kuch slow. | Body outline, 4 symptoms pop in |
 | 6 | 40–47 s | PIP | Par pehle check karo: thyroid, steroids, ya stroke bhi aisa mood bana sakte hain. | Chips: Thyroid · Steroids · Stroke |
-| 7 | 47–56 s | FULL, slow, serious | Agar mood bahut low ho, to suicide ke baare mein seedha poochho. Poochne se risk nahi badhta. | Text + helpline* |
+| 7 | 47–56 s | FULL, slow, serious | Agar mood bahut low ho, to suicide ke baare mein seedha poochho. Poochne se risk nahi badhta. | Text: "Poochne se risk nahi badhta" |
 | 8 | 56–69 s | PIP | Ab iska ulta: mania. Bahut zyada khushi ya irritability, neend ki zaroorat nahi, bahut bolna, aur paise udaana. Jab depression aur mania dono aayein, use bipolar disorder kehte hain. | Sun icon, mania list, then "Depression ↕ Mania = Bipolar" |
 | 9 | 69–80 s | PIP | Achhi baat ye hai ki dawa aur therapy dono kaam karti hain, aur saath mein sabse achha. Bipolar mein sirf antidepressant nahi, mood stabiliser bhi zaroori hai. | ✓ Therapy ✓ Dawa ✓ Mood stabiliser |
 | 10 | 80–90 s | FULL, smile | Poora mood disorders carousel mere profile pe hai. Save karo, aur jise zaroorat ho, usse share karo. | Logo + "Save · Share" |
 
-*Helpline: Tele-MANAS 14416 (confirm before posting).
 
 ## How to record
 - Phone vertical (9:16), 1080p or 4K, back camera if someone can help, else front camera at eye level.
