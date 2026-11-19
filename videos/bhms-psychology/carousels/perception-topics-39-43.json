@@ -1,0 +1,340 @@
+{
+ "covers": [
+  39,
+  40,
+  41,
+  42,
+  43
+ ],
+ "outside_book": [
+  "slide 16: hallucination one-line definition is standard wording; the book lists hallucinations as a positive symptom of schizophrenia and an effect of hallucinogens",
+  "topic 42's use in case taking and topic 43's rubrics/remedies (Repertory) are not in the book"
+ ],
+ "slides": [
+  {
+   "k": "hook",
+   "c": "purple",
+   "kick": "Sensation + Perception",
+   "title": "Aap duniya ko <em>dekhte</em> nahi, brain usse <em>banata</em> hai 👁️",
+   "qs": [
+    "Ek hi tasveer mein vase ya 2 chehre?",
+    "Baby ne cliff se neeche kyun nahi kooda?",
+    "Sundar log 'achhe' kyun lagte hain?"
+   ],
+   "sub": "Brain ke tricks aur exam points andar hain. Swipe karo 👉",
+   "top": 700
+  },
+  {
+   "k": "list",
+   "c": "purple",
+   "kick": "Is post mein",
+   "title": "5 exam topics, ek post",
+   "num": true,
+   "items": [
+    [
+     "Sensation vs perception",
+     ""
+    ],
+    [
+     "Depth, motion, constancy, illusions",
+     ""
+    ],
+    [
+     "Social perception",
+     ""
+    ],
+    [
+     "Gestalt perception",
+     ""
+    ],
+    [
+     "Dyslexia aur hallucinations",
+     ""
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "blue",
+   "kick": "Definition",
+   "title": "Sensation vs perception",
+   "items": [
+    [
+     "Sensation",
+     "sense organ ke stimulate hone se aayi awareness: aankh, kaan, naak, zubaan, skin"
+    ],
+    [
+     "Perception",
+     "un sensations ko organize aur interpret karna"
+    ],
+    [
+     "Asli experience",
+     "hum sensation nahi, perception ka final package mehsoos karte hain"
+    ]
+   ],
+   "exam": "SAQ: sensation vs perception"
+  },
+  {
+   "k": "list",
+   "c": "blue",
+   "kick": "Psychophysics",
+   "title": "Kitna halka signal pakad sakte ho?",
+   "items": [
+    [
+     "Psychophysics",
+     "physical stimulus ka sensation aur mind par asar; Gustav Fechner ne shuru kiya"
+    ],
+    [
+     "Absolute threshold",
+     "itni kam intensity jo bas pakad mein aaye"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "green",
+   "kick": "Gestalt · Exam favourite",
+   "title": "Brain tukdon ko poora banata hai",
+   "num": true,
+   "items": [
+    [
+     "Figure-ground",
+     "vase ya 2 chehre: ek figure, baaki background"
+    ],
+    [
+     "Similarity",
+     "milti-julti cheezein ek group lagti hain"
+    ],
+    [
+     "Proximity",
+     "paas-paas wali cheezein ek group"
+    ],
+    [
+     "Continuity",
+     "lines smooth chalti dikhti hain, toot-ti nahi"
+    ]
+   ],
+   "exam": "LAQ: Gestalt principles"
+  },
+  {
+   "k": "list",
+   "c": "green",
+   "kick": "Gestalt · case taking",
+   "title": "Poora patient, sirf symptom nahi",
+   "items": [
+    [
+     "Gestalt idea",
+     "\"whole\" parts ke jod se zyada hota hai"
+    ],
+    [
+     "Doctor ke liye",
+     "symptoms ko alag-alag nahi, poori picture mein dekho"
+    ]
+   ]
+  },
+  {
+   "k": "stat",
+   "c": "amber",
+   "kick": "Visual cliff",
+   "stat": "👶",
+   "title": "Maa bula rahi thi, phir bhi baby <em>cliff</em> par nahi aaya",
+   "items": [
+    [
+     "Gibson & Walk",
+     "6–14 mahine ke bachche glass ke neeche dikhti 'khai' se door rahe"
+    ],
+    [
+     "Depth perception",
+     "3D space aur distance judge karna: kuch innate, kuch seekha hua"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "amber",
+   "kick": "Motion",
+   "title": "Movie mein cheezein hilti kaise hain?",
+   "items": [
+    [
+     "Beta effect",
+     "alag images ek ke baad ek: brain beech ka gap bhar ke motion dekhta hai"
+    ],
+    [
+     "Phi phenomenon",
+     "lights ke on-off se motion ka ehsaas"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "amber",
+   "kick": "Constancy",
+   "title": "Door gaya dost chhota nahi hota",
+   "items": [
+    [
+     "Perceptual constancy",
+     "sensation badle phir bhi object ko same samajhna"
+    ],
+    [
+     "Types",
+     "size, shape, brightness, color constancy"
+    ]
+   ]
+  },
+  {
+   "k": "stat",
+   "c": "red",
+   "kick": "Illusions",
+   "stat": "🌀",
+   "title": "Brain ko bhi <em>bewakoof</em> banaya ja sakta hai",
+   "items": [
+    [
+     "Illusion",
+     "jab normal perception fool ho jaaye aur galat cheez dikhe"
+    ],
+    [
+     "Wajah",
+     "constancy jaise shortcuts kabhi galat jagah lag jaate hain"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "red",
+   "kick": "Expectation",
+   "title": "Jo socho, wahi dikhta hai",
+   "items": [
+    [
+     "Taste",
+     "\"kharab lagega\" bataya to sach mein kharab laga"
+    ],
+    [
+     "Baby",
+     "\"ladka hai\" bataya to same baby zyada strong laga"
+    ],
+    [
+     "Lesson",
+     "mood, mindset aur context perception badalte hain"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "pink",
+   "kick": "Social perception",
+   "title": "Pehli nazar mein kya dekhte hain?",
+   "items": [
+    [
+     "Sabse pehle",
+     "sex, race, umar, physical attractiveness"
+    ],
+    [
+     "Attractiveness",
+     "pehli pasand ka sabse bada factor"
+    ],
+    [
+     "1 saal ke babies",
+     "bhi \"sundar\" chehron ko zyada dekhte hain"
+    ]
+   ]
+  },
+  {
+   "k": "stat",
+   "c": "pink",
+   "kick": "Jawab ✅",
+   "stat": "✨",
+   "title": "\"What is beautiful is good\" bias",
+   "items": [
+    [
+     "Bias",
+     "sundar logon ko hum baaki qualities mein bhi achha maan lete hain"
+    ],
+    [
+     "Relationships par asar",
+     "pehli impression galat ho sakti hai: rishtey aur faisle badalte hain"
+    ]
+   ],
+   "exam": "SAQ: determinants of social perception"
+  },
+  {
+   "k": "list",
+   "c": "blue",
+   "kick": "Perceptual problem · 1",
+   "title": "Dyslexia",
+   "items": [
+    [
+     "Kya hai",
+     "reading disability: padhne mein dikkat"
+    ],
+    [
+     "Book data",
+     "boys mein girls se lagbhag 5 guna zyada diagnose"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "blue",
+   "kick": "Perceptual problem · 2",
+   "title": "Hallucination: jo hai hi nahi, wo dikhe/sune",
+   "items": [
+    [
+     "Definition",
+     "bina stimulus ke perception"
+    ],
+    [
+     "Schizophrenia",
+     "positive symptom: normal logon mein nahi dikhta"
+    ],
+    [
+     "Drugs",
+     "hallucinogens (LSD, mescaline) sensation aur perception badalte hain"
+    ]
+   ],
+   "exam": "SAQ: hallucination"
+  },
+  {
+   "k": "list",
+   "c": "purple",
+   "kick": "Exam cheat-sheet 📌",
+   "title": "Ek nazar mein revision",
+   "items": [
+    [
+     "Sensation vs perception",
+     "awareness vs organize + interpret"
+    ],
+    [
+     "Gestalt",
+     "figure-ground · similarity · proximity · continuity"
+    ],
+    [
+     "Depth / motion",
+     "visual cliff · beta effect · phi · constancy"
+    ],
+    [
+     "Problems",
+     "illusions · dyslexia · hallucinations · beauty bias"
+    ]
+   ]
+  },
+  {
+   "k": "outro",
+   "c": "purple",
+   "follow": "Follow karo for more BHMS psychology 🔔",
+   "items": [
+    [
+     "💾 Save",
+     "exam se pehle revision ke liye"
+    ],
+    [
+     "📤 Share",
+     "apne BHMS batchmate ko bhejo"
+    ],
+    [
+     "💬 Comment",
+     "kaun sa topic next chahiye?"
+    ]
+   ]
+  }
+ ]
+}
