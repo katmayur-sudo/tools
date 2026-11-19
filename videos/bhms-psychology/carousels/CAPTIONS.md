@@ -103,3 +103,25 @@ Science ka jawab slide 11 par hai. Swipe karo 👉
 🔔 Follow karo for more BHMS psychology
 
 #bhms #firstbhms #bhmspsychology #psychology #homoeopathy #happiness #emotionalhealth #stress #mentalhealth #medicalstudents #examrevision #psychologynotes #homoeopathystudents #studygram
+
+## Attention + memory: topics 31–37
+
+Raat bhar padha, subah sab bhool gaye? 😩
+Memory ka science aur exam hacks andar hain. Swipe karo 👉
+
+🧠 BHMS Psychology: 7 exam topics, 20 slides
+✅ Selective attention aur gorilla test 🦍
+✅ ADHD: bachchon aur adults mein
+✅ Memory ke types aur 3 stages: sensory → STM → LTM
+✅ Magic number 7 ± 2 aur chunking hack
+✅ Ebbinghaus forgetting curve + spacing effect
+✅ Budhape mein memory aur memory distortion (Loftus)
+
+📝 Exam tip: stages of memory diagram ke saath LAQ mein likho. Slide 19 = poora cheat-sheet.
+
+💾 Save karo exam se pehle revise karne ke liye
+📤 Apne BHMS batchmate ko bhejo
+💬 Kaun sa topic samajh nahi aaya? Comment karo, uspe next post banayenge!
+🔔 Follow karo for more BHMS psychology
+
+#bhms #firstbhms #bhmspsychology #psychology #homoeopathy #memory #attention #studytips #examhacks #medicalstudents #examrevision #psychologynotes #homoeopathystudents #studygram
