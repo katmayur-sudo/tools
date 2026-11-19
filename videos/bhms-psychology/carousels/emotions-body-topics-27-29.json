@@ -1,0 +1,319 @@
+{
+ "covers": [
+  27,
+  28,
+  29
+ ],
+ "outside_book": [
+  "'peace' as a positive emotion: the book covers happiness, joy, optimism, not peace by name",
+  "topic 29: the book covers universal facial expressions and culture-specific gestures only"
+ ],
+ "slides": [
+  {
+   "k": "hook",
+   "c": "green",
+   "kick": "Emotions → body · Happiness · Culture",
+   "title": "Kya <em>paisa</em> sach mein khushi deta hai? 💸",
+   "qs": [
+    "Gussa dil ko kaise bimaar karta hai?",
+    "Ek marshmallow aur bachche ka future?",
+    "Khushi ka sabse bada secret kya hai?"
+   ],
+   "sub": "Science ke jawab andar hain. Swipe karo, aakhri slide tak 👉"
+  },
+  {
+   "k": "list",
+   "c": "green",
+   "kick": "Is post mein",
+   "title": "3 exam topics, ek post",
+   "num": true,
+   "items": [
+    [
+     "Emotions ka body aur behaviour par asar",
+     ""
+    ],
+    [
+     "Positive emotions: happiness, joy",
+     ""
+    ],
+    [
+     "Culture aur emotional expression",
+     ""
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "red",
+   "kick": "Emotion → body",
+   "title": "Affect sirf feeling nahi",
+   "items": [
+    [
+     "Affect guide karta hai",
+     "behaviour, decisions, aur mental + physical health"
+    ],
+    [
+     "Health psychology",
+     "\"everything physiological is also psychological\""
+    ],
+    [
+     "Stress",
+     "lamba chale to immunity weak, zakhm dheere bharte hain"
+    ]
+   ]
+  },
+  {
+   "k": "stat",
+   "c": "red",
+   "kick": "Gussa aur dil",
+   "stat": "❤️‍🔥",
+   "title": "Husbands ko wives se zyada <em>heart disease</em>. Kyun?",
+   "items": [
+    [
+     "Same lifestyle",
+     "khana, exercise ek jaisa; phir bhi fark"
+    ],
+    [
+     "Wajah",
+     "husbands stress par zyada negative emotions aur hostility dikhate the (Friedman & Rosenman)"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "red",
+   "kick": "Daily stress",
+   "title": "Holmes & Rahe stress scale",
+   "items": [
+    [
+     "Life events ke points",
+     "spouse ki death 100 · divorce 73 · shaadi 50 · job jaana 47"
+    ],
+    [
+     "Score high = risk high",
+     "2,500 soldiers: zyada score wale zyada hospital pahunche"
+    ],
+    [
+     "Asli killer",
+     "chhoti-chhoti daily hassles par negative emotions"
+    ]
+   ],
+   "exam": "SAQ: stressors"
+  },
+  {
+   "k": "stat",
+   "c": "amber",
+   "kick": "Marshmallow test",
+   "stat": "🍪 × 2",
+   "title": "Abhi 1 cookie, ya thoda ruko to <em>2</em>?",
+   "items": [
+    [
+     "Experiment (Mischel)",
+     "4–5 saal ke bachche; kuch ruk gaye, kuch ne turant kha liya"
+    ],
+    [
+     "Point",
+     "jo ruk paaye unki emotion regulation better thi"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "amber",
+   "kick": "Emotion regulation",
+   "title": "Emotion ko control karna seekhna",
+   "items": [
+    [
+     "Definition",
+     "apne emotions ko successfully control karne ki ability"
+    ],
+    [
+     "Kyun zaroori",
+     "stress danger batata hai, par behaviour out of control na ho"
+    ],
+    [
+     "Health",
+     "smoking, sharaab, overeating: short-term khushi, long-term nuksaan; regulation bachata hai"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "pink",
+   "kick": "Positive thinking",
+   "title": "Stress ka sabse achha <em>antidote</em>",
+   "items": [
+    [
+     "Optimism",
+     "achhe outcome ki ummeed: zyada khush, kam stress"
+    ],
+    [
+     "Self-efficacy",
+     "\"main kar sakta hoon\": problem ko seedha face karna"
+    ],
+    [
+     "Hardiness",
+     "stress mein bhi positive, cause samajhna, seekhna"
+    ]
+   ],
+   "exam": "SAQ: positive emotions and health"
+  },
+  {
+   "k": "list",
+   "c": "pink",
+   "kick": "Health par asar",
+   "title": "Optimists jaldi theek hote hain",
+   "items": [
+    [
+     "Recovery",
+     "bimari aur surgery se jaldi recovery"
+    ],
+    [
+     "Habits",
+     "high self-efficacy: smoking chhodna, weight kam, regular exercise aasaan"
+    ],
+    [
+     "50 saal ki study",
+     "college mein optimistic students mein agle 50 saal mein deaths kam"
+    ]
+   ]
+  },
+  {
+   "k": "stat",
+   "c": "pink",
+   "kick": "Khushi ka secret",
+   "stat": "🤝",
+   "title": "Sabse bada factor: <em>social support</em>",
+   "items": [
+    [
+     "Saath wale log",
+     "kam depression, zyada self-esteem, kam anxiety"
+    ],
+    [
+     "Bimari mein bhi",
+     "cancer, AIDS patients mein kam depression; suicide ka risk kam"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "blue",
+   "kick": "Jawab ✅",
+   "title": "Paisa khushi deta hai? Ek limit tak",
+   "items": [
+    [
+     "Basic zarooratein",
+     "khana, ghar ke liye paisa zaroori"
+    ],
+    [
+     "Uske baad",
+     "zyada paisa = zyada khushi nahi; income badhi, khushi nahi"
+    ],
+    [
+     "Kabhi kaafi nahi",
+     "$30,000 wale ko $50,000 chahiye, $100,000 wale ko $250,000"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "blue",
+   "kick": "Prediction ki galti",
+   "title": "Hum apni khushi ko galat predict karte hain",
+   "items": [
+    [
+     "Overestimate",
+     "achhi ya buri khabar ka asar jitna sochte hain, usse kam hota hai"
+    ],
+    [
+     "Jaldi utar jaata",
+     "achha event khush karta hai, par effect jaldi khatam"
+    ],
+    [
+     "Genes bhi",
+     "kuch log naturally zyada khush hote hain"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "purple",
+   "kick": "Culture · 1",
+   "title": "Chehra universal, haath ka ishaara nahi",
+   "items": [
+    [
+     "Basic emotions ke chehre",
+     "har culture mein ek jaise, log doosri culture ke chehre bhi padh lete hain"
+    ],
+    [
+     "Gestures",
+     "koi universal nonverbal language nahi"
+    ]
+   ]
+  },
+  {
+   "k": "list",
+   "c": "purple",
+   "kick": "Culture · 2",
+   "title": "Ek ishaara, alag matlab",
+   "items": [
+    [
+     "Middle finger",
+     "US aur Western countries mein disrespect"
+    ],
+    [
+     "\"V\" sign (ulta)",
+     "Britain, Ireland, Australia, New Zealand mein wahi matlab"
+    ],
+    [
+     "Doctor ke liye",
+     "patient ka culture samjho, warna expression galat padhoge"
+    ]
+   ],
+   "exam": "SAQ: culture and emotional expression"
+  },
+  {
+   "k": "list",
+   "c": "green",
+   "kick": "Exam cheat-sheet 📌",
+   "title": "Ek nazar mein revision",
+   "items": [
+    [
+     "Emotion → body",
+     "hostility → heart disease · Holmes-Rahe scale"
+    ],
+    [
+     "Regulation",
+     "marshmallow test (Mischel) · delay of gratification"
+    ],
+    [
+     "Positive",
+     "optimism · self-efficacy · hardiness · social support #1"
+    ],
+    [
+     "Culture",
+     "faces universal · gestures culture-specific"
+    ]
+   ]
+  },
+  {
+   "k": "outro",
+   "c": "green",
+   "follow": "Follow karo for more BHMS psychology 🔔",
+   "items": [
+    [
+     "💾 Save",
+     "exam se pehle revision ke liye"
+    ],
+    [
+     "📤 Share",
+     "apne BHMS batchmate ko bhejo"
+    ],
+    [
+     "💬 Comment",
+     "kaun sa topic next chahiye?"
+    ]
+   ]
+  }
+ ]
+}
