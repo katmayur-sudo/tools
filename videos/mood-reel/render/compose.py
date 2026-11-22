@@ -58,7 +58,11 @@ def zoom_expr(t0, d):
         e = f"if(gte(t,{st:.3f}),{z},{e})"
     return f"({e}+0.04*t/{d:.3f})"
 
+PLAN = "--plan" in sys.argv  # timings only (timeline.json, captions), no rendering
+TL = []  # (track, file, start, end) for rebuilding the edit in an NLE
+
 def run(args):
+    if PLAN: return
     subprocess.run(["ffmpeg", "-v", "error", "-y", *args], check=True)
 
 ENC = ["-c:v", "libx264", "-preset", "medium", "-crf", "16", "-pix_fmt", "yuv420p", "-r", str(FPS), "-an"]
@@ -69,6 +73,7 @@ for n, (kind, w0, card, states, ov, ovw) in enumerate(SHOTS):
     f = f"{OUT}/shots/{n + 1:02d}.mp4"; files.append(f)
     src = ["-ss", f"{t0:.4f}", "-t", f"{d:.4f}", "-i", f"{S}/raw1/graded4k.mp4"]
     if n: cues["whoosh"].append(t0)
+    TL.append(("V1 a-roll" if kind != "card" else "V2 card", "A-roll" if kind != "card" else "S04_ANHEDONIA.png", t0, t1))
     if kind == "full":
         z = zoom_expr(t0, d)
         fc = (f"[0:v]scale=w='trunc(2160*{z}/2)*2':h='trunc(3840*{z}/2)*2':eval=frame,"
@@ -80,6 +85,7 @@ for n, (kind, w0, card, states, ov, ovw) in enumerate(SHOTS):
             fc += (f";[1:v]format=rgba,fade=in:st={ot:.3f}:d=0.3:alpha=1[o];"
                    f"[v][o]overlay=0:0[v]")
             cues["pop"].append(t0 + ot)
+            TL.append(("V3 overlay", f"{ov}_0.png", t0 + ot, t1))
     elif kind == "card":
         ins = ["-loop", "1", "-t", f"{d:.4f}", "-i", f"{ASSETS}/shot4_anhedonia.png"]
         fc = (f"[0:v]scale=2160:3840:flags=lanczos,scale=w='trunc(2160*(1+0.04*t/{d:.3f})/2)*2':h='trunc(3840*(1+0.04*t/{d:.3f})/2)*2':eval=frame,"
@@ -87,9 +93,11 @@ for n, (kind, w0, card, states, ov, ovw) in enumerate(SHOTS):
     else:  # pip: card states stacked, then the face circle
         ins = ["-loop", "1", "-t", f"{d:.4f}", "-i", f"{CARDS}/{card}_0.png"]
         fc, last = "", "[0:v]"
+        TL.append(("V2 card", f"{card}_0.png", t0, t1))
         for k, (st, wi) in enumerate(sorted(states.items())):
             ins += ["-loop", "1", "-t", f"{d:.4f}", "-i", f"{CARDS}/{card}_{st}.png"]
             at = max(cs(wi) - t0 - 0.05, 0)
+            TL.append((f"V{3 + k} card layer", f"{card}_{st}.png", t0 + at, t1))
             cues["pop" if card != "s8" or st < 5 else "whoosh"].append(t0 + at)
             fc += f"[{k + 1}:v]format=rgba,fade=in:st={at:.3f}:d=0.18:alpha=1[s{k}];{last}[s{k}]overlay=0:0[b{k}];"
             last = f"[b{k}]"
@@ -102,9 +110,12 @@ for n, (kind, w0, card, states, ov, ovw) in enumerate(SHOTS):
     run([*ins, "-filter_complex", fc, "-map", "[v]", "-t", f"{d:.4f}", *ENC, f])
     print(f"shot {n + 1} {kind} {t0:.2f}-{t1:.2f}")
 
+json.dump([{"track": a, "file": b, "start": round(c, 3), "end": round(d_, 3)} for a, b, c, d_ in TL],
+          open(f"{OUT}/timeline.json", "w"), indent=1)
+if PLAN: files = []
 with open(f"{OUT}/concat.txt", "w") as fh:
     fh.writelines(f"file '{f}'\n" for f in files)
-run(["-f", "concat", "-safe", "0", "-i", f"{OUT}/concat.txt", "-c", "copy", f"{OUT}/silent.mp4"])
+if not PLAN: run(["-f", "concat", "-safe", "0", "-i", f"{OUT}/concat.txt", "-c", "copy", f"{OUT}/silent.mp4"])
 
 # ---- captions: Roman Hinglish, as spoken (one token per aligned word; "" = merged into previous)
 ROMAN = ("Aap|udaas|ho ya|depressed?|Bas|ek|sawaal|poochho:|kya|ab|kuch|bhi|achha|lagta|hai?|"
@@ -155,5 +166,10 @@ for ci, c in enumerate(chunks):
         pop = "{\\fscx92\\fscy92\\t(0,90,\\fscx100\\fscy100)}" if j == 0 else ""
         ass.append(f"Dialogue: 0,{ts(s)},{ts(e)},C,,0,0,0,,{{\\pos(540,1385)}}{pop}{txt}")
 open(f"{OUT}/captions.ass", "w").write("\n".join(ass) + "\n")
+srt = lambda t: f"{int(t // 3600):02d}:{int(t % 3600 // 60):02d}:{int(t % 60):02d},{int(round(t % 1 * 1000)) % 1000:03d}"
+with open(f"{OUT}/captions.srt", "w") as fh:
+    for k, c in enumerate(chunks):
+        end = min(c[-1]["e"] + 0.25, chunks[k + 1][0]["s"] - 0.06) if k + 1 < len(chunks) else c[-1]["e"] + 0.25
+        fh.write(f"{k + 1}\n{srt(c[0]['s'] - 0.05)} --> {srt(end)}\n{' '.join(x['t'] for x in c)}\n\n")
 json.dump({**cues, "shots": starts}, open(f"{OUT}/cues.json", "w"), indent=1)
 print("chunks", len(chunks), "cues", {k: len(v) for k, v in cues.items()})
