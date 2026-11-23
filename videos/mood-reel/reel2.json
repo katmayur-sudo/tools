@@ -21,19 +21,14 @@
    "overlay_word": 0
   },
   {
-   "kind": "card",
-   "start": 4.8,
-   "file": "reel/cards/n2_0.png"
-  },
-  {
    "kind": "full",
-   "start": 5.3,
+   "word": 14,
    "overlay": "o2",
-   "overlay_word": 15
+   "overlay_word": 14
   },
   {
    "kind": "pip",
-   "start": 9.0,
+   "word": 25,
    "card": "s3",
    "states": {
     "1": 44
@@ -74,7 +69,7 @@
   },
   {
    "kind": "pip",
-   "start": 46.65,
+   "word": 125,
    "card": "s8",
    "states": {
     "1": 129,
@@ -97,13 +92,40 @@
   },
   {
    "kind": "full",
-   "word": 185
-  },
-  {
-   "kind": "card",
-   "start": 73.85,
-   "file": "reel/cards/e10_0.png"
+   "word": 185,
+   "overlay": "o10",
+   "overlay_word": 195
   }
  ],
- "guide_notes": "\n## What I cut from your raw recording (107.7 s → 76.9 s)\n- Pauses and breaths between phrases (shortened to 0.14 s, 0.28 s at sentence ends). No scripted word removed.\n- Retake: the first \"samajh mein aati hai aur *ilaaj* ke saath theek ho jaati hai\" (raw 15.6–18.6 s). The clean retake with \"waqt ke saath\" (raw 20.9 s) is kept.\n- False start: \"Achhi baat ye hai ki dawa aur therapy se…\" (raw 79.0–83.1 s). The full take at raw 85.3 s is kept.\n- Mic handling / breath noises at raw 19.1, 20.1, 83.4, 90.5 and 98.0 s.\n\n## Sync\nYour phone saved the sound slightly off from the picture. I measured it from your jaw and mouth movement (the mic hides your lips): sound is 4 frames (0.13 s) late. The A-roll here is already fixed. Don't re-sync it to the camera's own audio.\n\n## Glances down (not looking at the camera)\nI tracked your head angle on every frame. Glances that fall on full-face shots are covered by graphics:\n- 00:00:04:24–00:00:05:09 → S02 full-screen Name card\n- 00:00:09:03–00:00:09:16 → S04 card starts early (00:00:09:00)\n- 00:00:46:22–00:00:47:04 → S09 card starts early (00:00:46:20)\n- 00:01:13:28 onwards → S12 End card\nAll other glances fall inside card shots, where only the small face circle shows them (or no face at all on ANHEDONIA). If you rearrange shots, keep the full-face shots away from these times (MM:SS:FF): 00:11:22, 00:15:12, 00:20:06, 00:22:12, 00:26:08, 00:28:12, 00:30:28, 00:34:25, 00:36:09, 00:41:04, 00:48:25, 00:50:29, 00:53:02, 00:55:05, 01:00:21, 01:09:24 (each about 0.3–0.7 s).\n"
+ "guide_notes": "\n## How your raw recording was cut (107.7 s → 67.9 s)\n- **Kept:** every line as scripted, exactly once, with voice and captions matching word for word.\n- **Removed:** the pauses and breaths between phrases (kept as 0.14 s air gaps, 0.28 s at sentence ends).\n- **Removed, retake:** the first \"samajh mein aati hai aur *ilaaj* ke saath theek ho jaati hai\" (raw 15.6–18.6 s); the clean retake with \"waqt ke saath\" is kept.\n- **Removed, false start:** \"Achhi baat ye hai ki dawa aur therapy se…\" (raw 79.0–83.1 s); the full take is kept.\n- **Removed, noises:** mic handling and breath noises at raw 19.1, 20.1, 83.4, 90.5, 98.0 s.\n- **Removed, looking away:** every moment you were not looking into the camera (reading the next line), wherever no word was being spoken. Your head angle was measured on every frame. In total 24 glances, plus 15 smaller dips (1.3 s) at clip starts and ends, leaving light air holes between lines.\n\n## What is left of looking down (can't be cut without cutting a word)\n- About 2.4 s in total, all inside words: mostly the last syllable of a line (\"…hai\") as your head starts to drop, plus \"sab kuch **slow**\", \"check **karo**\" and \"**irritability**\".\n- All of them fall on card shots. The face circle is switched off for the visible ones (6 moments, 0.15 s or longer), so you are never seen looking down. The only one on a full-face shot is 1 frame at 00:00:08:22.\n- If you move shots around, keep full-face shots away from these (cut time, MM:SS:FF): 00:10:27, 00:14:11, 00:18:23, 00:20:19, 00:23:27, 00:27:16, 00:30:27, 00:31:28, 00:36:10, 00:42:27, 00:44:21, 00:46:08, 00:47:26, 00:53:04, 00:57:13, 01:01:21.\n\n## Sync\nYour phone saved the sound 4 frames (0.13 s) late compared to the picture. I measured this from jaw and mouth movement (the mic hides your lips) and corrected it in the A-roll. Don't re-sync it to the camera audio.\n",
+ "pip_hide": [
+  [
+   18.72,
+   18.98
+  ],
+  [
+   23.85,
+   24.15
+  ],
+  [
+   27.48,
+   27.75
+  ],
+  [
+   30.85,
+   31.28
+  ],
+  [
+   31.88,
+   32.31
+  ],
+  [
+   44.65,
+   45.05
+  ],
+  [
+   61.65,
+   61.95
+  ]
+ ]
 }

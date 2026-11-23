@@ -104,11 +104,14 @@ for n, sh in enumerate(SHOTS):
             fc += f"[{k + 1}:v]format=rgba,fade=in:st={at:.3f}:d=0.18:alpha=1[s{k}];{last}[s{k}]overlay=0:0[b{k}];"
             last = f"[b{k}]"
         m = len(states) + 1
+        # hide the face circle (and its ring) while the speaker looks down mid-word: config "pip_hide", cut-time ranges
+        hid = [(max(a - t0, 0), min(b, t1) - t0) for a, b in R.get("pip_hide", []) if a < t1 and b > t0]
+        en = (":enable='not(" + "+".join(f"between(t,{a:.3f},{b:.3f})" for a, b in hid) + ")'") if hid else ""
         ins += src + ["-i", f"{S}/reel/circle_mask.png", "-i", f"{S}/reel/ring.png"]
         fc += (f"{last}scale=w='trunc(2160*(1+0.03*t/{d:.3f})/2)*2':h='trunc(3840*(1+0.03*t/{d:.3f})/2)*2':eval=frame,"
                f"crop=2160:3840,setsar=1[bg];"
                f"[{m}:v]scale=2160:3840,crop={2 * PW}:{2 * PW}:{2 * PX}:{2 * PY},scale=640:640,format=rgba[f];[{m + 1}:v]format=gray[mk];"
-               f"[f][mk]alphamerge[fc];[bg][fc]overlay=1460:200[v1];[v1][{m + 2}:v]overlay=1440:180[v]")
+               f"[f][mk]alphamerge[fc];[bg][fc]overlay=1460:200{en}[v1];[v1][{m + 2}:v]overlay=1440:180{en}[v]")
     if LAYERS:
         nfr = round(t1 * FPS) - round(t0 * FPS)  # exact frame count, so clips butt-join on the timeline
         lab = os.path.basename(sh.get("file", "")).replace("_0.png", "").replace(".png", "") or card
@@ -116,10 +119,10 @@ for n, sh in enumerate(SHOTS):
             run([*ins, "-filter_complex", fc + ";[v]scale=1080:1920:flags=lanczos[o]", "-map", "[o]", "-frames:v", str(nfr),
                  *ENC, "-crf", "14", f"{LAYERS}/S{n + 1:02d}_{lab}_card.mp4"])
         elif kind == "pip":
-            fcl = fc.replace("[bg];", "[bgo];", 1).replace("[f][mk]alphamerge[fc];[bg][fc]overlay=1460:200[v1];[v1]", "[f][mk]alphamerge[fc];")
-            fcl = fcl.rsplit(f"[{m + 2}:v]overlay=1440:180[v]", 1)[0]
-            fcl += (f"color=c=black@0.0:s=680x680:r={FPS},format=rgba[cv];[cv][fc]overlay=20:20:shortest=1[c1];"
-                    f"[c1][{m + 2}:v]overlay=0:0,scale=340:340:flags=lanczos,format=yuva444p10le[pip];"
+            fcl = fc.replace("[bg];", "[bgo];", 1).replace(f"[f][mk]alphamerge[fc];[bg][fc]overlay=1460:200{en}[v1];[v1]", "[f][mk]alphamerge[fc];")
+            fcl = fcl.rsplit(f"[{m + 2}:v]overlay=1440:180{en}[v]", 1)[0]
+            fcl += (f"color=c=black@0.0:s=680x680:r={FPS},format=rgba[cv];[cv][fc]overlay=20:20:shortest=1{en}[c1];"
+                    f"[c1][{m + 2}:v]overlay=0:0{en},scale=340:340:flags=lanczos,format=yuva444p10le[pip];"
                     f"[bgo]scale=1080:1920:flags=lanczos[card]")
             run([*ins, "-filter_complex", fcl, "-map", "[card]", "-frames:v", str(nfr), *ENC, "-crf", "14",
                  f"{LAYERS}/S{n + 1:02d}_{card}_card.mp4",
