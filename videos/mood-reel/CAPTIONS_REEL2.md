@@ -33,7 +33,7 @@ Photos: "Sunlight through a window" by Rev Stan (CC BY 2.0) · "Rain on Window 1
 
 ## YouTube Shorts
 
-**Title** (82 characters):
+**Title** (77 characters, under the 100 limit):
 Udaas ya Depressed? 1 sawaal se pehchano | Depression, Mania, Bipolar #shorts
 
 **Description:**
