@@ -1,17 +1,22 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Mood Reel Cover</title><style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{width:1080px;height:1920px;overflow:hidden;background:#0A0C11;color:#fff;font-family:"Inter Display","Inter",sans-serif}
-.bg{position:absolute;inset:0;background:url(assets/cover_frame2.jpg) center/cover}
-.sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,12,17,0) 44%,rgba(10,12,17,.82) 62%,rgba(10,12,17,.95) 100%)}
-.t{position:absolute;left:70px;right:70px;top:1075px}
-.k{font-weight:800;font-size:34px;letter-spacing:.18em;text-transform:uppercase;color:#FFD23F}
-h1{font-weight:900;font-size:138px;line-height:.98;letter-spacing:-.035em;margin-top:18px}
+<!doctype html><html><head><meta charset="utf-8"><title>Mood Reel Cover</title><style>*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;height:1920px;overflow:hidden;background:#0A0C11;color:#fff;font-family:"Inter Display","Inter",sans-serif;position:relative}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:60px 60px}
+.glow{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 35%,rgba(77,163,255,.18),transparent 55%),radial-gradient(ellipse at 75% 70%,rgba(255,210,63,.12),transparent 55%)}
+.k{font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#FFD23F}
+h1{font-weight:900;line-height:.97;letter-spacing:-.035em}
 h1 span{color:#4DA3FF}
-.s{margin-top:28px;font-weight:700;font-size:44px;color:rgba(255,255,255,.88)}
-.by{position:absolute;left:70px;top:1528px;display:flex;align-items:center;gap:20px;font-weight:800;font-size:36px}
-.by img{width:84px;height:84px;border-radius:50%;object-fit:cover}
-</style></head><body><div class="bg"></div><div class="sh"></div>
-<div class="t"><div class="k">Mood disorders · 90 sec</div><h1>Udaas ya<br><span>Depressed?</span></h1>
-<div class="s">Bas ek sawaal se pehchano</div></div>
-<div class="by"><img src="assets/logo_mk.png"><div>Dr. Mayurakshi Katiyar<div style="font-size:26px;font-weight:700;color:rgba(255,255,255,.7)">BHMS · MD (Hom.) Scholar</div></div></div>
-</body></html>
+.s{font-weight:700;color:rgba(255,255,255,.88)}
+.by{display:flex;align-items:center;font-weight:800}
+.by img{border-radius:50%;object-fit:cover}
+.icons{display:flex;align-items:center}
+.arrow{font-weight:900;color:rgba(255,255,255,.55)}
+.wrap{position:absolute;left:80px;right:80px;top:0;bottom:0;justify-content:center;display:flex;flex-direction:column;align-items:center;text-align:center}
+.icons{gap:40px} .arrow{font-size:110px}
+.k{font-size:36px;margin-top:40px} h1{font-size:168px;margin-top:22px} .s{font-size:52px;margin-top:34px}
+.by{gap:22px;font-size:38px;margin-top:70px;text-align:left} .by img{width:96px;height:96px}
+</style></head><body><div class="grid"></div><div class="glow"></div><div class="wrap">
+<div class="icons"><svg width="230" height="230" viewBox="0 0 200 200"><path d="M55 110 a35 35 0 0 1 10 -68 a45 45 0 0 1 85 10 a30 30 0 0 1 0 58 Z" fill="none" stroke="#fff" stroke-width="8"/><path d="M60 130 l-10 26 M90 142 l-10 26 M120 130 l-10 26 M150 142 l-10 26" stroke="#4DA3FF" stroke-width="8" stroke-linecap="round"/></svg><div class="arrow">⇅</div><svg width="230" height="230" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40" fill="#FFD23F"/><g stroke="#FFD23F" stroke-width="9" stroke-linecap="round"><path d="M155 100L180 100"/><path d="M45 100L20 100"/><path d="M100 155L100 180"/><path d="M100 45L100 20"/><path d="M139 139L157 157"/><path d="M61 61L43 43"/><path d="M139 61L157 43"/><path d="M61 139L43 157"/></g></svg></div>
+<div class="k">Mood disorders · 90 sec</div><h1>Udaas ya<br><span>Depressed?</span></h1>
+<div class="s">Bas ek sawaal se pehchano</div>
+<div class="by"><img src="assets/logo_mk.png"><div>Dr. Mayurakshi Katiyar<div style="font-size:27px;font-weight:700;color:rgba(255,255,255,.7)">BHMS · MD (Hom.) Scholar</div></div></div>
+</div></body></html>
