@@ -19,7 +19,7 @@ Shot types: **FULL** = you full screen with captions · **PIP** = card full scre
 | 10 | 71–82 s | PIP | Ilaaj mein sabse pehle samjhao aur bharosa do. Phir CBT, relaxation, aur phobia mein dheere dheere exposure. Dawa mein antidepressant first choice. Benzodiazepine sirf thode time ke liye, kyunki aadat lag jaati hai. | ✓ Samjhao + bharosa · ✓ CBT · ✓ Graded exposure · ✓ Antidepressant · ⚠ Benzo: short term |
 | 11 | 82–90 s | FULL, smile | OCD aur PTSD agle reel mein. Save karo, aur apne batchmate ko share karo. | Logo + "Part 2: OCD · PTSD" + "Save · Share" |
 
-About 215 words: roughly 85–90 s at your speaking pace.
+About 230 words: roughly 90 s at your speaking pace.
 
 ### Fact check (every on-screen fact)
 | Line | Davidson 24th ed |
