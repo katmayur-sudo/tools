@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Anxiety Reel Cards</title>
+<style>
+  /* Full-screen cards for a voice-only segment (no face on screen). Content stays in y 140-1200 so SubMagic
+     captions (lower middle) and Instagram's bottom UI never cover it. */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0A0C11; color: #fff; font-family: "Inter", sans-serif; }
+  .full { position: absolute; inset: 0; background: #0A0C11; }
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 60px 60px; }
+  .d { font-family: "Inter Display", "Inter"; font-weight: 900; letter-spacing: -0.03em; line-height: 1.04; }
+  .k { font-weight: 800; font-size: 30px; letter-spacing: .2em; text-transform: uppercase; color: #FFD23F; }
+  .abs { position: absolute; }
+  .panel { position: absolute; left: 60px; right: 60px; border-radius: 34px; overflow: hidden; box-shadow: 0 0 0 2px rgba(255,255,255,.08) inset, 0 30px 60px -30px #000; }
+  .photo { position: absolute; inset: 0; background-size: cover; background-position: center; }
+  .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,12,17,0) 40%, rgba(10,12,17,.75)); }
+  .chip { display: inline-flex; align-items: center; padding: 18px 30px; border-radius: 999px; font-family: "Inter Display"; font-weight: 800; font-size: 46px; margin: 0 16px 20px 0; }
+  .row { display: flex; align-items: center; gap: 24px; font-family: "Inter Display"; font-weight: 800; font-size: 50px; line-height: 1.12; }
+  .dot { flex: none; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 900; color: #0A0C11; }
+  .tile { border-radius: 30px; padding: 34px 32px; background: rgba(255,255,255,.05); box-shadow: 0 0 0 3px rgba(77,163,255,.55) inset; }
+  .r { color: #FF4D4F; } .b { color: #4DA3FF; } .y { color: #FFD23F; } .g { color: #3DDC97; }
+  .cream { position: absolute; inset: 0; background: #F6F3EC; color: #0E5F5C; }
+  .lite { font-family: "Inter Display"; font-weight: 300; letter-spacing: .06em; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+const A = "assets/";
+const head = (kicker, title) => `<div class="abs" style="left:60px;right:60px;top:150px"><div class="k">${kicker}</div><div class="d" style="font-size:92px;margin-top:18px">${title}</div></div>`;
+const base = inner => `<div class="full"><div class="grid"></div>${inner}</div>`;
+const photo = (img, top, h, pos = "center") => `<div class="panel" style="top:${top}px;height:${h}px"><div class="photo" style="background-image:url('${A}${img}');background-position:${pos}"></div><div class="shade"></div></div>`;
+const chips = (items, n, col, top) => `<div class="abs" style="left:60px;right:60px;top:${top}px;display:flex;flex-wrap:wrap">${items.slice(0, n).map(t =>
+  `<span class="chip" style="background:${col}29;box-shadow:0 0 0 3px ${col} inset">${t}</span>`).join("")}</div>`;
+const rows = (items, n, top) => `<div class="abs" style="left:60px;right:60px;top:${top}px;display:flex;flex-direction:column;gap:26px">${items.slice(0, n).map(([mark, col, t]) =>
+  `<div class="row"><div class="dot" style="background:${col}">${mark}</div><div>${t}</div></div>`).join("")}</div>`;
+// fast ECG trace, drawn (no stock photo)
+const ecg = () => { let p = "M0 150"; for (let x = 0; x < 960; x += 120) p += ` L${x + 30} 150 L${x + 42} 135 L${x + 52} 150 L${x + 60} 160 L${x + 68} 40 L${x + 78} 200 L${x + 88} 150 L${x + 104} 130 L${x + 118} 150`;
+  return `<div class="panel" style="top:420px;height:330px;background:#0E1A14"><svg width="960" height="330" viewBox="0 0 960 300" style="position:absolute;left:0;top:10px">
+  <defs><pattern id="g" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="rgba(61,220,151,.12)" stroke-width="1"/></pattern></defs>
+  <rect width="960" height="300" fill="url(#g)"/><path d="${p}" fill="none" stroke="#3DDC97" stroke-width="6" stroke-linejoin="round"/></svg></div>`; };
+
+const CARDS = {
+  // 03: what anxiety disorder is
+  c03: n => base(head("Anxiety disorder", "Isme <span class=b>4 cheezein</span>") + `
+    <div class="abs" style="left:60px;right:60px;top:450px;display:grid;grid-template-columns:1fr 1fr;gap:28px">
+    ${[["Ghabrahat", "anxiety"], ["Chinta wale vichaar", "worrisome thoughts"], ["Cheezon se bachna", "avoidance"], ["Body symptoms", "dhadkan · saans · kaanpna"]]
+      .map(([t, s], i) => `<div class="tile" style="opacity:${i < n ? 1 : 0}"><div class="d" style="font-size:54px">${t}</div><div style="font-size:32px;font-weight:700;color:rgba(255,255,255,.7);margin-top:10px">${s}</div></div>`).join("")}</div>
+    ${n >= 5 ? `<div class="abs d" style="left:60px;right:60px;top:1010px;font-size:50px;font-weight:800;color:#FFD23F">→ Isiliye mareez pehle physician ke paas aata hai</div>` : ""}`),
+  // 04: word-only card (like ANHEDONIA): captions off here
+  c04: n => `<div class="cream"><div class="abs" style="left:0;right:0;top:360px;text-align:center">
+    <div class="lite" style="font-size:40px;letter-spacing:.3em;color:#B08A3E">3 TYPES</div>
+    ${["PHOBIC", "PANIC", "GENERALISED"].map((w, i) => `<div class="lite" style="font-size:${w.length > 8 ? 118 : 150}px;margin-top:44px;opacity:${i < n ? 1 : 0}">${w}</div>`).join("")}
+    <div style="width:340px;height:3px;margin:60px auto 0;background:linear-gradient(90deg,transparent,#C9A14A,transparent)"></div></div></div>`,
+  // 05: phobia
+  c05: n => base(head("Phobic anxiety", "<span class=y>Phobia</span>") + photo("A-01.jpg", 420, 420) +
+    (n >= 1 ? `<div class="abs d" style="left:60px;right:60px;top:880px;font-size:50px;font-weight:800">Khaas cheez ya jagah ka <span class=y>bahut zyada darr</span> + usse bachna</div>` : "") +
+    chips(["Flight ka darr", "Bheed / akele bahar = Agoraphobia", "Injection ka darr"], Math.max(n - 1, 0), "#FFD23F", 1040)),
+  // 06: panic disorder
+  c06: n => base(head("Panic disorder", "Achanak, baar baar <span class=r>tez ghabrahat</span>") + ecg() +
+    rows([["!", "#FF4D4F", "Seene mein dard"], ["!", "#FF4D4F", "Dhadkan"], ["!", "#FF4D4F", "Jhunjhuni: hoth + ungliyan"],
+          ["?", "#FFD23F", "Lagta hai: heart attack!"], ["→", "#4DA3FF", "Wajah: hyperventilation"]], n, 800)),
+  // 07: exam tip
+  c07: n => base(`<div class="abs" style="left:60px;right:60px;top:170px"><span class="k" style="background:#FFD23F;color:#0A0C11;padding:12px 22px;border-radius:12px">Exam tip</span>
+    <div class="d" style="font-size:88px;margin-top:40px">Panic confirm kaise?</div></div>
+    <div class="abs" style="left:60px;right:60px;top:560px;display:flex;flex-direction:column;gap:34px">
+      <div class="tile" style="box-shadow:0 0 0 3px #4DA3FF inset"><div class="d" style="font-size:60px">1–2 min jaan-boojh ke <span class=b>tez saans</span></div></div>
+      ${n >= 1 ? `<div class="d" style="font-size:80px;text-align:center;color:rgba(255,255,255,.6)">↓</div>
+      <div class="tile" style="box-shadow:0 0 0 3px #3DDC97 inset"><div class="d" style="font-size:54px">Wahi symptoms wapas = <span class=g>Panic&nbsp;✓</span></div></div>
+      <div style="font-size:36px;font-weight:700;color:rgba(255,255,255,.72)">ABG: respiratory alkalosis = chronic hyperventilation</div>` : ""}</div>`),
+  // 08: GAD
+  c08: n => base(head("Generalised anxiety (GAD)", "Har waqt <span class=b>chinta</span>") + photo("A-04.jpg", 420, 460) +
+    chips(["Har baat ki chinta", "Control nahi hoti", "Muscle tension → body complaints"], n, "#4DA3FF", 930)),
+  // 09: rule out organic causes
+  c09: n => base(head("Pehle check karo", "Medical <span class=r>cause</span> to nahi?") + photo("A-05.jpg", 420, 400) +
+    chips(["Thyroid (hyper)", "Arrhythmia", "Low sugar", "Phaeochromocytoma", "Alcohol / benzo withdrawal"], n, "#FF4D4F", 870)),
+  // 10: management
+  c10: n => base(head("Ilaaj", "Kya <span class=g>kaam karta hai</span>") + photo("A-06.jpg", 420, 300, "center 60%") +
+    rows([["✓", "#3DDC97", "Samjhao + bharosa do"], ["✓", "#3DDC97", "CBT + relaxation"], ["✓", "#3DDC97", "Phobia: dheere dheere exposure"],
+          ["✓", "#3DDC97", "Antidepressant: first choice"], ["!", "#FFD23F", "Benzo: sirf short term (aadat)"]], n, 780)),
+};
+const STATES = { c03: 6, c04: 4, c05: 5, c06: 6, c07: 2, c08: 4, c09: 6, c10: 6 };
+window.show = (id, n) => { document.getElementById("stage").innerHTML = CARDS[id](n); };
+</script>
+</body>
+</html>
