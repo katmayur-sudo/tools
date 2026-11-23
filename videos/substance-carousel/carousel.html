@@ -43,6 +43,7 @@ Object.assign(ICON, {
   brain: c => `<path d="M60 150 C30 150 22 120 34 102 C22 80 40 56 62 60 C68 40 98 36 110 50 C126 36 156 44 158 66 C180 72 184 102 168 114 C176 136 156 156 134 150 C126 166 100 168 92 156 C80 164 64 160 60 150 Z" fill="none" stroke="${c}" stroke-width="9"/><path d="M70 80 C82 86 84 102 74 110 M104 56 C100 74 112 84 126 80 M146 96 C132 102 132 120 146 126" fill="none" stroke="${c}" stroke-width="7"/>`,
   rain: c => `<path d="M55 110 a35 35 0 0 1 10 -68 a45 45 0 0 1 85 10 a30 30 0 0 1 0 58 Z" fill="none" stroke="#fff" stroke-width="8"/>${[60, 90, 120, 150].map((x, i) => `<path d="M${x} ${130 + (i % 2) * 12} l-10 26" stroke="${c}" stroke-width="8" stroke-linecap="round"/>`).join("")}`,
   sun: c => `<circle cx="100" cy="100" r="40" fill="${c}"/>${Array.from({ length: 8 }, (_, i) => { const a = i * Math.PI / 4; return `<path d="M${100 + 55 * Math.cos(a)} ${100 + 55 * Math.sin(a)} L${100 + 80 * Math.cos(a)} ${100 + 80 * Math.sin(a)}" stroke="${c}" stroke-width="9" stroke-linecap="round"/>`; }).join("")}`,
+  pulse: c => `<path d="M100 178 C40 130 12 100 12 66 C12 36 36 18 60 18 C78 18 92 28 100 42 C108 28 122 18 140 18 C164 18 188 36 188 66 C188 100 160 130 100 178 Z" fill="${c}22" stroke="${c}" stroke-width="7"/><path d="M14 98 H62 L74 70 L90 136 L108 40 L124 118 L134 98 H186" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>`,
   warn: c => `<path d="M100 20 L185 175 H15 Z" fill="none" stroke="${c}" stroke-width="12" stroke-linejoin="round"/><path d="M100 75 v50" stroke="${c}" stroke-width="14" stroke-linecap="round"/><circle cx="100" cy="150" r="9" fill="${c}"/>`,
 });
 const icon = (n, c, s = 200) => `<svg width="${s}" height="${s}" viewBox="0 0 200 200">${ICON[n](c)}</svg>`;
@@ -50,7 +51,7 @@ let D;
 const bgPhoto = img => img ? `<div class="photo" style="background-image:url('assets/${img}')"></div><div class="shade"></div>` : "";
 
 const T = {
-  cover: s => (s.art ? `<div style="position:absolute;right:-60px;top:40px;opacity:.9">${icon(s.art, s.artColor || "#FF4D4F", 640)}</div>` : "") + bgPhoto(s.img).replace('class="photo"', 'class="photo" style="opacity:.6;background-image:url(\'assets/' + s.img + '\')"') + `<div class="content" style="justify-content:flex-end;gap:30px;padding-bottom:40px">
+  cover: s => (s.art ? `<div style="position:absolute;${s.artStyle || "right:-60px;top:40px"};opacity:.9">${icon(s.art, s.artColor || "#FF4D4F", 640)}</div>` : "") + bgPhoto(s.img).replace('class="photo"', 'class="photo" style="opacity:.6;background-image:url(\'assets/' + s.img + '\')"') + `<div class="content" style="justify-content:flex-end;gap:30px;padding-bottom:40px">
     <div class="kicker">${s.kicker}</div><div class="d" style="font-size:118px">${s.title}</div>
     <div><span class="d" style="display:inline-block;background:#FFD23F;color:#0A0C11;border-radius:18px;padding:10px 28px 14px;font-size:40px">${s.pill}</span></div>${`<div style="display:flex;align-items:center;gap:18px"><img src="assets/logo_mk.png" style="width:84px;height:84px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px rgba(255,255,255,.15)"><div><div class="d" style="font-size:34px">${D.author}</div><div style="font-size:24px;font-weight:700;color:rgba(255,255,255,.7)">${D.credentials}</div></div></div>`}</div>`,
   stat: s => bgPhoto(s.img) + `<div class="content" style="align-items:flex-start">
@@ -90,6 +91,12 @@ const T = {
         <span class="d" style="font-size:28px;font-weight:800;line-height:1.15;display:inline-block;padding:10px 16px;border-radius:14px;background:rgba(255,77,79,.14);box-shadow:0 0 0 2px #FF4D4F inset">${t}</span></div>`).join("")}</div></div>`,
   quiz: s => `<div class="content" style="gap:22px"><div class="kicker">${s.kicker}</div><div class="d" style="font-size:84px">${s.title}</div>
     ${s.qa.map(([q, a]) => `<div class="card" style="padding:24px 30px"><div class="d" style="font-size:38px">Q. ${q}</div><div class="d y" style="font-size:34px;font-weight:800;margin-top:8px">→ ${a}</div></div>`).join("")}</div>`,
+  table: s => `<div class="content" style="gap:26px"><div class="kicker">${s.kicker}</div><div class="d" style="font-size:80px">${s.title}</div>
+    <div style="display:grid;grid-template-columns:200px repeat(${s.cols.length},1fr);gap:10px">
+      <div></div>${s.cols.map((c, i) => `<div class="d" style="font-size:36px;padding:14px 10px;border-radius:14px;text-align:center;background:${[COL.y, COL.r, COL.b][i]}2e;color:${[COL.y, COL.r, COL.b][i]}">${c}</div>`).join("")}
+      ${s.rows.map(r => `<div class="d" style="font-size:28px;font-weight:800;color:rgba(255,255,255,.6);padding:18px 0;align-self:center">${r[0]}</div>${r.slice(1).map(v =>
+        `<div class="card d" style="font-size:33px;font-weight:800;padding:18px 14px;text-align:center;line-height:1.12">${v}</div>`).join("")}`).join("")}</div>
+    ${s.note ? `<div class="card" style="padding:24px 30px;font-size:33px;font-weight:700;line-height:1.25">${s.note}</div>` : ""}</div>`,
   cta: s => `<div class="content" style="align-items:center;text-align:center">
     <svg width="100" height="126" viewBox="0 0 30 38"><path d="M3 2 h24 v34 l-12 -9 l-12 9 z" fill="#FFD23F"/></svg>
     <div class="d" style="font-size:96px">${s.title}</div><div class="d" style="font-size:44px;font-weight:800;color:rgba(255,255,255,.8)">${s.line}</div>
