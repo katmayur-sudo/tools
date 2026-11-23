@@ -1,14 +1,16 @@
 """Calm pad + soft piano bed and light SFX for the mood reel, then the final mix.
 
-Usage: python3 audio.py <scratch>  (needs raw1/voice_cut.wav from recut.py and out/cues.json)
+Usage: python3 audio.py <scratch> [voice.wav] [outdir]  (defaults raw1/voice_cut.wav, out; needs <outdir>/cues.json)
 Writes out/music.wav, out/sfx.wav, out/mix.wav (-14 LUFS, TP <= -1.5).
 """
 import json, subprocess, sys, wave
 import numpy as np
 
-S = sys.argv[1]; OUT = f"{S}/out"
+S = sys.argv[1]
+VOICE = f"{S}/{sys.argv[2] if len(sys.argv) > 2 else 'raw1/voice_cut.wav'}"
+OUT = f"{S}/{sys.argv[3] if len(sys.argv) > 3 else 'out'}"
 SR = 48000
-with wave.open(f"{S}/raw1/voice_cut.wav") as _w: DUR = _w.getnframes() / SR
+with wave.open(VOICE) as _w: DUR = _w.getnframes() / SR
 rng = np.random.default_rng(7)
 t = np.arange(int(SR * DUR)) / SR
 
@@ -77,10 +79,12 @@ write(f"{OUT}/sfx.wav", sfx)
 # ---- mix: voice clean (already EQ'd/de-essed), music ducked + 1-5 kHz pocket, SFX with pocket
 fc = ("[0:a]aresample=48000,pan=stereo|c0=c0|c1=c0,asplit=2[v][sc];"
       "[1:a]volume=-18dB,equalizer=f=2500:t=o:w=1.6:g=-6[m];"
-      "[m][sc]sidechaincompress=threshold=0.03:ratio=4:attack=40:release=450:makeup=1[md];"
-      "[2:a]volume=-9dB,equalizer=f=2500:t=o:w=1.4:g=-4,pan=stereo|c0=c0|c1=c0[s];"
+      "[m][sc]sidechaincompress=threshold=0.03:ratio=4:attack=40:release=450:makeup=1,asplit[md][mds];"
+      "[2:a]volume=-9dB,equalizer=f=2500:t=o:w=1.4:g=-4,pan=stereo|c0=c0|c1=c0,asplit[s][ss];"
       "[v][md][s]amix=inputs=3:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=9,aresample=48000[a]")
-subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", f"{S}/raw1/voice_cut.wav", "-i", f"{OUT}/music.wav",
+# also the music and SFX stems exactly as they sit in the mix (ducked, EQ'd, levelled), for an NLE at 0 dB
+subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", VOICE, "-i", f"{OUT}/music.wav",
                 "-i", f"{OUT}/sfx.wav", "-filter_complex", fc, "-map", "[a]", "-t", str(DUR),
-                "-c:a", "pcm_s16le", f"{OUT}/mix.wav"], check=True)
+                "-c:a", "pcm_s16le", f"{OUT}/mix.wav", "-map", "[mds]", "-t", str(DUR), "-c:a", "pcm_s24le",
+                f"{OUT}/music_ready.wav", "-map", "[ss]", "-t", str(DUR), "-c:a", "pcm_s24le", f"{OUT}/sfx_ready.wav"], check=True)
 print("ok")

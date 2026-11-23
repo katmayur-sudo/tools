@@ -1,0 +1,109 @@
+{
+ "words": "raw2/words_cut2.json",
+ "segments": "raw2/segments.json",
+ "video": "raw2/aroll.mp4",
+ "out": "out2",
+ "pip_crop": [
+  220,
+  480,
+  760
+ ],
+ "nocap": [
+  56,
+  78
+ ],
+ "roman": "Aap|udaas|ho ya|depressed?|Seedha|sawaal|poochho:|kya|ab|kuch|bhi|achha|lagta|hai?|Main|Dr.|Mayurakshi.|Chaliye,|90|second|mein|mood|disorders|samajhte|hain.|Udaasi|kisi|bure|waqt|ka|reaction|hai.|Samajh|mein|aati|hai,|aur|waqt|ke|saath|theek|ho|jaati|hai.|Depression|zyada|gehra|hota|hai,|lamba|chalta|hai,|aur|ilaaj|maangta|hai.|Aur|wo|ek|sawaal?|Anhedonia.|Jo|cheezein|pehle|khushi|deti|thi,|ab|kuch|bhi|achha|nahi|lagta|hai.|Yahi|sabse|bada|sign|hai.|Depression|sharir|mein|bhi|dikhta|hai:|bhook|kam,|neend|kharab,|thakaan|aur|sab|kuch|slow.|Par|pehle|check|karo:|thyroid,|steroids|ya|stroke|bhi|aisa|mood|bana|sakte|hain.|Agar|mood|bahut|low|ho,|to|suicide|ke|baare|mein|seedhe|poochho.|Poochhne|se|risk|nahi|badhta.|Ab|iska|ulta:|mania.|Bahut|zyada|khushi|ya|irritability,|neend|ki|zaroorat|nahi,|bahut|bolna,|aur|paise|udaana.|Jab|depression|aur|mania|dono|saath|mein|aayein,|tab|use|bipolar|disorder|kehte|hain.|Achhi|baat|ye|hai|ki|dawa|aur|therapy|dono|kaam|karti|hain,|aur|saath|mein|sabse|achha.|Bipolar|mein|sirf|antidepressant||nahi,|mood|stabiliser|bhi|zaroori|hai.|Poora|mood|disorders|carousel||mere|profile|page|pe|hai.|Save|karo,|aur|jise|zaroorat|hai,|usse|share|karo.",
+ "shots": [
+  {
+   "kind": "full",
+   "word": 0,
+   "overlay": "o1",
+   "overlay_word": 0
+  },
+  {
+   "kind": "card",
+   "start": 4.8,
+   "file": "reel/cards/n2_0.png"
+  },
+  {
+   "kind": "full",
+   "start": 5.3,
+   "overlay": "o2",
+   "overlay_word": 15
+  },
+  {
+   "kind": "pip",
+   "start": 9.0,
+   "card": "s3",
+   "states": {
+    "1": 44
+   }
+  },
+  {
+   "kind": "card",
+   "word": 56,
+   "file": "reel/assets/shot4_anhedonia.png",
+   "fade": "0xF6F3EC"
+  },
+  {
+   "kind": "pip",
+   "word": 79,
+   "card": "s5",
+   "states": {
+    "1": 85,
+    "2": 87,
+    "3": 89,
+    "4": 91
+   }
+  },
+  {
+   "kind": "pip",
+   "word": 94,
+   "card": "s6",
+   "states": {
+    "1": 98,
+    "2": 99,
+    "3": 101
+   }
+  },
+  {
+   "kind": "full",
+   "word": 108,
+   "overlay": "o7",
+   "overlay_word": 120
+  },
+  {
+   "kind": "pip",
+   "start": 46.65,
+   "card": "s8",
+   "states": {
+    "1": 129,
+    "2": 134,
+    "3": 138,
+    "4": 141,
+    "5": 143
+   }
+  },
+  {
+   "kind": "pip",
+   "word": 157,
+   "card": "s9",
+   "states": {
+    "1": 162,
+    "2": 164,
+    "3": 170,
+    "4": 180
+   }
+  },
+  {
+   "kind": "full",
+   "word": 185
+  },
+  {
+   "kind": "card",
+   "start": 73.85,
+   "file": "reel/cards/e10_0.png"
+  }
+ ],
+ "guide_notes": "\n## What I cut from your raw recording (107.7 s → 76.9 s)\n- Pauses and breaths between phrases (shortened to 0.14 s, 0.28 s at sentence ends). No scripted word removed.\n- Retake: the first \"samajh mein aati hai aur *ilaaj* ke saath theek ho jaati hai\" (raw 15.6–18.6 s). The clean retake with \"waqt ke saath\" (raw 20.9 s) is kept.\n- False start: \"Achhi baat ye hai ki dawa aur therapy se…\" (raw 79.0–83.1 s). The full take at raw 85.3 s is kept.\n- Mic handling / breath noises at raw 19.1, 20.1, 83.4, 90.5 and 98.0 s.\n\n## Sync\nYour phone saved the sound slightly off from the picture. I measured it from your jaw and mouth movement (the mic hides your lips): sound is 4 frames (0.13 s) late. The A-roll here is already fixed. Don't re-sync it to the camera's own audio.\n\n## Glances down (not looking at the camera)\nI tracked your head angle on every frame. Glances that fall on full-face shots are covered by graphics:\n- 00:00:04:24–00:00:05:09 → S02 full-screen Name card\n- 00:00:09:03–00:00:09:16 → S04 card starts early (00:00:09:00)\n- 00:00:46:22–00:00:47:04 → S09 card starts early (00:00:46:20)\n- 00:01:13:28 onwards → S12 End card\nAll other glances fall inside card shots, where only the small face circle shows them (or no face at all on ANHEDONIA). If you rearrange shots, keep the full-face shots away from these times (MM:SS:FF): 00:11:22, 00:15:12, 00:20:06, 00:22:12, 00:26:08, 00:28:12, 00:30:28, 00:34:25, 00:36:09, 00:41:04, 00:48:25, 00:50:29, 00:53:02, 00:55:05, 01:00:21, 01:09:24 (each about 0.3–0.7 s).\n"
+}

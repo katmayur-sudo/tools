@@ -1,0 +1,100 @@
+{
+ "words": "raw1/words_cut_v3.json",
+ "segments": "raw1/segments_v2.json",
+ "video": "raw1/graded4k.mp4",
+ "out": "out",
+ "pip_crop": [
+  130,
+  170,
+  760
+ ],
+ "nocap": [
+  57,
+  78
+ ],
+ "roman": "Aap|udaas|ho ya|depressed?|Bas|ek|sawaal|poochho:|kya|ab|kuch|bhi|achha|lagta|hai?|Main|Dr.|Mayurakshi.|Chaliye,|90|second|mein|mood|disorders|samajhte|hain.|Udaasi|kisi|bure|waqt|ka|reaction|hai.|Samajh|mein|aati|hai,|aur|waqt|ke|saath|theek|ho|jaati|hai.|Depression|zyada|gehra|hota|hai,|lamba|chalta|hai,|aur|ilaaj|maangta|hai.|Aur|wo|ek|sawaal?|Anhedonia.|Jo|cheezein|pehle|khushi|deti|thi,|ab|kuch|bhi|achha|nahi|lagta.|Ye|sabse|bada|sign|hai.|Depression|sharir|mein|bhi|dikhta|hai:|bhook|kam,|neend|kharab,|thakaan|aur|sab|kuch|slow.|Par|pehle|check|karo:|thyroid,|steroids|ya|stroke|bhi|aisa|mood|bana|sakte|hain.|Agar|mood|bahut|low|hai,|to|suicide|ke|baare|mein|seedha|poochho.|Poochhne|se|risk|nahi|badhta.|Ab|iska|ulta:|mania.|Bahut|zyada|khushi|ya|irritability,|neend|ki|zaroorat|nahi,|bahut|bolna,|aur|paise|udaana.|Jab|depression|aur|mania|dono|aayein,|use|bipolar|disorder|kehte|hain.|Achhi|baat|ye|hai|ki|dawa|aur|therapy|dono|kaam|karti|hain,|aur|saath|mein|sabse|achha.|Bipolar|mein|sirf|antidepressant||nahi,|mood|stabiliser|bhi|zaroori|hai.|Poora|mood|disorders|carousel|mere|profile|pe|hai.|Save|karo,|aur|jise|zaroorat|ho,|usse|share|karo.",
+ "shots": [
+  {
+   "kind": "full",
+   "word": 0,
+   "overlay": "o1",
+   "overlay_word": 0
+  },
+  {
+   "kind": "full",
+   "word": 15,
+   "overlay": "o2",
+   "overlay_word": 15
+  },
+  {
+   "kind": "pip",
+   "word": 26,
+   "card": "s3",
+   "states": {
+    "1": 45
+   }
+  },
+  {
+   "kind": "card",
+   "word": 57,
+   "file": "reel/assets/shot4_anhedonia.png",
+   "fade": "0xF6F3EC"
+  },
+  {
+   "kind": "pip",
+   "word": 79,
+   "card": "s5",
+   "states": {
+    "1": 85,
+    "2": 87,
+    "3": 89,
+    "4": 91
+   }
+  },
+  {
+   "kind": "pip",
+   "word": 94,
+   "card": "s6",
+   "states": {
+    "1": 98,
+    "2": 99,
+    "3": 101
+   }
+  },
+  {
+   "kind": "full",
+   "word": 108,
+   "overlay": "o7",
+   "overlay_word": 120
+  },
+  {
+   "kind": "pip",
+   "word": 125,
+   "card": "s8",
+   "states": {
+    "1": 129,
+    "2": 134,
+    "3": 138,
+    "4": 141,
+    "5": 143
+   }
+  },
+  {
+   "kind": "pip",
+   "word": 154,
+   "card": "s9",
+   "states": {
+    "1": 159,
+    "2": 161,
+    "3": 166,
+    "4": 177
+   }
+  },
+  {
+   "kind": "full",
+   "word": 182,
+   "overlay": "o10",
+   "overlay_word": 190
+  }
+ ]
+}

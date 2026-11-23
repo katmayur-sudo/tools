@@ -1,18 +1,23 @@
-"""Compose the mood-disorders reel from the graded cut, card PNGs and word timings.
+"""Compose a mood-disorders reel from a cut A-roll, card PNGs and word timings.
 
-Usage: python3 compose.py <scratch>   (expects raw1/graded4k.mp4, raw1/words_cut_v3.json,
-raw1/segments_v2.json, reel/cards/*.png (rendered at 2x), reel/assets/shot4_anhedonia.png, reel/circle_mask.png,
-reel/ring.png). Writes <scratch>/out/: shots/*.mp4, silent.mp4, captions.ass, cues.json.
+Usage: python3 compose.py <scratch> <reel.json> [--plan]
+reel.json (paths relative to <scratch>) names the words (cs/ce = cut times), segments, A-roll video, output dir,
+shots, Roman caption tokens, the uncaptioned word range and the PiP face crop. Cards come from reel/cards/*.png
+(rendered at 2x), plus reel/circle_mask.png and reel/ring.png. Writes <out>/: shots/*.mp4, silent.mp4,
+captions.ass/.srt, cues.json, timeline.json. --plan writes only the timings and captions.
 """
 import json, os, subprocess, sys
 
 S = sys.argv[1]
-OUT = f"{S}/out"; os.makedirs(f"{OUT}/shots", exist_ok=True)
-W = json.load(open(f"{S}/raw1/words_cut_v3.json"))
-SEG = json.load(open(f"{S}/raw1/segments_v2.json"))
+R = json.load(open(sys.argv[2]))
+OUT = f"{S}/{R['out']}"; os.makedirs(f"{OUT}/shots", exist_ok=True)
+W = json.load(open(f"{S}/{R['words']}"))
+SEG = json.load(open(f"{S}/{R['segments']}"))
+VIDEO = f"{S}/{R['video']}"
+PX, PY, PW = R["pip_crop"]  # face square in 1080x1920 A-roll pixels
 FPS = 30
 DUR = sum(round(b * FPS) - round(a * FPS) for a, b in SEG) / FPS  # frame-exact, matches recut.py
-CARDS, ASSETS = f"{S}/reel/cards", f"{S}/reel/assets"
+CARDS = f"{S}/reel/cards"
 
 # word 108 has no aligned time: interpolate between its neighbours
 for i, w in enumerate(W):
@@ -25,20 +30,10 @@ snap = lambda t: round(t * FPS) / FPS
 def boundary(i):  # shot cut sits in the pause before word i
     return snap((W[i - 1]["ce"] + W[i]["cs"]) / 2)
 
-# (type, first word, card id, {state: word}, overlay, overlay-from-word)
-SHOTS = [
-    ("full", 0, None, {}, "o1", 0),
-    ("full", 15, None, {}, "o2", 15),
-    ("pip", 26, "s3", {1: 45}, None, None),
-    ("card", 57, None, {}, None, None),
-    ("pip", 79, "s5", {1: 85, 2: 87, 3: 89, 4: 91}, None, None),
-    ("pip", 94, "s6", {1: 98, 2: 99, 3: 101}, None, None),
-    ("full", 108, None, {}, "o7", 120),
-    ("pip", 125, "s8", {1: 129, 2: 134, 3: 138, 4: 141, 5: 143}, None, None),
-    ("pip", 154, "s9", {1: 159, 2: 161, 3: 166, 4: 177}, None, None),
-    ("full", 182, None, {}, "o10", 190),
-]
-starts = [0.0] + [boundary(s[1]) for s in SHOTS[1:]] + [DUR]
+# shots: kind full|pip|card, "word" (first word; the cut sits in the pause before it) or an explicit "start",
+# full: "overlay"/"overlay_word"; pip: "card" + "states" {state: word}; card: "file" (+ "fade" colour)
+SHOTS = R["shots"]
+starts = [0.0] + [round(x["start"] * FPS) / FPS if "start" in x else boundary(x["word"]) for x in SHOTS[1:]] + [DUR]
 
 # cut-segment boundaries (cumulative durations) for alternating punch-ins
 seg_t, t = [], 0.0
@@ -59,6 +54,10 @@ def zoom_expr(t0, d):
     return f"({e}+0.04*t/{d:.3f})"
 
 PLAN = "--plan" in sys.argv  # timings only (timeline.json, captions), no rendering
+# --layers DIR: instead of finished shots, write NLE layers: every card shot as one 1080x1920 clip (pop-ins and
+# push baked in, no face) and every face circle as a 340x340 ProRes 4444 clip with alpha (ring included)
+LAYERS = sys.argv[sys.argv.index("--layers") + 1] if "--layers" in sys.argv else None
+if LAYERS: os.makedirs(LAYERS, exist_ok=True)
 TL = []  # (track, file, start, end) for rebuilding the edit in an NLE
 
 def run(args):
@@ -68,12 +67,14 @@ def run(args):
 ENC = ["-c:v", "libx264", "-preset", "medium", "-crf", "16", "-pix_fmt", "yuv420p", "-r", str(FPS), "-an"]
 cues = {"whoosh": [], "pop": []}
 files = []
-for n, (kind, w0, card, states, ov, ovw) in enumerate(SHOTS):
+for n, sh in enumerate(SHOTS):
+    kind, card, ov, ovw = sh["kind"], sh.get("card"), sh.get("overlay"), sh.get("overlay_word")
+    states = {int(k): v for k, v in sh.get("states", {}).items()}
     t0, t1 = starts[n], starts[n + 1]; d = t1 - t0
     f = f"{OUT}/shots/{n + 1:02d}.mp4"; files.append(f)
-    src = ["-ss", f"{t0:.4f}", "-t", f"{d:.4f}", "-i", f"{S}/raw1/graded4k.mp4"]
+    src = ["-ss", f"{t0:.4f}", "-t", f"{d:.4f}", "-i", VIDEO]
     if n: cues["whoosh"].append(t0)
-    TL.append(("V1 a-roll" if kind != "card" else "V2 card", "A-roll" if kind != "card" else "S04_ANHEDONIA.png", t0, t1))
+    TL.append(("V1 a-roll", "A-roll", t0, t1) if kind != "card" else ("V2 card", os.path.basename(sh["file"]), t0, t1))
     if kind == "full":
         z = zoom_expr(t0, d)
         fc = (f"[0:v]scale=w='trunc(2160*{z}/2)*2':h='trunc(3840*{z}/2)*2':eval=frame,"
@@ -87,9 +88,10 @@ for n, (kind, w0, card, states, ov, ovw) in enumerate(SHOTS):
             cues["pop"].append(t0 + ot)
             TL.append(("V3 overlay", f"{ov}_0.png", t0 + ot, t1))
     elif kind == "card":
-        ins = ["-loop", "1", "-t", f"{d:.4f}", "-i", f"{ASSETS}/shot4_anhedonia.png"]
+        ins = ["-loop", "1", "-t", f"{d:.4f}", "-i", f"{S}/{sh['file']}"]
+        fade = f",fade=in:st=0:d=0.6:color={sh['fade']}" if sh.get("fade") else ""
         fc = (f"[0:v]scale=2160:3840:flags=lanczos,scale=w='trunc(2160*(1+0.04*t/{d:.3f})/2)*2':h='trunc(3840*(1+0.04*t/{d:.3f})/2)*2':eval=frame,"
-              f"crop=2160:3840,setsar=1,fade=in:st=0:d=0.6:color=0xF6F3EC[v]")
+              f"crop=2160:3840,setsar=1{fade}[v]")
     else:  # pip: card states stacked, then the face circle
         ins = ["-loop", "1", "-t", f"{d:.4f}", "-i", f"{CARDS}/{card}_0.png"]
         fc, last = "", "[0:v]"
@@ -105,8 +107,25 @@ for n, (kind, w0, card, states, ov, ovw) in enumerate(SHOTS):
         ins += src + ["-i", f"{S}/reel/circle_mask.png", "-i", f"{S}/reel/ring.png"]
         fc += (f"{last}scale=w='trunc(2160*(1+0.03*t/{d:.3f})/2)*2':h='trunc(3840*(1+0.03*t/{d:.3f})/2)*2':eval=frame,"
                f"crop=2160:3840,setsar=1[bg];"
-               f"[{m}:v]crop=1520:1520:260:340,scale=640:640,format=rgba[f];[{m + 1}:v]format=gray[mk];"
+               f"[{m}:v]scale=2160:3840,crop={2 * PW}:{2 * PW}:{2 * PX}:{2 * PY},scale=640:640,format=rgba[f];[{m + 1}:v]format=gray[mk];"
                f"[f][mk]alphamerge[fc];[bg][fc]overlay=1460:200[v1];[v1][{m + 2}:v]overlay=1440:180[v]")
+    if LAYERS:
+        nfr = round(t1 * FPS) - round(t0 * FPS)  # exact frame count, so clips butt-join on the timeline
+        lab = os.path.basename(sh.get("file", "")).replace("_0.png", "").replace(".png", "") or card
+        if kind == "card":
+            run([*ins, "-filter_complex", fc + ";[v]scale=1080:1920:flags=lanczos[o]", "-map", "[o]", "-frames:v", str(nfr),
+                 *ENC, "-crf", "14", f"{LAYERS}/S{n + 1:02d}_{lab}_card.mp4"])
+        elif kind == "pip":
+            fcl = fc.replace("[bg];", "[bgo];", 1).replace("[f][mk]alphamerge[fc];[bg][fc]overlay=1460:200[v1];[v1]", "[f][mk]alphamerge[fc];")
+            fcl = fcl.rsplit(f"[{m + 2}:v]overlay=1440:180[v]", 1)[0]
+            fcl += (f"color=c=black@0.0:s=680x680:r={FPS},format=rgba[cv];[cv][fc]overlay=20:20:shortest=1[c1];"
+                    f"[c1][{m + 2}:v]overlay=0:0,scale=340:340:flags=lanczos,format=yuva444p10le[pip];"
+                    f"[bgo]scale=1080:1920:flags=lanczos[card]")
+            run([*ins, "-filter_complex", fcl, "-map", "[card]", "-frames:v", str(nfr), *ENC, "-crf", "14",
+                 f"{LAYERS}/S{n + 1:02d}_{card}_card.mp4",
+                 "-map", "[pip]", "-frames:v", str(nfr), "-c:v", "prores_ks", "-profile:v", "4", "-pix_fmt", "yuva444p10le",
+                 "-r", str(FPS), "-an", f"{LAYERS}/S{n + 1:02d}_face_circle.mov"])
+        print(f"layers shot {n + 1} {kind}"); continue
     run([*ins, "-filter_complex", fc, "-map", "[v]", "-t", f"{d:.4f}", *ENC, f])
     print(f"shot {n + 1} {kind} {t0:.2f}-{t1:.2f}")
 
@@ -115,28 +134,17 @@ json.dump([{"track": a, "file": b, "start": round(c, 3), "end": round(d_, 3)} fo
 if PLAN: files = []
 with open(f"{OUT}/concat.txt", "w") as fh:
     fh.writelines(f"file '{f}'\n" for f in files)
-if not PLAN: run(["-f", "concat", "-safe", "0", "-i", f"{OUT}/concat.txt", "-c", "copy", f"{OUT}/silent.mp4"])
+if not PLAN and not LAYERS: run(["-f", "concat", "-safe", "0", "-i", f"{OUT}/concat.txt", "-c", "copy", f"{OUT}/silent.mp4"])
 
 # ---- captions: Roman Hinglish, as spoken (one token per aligned word; "" = merged into previous)
-ROMAN = ("Aap|udaas|ho ya|depressed?|Bas|ek|sawaal|poochho:|kya|ab|kuch|bhi|achha|lagta|hai?|"
- "Main|Dr.|Mayurakshi.|Chaliye,|90|second|mein|mood|disorders|samajhte|hain.|"
- "Udaasi|kisi|bure|waqt|ka|reaction|hai.|Samajh|mein|aati|hai,|aur|waqt|ke|saath|theek|ho|jaati|hai.|"
- "Depression|zyada|gehra|hota|hai,|lamba|chalta|hai,|aur|ilaaj|maangta|hai.|"
- "Aur|wo|ek|sawaal?|Anhedonia.|Jo|cheezein|pehle|khushi|deti|thi,|ab|kuch|bhi|achha|nahi|lagta.|Ye|sabse|bada|sign|hai.|"
- "Depression|sharir|mein|bhi|dikhta|hai:|bhook|kam,|neend|kharab,|thakaan|aur|sab|kuch|slow.|"
- "Par|pehle|check|karo:|thyroid,|steroids|ya|stroke|bhi|aisa|mood|bana|sakte|hain.|"
- "Agar|mood|bahut|low|hai,|to|suicide|ke|baare|mein|seedha|poochho.|Poochhne|se|risk|nahi|badhta.|"
- "Ab|iska|ulta:|mania.|Bahut|zyada|khushi|ya|irritability,|neend|ki|zaroorat|nahi,|bahut|bolna,|aur|paise|udaana.|"
- "Jab|depression|aur|mania|dono|aayein,|use|bipolar|disorder|kehte|hain.|"
- "Achhi|baat|ye|hai|ki|dawa|aur|therapy|dono|kaam|karti|hain,|aur|saath|mein|sabse|achha.|"
- "Bipolar|mein|sirf|antidepressant||nahi,|mood|stabiliser|bhi|zaroori|hai.|"
- "Poora|mood|disorders|carousel|mere|profile|pe|hai.|Save|karo,|aur|jise|zaroorat|ho,|usse|share|karo.").split("|")
+ROMAN = R["roman"].split("|")
 assert len(ROMAN) == len(W), (len(ROMAN), len(W))
+NC0, NC1 = R["nocap"]  # word range with no captions (the word-only ANHEDONIA card)
 
 words = []
 for i, tok in enumerate(ROMAN):
     if not tok: words[-1]["e"] = W[i]["ce"]; continue
-    if 57 <= i <= 78: continue  # shot 4 is the word-only ANHEDONIA card: no captions
+    if NC0 <= i <= NC1: continue
     words.append({"t": tok, "s": W[i]["cs"], "e": W[i]["ce"]})
 
 chunks, cur = [], []
