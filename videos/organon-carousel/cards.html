@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Organon Cards</title>
+<style>
+  @font-face { font-family: "Lora"; src: url("assets/Lora.ttf"); font-weight: 400 700; }
+  @font-face { font-family: "Lora"; src: url("assets/Lora-Italic.ttf"); font-style: italic; font-weight: 400 700; }
+  :root { --paper: #F7F1E3; --ink: #1E2A2A; --teal: #0E5F5C; --gold: #B8892F; --soft: #5B6B68; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1350px; overflow: hidden; background: var(--paper); color: var(--ink); font-family: "Inter", sans-serif; }
+  .page { position: absolute; inset: 0; background:
+    radial-gradient(ellipse at 15% 10%, rgba(184,137,47,.10), transparent 55%),
+    radial-gradient(ellipse at 90% 95%, rgba(14,95,92,.10), transparent 55%), var(--paper); }
+  .frame { position: absolute; inset: 34px; border: 2px solid rgba(184,137,47,.45); border-radius: 26px; }
+  .content { position: absolute; left: 80px; right: 80px; top: 78px; bottom: 120px; display: flex; flex-direction: column; gap: 26px; }
+  .kicker { font-weight: 800; font-size: 24px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+  .num { font-family: "Lora"; font-weight: 700; font-size: 132px; line-height: .9; color: var(--teal); }
+  .title { font-family: "Inter Display"; font-weight: 900; font-size: 54px; line-height: 1.06; letter-spacing: -.02em; }
+  .quote { font-family: "Lora"; font-style: italic; font-size: 33px; line-height: 1.38; color: #2E3B3A; padding: 20px 28px; border-left: 8px solid var(--gold); background: rgba(184,137,47,.08); border-radius: 0 16px 16px 0; }
+  .pts { display: flex; flex-direction: column; gap: 14px; }
+  .pt { display: flex; gap: 18px; align-items: flex-start; font-family: "Inter Display"; font-weight: 700; font-size: 32px; line-height: 1.25; }
+  .pt b { color: var(--teal); }
+  .n { flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--teal); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; margin-top: 1px; }
+  .yaad { margin-top: auto; background: var(--teal); color: #fff; border-radius: 20px; padding: 22px 28px; font-family: "Inter Display"; font-weight: 800; font-size: 32px; line-height: 1.25; }
+  .yaad span { color: #F3D27A; }
+  .footer { position: absolute; left: 80px; right: 80px; bottom: 56px; display: flex; justify-content: space-between; align-items: center; font-size: 22px; font-weight: 700; color: var(--soft); }
+  .footer img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+window.show = (D, i) => {
+  const s = D.slides[i], n = D.slides.length;
+  document.getElementById("stage").innerHTML = `<div class="page"><div class="frame"></div>
+  <div class="content">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end">
+      <div><div class="kicker">${D.kicker}</div><div class="num" style="margin-top:12px">§ ${s.no}</div></div>
+      ${s.tag ? `<div style="font-weight:800;font-size:22px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);border:2px solid var(--teal);border-radius:999px;padding:8px 18px">${s.tag}</div>` : ""}
+    </div>
+    <div class="title">${s.title}</div>
+    <div class="quote">“${s.quote}”</div>
+    <div class="pts">${s.points.map((p, k) => `<div class="pt"><div class="n">${k + 1}</div><div>${p}</div></div>`).join("")}</div>
+    <div class="yaad"><span>Yaad rakho:</span> ${s.yaad}</div>
+  </div>
+  <div class="footer"><span>${i + 1} / ${n}</span><span style="display:flex;align-items:center;gap:12px"><img src="assets/logo_mk.png">${D.author}</span><span>${D.source}</span></div></div>`;
+};
+</script>
+</body>
+</html>
