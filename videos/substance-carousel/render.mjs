@@ -16,7 +16,7 @@ fs.mkdirSync(out, { recursive: true });
 const page_ = path.join(path.dirname(path.resolve(assets)), "carousel.html");
 fs.copyFileSync(template, page_);
 const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 1080, height: 1350 } });
+const page = await browser.newPage({ viewport: { width: 1080, height: Number(process.env.H) || 1350 } });  // H=1920 for 9:16 reel cards
 await page.goto("file://" + page_);
 await page.evaluate(() => document.fonts.ready);
 for (let i = 0; i < data.slides.length; i++) {
