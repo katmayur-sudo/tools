@@ -3,13 +3,19 @@ import sys, subprocess, numpy as np, mediapipe as mp
 from mediapipe.tasks.python import vision, BaseOptions
 vid, wav, model = sys.argv[1:4]
 W, H = 540, 960
-raw = subprocess.run(["ffmpeg","-v","error","-i",vid,"-vf",f"fps=30,scale={W}:{H}","-f","rawvideo","-pix_fmt","rgb24","-"],capture_output=True).stdout
-fr = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
+# stream frames one at a time (a whole take at 540x960 does not fit in memory)
+proc = subprocess.Popen(["ffmpeg","-v","error","-i",vid,"-vf",f"fps=30,scale={W}:{H}","-f","rawvideo","-pix_fmt","rgb24","-"], stdout=subprocess.PIPE)
+def frames():
+    while True:
+        buf = proc.stdout.read(W * H * 3)
+        if len(buf) < W * H * 3: return
+        yield np.frombuffer(buf, np.uint8).reshape(H, W, 3)
+fr = frames()
 lm = vision.FaceLandmarker.create_from_options(vision.FaceLandmarkerOptions(base_options=BaseOptions(model_asset_path=model)))
 jaw, mo, mot = [], [], []
 prev = None
 for f in fr:
-    g = f.mean(2)
+    g = f.mean(2, dtype=np.float32)
     mot.append(0 if prev is None else np.abs(g - prev).mean()); prev = g
     r = lm.detect(mp.Image(image_format=mp.ImageFormat.SRGB, data=np.ascontiguousarray(f)))
     if not r.face_landmarks: jaw.append(np.nan); mo.append(np.nan); continue
