@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Case-taking Split Screen</title>
+<style>
+  /* 9:16 split screen: speaker video on top (1080x960), self-writing whiteboard below (1080x960). */
+  @font-face { font-family: "Kalam"; src: url("assets/Kalam-Regular.ttf"); font-weight: 400; }
+  @font-face { font-family: "Kalam"; src: url("assets/Kalam-Bold.ttf"); font-weight: 700; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0A0C11; font-family: "Inter", sans-serif; }
+  .top { position: absolute; left: 0; top: 0; width: 1080px; height: 960px; background: #222 center/cover; }
+  .board { position: absolute; left: 0; top: 960px; width: 1080px; height: 960px; background: #F7F7F2;
+    box-shadow: inset 0 0 0 14px #C9CED6, inset 0 0 0 18px #9AA3AE; }
+  .hdr { position: absolute; left: 50px; right: 50px; top: 40px; display: flex; justify-content: space-between; align-items: center; }
+  .hdr .t { font-family: "Inter Display"; font-weight: 900; font-size: 34px; letter-spacing: .14em; color: #1E2A2A; }
+  .tag { font-family: "Inter Display"; font-weight: 900; font-size: 34px; color: #fff; background: #0E5F5C; border-radius: 12px; padding: 6px 18px; }
+  .m { font-family: "Kalam"; font-weight: 700; line-height: 1.1; }
+  .k { color: #1B1F24; } .bl { color: #1F5FD1; } .rd { color: #D7263D; } .gr { color: #138A4B; }
+  .lbl { position: absolute; font-family: "Inter Display"; font-weight: 800; font-size: 22px; letter-spacing: .16em; color: #7A828C; }
+  .vl { position: absolute; left: 560px; top: 130px; width: 3px; height: 440px; background: #C9CED6; }
+  .hl { position: absolute; left: 50px; right: 50px; height: 3px; background: #C9CED6; }
+  .cap { position: absolute; left: 0; right: 0; top: 905px; text-align: center; z-index: 5; }
+  .cap span { display: inline-block; font-family: "Inter Display"; font-weight: 800; font-size: 50px; color: #fff; background: rgba(10,12,17,.86); padding: 12px 28px 16px; border-radius: 16px; }
+  .cap b { color: #FFD23F; }
+  .logo { position: absolute; right: 40px; top: 40px; display: flex; align-items: center; gap: 12px; color: #fff; font-family: "Inter Display"; font-weight: 800; font-size: 26px; background: rgba(10,12,17,.55); padding: 8px 16px 8px 8px; border-radius: 999px; }
+  .logo img { width: 48px; height: 48px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+// step = how far the board has been written (mirrors Script A); card = show a full-screen card instead
+window.show = ({ step, cap, tag, card }) => {
+  if (card) { document.getElementById("stage").innerHTML = `<img src="assets/${card}" style="width:1080px;height:1920px">`; return; }
+  const w = (n, html) => step >= n ? html : "";
+  document.getElementById("stage").innerHTML = `
+  <div class="top" style="background-image:url('assets/face_top.jpg')"></div>
+  <div class="logo"><img src="assets/logo_mk.png">Dr. Mayurakshi</div>
+  <div class="board">
+    <div class="hdr"><div class="t">CASE SHEET</div>${tag ? `<div class="tag">§ ${tag}</div>` : ""}</div>
+    <div class="lbl" style="left:60px;top:120px">PATIENT SAYS</div><div class="lbl" style="left:590px;top:120px">COMPLETE IT</div>
+    <div class="vl"></div>
+    ${w(2, `<div class="m gr" style="position:absolute;left:290px;top:46px;font-size:30px">No prejudice · Senses · Attention · Fidelity</div>`)}
+    ${w(3, `<div class="m k" style="position:absolute;left:60px;top:170px;font-size:52px">1. "Sar dard<br>&nbsp;&nbsp;&nbsp;&nbsp;rehta hai"</div>`)}
+    ${w(4, `<div class="m k" style="position:absolute;left:60px;top:320px;font-size:52px">2. ........</div>`)}
+    ${w(5, `<div class="m bl" style="position:absolute;left:590px;top:165px;font-size:42px;line-height:1.25">Kab? · Kaisa?<br>Kahan? · Kitni der?<br>Kab badhta?</div>`)}
+    ${w(6, `<div class="m rd" style="position:absolute;left:60px;top:430px;font-size:44px">✗ "Dhoop mein badhta?"</div>
+             <div class="m bl" style="position:absolute;left:590px;top:430px;font-size:44px">✓ "Kis se badhta?"</div>`)}
+    <div class="hl" style="top:590px"></div>
+    <div class="lbl" style="left:60px;top:610px">GAPS</div>
+    <div class="m k" style="position:absolute;left:60px;top:650px;font-size:40px">Neend${w(7, `<span class=gr>✓</span>`)} · Bhookh${w(7, `<span class=gr>✓</span>`)} · Pyaas${w(7, `<span class=gr>✓</span>`)} · Stool${w(7, `<span class=gr>✓</span>`)} · Mann${w(7, `<span class=gr>✓</span>`)}</div>
+    ${w(8, `<div class="m bl" style="position:absolute;left:60px;top:712px;font-size:36px">Special Q → baad mein: "Neend mein bolte ho?"</div>`)}
+    <div class="hl" style="top:780px"></div>
+    <div class="lbl" style="left:60px;top:800px">DOCTOR SEES</div>
+    ${w(9, `<div class="m gr" style="position:absolute;left:60px;top:840px;font-size:44px">Chehra · Mood · Zubaan · Pulse</div>`)}
+  </div>
+  ${cap ? `<div class="cap"><span>${cap}</span></div>` : ""}`;
+};
+</script>
+</body>
+</html>
