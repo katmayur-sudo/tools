@@ -187,7 +187,7 @@ Warm muscles contract faster, your joints move more freely and your first workin
 📌 Save this for your next gym day · Send it to your gym buddy 👇
 Follow @drmak_fitness
 
-#warmup #gymwarmup #prewarmup #mobility #gymbeginner #beginnerworkout #injuryprevention #gymtips #fitnesstips #fitnessindia #gymreels #drmakfitness
+#warmup #gymwarmup #preworkout #mobility #gymbeginner #beginnerworkout #injuryprevention #gymtips #fitnesstips #fitnessindia #gymreels #drmakfitness
 ```
 **YouTube Shorts**
 - Title: `Never Lift Cold. Do This 5-Minute Warm-Up First 🔥 #shorts`
