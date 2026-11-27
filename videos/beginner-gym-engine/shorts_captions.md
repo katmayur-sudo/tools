@@ -169,6 +169,32 @@ Which one are you guilty of? Be honest 👇😅
 
 ---
 
+## 🎬 Reel / Short 5 · Never start a cold engine (~26 s) · warm-up (from main video 1:51)
+
+**Instagram**
+```
+Stop walking into the gym and lifting cold ❌ Do THIS first 👇
+
+🔥 5-minute warm-up
+🚴 5 min bike or brisk incline walk, until you're lightly sweating
+🦵 10 bodyweight squats
+💪 10 arm circles each way
+🍑 10 hip hinges
+🏋️ 1 light practice set at ~half your working weight
+
+Warm muscles contract faster, your joints move more freely and your first working set feels far easier ⚙️
+
+📌 Save this for your next gym day · Send it to your gym buddy 👇
+Follow @drmak_fitness
+
+#warmup #gymwarmup #prewarmup #mobility #gymbeginner #beginnerworkout #injuryprevention #gymtips #fitnesstips #fitnessindia #gymreels #drmakfitness
+```
+**YouTube Shorts**
+- Title: `Never Lift Cold. Do This 5-Minute Warm-Up First 🔥 #shorts`
+- Description: `5 min cardio, 10 squats, 10 arm circles, 10 hip hinges, 1 light practice set. Full beginner workout on the channel. #shorts #warmup #gym #gymbeginner #fitnesstips`
+
+---
+
 ## 📈 Posting tips
 - **Order:** #2 (squat, strongest hook) → #3 (plan, most saveable) → #4 (mistakes, comment bait) → #1 (gears), one a day.
 - **Time:** test 7–9 pm local time; keep what performs best.
